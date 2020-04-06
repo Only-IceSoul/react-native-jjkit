@@ -1,0 +1,342 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D5243AE49100881A99 /* CircleProgress.swift */; };
+		D0BED1DB243AE49100881A99 /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D7243AE49100881A99 /* CircleProgressView.m */; };
+		D0BED1DC243AE49100881A99 /* LayerCircleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D8243AE49100881A99 /* LayerCircleProgress.swift */; };
+		D0BED1DD243AE49100881A99 /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D9243AE49100881A99 /* CircleProgressView.swift */; };
+		D0BED1E3243AE49800881A99 /* ClipRectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1DF243AE49800881A99 /* ClipRectView.swift */; };
+		D0BED1E4243AE49800881A99 /* ClipRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1E0243AE49800881A99 /* ClipRectView.m */; };
+		D0BED1E5243AE49800881A99 /* LayerClip.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1E1243AE49800881A99 /* LayerClip.swift */; };
+		D0BED1E6243AE49800881A99 /* ClipRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1E2243AE49800881A99 /* ClipRect.swift */; };
+		D0BED1EC243AE4A100881A99 /* extension_UIBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1E8243AE4A100881A99 /* extension_UIBezierPath.swift */; };
+		D0BED1ED243AE4A100881A99 /* extension_UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */; };
+		D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */; };
+		D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		58B511D91A9E6C8500147676 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		134814201AA4EA6300B7C361 /* libJjkit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJjkit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0BED1D5243AE49100881A99 /* CircleProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleProgress.swift; sourceTree = "<group>"; };
+		D0BED1D6243AE49100881A99 /* CircleProgressView-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CircleProgressView-Bridging-Header.h"; sourceTree = "<group>"; };
+		D0BED1D7243AE49100881A99 /* CircleProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleProgressView.m; sourceTree = "<group>"; };
+		D0BED1D8243AE49100881A99 /* LayerCircleProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerCircleProgress.swift; sourceTree = "<group>"; };
+		D0BED1D9243AE49100881A99 /* CircleProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
+		D0BED1DF243AE49800881A99 /* ClipRectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipRectView.swift; sourceTree = "<group>"; };
+		D0BED1E0243AE49800881A99 /* ClipRectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClipRectView.m; sourceTree = "<group>"; };
+		D0BED1E1243AE49800881A99 /* LayerClip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerClip.swift; sourceTree = "<group>"; };
+		D0BED1E2243AE49800881A99 /* ClipRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipRect.swift; sourceTree = "<group>"; };
+		D0BED1E8243AE4A100881A99 /* extension_UIBezierPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_UIBezierPath.swift; sourceTree = "<group>"; };
+		D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_UIColor.swift; sourceTree = "<group>"; };
+		D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_CGRect.swift; sourceTree = "<group>"; };
+		D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_CALayer.swift; sourceTree = "<group>"; };
+		D0BED1F1243AE4D400881A99 /* ClipRectView-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClipRectView-Bridging-Header.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		58B511D81A9E6C8500147676 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		134814211AA4EA7D00B7C361 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				134814201AA4EA6300B7C361 /* libJjkit.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		58B511D21A9E6C8500147676 = {
+			isa = PBXGroup;
+			children = (
+				D0BED1E7243AE4A100881A99 /* extension */,
+				D0BED1DE243AE49800881A99 /* ClipRectView */,
+				D0BED1D4243AE49100881A99 /* ClipProgressView */,
+				134814211AA4EA7D00B7C361 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D0BED1D4243AE49100881A99 /* ClipProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				D0BED1D5243AE49100881A99 /* CircleProgress.swift */,
+				D0BED1D6243AE49100881A99 /* CircleProgressView-Bridging-Header.h */,
+				D0BED1D7243AE49100881A99 /* CircleProgressView.m */,
+				D0BED1D8243AE49100881A99 /* LayerCircleProgress.swift */,
+				D0BED1D9243AE49100881A99 /* CircleProgressView.swift */,
+			);
+			path = ClipProgressView;
+			sourceTree = "<group>";
+		};
+		D0BED1DE243AE49800881A99 /* ClipRectView */ = {
+			isa = PBXGroup;
+			children = (
+				D0BED1DF243AE49800881A99 /* ClipRectView.swift */,
+				D0BED1E0243AE49800881A99 /* ClipRectView.m */,
+				D0BED1E1243AE49800881A99 /* LayerClip.swift */,
+				D0BED1F1243AE4D400881A99 /* ClipRectView-Bridging-Header.h */,
+				D0BED1E2243AE49800881A99 /* ClipRect.swift */,
+			);
+			path = ClipRectView;
+			sourceTree = "<group>";
+		};
+		D0BED1E7243AE4A100881A99 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				D0BED1E8243AE4A100881A99 /* extension_UIBezierPath.swift */,
+				D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */,
+				D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */,
+				D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		58B511DA1A9E6C8500147676 /* Jjkit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "Jjkit" */;
+			buildPhases = (
+				58B511D71A9E6C8500147676 /* Sources */,
+				58B511D81A9E6C8500147676 /* Frameworks */,
+				58B511D91A9E6C8500147676 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Jjkit;
+			productName = RCTDataManager;
+			productReference = 134814201AA4EA6300B7C361 /* libJjkit.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		58B511D31A9E6C8500147676 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = Facebook;
+				TargetAttributes = {
+					58B511DA1A9E6C8500147676 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "Jjkit" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				en,
+			);
+			mainGroup = 58B511D21A9E6C8500147676;
+			productRefGroup = 58B511D21A9E6C8500147676;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				58B511DA1A9E6C8500147676 /* Jjkit */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		58B511D71A9E6C8500147676 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0BED1E4243AE49800881A99 /* ClipRectView.m in Sources */,
+				D0BED1ED243AE4A100881A99 /* extension_UIColor.swift in Sources */,
+				D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */,
+				D0BED1E5243AE49800881A99 /* LayerClip.swift in Sources */,
+				D0BED1DD243AE49100881A99 /* CircleProgressView.swift in Sources */,
+				D0BED1EC243AE4A100881A99 /* extension_UIBezierPath.swift in Sources */,
+				D0BED1E3243AE49800881A99 /* ClipRectView.swift in Sources */,
+				D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */,
+				D0BED1DC243AE49100881A99 /* LayerCircleProgress.swift in Sources */,
+				D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */,
+				D0BED1DB243AE49100881A99 /* CircleProgressView.m in Sources */,
+				D0BED1E6243AE49800881A99 /* ClipRect.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		58B511ED1A9E6C8500147676 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		58B511EE1A9E6C8500147676 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		58B511F01A9E6C8500147676 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = Jjkit;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		58B511F11A9E6C8500147676 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = Jjkit;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "Jjkit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58B511ED1A9E6C8500147676 /* Debug */,
+				58B511EE1A9E6C8500147676 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "Jjkit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58B511F01A9E6C8500147676 /* Debug */,
+				58B511F11A9E6C8500147676 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 58B511D31A9E6C8500147676 /* Project object */;
+}
