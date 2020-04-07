@@ -1,7 +1,7 @@
 {
   "name": "react-native-jjkit",
   "title": "React Native JJkit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Kit of native modules for react native ",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/react-native-jjkit.git",
-    "baseUrl": "https://github.com/github_account/react-native-jjkit"
+    "url": "git+https://github.com/Only-IceSoul/react-native-jjkit.git",
+    "baseUrl": "https://github.com/Only-IceSoul/react-native-jjkit"
   },
   "keywords": [
     "react-native"
