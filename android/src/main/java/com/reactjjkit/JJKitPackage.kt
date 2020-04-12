@@ -9,6 +9,7 @@ import com.facebook.react.uimanager.ReactShadowNode
 import com.facebook.react.uimanager.ViewManager
 import com.reactjjkit.viewManagers.CircleProgressViewManager
 import com.reactjjkit.viewManagers.ClipRectViewManager
+import com.reactjjkit.modules.ToastModule
 
 @Suppress("UNCHECKED_CAST")
 class JJKitPackage : ReactPackage {
@@ -20,7 +21,8 @@ class JJKitPackage : ReactPackage {
     override fun createViewManagers(reactContext: ReactApplicationContext): MutableList<ViewManager<View, ReactShadowNode<*>>> {
         return mutableListOf(
                 CircleProgressViewManager()
-                , ClipRectViewManager()
+                , ClipRectViewManager(),
+                ToastModule(reactContext),
         ) as MutableList<ViewManager<View, ReactShadowNode<*>>>
     }
 }
