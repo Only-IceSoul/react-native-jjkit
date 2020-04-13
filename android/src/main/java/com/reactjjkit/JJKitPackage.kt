@@ -15,14 +15,15 @@ import com.reactjjkit.modules.ToastModule
 class JJKitPackage : ReactPackage {
 
     override fun createNativeModules(reactContext: ReactApplicationContext): MutableList<NativeModule> {
-        return mutableListOf()
+        return mutableListOf(
+             ToastModule(reactContext)
+        )
     }
 
     override fun createViewManagers(reactContext: ReactApplicationContext): MutableList<ViewManager<View, ReactShadowNode<*>>> {
         return mutableListOf(
                 CircleProgressViewManager()
-                , ClipRectViewManager(),
-                ToastModule(reactContext),
+                , ClipRectViewManager()
         ) as MutableList<ViewManager<View, ReactShadowNode<*>>>
     }
 }
