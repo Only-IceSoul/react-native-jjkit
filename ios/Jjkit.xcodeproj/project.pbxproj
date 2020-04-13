@@ -19,6 +19,14 @@
 		D0BED1ED243AE4A100881A99 /* extension_UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */; };
 		D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */; };
 		D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */; };
+		D0F98D602443DA71001CF3DA /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F98D5F2443DA71001CF3DA /* Toast.swift */; };
+		D0F98D622443DA79001CF3DA /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F98D612443DA79001CF3DA /* Toast.m */; };
+		D0F98D692443DAC6001CF3DA /* JJScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F98D652443DAC6001CF3DA /* JJScreen.swift */; };
+		D0F98D6A2443DAC6001CF3DA /* JJLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F98D662443DAC6001CF3DA /* JJLabel.swift */; };
+		D0F98D6B2443DAC6001CF3DA /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F98D672443DAC6001CF3DA /* ToastManager.swift */; };
+		D0F98D6C2443DAC6001CF3DA /* JJLabelUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F98D682443DAC6001CF3DA /* JJLabelUI.swift */; };
+		D0F98D702443DAD8001CF3DA /* extension_UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F98D6F2443DAD8001CF3DA /* extension_UIView.swift */; };
+		D0F98D722443E268001CF3DA /* extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F98D712443E268001CF3DA /* extension_String.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +57,15 @@
 		D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_CGRect.swift; sourceTree = "<group>"; };
 		D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_CALayer.swift; sourceTree = "<group>"; };
 		D0BED1F1243AE4D400881A99 /* ClipRectView-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClipRectView-Bridging-Header.h"; sourceTree = "<group>"; };
+		D0F98D5F2443DA71001CF3DA /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		D0F98D612443DA79001CF3DA /* Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toast.m; sourceTree = "<group>"; };
+		D0F98D632443DA81001CF3DA /* Toast-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast-Bridging-Header.h"; sourceTree = "<group>"; };
+		D0F98D652443DAC6001CF3DA /* JJScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JJScreen.swift; sourceTree = "<group>"; };
+		D0F98D662443DAC6001CF3DA /* JJLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JJLabel.swift; sourceTree = "<group>"; };
+		D0F98D672443DAC6001CF3DA /* ToastManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
+		D0F98D682443DAC6001CF3DA /* JJLabelUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JJLabelUI.swift; sourceTree = "<group>"; };
+		D0F98D6F2443DAD8001CF3DA /* extension_UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_UIView.swift; sourceTree = "<group>"; };
+		D0F98D712443E268001CF3DA /* extension_String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension_String.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +90,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				D0F98D742443E385001CF3DA /* utils */,
+				D0F98D5E2443DA33001CF3DA /* Toast */,
 				D0BED1E7243AE4A100881A99 /* extension */,
 				D0BED1DE243AE49800881A99 /* ClipRectView */,
 				D0BED1D4243AE49100881A99 /* ClipProgressView */,
@@ -107,12 +126,43 @@
 		D0BED1E7243AE4A100881A99 /* extension */ = {
 			isa = PBXGroup;
 			children = (
+				D0F98D6F2443DAD8001CF3DA /* extension_UIView.swift */,
 				D0BED1E8243AE4A100881A99 /* extension_UIBezierPath.swift */,
 				D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */,
 				D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */,
 				D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */,
+				D0F98D712443E268001CF3DA /* extension_String.swift */,
 			);
 			path = extension;
+			sourceTree = "<group>";
+		};
+		D0F98D5E2443DA33001CF3DA /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				D0F98D642443DAB0001CF3DA /* toastView */,
+				D0F98D632443DA81001CF3DA /* Toast-Bridging-Header.h */,
+				D0F98D612443DA79001CF3DA /* Toast.m */,
+				D0F98D5F2443DA71001CF3DA /* Toast.swift */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
+		D0F98D642443DAB0001CF3DA /* toastView */ = {
+			isa = PBXGroup;
+			children = (
+				D0F98D672443DAC6001CF3DA /* ToastManager.swift */,
+			);
+			path = toastView;
+			sourceTree = "<group>";
+		};
+		D0F98D742443E385001CF3DA /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				D0F98D662443DAC6001CF3DA /* JJLabel.swift */,
+				D0F98D682443DAC6001CF3DA /* JJLabelUI.swift */,
+				D0F98D652443DAC6001CF3DA /* JJScreen.swift */,
+			);
+			path = utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,14 +224,22 @@
 			files = (
 				D0BED1E4243AE49800881A99 /* ClipRectView.m in Sources */,
 				D0BED1ED243AE4A100881A99 /* extension_UIColor.swift in Sources */,
+				D0F98D692443DAC6001CF3DA /* JJScreen.swift in Sources */,
 				D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */,
+				D0F98D6C2443DAC6001CF3DA /* JJLabelUI.swift in Sources */,
+				D0F98D602443DA71001CF3DA /* Toast.swift in Sources */,
 				D0BED1E5243AE49800881A99 /* LayerClip.swift in Sources */,
 				D0BED1DD243AE49100881A99 /* CircleProgressView.swift in Sources */,
 				D0BED1EC243AE4A100881A99 /* extension_UIBezierPath.swift in Sources */,
+				D0F98D702443DAD8001CF3DA /* extension_UIView.swift in Sources */,
 				D0BED1E3243AE49800881A99 /* ClipRectView.swift in Sources */,
 				D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */,
+				D0F98D722443E268001CF3DA /* extension_String.swift in Sources */,
 				D0BED1DC243AE49100881A99 /* LayerCircleProgress.swift in Sources */,
+				D0F98D6B2443DAC6001CF3DA /* ToastManager.swift in Sources */,
 				D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */,
+				D0F98D6A2443DAC6001CF3DA /* JJLabel.swift in Sources */,
+				D0F98D622443DA79001CF3DA /* Toast.m in Sources */,
 				D0BED1DB243AE49100881A99 /* CircleProgressView.m in Sources */,
 				D0BED1E6243AE49800881A99 /* ClipRect.swift in Sources */,
 			);
@@ -233,10 +291,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -276,9 +335,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
