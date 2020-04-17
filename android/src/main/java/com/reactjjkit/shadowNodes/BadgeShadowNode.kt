@@ -28,7 +28,7 @@ class BadgeShadowNode(context: ReactApplicationContext) : LayoutShadowNode(), Yo
         markUpdated()
     }
 
-    @ReactProp(name = "textSize",defaultFloat = 15f)
+    @ReactProp(name = "textSize")
     fun textSize(textSize: Float) {
         mTextSize = if(textSize < 0f) 0f else textSize
         markUpdated()

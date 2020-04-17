@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D01D1CA5244A5A6C00E0C8D1 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CA4244A5A6C00E0C8D1 /* Badge.swift */; };
+		D01D1CA8244A5A7800E0C8D1 /* Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CA7244A5A7800E0C8D1 /* Badge.m */; };
+		D01D1CAA244A5A8200E0C8D1 /* BadgeShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CA9244A5A8200E0C8D1 /* BadgeShadowView.swift */; };
+		D01D1CAC244A5A8900E0C8D1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CAB244A5A8900E0C8D1 /* BadgeView.swift */; };
+		D01D1CBC244A623F00E0C8D1 /* extension_AttrString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */; };
 		D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D5243AE49100881A99 /* CircleProgress.swift */; };
 		D0BED1DB243AE49100881A99 /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D7243AE49100881A99 /* CircleProgressView.m */; };
 		D0BED1DC243AE49100881A99 /* LayerCircleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D8243AE49100881A99 /* LayerCircleProgress.swift */; };
@@ -30,21 +35,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		58B511D91A9E6C8500147676 /* CopyFiles */ = {
+		58B511D91A9E6C8500147676 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libJjkit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJjkit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D01D1CA4244A5A6C00E0C8D1 /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		D01D1CA7244A5A7800E0C8D1 /* Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Badge.m; sourceTree = "<group>"; };
+		D01D1CA9244A5A8200E0C8D1 /* BadgeShadowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeShadowView.swift; sourceTree = "<group>"; };
+		D01D1CAB244A5A8900E0C8D1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
+		D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_AttrString.swift; sourceTree = "<group>"; };
 		D0BED1D5243AE49100881A99 /* CircleProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleProgress.swift; sourceTree = "<group>"; };
-		D0BED1D6243AE49100881A99 /* CircleProgressView-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CircleProgressView-Bridging-Header.h"; sourceTree = "<group>"; };
+		D0BED1D6243AE49100881A99 /* react-native-jjkit-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "react-native-jjkit-Bridging-Header.h"; sourceTree = "<group>"; };
 		D0BED1D7243AE49100881A99 /* CircleProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleProgressView.m; sourceTree = "<group>"; };
 		D0BED1D8243AE49100881A99 /* LayerCircleProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerCircleProgress.swift; sourceTree = "<group>"; };
 		D0BED1D9243AE49100881A99 /* CircleProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
@@ -56,10 +67,8 @@
 		D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_UIColor.swift; sourceTree = "<group>"; };
 		D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_CGRect.swift; sourceTree = "<group>"; };
 		D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_CALayer.swift; sourceTree = "<group>"; };
-		D0BED1F1243AE4D400881A99 /* ClipRectView-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClipRectView-Bridging-Header.h"; sourceTree = "<group>"; };
 		D0F98D5F2443DA71001CF3DA /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		D0F98D612443DA79001CF3DA /* Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toast.m; sourceTree = "<group>"; };
-		D0F98D632443DA81001CF3DA /* Toast-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast-Bridging-Header.h"; sourceTree = "<group>"; };
 		D0F98D652443DAC6001CF3DA /* JJScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JJScreen.swift; sourceTree = "<group>"; };
 		D0F98D662443DAC6001CF3DA /* JJLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JJLabel.swift; sourceTree = "<group>"; };
 		D0F98D672443DAC6001CF3DA /* ToastManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
@@ -90,6 +99,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				D0BED1D6243AE49100881A99 /* react-native-jjkit-Bridging-Header.h */,
+				D01D1CA3244A5A4B00E0C8D1 /* Badge */,
 				D0F98D742443E385001CF3DA /* utils */,
 				D0F98D5E2443DA33001CF3DA /* Toast */,
 				D0BED1E7243AE4A100881A99 /* extension */,
@@ -99,11 +110,21 @@
 			);
 			sourceTree = "<group>";
 		};
+		D01D1CA3244A5A4B00E0C8D1 /* Badge */ = {
+			isa = PBXGroup;
+			children = (
+				D01D1CAB244A5A8900E0C8D1 /* BadgeView.swift */,
+				D01D1CA9244A5A8200E0C8D1 /* BadgeShadowView.swift */,
+				D01D1CA7244A5A7800E0C8D1 /* Badge.m */,
+				D01D1CA4244A5A6C00E0C8D1 /* Badge.swift */,
+			);
+			path = Badge;
+			sourceTree = "<group>";
+		};
 		D0BED1D4243AE49100881A99 /* ClipProgressView */ = {
 			isa = PBXGroup;
 			children = (
 				D0BED1D5243AE49100881A99 /* CircleProgress.swift */,
-				D0BED1D6243AE49100881A99 /* CircleProgressView-Bridging-Header.h */,
 				D0BED1D7243AE49100881A99 /* CircleProgressView.m */,
 				D0BED1D8243AE49100881A99 /* LayerCircleProgress.swift */,
 				D0BED1D9243AE49100881A99 /* CircleProgressView.swift */,
@@ -117,7 +138,6 @@
 				D0BED1DF243AE49800881A99 /* ClipRectView.swift */,
 				D0BED1E0243AE49800881A99 /* ClipRectView.m */,
 				D0BED1E1243AE49800881A99 /* LayerClip.swift */,
-				D0BED1F1243AE4D400881A99 /* ClipRectView-Bridging-Header.h */,
 				D0BED1E2243AE49800881A99 /* ClipRect.swift */,
 			);
 			path = ClipRectView;
@@ -126,6 +146,7 @@
 		D0BED1E7243AE4A100881A99 /* extension */ = {
 			isa = PBXGroup;
 			children = (
+				D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */,
 				D0F98D6F2443DAD8001CF3DA /* extension_UIView.swift */,
 				D0BED1E8243AE4A100881A99 /* extension_UIBezierPath.swift */,
 				D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */,
@@ -139,20 +160,11 @@
 		D0F98D5E2443DA33001CF3DA /* Toast */ = {
 			isa = PBXGroup;
 			children = (
-				D0F98D642443DAB0001CF3DA /* toastView */,
-				D0F98D632443DA81001CF3DA /* Toast-Bridging-Header.h */,
+				D0F98D672443DAC6001CF3DA /* ToastManager.swift */,
 				D0F98D612443DA79001CF3DA /* Toast.m */,
 				D0F98D5F2443DA71001CF3DA /* Toast.swift */,
 			);
 			path = Toast;
-			sourceTree = "<group>";
-		};
-		D0F98D642443DAB0001CF3DA /* toastView */ = {
-			isa = PBXGroup;
-			children = (
-				D0F98D672443DAC6001CF3DA /* ToastManager.swift */,
-			);
-			path = toastView;
 			sourceTree = "<group>";
 		};
 		D0F98D742443E385001CF3DA /* utils */ = {
@@ -174,7 +186,7 @@
 			buildPhases = (
 				58B511D71A9E6C8500147676 /* Sources */,
 				58B511D81A9E6C8500147676 /* Frameworks */,
-				58B511D91A9E6C8500147676 /* CopyFiles */,
+				58B511D91A9E6C8500147676 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -231,8 +243,13 @@
 				D0BED1E5243AE49800881A99 /* LayerClip.swift in Sources */,
 				D0BED1DD243AE49100881A99 /* CircleProgressView.swift in Sources */,
 				D0BED1EC243AE4A100881A99 /* extension_UIBezierPath.swift in Sources */,
+				D01D1CA5244A5A6C00E0C8D1 /* Badge.swift in Sources */,
 				D0F98D702443DAD8001CF3DA /* extension_UIView.swift in Sources */,
+				D01D1CA8244A5A7800E0C8D1 /* Badge.m in Sources */,
+				D01D1CAA244A5A8200E0C8D1 /* BadgeShadowView.swift in Sources */,
+				D01D1CBC244A623F00E0C8D1 /* extension_AttrString.swift in Sources */,
 				D0BED1E3243AE49800881A99 /* ClipRectView.swift in Sources */,
+				D01D1CAC244A5A8900E0C8D1 /* BadgeView.swift in Sources */,
 				D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */,
 				D0F98D722443E268001CF3DA /* extension_String.swift in Sources */,
 				D0BED1DC243AE49100881A99 /* LayerCircleProgress.swift in Sources */,

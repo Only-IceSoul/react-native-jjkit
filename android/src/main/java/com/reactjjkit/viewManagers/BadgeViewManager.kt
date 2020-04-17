@@ -37,7 +37,7 @@ class BadgeViewManager : SimpleViewManager<Badge>() {
     }
 
 
-    @ReactProp(name = "textSize",defaultFloat = 15f)
+    @ReactProp(name = "textSize")
     fun textSize(view: Badge, textSize: Float) {
         view.setTextSize(textSize)
     }
