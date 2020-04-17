@@ -145,4 +145,6 @@ object JJScreen {
     fun sp(dp: Float): Float {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,dp, displayMetrics)
     }
+
+
 }

@@ -9,6 +9,7 @@ import android.view.ViewOutlineProvider
 import com.facebook.react.bridge.ReadableArray
 import com.reactjjkit.extensions.flipMirror
 import com.reactjjkit.extensions.rotation
+import com.reactjjkit.layoutUtils.JJUtils
 import kotlin.math.min
 
 
@@ -38,13 +39,13 @@ class CircleProgressView(context: Context): ViewGroup(context) {
     private val mMatrix = Matrix()
 
     init {
-        clipToOutline = true
-        outlineProvider = object: ViewOutlineProvider(){
-            override fun getOutline(view: View?, outline: Outline?) {
-                 val radius = min(view!!.width,view.height) / 2f
-                outline?.setRoundRect(0,0,view.width,view.height,radius)
+            clipToOutline = true
+            outlineProvider = object : ViewOutlineProvider() {
+                override fun getOutline(view: View?, outline: Outline?) {
+                    val radius = min(view!!.width, view.height) / 2f
+                    outline?.setRoundRect(0, 0, view.width, view.height, radius)
+                }
             }
-        }
         setBackgroundColor(Color.TRANSPARENT)
     }
 
