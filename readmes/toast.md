@@ -2,7 +2,7 @@
 
 <img src="../images/androidtoast.jpg" width="300" />
 
-# React native 
+# Usage
 
 duration:
 

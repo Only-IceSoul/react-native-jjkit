@@ -5,7 +5,7 @@
 <img src="../images/circleprogress.jpg" width="250" />
 
 
-# React native 
+# Usage
 
 ```javascript
 import { CircleProgressView } from 'react-native-jjkit'

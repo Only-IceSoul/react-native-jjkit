@@ -7,7 +7,7 @@ Gravity:  top  - left - right -  bottom
 <img src="../images/cliprectright.jpg" width="100">
 <img src="../images/cliprectbottom.jpg" width="100">
 
-# React native 
+# Usage
  
 ```javascript
 import { ClipRectView } from 'react-native-jjkit'

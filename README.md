@@ -25,6 +25,7 @@ Kit of native modules
 - [CircleProgress](./readmes/CircleProgress.md)
 - [ClipRect](./readmes/ClipRect.md)
 - [Toast](./readmes/toast.md)
+- [Badge](./readmes/badge.md)
 
 # Fixing Issues (Optional)
 
