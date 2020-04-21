@@ -12,6 +12,13 @@
 		D01D1CAA244A5A8200E0C8D1 /* BadgeShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CA9244A5A8200E0C8D1 /* BadgeShadowView.swift */; };
 		D01D1CAC244A5A8900E0C8D1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CAB244A5A8900E0C8D1 /* BadgeView.swift */; };
 		D01D1CBC244A623F00E0C8D1 /* extension_AttrString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */; };
+		D040C037244E789300103477 /* PhotoKit.m in Sources */ = {isa = PBXBuildFile; fileRef = D040C035244E789200103477 /* PhotoKit.m */; };
+		D040C038244E789300103477 /* PhotoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D040C036244E789200103477 /* PhotoKit.swift */; };
+		D040C03E244E789E00103477 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = D040C039244E789E00103477 /* Image.m */; };
+		D040C03F244E789E00103477 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D040C03A244E789E00103477 /* ImageView.swift */; };
+		D040C040244E789E00103477 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D040C03B244E789E00103477 /* Image.swift */; };
+		D040C041244E789E00103477 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D040C03C244E789E00103477 /* LinkedList.swift */; };
+		D040C042244E789E00103477 /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D040C03D244E789E00103477 /* LRUCache.swift */; };
 		D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D5243AE49100881A99 /* CircleProgress.swift */; };
 		D0BED1DB243AE49100881A99 /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D7243AE49100881A99 /* CircleProgressView.m */; };
 		D0BED1DC243AE49100881A99 /* LayerCircleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D8243AE49100881A99 /* LayerCircleProgress.swift */; };
@@ -54,6 +61,13 @@
 		D01D1CA9244A5A8200E0C8D1 /* BadgeShadowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeShadowView.swift; sourceTree = "<group>"; };
 		D01D1CAB244A5A8900E0C8D1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_AttrString.swift; sourceTree = "<group>"; };
+		D040C035244E789200103477 /* PhotoKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoKit.m; sourceTree = "<group>"; };
+		D040C036244E789200103477 /* PhotoKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoKit.swift; sourceTree = "<group>"; };
+		D040C039244E789E00103477 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
+		D040C03A244E789E00103477 /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		D040C03B244E789E00103477 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		D040C03C244E789E00103477 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
+		D040C03D244E789E00103477 /* LRUCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
 		D0BED1D5243AE49100881A99 /* CircleProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleProgress.swift; sourceTree = "<group>"; };
 		D0BED1D6243AE49100881A99 /* react-native-jjkit-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "react-native-jjkit-Bridging-Header.h"; sourceTree = "<group>"; };
 		D0BED1D7243AE49100881A99 /* CircleProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleProgressView.m; sourceTree = "<group>"; };
@@ -99,6 +113,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				D040C034244E787E00103477 /* Image */,
+				D040C033244E787400103477 /* PhotoKit */,
 				D0BED1D6243AE49100881A99 /* react-native-jjkit-Bridging-Header.h */,
 				D01D1CA3244A5A4B00E0C8D1 /* Badge */,
 				D0F98D742443E385001CF3DA /* utils */,
@@ -119,6 +135,27 @@
 				D01D1CA4244A5A6C00E0C8D1 /* Badge.swift */,
 			);
 			path = Badge;
+			sourceTree = "<group>";
+		};
+		D040C033244E787400103477 /* PhotoKit */ = {
+			isa = PBXGroup;
+			children = (
+				D040C035244E789200103477 /* PhotoKit.m */,
+				D040C036244E789200103477 /* PhotoKit.swift */,
+			);
+			path = PhotoKit;
+			sourceTree = "<group>";
+		};
+		D040C034244E787E00103477 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				D040C039244E789E00103477 /* Image.m */,
+				D040C03B244E789E00103477 /* Image.swift */,
+				D040C03A244E789E00103477 /* ImageView.swift */,
+				D040C03C244E789E00103477 /* LinkedList.swift */,
+				D040C03D244E789E00103477 /* LRUCache.swift */,
+			);
+			path = Image;
 			sourceTree = "<group>";
 		};
 		D0BED1D4243AE49100881A99 /* ClipProgressView */ = {
@@ -238,6 +275,8 @@
 				D0BED1ED243AE4A100881A99 /* extension_UIColor.swift in Sources */,
 				D0F98D692443DAC6001CF3DA /* JJScreen.swift in Sources */,
 				D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */,
+				D040C041244E789E00103477 /* LinkedList.swift in Sources */,
+				D040C038244E789300103477 /* PhotoKit.swift in Sources */,
 				D0F98D6C2443DAC6001CF3DA /* JJLabelUI.swift in Sources */,
 				D0F98D602443DA71001CF3DA /* Toast.swift in Sources */,
 				D0BED1E5243AE49800881A99 /* LayerClip.swift in Sources */,
@@ -246,13 +285,18 @@
 				D01D1CA5244A5A6C00E0C8D1 /* Badge.swift in Sources */,
 				D0F98D702443DAD8001CF3DA /* extension_UIView.swift in Sources */,
 				D01D1CA8244A5A7800E0C8D1 /* Badge.m in Sources */,
+				D040C03E244E789E00103477 /* Image.m in Sources */,
 				D01D1CAA244A5A8200E0C8D1 /* BadgeShadowView.swift in Sources */,
+				D040C042244E789E00103477 /* LRUCache.swift in Sources */,
 				D01D1CBC244A623F00E0C8D1 /* extension_AttrString.swift in Sources */,
 				D0BED1E3243AE49800881A99 /* ClipRectView.swift in Sources */,
 				D01D1CAC244A5A8900E0C8D1 /* BadgeView.swift in Sources */,
 				D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */,
+				D040C040244E789E00103477 /* Image.swift in Sources */,
+				D040C03F244E789E00103477 /* ImageView.swift in Sources */,
 				D0F98D722443E268001CF3DA /* extension_String.swift in Sources */,
 				D0BED1DC243AE49100881A99 /* LayerCircleProgress.swift in Sources */,
+				D040C037244E789300103477 /* PhotoKit.m in Sources */,
 				D0F98D6B2443DAC6001CF3DA /* ToastManager.swift in Sources */,
 				D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */,
 				D0F98D6A2443DAC6001CF3DA /* JJLabel.swift in Sources */,
