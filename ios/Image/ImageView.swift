@@ -12,11 +12,11 @@ class ImageView: UIImageView {
     
      init(){
        super.init(frame:.zero)
-       clipsToBounds = true
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentMode = .scaleAspectFill
         clipsToBounds = true
     }
     
@@ -110,7 +110,7 @@ class ImageView: UIImageView {
     
     
     private func updateImageCache(_ url:String,_ urlCache:String,_ type:String,_ w:Int,_ h:Int){
-        if let img = mImageCache.get(urlCache) as? UIImage {
+        if let img = mImageCache?.get(urlCache) as? UIImage {
            DispatchQueue.main.async {
                  if(self.mCurrentUrl == url){
                      self.image = img
@@ -125,7 +125,7 @@ class ImageView: UIImageView {
                            }
                        }
                    if img != nil {
-                       mImageCache.add(urlCache, val: img!)
+                       mImageCache?.add(urlCache, val: img!)
                    }
                }
             }
@@ -137,7 +137,7 @@ class ImageView: UIImageView {
                               }
                           }
                           if img != nil {
-                              mImageCache.add(urlCache, val: img!)
+                              mImageCache?.add(urlCache, val: img!)
                           }
                 }
             }
@@ -145,7 +145,7 @@ class ImageView: UIImageView {
 
     }
     private func updateImageCache(_ url:String,_ urlCache:String,_ type:String){
-            if let img = mImageCache.get(urlCache) as? UIImage {
+            if let img = mImageCache?.get(urlCache) as? UIImage {
                 DispatchQueue.main.async {
                      if(self.mCurrentUrl == url){
                          self.image = img
@@ -160,7 +160,7 @@ class ImageView: UIImageView {
                                }
                            }
                        if img != nil {
-                           mImageCache.add(urlCache, val: img!)
+                           mImageCache?.add(urlCache, val: img!)
                        }
                     }
                 }
@@ -172,7 +172,7 @@ class ImageView: UIImageView {
                                  }
                              }
                              if img != nil {
-                                 mImageCache.add(urlCache, val: img!)
+                                 mImageCache?.add(urlCache, val: img!)
                              }
                      }
                 }

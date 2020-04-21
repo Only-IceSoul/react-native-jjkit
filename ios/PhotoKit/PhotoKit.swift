@@ -8,6 +8,8 @@
 import Foundation
 import Photos
 
+var mImageCache : LRUCache? = LRUCache(30)
+
 @objc(PhotoKit)
 class PhotoKit : NSObject, RCTBridgeModule {
     static func moduleName() -> String! {
@@ -15,6 +17,11 @@ class PhotoKit : NSObject, RCTBridgeModule {
     }
     static func requiresMainQueueSetup() -> Bool {
         return true
+    }
+    
+    @objc func clearMemoryCache(_ resolve: RCTPromiseResolveBlock, rejecter:RCTPromiseRejectBlock){
+        mImageCache = nil
+        resolve(true)
     }
     
     @objc func isPermissionGranted(_ resolve: RCTPromiseResolveBlock, rejecter:RCTPromiseRejectBlock) {
@@ -29,36 +36,22 @@ class PhotoKit : NSObject, RCTBridgeModule {
              break
           default:
               value =  false
-              print("unknow")
            }
            resolve(value)
        }
-       
-       @objc func permissionStatus(_ resolve: RCTPromiseResolveBlock, rejecter:RCTPromiseRejectBlock) {
-          let status = PHPhotoLibrary.authorizationStatus()
-          var value = 0
-          switch status {
-          case .authorized:
-             value =  1
-             break
-          case .denied,.restricted:
-              value =  2
-             break
-          default:
-              value =  0
-           }
-          resolve(value)
-       }
-       
+    
        @objc func requestPermission(_ resolve: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock){
            PHPhotoLibrary.requestAuthorization()
            { (st) -> Void in
                  switch st {
                  case .authorized:
-                      resolve(true)
+                      resolve(1)
                   break
+                case .denied,.restricted:
+                      resolve(2)
+                       break
                   default:
-                     resolve(false)
+                     resolve(0)
                 }
            }
        }
@@ -485,9 +478,6 @@ class PhotoKit : NSObject, RCTBridgeModule {
               value = true
               break
           case "Recently Added":
-              value = true
-              break
-          case "Animated":
               value = true
               break
           case "Recently Deleted":

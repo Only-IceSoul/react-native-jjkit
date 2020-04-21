@@ -7,7 +7,7 @@
 
 import Foundation
 
-let mImageCache = LRUCache(30)
+
 
 @objc(Image)
 class Image: RCTViewManager {
