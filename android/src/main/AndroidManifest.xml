@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.reactjjkit">
 
+    <application>
+        <activity android:name=".photoKit.PermissionActivity"
+            android:theme="@style/Theme.Transparent"/>
+    </application>
 </manifest>

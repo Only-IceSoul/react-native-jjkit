@@ -2,7 +2,7 @@
 
 Kit of native modules
 
-android: api 21+
+android: api 21+  
 ios : 9.0+
 
 ## Usage
