@@ -7,9 +7,11 @@ import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ReactShadowNode
 import com.facebook.react.uimanager.ViewManager
+import com.reactjjkit.image.ImageViewManager
 import com.reactjjkit.viewManagers.CircleProgressViewManager
 import com.reactjjkit.viewManagers.ClipRectViewManager
 import com.reactjjkit.modules.ToastModule
+import com.reactjjkit.photoKit.PhotoKitModule
 import com.reactjjkit.viewManagers.BadgeViewManager
 
 @Suppress("UNCHECKED_CAST")
