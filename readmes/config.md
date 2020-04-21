@@ -38,16 +38,11 @@ build porject
 
 ## IOS
 
-**add Swift**
-
-```
-open ios project .xcworkspace 
-add a swift file to folder projectname (skip bridge)
-```
-
 **install**
 
-open terminal projectname/ios
+Terminal projectname
+
 ```
+ cd ios
  pod install
 ```

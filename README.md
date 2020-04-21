@@ -26,6 +26,8 @@ Kit of native modules
 - [ClipRect](./readmes/ClipRect.md)
 - [Toast](./readmes/toast.md)
 - [Badge](./readmes/badge.md)
+- [PhotoKit](./readmes/photokit.md)
+- [Image](./readmes/image.md)
 
 # Fixing Issues (Optional)
 

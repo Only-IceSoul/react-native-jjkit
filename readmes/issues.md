@@ -40,7 +40,15 @@ npm install jetifier --save
 
 ## IOS
 
-**swift version**  
+**swift**  
+
+```
+open ios project .xcworkspace 
+add a swift file to folder projectname (skip bridge)
+```
+
+OR
+
 open ios/podfile,  add in the first line
 
 ```
