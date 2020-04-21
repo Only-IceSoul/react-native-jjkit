@@ -17,7 +17,8 @@ class JJKitPackage : ReactPackage {
 
     override fun createNativeModules(reactContext: ReactApplicationContext): MutableList<NativeModule> {
         return mutableListOf(
-             ToastModule(reactContext)
+             ToastModule(reactContext),
+             PhotoKitModule(reactContext)
         )
     }
 
@@ -25,7 +26,8 @@ class JJKitPackage : ReactPackage {
         return mutableListOf(
                 CircleProgressViewManager(),
                  ClipRectViewManager() ,
-                BadgeViewManager()
+                BadgeViewManager(),
+                ImageViewManager()
         ) as MutableList<ViewManager<View, ReactShadowNode<*>>>
     }
 }
