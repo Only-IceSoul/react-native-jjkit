@@ -102,7 +102,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                             media["albumId"] = ga["id"]
                             media["albumName"] = ga["name"]
                             media["displayName"] = name
-                            media["date"] = m.modificationDate?.description
+                            media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
                             media["duration"] = m.duration
                             media["height"] = m.pixelHeight
                             media["width"] = m.pixelWidth
@@ -153,7 +153,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                             media["albumId"] = ga["id"]
                             media["albumName"] = ga["name"]
                             media["displayName"] = name
-                            media["date"] = m.modificationDate?.description
+                            media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
 
                             media["duration"] = m.duration
                             media["height"] = m.pixelHeight
@@ -228,7 +228,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                                       media["albumId"] = ga["id"]
                                       media["albumName"] = ga["name"]
                                       media["displayName"] = name
-                                      media["date"] = m.modificationDate?.description
+                                      media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
                                       media["duration"] = m.duration
                                       media["height"] = m.pixelHeight
                                       media["width"] = m.pixelWidth
@@ -280,7 +280,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                                       media["albumId"] = ga["id"]
                                       media["albumName"] = ga["name"]
                                       media["displayName"] = name
-                                      media["date"] = m.modificationDate?.description
+                                      media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
                                       media["duration"] = m.duration
                                       media["height"] = m.pixelHeight
                                       media["width"] = m.pixelWidth
@@ -360,7 +360,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                                      media["albumId"] = ga["id"]
                                      media["albumName"] = ga["name"]
                                      media["displayName"] = name
-                                     media["date"] = m.modificationDate?.description
+                                     media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
                                      media["duration"] = m.duration
                                      media["height"] = m.pixelHeight
                                      media["width"] = m.pixelWidth
@@ -429,7 +429,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                                      media["albumId"] = ga["id"]
                                      media["albumName"] = ga["name"]
                                      media["displayName"] = name
-                                     media["date"] = m.modificationDate?.description
+                                     media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
                                      media["duration"] = m.duration
                                      media["height"] = m.pixelHeight
                                      media["width"] = m.pixelWidth
