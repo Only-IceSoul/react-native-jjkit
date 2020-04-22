@@ -52,7 +52,7 @@ Preview: Use [Image](image.md)
 | displayName | The display name of the file | String | 
 | data | Path to the file | String | 
 | mediaType | "video" or "image" | String | 
-| date |   android(Date added) ios(Modification Date) | String | 
+| date |   android(Date added) ios(Modification Date) | Number | 
 | duration | the playback duration of the data source in seconds | Number | 
 | height | The height of the image/video in pixels. | Number | 
 | width |  The width of the image/video in pixels. | Number | 

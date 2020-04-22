@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
@@ -28,7 +29,6 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 if(requestCode == 200 && resultCode == Activity.RESULT_OK){
                     if(mPromise != null && data != null) {
                         val status = data.getIntExtra("status", 0)
-                        Log.e("ICESOUL","RESULT ACTIVITY PERMISSION $status")
                         mPromise?.resolve(status)
                         mPromise  = null
                     }
@@ -54,7 +54,6 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
     fun requestPermission(promise: Promise){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val i = Intent(reactContext, PermissionActivity::class.java)
-            Log.e("ICESOUL","CALLING ACTIVITY PERMISSION")
             reactContext.startActivityForResult(i,200, Bundle())
             mPromise = promise
         }else{
@@ -75,9 +74,8 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                         MediaStore.Images.Media._ID,
                         MediaStore.Images.Media.DATA,
                         MediaStore.Images.Media.DATE_ADDED,
-                        MediaStore.Images.Media.DISPLAY_NAME,
-                        MediaStore.Images.Media.HEIGHT,
-                        MediaStore.Images.Media.WIDTH
+                        MediaStore.Images.Media.DISPLAY_NAME
+
                 )
                 getGalleryPhotos(reactContext,mediaProjection,galleryAlbums,galleryMedia,albumsNames)
                 getGalleryVideos(reactContext,mediaProjection,galleryAlbums,galleryMedia,albumsNames)
@@ -112,9 +110,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                         MediaStore.Images.Media._ID,
                         MediaStore.Images.Media.DATA,
                         MediaStore.Images.Media.DATE_ADDED,
-                        MediaStore.Images.Media.DISPLAY_NAME,
-                        MediaStore.Images.Media.HEIGHT,
-                        MediaStore.Images.Media.WIDTH
+                        MediaStore.Images.Media.DISPLAY_NAME
                 )
                 getGalleryPhotos(reactContext,mediaProjection,galleryAlbums,galleryMedia,albumsNames)
                 val resultAlbum = Arguments.createArray()
@@ -148,9 +144,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                         MediaStore.Video.Media._ID,
                         MediaStore.Video.Media.DATA,
                         MediaStore.Video.Media.DATE_ADDED,
-                        MediaStore.Video.Media.DISPLAY_NAME,
-                        MediaStore.Video.Media.HEIGHT,
-                        MediaStore.Video.Media.WIDTH
+                        MediaStore.Video.Media.DISPLAY_NAME
                 )
                 getGalleryVideos(reactContext,mediaProjection,galleryAlbums,galleryMedia,albumsNames)
                 val resultAlbum = Arguments.createArray()
@@ -189,10 +183,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                         videoCursor.getColumnIndex(MediaStore.Video.Media.DATE_ADDED)
                 val displayName =
                         videoCursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME)
-                val height =
-                        videoCursor.getColumnIndex(MediaStore.Video.Media.HEIGHT)
-                val width =
-                        videoCursor.getColumnIndex(MediaStore.Video.Media.WIDTH)
+
                 do {
                     val id = videoCursor.getString(idColumn)
                     val data = videoCursor.getString(dataColumn)
@@ -201,12 +192,13 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
 
                     val media = mutableMapOf<String,Any>()
                     val uri = Uri.withAppendedPath(videoQueryUri, id)
+                    val metadata = getVideoMetadata(ctx,uri)
                     media["albumName"] = File(data).parentFile?.name ?: "error"
                     media["displayName"] = nameWithFormat
                     media["date"] = dateAdded
-                    media["duration"] = getDuration(ctx, uri)
-                    media["height"] = height
-                    media["width"] = width
+                    media["duration"] = metadata[2]
+                    media["height"] = metadata[1]
+                    media["width"] = metadata[0]
                     media["mediaType"] = "video"
                     media["data"] = uri.toString()
 
@@ -253,10 +245,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                         imagesCursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED)
                 val displayName =
                         imagesCursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME)
-                val height =
-                        imagesCursor.getColumnIndex(MediaStore.Images.Media.HEIGHT)
-                val width =
-                        imagesCursor.getColumnIndex(MediaStore.Images.Media.WIDTH)
+
                 do {
                     val id = imagesCursor.getString(idColumn)
                     val data = imagesCursor.getString(dataColumn)
@@ -265,14 +254,16 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
 
 
                     val media = mutableMapOf<String,Any>()
+                    val uri  = Uri.withAppendedPath(imagesQueryUri, id)
+                    val metadata = getPhotoMetadata(ctx,uri)
                     media["albumName"] = File(data).parentFile?.name ?: "error"
                     media["displayName"] = nameWithFormat
                     media["date"] = dateAdded
                     media["duration"] = 0
-                    media["height"] = height
-                    media["width"] = width
+                    media["height"] = metadata[1]
+                    media["width"] = metadata[0]
                     media["mediaType"] = "image"
-                    media["data"] = Uri.withAppendedPath(imagesQueryUri, id).toString()
+                    media["data"] = uri.toString()
 
                     if (albumsNames.contains(media["albumName"] as String)) {
                         for (album in galleryAlbums) {
@@ -309,14 +300,25 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
         return mCurrentId
     }
 
-    private fun getDuration(ctx: Context, uri: Uri): Double {
+    private fun getVideoMetadata(ctx: Context,uri:Uri): DoubleArray {
         val retriever =  MediaMetadataRetriever()
         retriever.setDataSource(ctx, uri)
+        val height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
+        val width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
         val time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-        val timeMilliSec = time.toLong()
         retriever.release()
+
+        val duration = time.toDouble() / 1000
         //milliSeg  1000 = 1 seg
-        return timeMilliSec.toDouble() / 1000
+        return doubleArrayOf(width.toDouble(),height.toDouble(),duration)
+    }
+
+    private fun getPhotoMetadata(ctx: Context,uri:Uri): IntArray {
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeStream(ctx.contentResolver.openInputStream(uri), null, options)
+        //milliSeg  1000 = 1 seg
+        return intArrayOf(options.outWidth,options.outHeight)
     }
 
 }
