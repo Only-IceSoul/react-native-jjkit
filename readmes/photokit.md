@@ -58,19 +58,3 @@ Preview: Use [Image](image.md)
 | width |  The width of the image/video in pixels. | Number | 
 
 
-## Albums ignored
-
-### IOS
-
- -  Hidden
- -  Bursts
- -  Recently Added
- -  Recently Deleted
- -  Unable to Upload
- -  Camera Roll
- -  Recents
-
-
-# Send me your suggestions at
-
-justinjlf21@gmail.com

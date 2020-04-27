@@ -8,11 +8,14 @@
 import UIKit
 
 @objc(ImageView)
-class ImageView: UIImageView {
+class ImageView: UIImageView , ViewTarget {
+   
     
      init(){
        super.init(frame:.zero)
     }
+    
+    private var mTagText = ""
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,190 +36,148 @@ class ImageView: UIImageView {
         }
     }
     
-    var mCurrentUrl = ""
+
     @objc func setData(_ data:[String:Any]?){
         if data != nil {
-            let w = data!["width"] as? Int ?? -1
-            let h = data!["height"] as? Int ?? -1
+            let w = data!["width"] as? CGFloat ?? -1
+            let h = data!["height"] as? CGFloat ?? -1
             let cache = data!["cache"] as? Bool ?? false
             
             if let url = data!["url"] as? String , let type = data!["type"] as? String{
-                self.mCurrentUrl = url
-                if url.contains("http"){
-                    self.updateImageWeb(url, cache,type, w, h)
+                
+                let reqW = w > 20 ? w : 20
+                let reqH = h > 20 ? w : 20
+                updateImage(url, cache, type, w, h, reqW, reqH)
+            }
+        }
+    }
+    
+    private func updateImage(_ url:String,_ cache:Bool,_ type:String,_ w:CGFloat,_ h:CGFloat,_ reqW:CGFloat,_ reqH:CGFloat){
+            if (cache) {
+                if (w != 1 && h != -1) {
+                    updateImageCache(url,type,reqW,reqH)
                 }else {
-                   
-                    self.updateImageFile(url, cache,type, w, h)
+                    updateImageCache(url,type)
                 }
-            }
-        }
-    }
-    
-    private func updateImageWeb(_ url:String,_ cache:Bool,_ type:String,_ w:Int,_ h:Int){
-        mReqW = w > 20 ? w : 20
-        mReqH = h > 20 ? h : 20
-        mUrlCache = w == -1 || h == -1 ? url : url+"\(mReqW)x\(mReqH)"
-        mIsRequest =  w != -1 && h != -1
-        mCaching = cache
-        mUrl = url
-        mType = type
-        Thread(target: self, selector: #selector(makeUpdateImageWeb), object: nil).start()
-    }
-    
-    @objc func makeUpdateImageWeb(){
-        if mCaching {
-          
-        }else {
-          
-        }
-        Thread.exit()
-    }
-    
-    private var mReqW : Int = 0
-    private var mReqH : Int = 0
-    private var mUrlCache : String = ""
-    private var mIsRequest = false
-    private var mCaching = false
-    private var mUrl : String = ""
-    private var mType : String = ""
-    private func updateImageFile(_ url:String,_ cache:Bool,_ type:String,_ w:Int,_ h:Int){
-         mReqW = w > 20 ? w : 20
-         mReqH = h > 20 ? h : 20
-         mUrlCache = w == -1 || h == -1 ? url : url+"\(mReqW)x\(mReqH)"
-         mIsRequest =  w != -1 && h != -1
-         mCaching = cache
-         mUrl = url
-         mType = type
-        Thread(target: self, selector: #selector(makeUpdateImageFile), object: nil).start()
-    }
-    
-    @objc func makeUpdateImageFile(){
-        if mCaching {
-            if mIsRequest {
-               self.updateImageCache(mUrl, mUrlCache,mType,mReqW,mReqH)
             }else {
-               self.updateImageCache(mUrl, mUrlCache,mType)
+                if (w != 1 && h != -1)  {
+                    updateImageNoCache(url,type,reqW,reqH)
+                }else {
+                    updateImageNoCache(url,type)
+                }
             }
-        }else {
-            if mIsRequest {
-              self.updateImageNoCache(mUrl,mType,mReqW,mReqH)
-            }else {
-              self.updateImageNoCache(mUrl,mType)
-            }
-        }
-        Thread.exit()
     }
     
-    
-    
-    private func updateImageCache(_ url:String,_ urlCache:String,_ type:String,_ w:Int,_ h:Int){
-        if let img = mImageCache?.get(urlCache) as? UIImage {
-           DispatchQueue.main.async {
-                 if(self.mCurrentUrl == url){
-                     self.image = img
-                }
+      private func updateImageCache(_ url:String,_ type:String,_ w:CGFloat,_ h:CGFloat){
+            if(type == "image"){
+         
+                Guiso.load(url).fitCenter().override(w,h).into(self)
             }
-        }else{
-            if type == "image" {
-               PhotoKit.getImage(url,request: CGSize(width: w, height: h)) { (img) in
-                       DispatchQueue.main.async {
-                            if(self.mCurrentUrl == url){
-                                self.image = img
-                           }
-                       }
-                   if img != nil {
-                       mImageCache?.add(urlCache, val: img!)
-                   }
-               }
+            if(type == "video"){
+                Guiso.load(url).frame(1)
+                    .fitCenter().override(w,h).into(self)
             }
-            if type == "video"{
-                PhotoKit.getVideoThumbnail(url, seconds: 1, request: CGSize(width: w, height: h)) { (img) in
-                        DispatchQueue.main.async {
-                               if(self.mCurrentUrl == url){
-                                   self.image = img
-                              }
-                          }
-                          if img != nil {
-                              mImageCache?.add(urlCache, val: img!)
-                          }
-                }
+            if (type == "gif"){
+                Guiso.load(url).asGif().fitCenter().override(w,h).into(self)
             }
+
         }
 
-    }
-    private func updateImageCache(_ url:String,_ urlCache:String,_ type:String){
-            if let img = mImageCache?.get(urlCache) as? UIImage {
-                DispatchQueue.main.async {
-                     if(self.mCurrentUrl == url){
-                         self.image = img
-                    }
-                }
-            }else{
-                if type == "image"{
-                    PhotoKit.getImage(url) { (img) in
-                           DispatchQueue.main.async {
-                                if(self.mCurrentUrl == url){
-                                    self.image = img
-                               }
-                           }
-                       if img != nil {
-                           mImageCache?.add(urlCache, val: img!)
-                       }
-                    }
-                }
-                if type == "video"{
-                    PhotoKit.getVideoThumbnail(url, seconds: 1) { (img) in
-                           DispatchQueue.main.async {
-                                  if(self.mCurrentUrl == url){
-                                      self.image = img
-                                 }
-                             }
-                             if img != nil {
-                                 mImageCache?.add(urlCache, val: img!)
-                             }
-                     }
-                }
+        private func updateImageCache(_ url:String,_ type:String){
+            if(type == "image"){
+                Guiso.load(url).into(self)
             }
-    }
-    
-    private func updateImageNoCache(_ url:String,_ type:String,_ w:Int,_ h:Int){
-        if type == "image"{
-            PhotoKit.getImage(url,request: CGSize(width: w, height: h)) { (img) in
-                  DispatchQueue.main.async {
-                       if(self.mCurrentUrl == url){
-                           self.image = img
-                      }
-                  }
+            if(type == "video"){
+                Guiso.load(url).frame(1).into(self)
             }
-        }
-        if type == "video"{
-            PhotoKit.getVideoThumbnail(url, seconds: 1, request: CGSize(width: w, height: h)) { (img) in
-                   DispatchQueue.main.async {
-                          if(self.mCurrentUrl == url){
-                              self.image = img
-                         }
-                    }
+            if (type == "gif"){
+                Guiso.load(url).asGif().into(self)
            }
         }
-    }
-    private func updateImageNoCache(_ url:String,_ type:String){
-        if type == "image" {
-            PhotoKit.getImage(url) { (img) in
-              DispatchQueue.main.async {
-                   if(self.mCurrentUrl == url){
-                       self.image = img
-                  }
-              }
+
+        private func updateImageNoCache(_ url:String,_ type:String,_ w:CGFloat,_ h:CGFloat){
+            if(type == "image"){
+              Guiso.load(url)
+                .skipMemoryCache()
+                .fitCenter().override(w,h).into(self)
+            }
+            if(type == "video"){
+                 Guiso.load(url).frame(1)
+                    .skipMemoryCache()
+                    .fitCenter().override(w,h).into(self)
+            }
+            if type == "gif" {
+                Guiso.load(url).asGif()
+                .skipMemoryCache()
+                .fitCenter().override(w,h).into(self)
             }
         }
-        if type == "video"{
-            PhotoKit.getVideoThumbnail(url, seconds: 1) { (img) in
-                   DispatchQueue.main.async {
-                          if(self.mCurrentUrl == url){
-                              self.image = img
-                         }
-                    }
+        private func updateImageNoCache(_ url:String,_ type:String){
+            if(type == "image"){
+            Guiso.load(url)
+              .skipMemoryCache().into(self)
             }
-        }
+            if(type == "video"){
+               Guiso.load(url).frame(1)
+                  .skipMemoryCache()
+                  .into(self)
+            }
+            if type == "gif" {
+               Guiso.load(url).asGif()
+               .skipMemoryCache()
+               .into(self)
+            }
     }
+
+    
+    private var mGif: GifLayer?
+        override var bounds: CGRect{
+           didSet{
+               mGif?.onBoundsChange(bounds)
+           }
+       }
+       
+       func onResourceReady(_ gif: GifLayer) {
+           image = nil
+           mGif?.removeFromSuperlayer()
+           mGif = gif
+           mGif?.setContentMode(self.contentMode)
+           layer.addSublayer(mGif!)
+           mGif?.onBoundsChange(bounds)
+          
+           
+       }
+       
+       func onResourceReady(_ img: UIImage) {
+           mGif?.removeFromSuperlayer()
+           mGif = nil
+           image = img
+       }
+       
+       func onLoadFailed() {
+           // image error
+           print("Load failed")
+       }
+     
+       
+       private var mIdentifier = "error"
+               
+       func setIdentifier(_ tag:String) {
+           mIdentifier = tag
+       }
+       func getIdentifier() -> String{
+           return mIdentifier
+       }
+
+       
+       
+       override func layoutSubviews() {
+           super.layoutSubviews()
+           if bounds.width > 0 && bounds.height > 0 && mGif?.isAnimating() == false {
+               DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                   self.mGif?.startAnimation()
+               }
+           }
+       }
+       
 }

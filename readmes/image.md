@@ -8,16 +8,18 @@ An ImageView for url.
  
 - [x] Memory cache
 - [x] Disk cache
-- [x] Resize(fitCenter)
+- [x] Resize(fitCenter,centerCrop(notEnabled))
 - [x] url local
 - [x] url Web
+- [x] Gifs 
 
-### IOS:
+### IOS(Guiso):
 - [x] Memory cache
-- [ ] Disk cache
-- [x] Resize(fitCenter)
+- [x] Disk cache
+- [x] Resize(fitCenter,centerCrop(notEnabled))
 - [x] url local
-- [ ] url Web
+- [x] url Web
+- [x] Gifs
 
 
 ## **Usage**
@@ -27,17 +29,17 @@ An ImageView for url.
 
   const thumbnailData = {
       url: "Path to the file",
-      type: "video" or "image",
+      type: "video" or "image" or "gif", //if u just need a thumbnail for gif, use image 
       width: 200, 
       height: 200,
-      cache: true
+      cache: true // memory cache
   }
   const originalData = {
-      url: "Path to the file",
-      type: "video" or "image",
+      url: "Path to the file ",
+      type: "video" or "image" or "gif" , //if u just need a thumbnail for gif, use image
       width: -1, //original size need w -1 and h -1
       height: -1,  
-      cache: true
+      cache: true // memory cache
   }
 
   //preview Scale 
