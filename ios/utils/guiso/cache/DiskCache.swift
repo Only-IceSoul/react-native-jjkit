@@ -21,7 +21,6 @@ class DiskCache {
         mDirectory = URL(fileURLWithPath: cacheFolder).appendingPathComponent(folder)
         createDirectory(mDirectory.path)
      
-        print("path directory ",mDirectory.path)
     }
     
     func getDirectory() -> URL {
