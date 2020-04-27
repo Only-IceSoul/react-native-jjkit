@@ -183,7 +183,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
         var mAlbumList = [[String:Any]]()
                    var mMediaList = [[String:Any]]()
 
-                      let sm = DispatchSemaphore(value: 0)
+                      
                       let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: nil )
                       let userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)
 
@@ -252,7 +252,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                                       media["width"] = m.pixelWidth
                                       media["mediaType"] = "video"
                                     media["data"] = m.localIdentifier
-                                     sm.wait()
+                                   
                                       mMediaList.append(media)
                                   }
                            
