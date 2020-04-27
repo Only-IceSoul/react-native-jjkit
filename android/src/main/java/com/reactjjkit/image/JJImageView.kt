@@ -74,6 +74,14 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
                     .apply(options)
                     .into(this)
         }
+        if (type == "gif" ){
+            val options =  RequestOptions()
+                    .fitCenter()
+                    .override(w, h)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+            Glide.with(context).asGif().load(url).apply(options).into(this)
+
+        }
 
     }
 
@@ -92,12 +100,17 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
                     .apply(options)
                     .into(this)
         }
+        if (type == "gif" ){
+            val options =  RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+            Glide.with(context).asGif().load(url).apply(options).into(this)
+        }
     }
 
     private fun updateImageNoCache(url:String,type:String,w:Int,h:Int){
         if(type == "image"){
-            val options =  RequestOptions().fitCenter().override(w, h)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+            val options =  RequestOptions()
+                    .fitCenter().override(w, h)
                     .skipMemoryCache(true)
             Glide.with(context).load(url).apply(options).into(this)
         }
@@ -105,7 +118,6 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
             val microSecond = 0L
             val options =  RequestOptions()
                     .frame(microSecond)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .fitCenter()
                     .override(w, h)
                     .skipMemoryCache(true)
@@ -113,11 +125,15 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
                     .apply(options)
                     .into(this)
         }
+        if (type == "gif" ){
+            val options =  RequestOptions().fitCenter().override(w, h)
+                    .skipMemoryCache(true)
+            Glide.with(context).asGif().load(url).apply(options).into(this)
+        }
     }
     private fun updateImageNoCache(url:String,type:String){
         if(type == "image"){
             val options =  RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
             Glide.with(context).load(url).apply(options).into(this)
         }
@@ -125,11 +141,15 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
             val microSecond = 0L
             val options =  RequestOptions()
                     .frame(microSecond)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
             Glide.with(context).load(url)
                     .apply(options)
                     .into(this)
+        }
+        if (type == "gif" ){
+            val options =  RequestOptions()
+                    .skipMemoryCache(true)
+            Glide.with(context).asGif().load(url).apply(options).into(this)
         }
     }
 }
