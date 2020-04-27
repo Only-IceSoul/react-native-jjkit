@@ -163,12 +163,24 @@ class ImageHelper {
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .highQualityFormat
-        options.resizeMode = .exact
+          options.isSynchronous = true
         PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: options) { (img, info) in
             completion(img)
         }
    
       }
+    
+    static func getImage(asset: PHAsset,size:CGSize,contentMode: PHImageContentMode,_ completion: @escaping (UIImage?)->Void) {
+         
+            let options = PHImageRequestOptions()
+            options.isNetworkAccessAllowed = true
+            options.deliveryMode = .highQualityFormat
+            options.isSynchronous = true
+            PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: contentMode, options: options) { (img, info) in
+            completion(img)
+            }
+         
+       }
       
 
     static func getImageData(_ imageUrl: URL)-> Data? {

@@ -76,6 +76,21 @@ class GuisoLoader {
        
     }
     
+    func updateTargetResizeManager(){
+       if let asset = getAsset(identifier: mUrl){
+           ImageHelper.getImage(asset: asset, size: CGSize(width: mReqW, height: mReqH), contentMode: getPHContentMode(mScaleType)){  (resized) in
+                  if resized != nil {
+                     
+                  self.displayInTarget(resized!)
+                  if self.mMemoryCache == true { self.saveToMemoryCache(resized!) }
+                  self.saveToDiskCache(resized!)
+             
+                  } else { self.onLoadFailed() }
+           }
+       }else { self.onLoadFailed() }
+      
+   }
+    
     func updateTargetFullSize(){
           if let asset = getAsset(identifier: mUrl){
             ImageHelper.getImage(asset:asset) { (fullSize) in
@@ -399,5 +414,16 @@ class GuisoLoader {
         
         return a
         
+    }
+    
+    func getPHContentMode(_ scaleType: Guiso.ScaleType)-> PHImageContentMode{
+        switch scaleType {
+        case .fitCenter:
+           return .aspectFit
+        case .centerCrop:
+            return .aspectFill
+        default:
+            return .default
+        }
     }
 }

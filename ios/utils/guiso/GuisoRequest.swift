@@ -77,7 +77,7 @@ class GuisoRequest : Runnable {
     
     func updateFileImage(){
             if mShouldTransform {
-                mLoader.updateTargetResize()
+                mLoader.updateTargetResizeManager()
             }else {
         
                 mLoader.updateTargetFullSize()
