@@ -35,7 +35,7 @@ rejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(requestRaw:(NSString)identifier resolve:(RCTPromiseResolveBlock)resolve
 rejecter:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(requestData:(NSString)identifier width:(NSInteger)width height:(NSInteger)height format:(NSInteger)format  quality:(CGFloat)quality resolve:(RCTPromiseResolveBlock)resolve
+RCT_EXTERN_METHOD(requestPhoto:(NSString)identifier width:(NSInteger)width height:(NSInteger)height format:(NSInteger)format  quality:(CGFloat)quality resolve:(RCTPromiseResolveBlock)resolve
 rejecter:(RCTPromiseRejectBlock)reject)
 
 @end

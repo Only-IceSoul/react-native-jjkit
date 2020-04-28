@@ -406,18 +406,16 @@ class PhotoKit : NSObject, RCTBridgeModule {
                 if let asset = self.resolveAsset(identifier!){
                     ImageHelper.getDataFileManager(asset: asset) { (data) in
                         if data != nil {
-                            Guiso.get().getExecutor().doWork{
                                 resolve(data!.base64EncodedString())
-                            }
                         }
                      }
-                }else {   resolve(nil)  }
+                }else {  DispatchQueue.main.async {  resolve(nil) }  }
             }
             
          }else { resolve(nil) }
      }
  
-    @objc func requestData(_ identifier:String?,width:Int,height:Int,format:Int,quality:CGFloat, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
+    @objc func requestPhoto(_ identifier:String?,width:Int,height:Int,format:Int,quality:CGFloat, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
             if identifier != nil && !identifier!.isEmpty{
             
                Guiso.get().getExecutor().doWork {
