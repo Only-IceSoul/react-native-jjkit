@@ -58,3 +58,41 @@ Preview: Use [Image](image.md)
 | width |  The width of the image/video in pixels. | Number | 
 
 
+## Get Data
+
+### Raw 
+
+byte array encoded to base64 String
+
+```javascript
+import { PhotoKit } from 'react-native-jjkit'
+
+PhotoKit.requestRaw(Media.data).then(base64String => {
+    console.log("result : ",base64String)
+})
+```
+
+
+### Photo 
+
+byte array encoded to base64 String
+
+FitCenter 
+
+
+```javascript
+import { PhotoKit } from 'react-native-jjkit'
+
+let request = {
+    data: Media.data,
+    widht: 1280,  //fitcenter
+    height: 1280,  // fitcenter
+    quality : 0.8 //0.0 to 1  just jpeg
+    format : PhotoKit.jpeg  // or png
+}
+
+PhotoKit.requestPhoto(request.data,request.width,request.height,request.format,request.quality).then(base64String => {
+    console.log("result : ",base64String)
+})
+```
+

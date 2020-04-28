@@ -8,18 +8,18 @@ An ImageView for url.
  
 - [x] Memory cache
 - [x] Disk cache
-- [x] Resize(fitCenter,centerCrop(notEnabled))
+- [x] Resize(fitCenter)
 - [x] url local
 - [x] url Web
-- [x] Gifs 
+- [x] Gif
 
 ### IOS(Guiso):
 - [x] Memory cache
 - [x] Disk cache
-- [x] Resize(fitCenter,centerCrop(notEnabled))
-- [x] url local
+- [x] Resize(fitCenter)
+- [x] url local 
 - [x] url Web
-- [x] Gifs
+- [x] Gif
 
 
 ## **Usage**
@@ -27,14 +27,14 @@ An ImageView for url.
 ```javascript
   import { Image } from 'react-native-jjkit'
 
-  const thumbnailData = {
+  const thumbnail = {
       url: "Path to the file",
       type: "video" or "image" or "gif", //if u just need a thumbnail for gif, use image 
       width: 200, 
       height: 200,
       cache: true // memory cache
   }
-  const originalData = {
+  const original = {
       url: "Path to the file ",
       type: "video" or "image" or "gif" , //if u just need a thumbnail for gif, use image
       width: -1, //original size need w -1 and h -1
@@ -47,7 +47,7 @@ An ImageView for url.
   // 0  CenterCrop - scaleAspectFill (default)
   // 1  fitCenter - scaleAspectFit
 
-  <Image data={thumbnailData} scaleType={myScaleType} >
+  <Image data={thumbnail} scaleType={myScaleType} >
 
 ```
 
