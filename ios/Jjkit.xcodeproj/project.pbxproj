@@ -30,12 +30,12 @@
 		D021B2BB245674D80085F417 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2B7245674D80085F417 /* Key.swift */; };
 		D021B2BC245674D80085F417 /* GIf.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2B8245674D80085F417 /* GIf.swift */; };
 		D021B2BD245674D80085F417 /* GifDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2B9245674D80085F417 /* GifDrawable.swift */; };
-		D021B2BF245675450085F417 /* PhotoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2BE245675450085F417 /* PhotoKit.swift */; };
 		D021B2C12456754C0085F417 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2C02456754C0085F417 /* ImageView.swift */; };
 		D021B2C3245675CA0085F417 /* extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2C2245675CA0085F417 /* extension_String.swift */; };
+		D087E1FD24588AD9001C8C7E /* PhotoKit.m in Sources */ = {isa = PBXBuildFile; fileRef = D087E1FB24588AD8001C8C7E /* PhotoKit.m */; };
+		D087E1FE24588AD9001C8C7E /* PhotoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D087E1FC24588AD9001C8C7E /* PhotoKit.swift */; };
 		D0AFDFDE244F8C0D00377C58 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AFDFDB244F8C0D00377C58 /* Image.m */; };
 		D0AFDFDF244F8C0D00377C58 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AFDFDC244F8C0D00377C58 /* Image.swift */; };
-		D0AFDFE5244F8C2000377C58 /* PhotoKit.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AFDFE1244F8C2000377C58 /* PhotoKit.m */; };
 		D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D5243AE49100881A99 /* CircleProgress.swift */; };
 		D0BED1DB243AE49100881A99 /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D7243AE49100881A99 /* CircleProgressView.m */; };
 		D0BED1DC243AE49100881A99 /* LayerCircleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D8243AE49100881A99 /* LayerCircleProgress.swift */; };
@@ -95,12 +95,12 @@
 		D021B2B7245674D80085F417 /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		D021B2B8245674D80085F417 /* GIf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIf.swift; sourceTree = "<group>"; };
 		D021B2B9245674D80085F417 /* GifDrawable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifDrawable.swift; sourceTree = "<group>"; };
-		D021B2BE245675450085F417 /* PhotoKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoKit.swift; sourceTree = "<group>"; };
 		D021B2C02456754C0085F417 /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		D021B2C2245675CA0085F417 /* extension_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_String.swift; sourceTree = "<group>"; };
+		D087E1FB24588AD8001C8C7E /* PhotoKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoKit.m; sourceTree = "<group>"; };
+		D087E1FC24588AD9001C8C7E /* PhotoKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoKit.swift; sourceTree = "<group>"; };
 		D0AFDFDB244F8C0D00377C58 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
 		D0AFDFDC244F8C0D00377C58 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
-		D0AFDFE1244F8C2000377C58 /* PhotoKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoKit.m; sourceTree = "<group>"; };
 		D0BED1D5243AE49100881A99 /* CircleProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleProgress.swift; sourceTree = "<group>"; };
 		D0BED1D6243AE49100881A99 /* react-native-jjkit-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "react-native-jjkit-Bridging-Header.h"; sourceTree = "<group>"; };
 		D0BED1D7243AE49100881A99 /* CircleProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleProgressView.m; sourceTree = "<group>"; };
@@ -229,8 +229,8 @@
 		D040C033244E787400103477 /* PhotoKit */ = {
 			isa = PBXGroup;
 			children = (
-				D0AFDFE1244F8C2000377C58 /* PhotoKit.m */,
-				D021B2BE245675450085F417 /* PhotoKit.swift */,
+				D087E1FB24588AD8001C8C7E /* PhotoKit.m */,
+				D087E1FC24588AD9001C8C7E /* PhotoKit.swift */,
 			);
 			path = PhotoKit;
 			sourceTree = "<group>";
@@ -359,7 +359,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D021B2BF245675450085F417 /* PhotoKit.swift in Sources */,
 				D0BED1E4243AE49800881A99 /* ClipRectView.m in Sources */,
 				D021B29C245674840085F417 /* GuisoRequestBuilder.swift in Sources */,
 				D0AFDFDF244F8C0D00377C58 /* Image.swift in Sources */,
@@ -386,7 +385,6 @@
 				D021B2A9245674B50085F417 /* DiskCache.swift in Sources */,
 				D021B2C12456754C0085F417 /* ImageView.swift in Sources */,
 				D021B2B3245674CB0085F417 /* WeakTimer.swift in Sources */,
-				D0AFDFE5244F8C2000377C58 /* PhotoKit.m in Sources */,
 				D01D1CA8244A5A7800E0C8D1 /* Badge.m in Sources */,
 				D01D1CAA244A5A8200E0C8D1 /* BadgeShadowView.swift in Sources */,
 				D021B2BD245674D80085F417 /* GifDrawable.swift in Sources */,
@@ -394,6 +392,7 @@
 				D021B2AA245674B50085F417 /* LRUCacheGif.swift in Sources */,
 				D021B2BA245674D80085F417 /* ViewTarget.swift in Sources */,
 				D01D1CBC244A623F00E0C8D1 /* extension_AttrString.swift in Sources */,
+				D087E1FD24588AD9001C8C7E /* PhotoKit.m in Sources */,
 				D0BED1E3243AE49800881A99 /* ClipRectView.swift in Sources */,
 				D01D1CAC244A5A8900E0C8D1 /* BadgeView.swift in Sources */,
 				D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */,
@@ -403,6 +402,7 @@
 				D0AFDFDE244F8C0D00377C58 /* Image.m in Sources */,
 				D0F98D6B2443DAC6001CF3DA /* ToastManager.swift in Sources */,
 				D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */,
+				D087E1FE24588AD9001C8C7E /* PhotoKit.swift in Sources */,
 				D0F98D6A2443DAC6001CF3DA /* JJLabel.swift in Sources */,
 				D0F98D622443DA79001CF3DA /* Toast.m in Sources */,
 				D0BED1DB243AE49100881A99 /* CircleProgressView.m in Sources */,

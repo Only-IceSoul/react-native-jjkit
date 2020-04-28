@@ -6,6 +6,7 @@
 //  Copyright © 2020 Juan J LF. All rights reserved.
 //
 
+
 import UIKit
 import Photos
 
@@ -59,37 +60,18 @@ class GuisoLoader {
     
     func updateTargetResize(){
         if let asset = getAsset(identifier: mUrl){
-            ImageHelper.getImage(asset:asset) {  (fullSize) in
-                   if fullSize != nil {
-                       if let resized = self.resizeImage(fullSize!){
-                           self.displayInTarget(resized)
-                           if self.mMemoryCache == true { self.saveToMemoryCache(resized) }
-                           self.saveToDiskCache(resized)
-                       } else { self.onLoadFailed()
-                            print("failed image resize")
-                       }
-                   } else { self.onLoadFailed()
-                        print("failed image fullsize")
-                   }
+            ImageHelper.getImage(asset: asset, size: CGSize(width: mReqW, height: mReqH), contentMode: getPHContentMode(mScaleType)){  (resized) in
+                   if resized != nil {
+                      
+                   self.displayInTarget(resized!)
+                   if self.mMemoryCache == true { self.saveToMemoryCache(resized!) }
+                   self.saveToDiskCache(resized!)
+              
+                   } else { self.onLoadFailed() }
             }
         }else { self.onLoadFailed() }
        
     }
-    
-    func updateTargetResizeManager(){
-       if let asset = getAsset(identifier: mUrl){
-           ImageHelper.getImage(asset: asset, size: CGSize(width: mReqW, height: mReqH), contentMode: getPHContentMode(mScaleType)){  (resized) in
-                  if resized != nil {
-                     
-                  self.displayInTarget(resized!)
-                  if self.mMemoryCache == true { self.saveToMemoryCache(resized!) }
-                  self.saveToDiskCache(resized!)
-             
-                  } else { self.onLoadFailed() }
-           }
-       }else { self.onLoadFailed() }
-      
-   }
     
     func updateTargetFullSize(){
           if let asset = getAsset(identifier: mUrl){
@@ -141,7 +123,7 @@ class GuisoLoader {
     
     func updateTargetResizeGif(){
          if let asset = getAsset(identifier: mUrl){
-            ImageHelper.getImageData(asset: asset) { (data) in
+            ImageHelper.getDataFileManager(asset: asset) { (data) in
                 if data != nil {
                     if let gif = ImageHelper.makeGif(data!, self.mReqW, self.mReqH, self.mScaleType,lanczos:self.mLanczos){
                         let drawable = ImageHelper.getGifDrawable(gif)
@@ -157,7 +139,7 @@ class GuisoLoader {
     
     func updateTargetFullSizeGif(){
          if let asset = getAsset(identifier: mUrl){
-            ImageHelper.getImageData(asset: asset) { (data) in
+            ImageHelper.getDataFileManager(asset: asset) { (data) in
                 if data != nil {
                     if let gif = ImageHelper.makeGif(data!){
                         let drawable = ImageHelper.getGifDrawable(gif)
@@ -330,6 +312,7 @@ class GuisoLoader {
        }
     }
        
+  
      
     private func makeImageData(_ img:UIImage, format: String) -> Data? {
        switch format {
@@ -415,6 +398,7 @@ class GuisoLoader {
         return a
         
     }
+    
     
     func getPHContentMode(_ scaleType: Guiso.ScaleType)-> PHImageContentMode{
         switch scaleType {

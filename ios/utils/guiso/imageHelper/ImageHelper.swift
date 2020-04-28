@@ -1,5 +1,5 @@
 //
-//  TransformationUtils.swift
+//  ImageHelper.swift
 //  react-native-jjkit
 //
 //  Created by Juan J LF on 4/22/20.
@@ -163,25 +163,24 @@ class ImageHelper {
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .highQualityFormat
-          options.isSynchronous = true
+         options.isSynchronous = true
         PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: options) { (img, info) in
             completion(img)
         }
    
       }
-    
-    static func getImage(asset: PHAsset,size:CGSize,contentMode: PHImageContentMode,_ completion: @escaping (UIImage?)->Void) {
-         
-            let options = PHImageRequestOptions()
-            options.isNetworkAccessAllowed = true
-            options.deliveryMode = .highQualityFormat
-            options.isSynchronous = true
-            PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: contentMode, options: options) { (img, info) in
-            completion(img)
-            }
-         
-       }
       
+    static func getImage(asset: PHAsset,size:CGSize,contentMode: PHImageContentMode,_ completion: @escaping (UIImage?)->Void) {
+      
+           let options = PHImageRequestOptions()
+           options.isNetworkAccessAllowed = true
+           options.deliveryMode = .highQualityFormat
+            options.isSynchronous = true
+        PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: contentMode, options: options) { (img, info) in
+               completion(img)
+           }
+      
+    }
 
     static func getImageData(_ imageUrl: URL)-> Data? {
         let path = imageUrl.path.replacingOccurrences(of: "/file:/", with: "")
@@ -202,13 +201,17 @@ class ImageHelper {
         
     }
     
-    static func getImageData(asset: PHAsset,completion: @escaping (Data?)->Void) {
-      
+
+    
+    static func getImageData(asset: PHAsset,crop:CGRect,completion: @escaping (Data?)->Void) {
+
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .highQualityFormat
         options.isSynchronous = true
-       
+        options.normalizedCropRect = crop
+        options.resizeMode = .exact
+
         PHImageManager.default().requestImageData(for: asset, options: options, resultHandler: { (data, anyString, orientation, info) in
 
             completion(data)
@@ -268,7 +271,7 @@ class ImageHelper {
     let options = PHVideoRequestOptions()
     options.isNetworkAccessAllowed = false
         options.deliveryMode = .highQualityFormat
-
+    
         PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avasset, audiomix, info) in
             if avasset != nil {
                 let generator = AVAssetImageGenerator(asset: avasset!)
@@ -460,6 +463,69 @@ class ImageHelper {
         let scaleH = scale * inHeight
        return  CGRect(x: dx, y: dy, width: scaleW, height: scaleH)
     }
+    
+    
+    static func getImageDataIO(url: URL)-> Data?{
+        guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
+            let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil),
+            let data =  image.dataProvider?.data as Data?
+            else{
+                return nil
+                }
+        return data
+    }
+    
+     static func getImageIO(url: URL)-> CGImage?{
+         guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
+             let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
+             else{
+                 return nil
+                 }
+         return image
+     }
+    
+    static func getImageIO(data: Data)-> UIImage? {
+        guard let imageSource = CGImageSourceCreateWithData(data as CFData, nil),
+                    let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
+                    else{
+                        return nil
+                        }
+                return UIImage(cgImage: image)
+    }
+    
+    static func getDataFileManager(asset:PHAsset,completion: @escaping (Data?)->Void){
+        let options = PHContentEditingInputRequestOptions()
+        options.canHandleAdjustmentData = {(adjustmeta: PHAdjustmentData) -> Bool in
+                    return true
+                }
+        asset.requestContentEditingInput(with: options) { (value, info) in
+            if asset.mediaType == .image {
+                if let url = value?.fullSizeImageURL {
+                      do{
+                          let imageData = try Data(contentsOf: url)
+                          completion(imageData)
+                      }catch let e as NSError {
+                           completion(nil)
+                          print("ImageHelper - getDataFileManager:error -> ",e)
+                      }
+                }else { completion(nil) }
+            }else { completion(nil) }
+            if asset.mediaType == .video {
+                if let url = (value?.audiovisualAsset as? AVURLAsset)?.url {
+                      do{
+                          let imageData = try Data(contentsOf: url)
+                          completion(imageData)
+                      }catch let e as NSError {
+                           completion(nil)
+                          print("ImageHelper - getDataFileManager:error -> ",e)
+                      }
+                }else { completion(nil)   }
+            }else { completion(nil) }
+         
+        }
+    }
+
+
     
 }
 

@@ -15,7 +15,6 @@ class Guiso {
     private var mDiskCache = DiskCache("Guiso")
     private var mMemoryCacheGif = LRUCacheGif(10)
     private var mAssets = [PHAsset]()
-    private let mLock = NSLock()
     private init() {}
     
     public static func load(_ url: String) -> GuisoRequestBuilder{
@@ -29,9 +28,11 @@ class Guiso {
         return instance!
     }
     
+    func getExecutor() -> Executor {
+        return mExecutor
+    }
     
     func getAssets() -> [PHAsset]{
-      mLock.lock() ; defer { mLock.unlock() }
         if mAssets.isEmpty {
             mAssets = ImageHelper.allAssets()
         }

@@ -5,6 +5,7 @@
 //  Created by Juan J LF on 4/22/20.
 //
 
+
 import UIKit
 import Photos
 
@@ -77,7 +78,7 @@ class GuisoRequest : Runnable {
     
     func updateFileImage(){
             if mShouldTransform {
-                mLoader.updateTargetResizeManager()
+                mLoader.updateTargetResize()
             }else {
         
                 mLoader.updateTargetFullSize()
