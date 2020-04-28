@@ -17,29 +17,37 @@ import com.facebook.react.bridge.*
 import java.io.File
 class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context)  {
 
-    private val reactContext: ReactApplicationContext = context
+   private val reactContext: ReactApplicationContext = context
+    private val mListener = object : ActivityEventListener {
+        override fun onNewIntent(intent: Intent?) {
 
-    init {
-        reactContext.addActivityEventListener(object : ActivityEventListener {
-            override fun onNewIntent(intent: Intent?) {
+        }
 
-            }
-
-            override fun onActivityResult(activity: Activity?, requestCode: Int, resultCode: Int, data: Intent?) {
-                if(requestCode == 200 && resultCode == Activity.RESULT_OK){
-                    if(mPromise != null && data != null) {
-                        val status = data.getIntExtra("status", 0)
-                        mPromise?.resolve(status)
-                        mPromise  = null
-                    }
+        override fun onActivityResult(activity: Activity?, requestCode: Int, resultCode: Int, data: Intent?) {
+            if(requestCode == 200 && resultCode == Activity.RESULT_OK){
+                mPromise = if(mPromise != null && data != null) {
+                    val status = data.getIntExtra("status", 0)
+                    mPromise?.resolve(status)
+                    null
+                }else{
+                    mPromise?.resolve(0)
+                    null
                 }
+                reactContext.removeActivityEventListener(this)
             }
+        }
 
-        })
     }
+
     override fun getName(): String {
         return "PhotoKit"
     }
+
+    override fun getConstants(): MutableMap<String, Any> {
+        return mutableMapOf("jpeg" to 0,
+                "png" to 1)
+    }
+
 
     @ReactMethod
     fun isPermissionGranted(promise: Promise){
@@ -54,6 +62,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
     fun requestPermission(promise: Promise){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val i = Intent(reactContext, PermissionActivity::class.java)
+            reactContext.addActivityEventListener(mListener)
             reactContext.startActivityForResult(i,200, Bundle())
             mPromise = promise
         }else{
@@ -63,6 +72,49 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
 
 
     @ReactMethod
+    fun requestRaw(data:String?,promise: Promise){
+       val bytes = reactContext.contentResolver.openInputStream(Uri.parse(data))?.readBytes()
+        if (bytes != null && bytes.isNotEmpty()){
+            val str = android.util.Base64.encodeToString(bytes, android.util.Base64.DEFAULT)
+            promise.resolve(str)
+        }else{
+            promise.resolve(null)
+        }
+    }
+
+    @ReactMethod
+    fun requestPhoto(data:String?,width:Int,height:Int,format:Int,quality:Float,promise: Promise){
+        if(data!= null && data.isNotEmpty()){
+            val options = RequestOptions().fitCenter().frame(0L).override(width,height)
+
+            Glide.with(reactContext).asBitmap().load(data)
+                    .apply(options)
+                    .into(object: CustomTarget<Bitmap>(){
+                override fun onLoadCleared(placeholder: Drawable?) {}
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    val baos = ByteArrayOutputStream()
+                    val q = (100 * quality).toInt()
+                    if (format == 0){
+                        if(resource.compress(Bitmap.CompressFormat.JPEG, q, baos)){
+                            val bytes = baos.toByteArray()
+                            val str = android.util.Base64.encodeToString(bytes, android.util.Base64.DEFAULT)
+                            promise.resolve(str)
+                        }else promise.resolve(null)
+                    }else{
+                        if(resource.compress(Bitmap.CompressFormat.PNG, q, baos)){
+                            val bytes = baos.toByteArray()
+                            val str = android.util.Base64.encodeToString(bytes, android.util.Base64.DEFAULT)
+                            promise.resolve(str)
+                        }else promise.resolve(null)
+                    }
+                }
+            })
+        }else{
+            promise.resolve(null)
+        }
+    }
+
+    @ReactMethod
     fun fetchPhotosVideos( promise: Promise)  {
         Thread {
             try{
@@ -70,15 +122,8 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val albumsNames: ArrayList<String> = ArrayList()
 
-                val mediaProjection = arrayOf(
-                        MediaStore.Images.Media._ID,
-                        MediaStore.Images.Media.DATA,
-                        MediaStore.Images.Media.DATE_ADDED,
-                        MediaStore.Images.Media.DISPLAY_NAME
-
-                )
-                getGalleryPhotos(reactContext,mediaProjection,galleryAlbums,galleryMedia,albumsNames)
-                getGalleryVideos(reactContext,mediaProjection,galleryAlbums,galleryMedia,albumsNames)
+                getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames)
+                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames)
                 val resultAlbum = Arguments.createArray()
                 val resultMedia = Arguments.createArray()
                 for (a in galleryAlbums){
@@ -106,13 +151,8 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val albumsNames: ArrayList<String> = ArrayList()
-                val mediaProjection = arrayOf(
-                        MediaStore.Images.Media._ID,
-                        MediaStore.Images.Media.DATA,
-                        MediaStore.Images.Media.DATE_ADDED,
-                        MediaStore.Images.Media.DISPLAY_NAME
-                )
-                getGalleryPhotos(reactContext,mediaProjection,galleryAlbums,galleryMedia,albumsNames)
+
+                getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames)
                 val resultAlbum = Arguments.createArray()
                 val resultMedia = Arguments.createArray()
                 for (a in galleryAlbums){
@@ -139,14 +179,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val albumsNames: ArrayList<String> = ArrayList()
-
-                val mediaProjection = arrayOf(
-                        MediaStore.Video.Media._ID,
-                        MediaStore.Video.Media.DATA,
-                        MediaStore.Video.Media.DATE_ADDED,
-                        MediaStore.Video.Media.DISPLAY_NAME
-                )
-                getGalleryVideos(reactContext,mediaProjection,galleryAlbums,galleryMedia,albumsNames)
+                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames)
                 val resultAlbum = Arguments.createArray()
                 val resultMedia = Arguments.createArray()
                 for (a in galleryAlbums){
@@ -167,10 +200,16 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
         }.start()
     }
 
-    private fun getGalleryVideos(ctx: Context?, mediaProjection:Array<String>,
+    private fun getGalleryVideos(ctx: Context?,
                                  galleryAlbums: ArrayList<MutableMap<String,Any>>, galleryMedia:ArrayList<MutableMap<String,Any>>,
                                  albumsNames: ArrayList<String>){
         val videoQueryUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+            val mediaProjection = arrayOf(
+                    MediaStore.Video.Media._ID,
+                    MediaStore.Video.Media.DATA,
+                    MediaStore.Video.Media.DATE_ADDED,
+                    MediaStore.Video.Media.DISPLAY_NAME
+            )
         val videoCursor =
                 ctx?.contentResolver?.query(videoQueryUri, mediaProjection, null, null, null)
 
@@ -229,10 +268,17 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
         } else Log.e("PhotoKit", "getGalleryVideos:error Cursor is null or empty")
     }
 
-    private fun getGalleryPhotos(ctx: Context?, mediaProjection:Array<String>,
+    private fun getGalleryPhotos(ctx: Context?,
                                  galleryAlbums: ArrayList<MutableMap<String,Any>>, galleryMedia:ArrayList<MutableMap<String,Any>>,
                                  albumsNames: ArrayList<String>){
         val imagesQueryUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val mediaProjection = arrayOf(
+                MediaStore.Images.Media._ID,
+                MediaStore.Images.Media.DATA,
+                MediaStore.Images.Media.DATE_ADDED,
+                MediaStore.Images.Media.DISPLAY_NAME,
+                MediaStore.Images.Media.MIME_TYPE
+        )
         val imagesCursor =
                 ctx?.contentResolver?.query(imagesQueryUri, mediaProjection, null, null, null)
 
@@ -246,12 +292,14 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 val displayName =
                         imagesCursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME)
 
+                val mimeType = imagesCursor.getColumnIndex( MediaStore.Images.Media.MIME_TYPE)
+
                 do {
                     val id = imagesCursor.getString(idColumn)
                     val data = imagesCursor.getString(dataColumn)
                     val dateAdded = imagesCursor.getString(dateAddedColumn)
                     val nameWithFormat = imagesCursor.getString(displayName)
-
+                    val type = imagesCursor.getString(mimeType)
 
                     val media = mutableMapOf<String,Any>()
                     val uri  = Uri.withAppendedPath(imagesQueryUri, id)
@@ -262,7 +310,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                     media["duration"] = 0
                     media["height"] = metadata[1]
                     media["width"] = metadata[0]
-                    media["mediaType"] = "image"
+                    media["mediaType"] = if(type.contains("image/gif")) "gif" else "image"
                     media["data"] = uri.toString()
 
                     if (albumsNames.contains(media["albumName"] as String)) {
@@ -320,5 +368,6 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
         //milliSeg  1000 = 1 seg
         return intArrayOf(options.outWidth,options.outHeight)
     }
+
 
 }
