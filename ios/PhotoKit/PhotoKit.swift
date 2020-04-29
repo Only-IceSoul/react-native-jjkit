@@ -61,7 +61,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
        }
     
     @objc func fetchPhotos(_ resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
-
+        Guiso.get().getExecutor().doWork {
         var mAlbumList = [[String:Any]]()
         var mMediaList = [[String:Any]]()
 
@@ -164,6 +164,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
             }
         }
         resolve([mAlbumList,mMediaList])
+        }
 
     }
     

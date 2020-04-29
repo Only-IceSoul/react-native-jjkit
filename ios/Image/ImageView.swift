@@ -13,6 +13,8 @@ class ImageView: UIImageView , ViewTarget {
     
      init(){
        super.init(frame:.zero)
+        contentMode = .scaleAspectFill
+        clipsToBounds = true
     }
     
     private var mTagText = ""
