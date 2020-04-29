@@ -60,9 +60,9 @@ Preview: Use [Image](image.md)
 
 ## Get Data
 
-### Raw 
-
 byte array encoded to base64 String
+
+### Raw 
 
 ```javascript
 import { PhotoKit } from 'react-native-jjkit'
@@ -74,11 +74,6 @@ PhotoKit.requestRaw(Media.data).then(base64String => {
 
 
 ### Photo 
-
-byte array encoded to base64 String
-
-FitCenter 
-
 
 ```javascript
 import { PhotoKit } from 'react-native-jjkit'
