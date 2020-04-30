@@ -40,7 +40,7 @@ Preview: Use [Image](image.md)
 | name | album name | String | 
 | count |  the number of elements | Number | 
 | data | Path to the file, album cover | String | 
-| mediaType | "video" or "image" | String | 
+| mediaType | "video" - "image" - "gif" | String | 
 
 
 ### Media
@@ -51,7 +51,7 @@ Preview: Use [Image](image.md)
 | albumName | the album name | String | 
 | displayName | The display name of the file | String | 
 | data | Path to the file | String | 
-| mediaType | "video" or "image" | String | 
+| mediaType | "video" - "image" - "gif" | String | 
 | date |   android(Date added) ios(Modification Date) | Number | 
 | duration | the playback duration of the data source in seconds | Number | 
 | height | The height of the image/video in pixels. | Number | 
