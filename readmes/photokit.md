@@ -20,7 +20,7 @@ import { PhotoKit } from 'react-native-jjkit'
         console.log("albums: ",res[0])
         console.log("videos: ",res[1])
     })
-    PhotoKit.fetchPhotosVideos().then(res => {
+    PhotoKit.fetchAll().then(res => {
         console.log("albums: ",res[0])
         console.log("photosVideos: ",res[1])
     })
@@ -73,20 +73,20 @@ PhotoKit.requestRaw(Media.data).then(base64String => {
 ```
 
 
-### Photo 
+### Image 
 
 ```javascript
 import { PhotoKit } from 'react-native-jjkit'
 
 let request = {
-    data: Media.data,
-    widht: 1280,  //fitcenter
+    data: media.data,
+    width: 1280,  //fitcenter
     height: 1280,  // fitcenter
     quality : 0.8 //0.0 to 1  just jpeg
     format : PhotoKit.jpeg  // or png
 }
 
-PhotoKit.requestPhoto(request.data,request.width,request.height,request.format,request.quality)
+PhotoKit.requestImage(request)
 .then(base64String => {
     console.log("result : ",base64String)
 })

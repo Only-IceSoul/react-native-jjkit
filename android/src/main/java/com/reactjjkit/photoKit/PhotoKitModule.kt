@@ -90,11 +90,17 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
     }
 
     @ReactMethod
-    fun requestImage(data:String?,width:Int,height:Int,format:Int,quality:Float,promise: Promise){
-        if(data!= null && data.isNotEmpty()){
+    fun requestImage(data:ReadableMap?,promise: Promise){
+        val identifier = data?.getString("data")
+        val width = data?.getInt("width") ?: 500
+        val height = data?.getInt("height") ?: 500
+        val quality = data?.getDouble("quality") ?: 1.0
+        val format = data?.getInt("format") ?: 0
+
+        if(identifier!= null && identifier.isNotEmpty()){
             val options = RequestOptions().fitCenter().frame(0L).override(width,height)
 
-            Glide.with(reactContext).asBitmap().load(data)
+            Glide.with(reactContext).asBitmap().load(identifier)
                     .apply(options)
                     .into(object: CustomTarget<Bitmap>(){
                 override fun onLoadCleared(placeholder: Drawable?) {}
