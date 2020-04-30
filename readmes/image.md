@@ -4,21 +4,11 @@ An ImageView for url.
 
 ## **Freatures**
 
-### Android(Glide):
- 
-- [x] Memory cache
-- [x] Disk cache
-- [x] Resize(fitCenter)
-- [x] url local
-- [x] url Web
-- [x] Gif
-
-### IOS(Guiso):
 - [x] Memory cache
 - [x] Disk cache
 - [x] Resize(fitCenter)
 - [x] url local 
-- [x] url Web
+- [x] url Web (image/gif)
 - [x] Gif
 
 
@@ -57,6 +47,6 @@ An ImageView for url.
 ```javascript
   import { PhotoKit } from 'react-native-jjkit'
 
-        PhotoKit.clearMemoryCache()
+    PhotoKit.clearMemoryCache()
 
 ```
