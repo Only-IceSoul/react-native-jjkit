@@ -90,7 +90,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
     }
 
     @ReactMethod
-    fun requestPhoto(data:String?,width:Int,height:Int,format:Int,quality:Float,promise: Promise){
+    fun requestImage(data:String?,width:Int,height:Int,format:Int,quality:Float,promise: Promise){
         if(data!= null && data.isNotEmpty()){
             val options = RequestOptions().fitCenter().frame(0L).override(width,height)
 
@@ -122,7 +122,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
     }
 
     @ReactMethod
-    fun fetchPhotosVideos( promise: Promise)  {
+    fun fetchAll( promise: Promise)  {
         Thread {
             try{
                 val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()

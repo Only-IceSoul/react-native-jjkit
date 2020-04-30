@@ -257,7 +257,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
   
        
 
-    @objc func fetchPhotosVideos(_ resolve: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock){
+    @objc func fetchAll(_ resolve: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock){
     Guiso.get().getExecutor().doWork {
         var mAlbumList = [[String:Any]]()
         var mMediaList = [[String:Any]]()
@@ -416,7 +416,15 @@ class PhotoKit : NSObject, RCTBridgeModule {
          }else { resolve(nil) }
      }
  
-    @objc func requestPhoto(_ identifier:String?,width:Int,height:Int,format:Int,quality:CGFloat, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
+    @objc func requestImage(_ data:[String:Any]?, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
+        
+            let identifier = data?["data"] as? String
+              let width = data?["width"] as? Int ?? 500
+              let height = data?["height"] as? Int ?? 500
+              let format = data?["format"] as? Int ?? 0
+              let quality = data?["quality"] as? CGFloat ?? 1
+        
+             
             if identifier != nil && !identifier!.isEmpty{
             
                Guiso.get().getExecutor().doWork {
