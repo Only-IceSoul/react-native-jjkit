@@ -17,19 +17,19 @@ An ImageView for url.
 ```javascript
   import { Image } from 'react-native-jjkit'
 
-  const thumbnail = {
+  const resized = {
       url: "Path to the file",
-      type: "video" or "image" or "gif", //if u just need a thumbnail for gif, use image 
+      asGif: false // static or animated gif.
       width: 200, 
       height: 200,
       cache: true // memory cache
   }
   const original = {
       url: "Path to the file ",
-      type: "video" or "image" or "gif" , //if u just need a thumbnail for gif, use image
-      width: -1, //original size need w -1 and h -1
-      height: -1,  
-      cache: true // memory cache
+      asGif: false
+      width: -1, 
+      height: -1, 
+      cache: true 
   }
 
   //preview Scale 
@@ -37,7 +37,7 @@ An ImageView for url.
   // 0  CenterCrop - scaleAspectFill (default)
   // 1  fitCenter - scaleAspectFit
 
-  <Image data={thumbnail} scaleType={myScaleType} >
+  <Image data={resized} scaleType={myScaleType} >
 
 ```
 

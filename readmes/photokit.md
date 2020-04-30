@@ -86,7 +86,8 @@ let request = {
     format : PhotoKit.jpeg  // or png
 }
 
-PhotoKit.requestPhoto(request.data,request.width,request.height,request.format,request.quality).then(base64String => {
+PhotoKit.requestPhoto(request.data,request.width,request.height,request.format,request.quality)
+.then(base64String => {
     console.log("result : ",base64String)
 })
 ```
