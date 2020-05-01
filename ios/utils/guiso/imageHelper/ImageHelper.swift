@@ -239,10 +239,9 @@ class ImageHelper {
         
     }
     
-    static func getVideoThumbnail(url:URL,second:Double) -> UIImage? {
-       
-        let vidURL = URL(fileURLWithPath:url.path)
-        let asset = AVURLAsset(url: vidURL)
+    static func getVideoThumbnail(videoUrl:URL,second:Double) -> UIImage? {
+    
+        let asset = AVURLAsset(url: videoUrl)
   
         
         let generator = AVAssetImageGenerator(asset: asset)
@@ -257,7 +256,7 @@ class ImageHelper {
         }
         catch (let error as NSError)
         {
-            print("ImageHelper:error - getVideoThumbnail -> Image generation path: \(vidURL.path) -  failed with error: \(error)")
+            print("ImageHelper:error - getVideoThumbnail -> Image generation path: \(videoUrl.path) -  failed with error: \(error)")
             return nil
 
         }
@@ -312,11 +311,9 @@ class ImageHelper {
         return nil
       }
       
-    static func getAudioArtWrokFile(_ file:URL) -> UIImage? {
+    static func getAudioArtWrokFile(_ audioUrl:URL) -> UIImage? {
         
-          let file = file.path.replacingOccurrences(of: "file://", with: "")
-           let vidURL = URL(fileURLWithPath:file)
-           let asset = AVURLAsset(url: vidURL)
+           let asset = AVURLAsset(url: audioUrl)
      
         var result : UIImage? = nil
            
@@ -545,9 +542,26 @@ extension ImageHelper {
     
         let gif = Gif()
        let count = CGImageSourceGetCount(source)
+        
+        let cfProperties = CGImageSourceCopyProperties(source,nil)
+        let gifProperties: CFDictionary = unsafeBitCast(
+         CFDictionaryGetValue(cfProperties,
+             Unmanaged.passUnretained(kCGImagePropertyGIFDictionary).toOpaque()),
+         to: CFDictionary.self)
+
+        let loopCount: AnyObject? = unsafeBitCast(
+         CFDictionaryGetValue(gifProperties,
+             Unmanaged.passUnretained(kCGImagePropertyGIFLoopCount).toOpaque()),
+         to: AnyObject.self)
+
+        gif.loopCount = 0
+        if let num = loopCount as? NSNumber {
+          gif.loopCount = num.intValue
+        }
+          
+        
+        
        var images = [CGImage]()
-
-
        for i in 0..<count {
           if let image = CGImageSourceCreateImageAtIndex(source, i, nil) {
             var transform: CGImage!

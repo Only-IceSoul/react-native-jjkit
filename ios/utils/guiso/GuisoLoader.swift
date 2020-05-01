@@ -50,13 +50,7 @@ class GuisoLoader {
     func getIdentifier() -> String {
         return self.mTarget!.getIdentifier()
     }
-    
 
-    
-    func getImageWidth(data: Data) -> UIImage? {
-        return UIImage(data: data)
-    }
-    
     
     func updateTargetResize(){
         if let asset = getAsset(identifier: mUrl){
@@ -221,7 +215,7 @@ class GuisoLoader {
                 return
             }
             if data != nil {
-                if let fullSize = self.getImageWidth(data: data!){
+                if let fullSize = UIImage(data: data!){
                     if let resized = self.resizeImage(fullSize){
                         self.displayInTarget(resized)
                         if self.mMemoryCache { self.saveToMemoryCache(resized) }
@@ -242,7 +236,7 @@ class GuisoLoader {
                 return
             }
             if data != nil {
-                if let fullSize = self.getImageWidth(data: data!){
+                if let fullSize = UIImage(data: data!){
                     self.displayInTarget(fullSize)
                     if self.mMemoryCache { self.saveToMemoryCache(fullSize) }
                     self.saveToDiskCache(fullSize)
@@ -251,7 +245,99 @@ class GuisoLoader {
         }.resume()
     }
    
+    func updateTargetResizeFile(){
+        guard let url = URL(string: mUrl),
+            let data = try? Data(contentsOf: url),
+            let fullSize = UIImage(data: data),
+            let resized = self.resizeImage(fullSize)
+        else { onLoadFailed()
+                return
+        }
+        self.displayInTarget(resized)
+       if self.mMemoryCache { self.saveToMemoryCache(resized) }
+       self.saveToDiskCache(resized)
+    }
+    func updateTargetFullSizeFile(){
+        guard let url = URL(string: mUrl),
+              let data = try? Data(contentsOf: url),
+              let fullSize = UIImage(data: data)
+          else { onLoadFailed()
+                  return
+          }
+          self.displayInTarget(fullSize)
+         if self.mMemoryCache { self.saveToMemoryCache(fullSize) }
+         //self.saveToDiskCache(fullSize)
+    }
+    func updateTargetResizeFileVideo(){
+        guard let url = URL(string: mUrl),
+            let fullSize = ImageHelper.getVideoThumbnail(videoUrl: url, second: mSecond),
+            let resized = self.resizeImage(fullSize)
+         else { self.onLoadFailed()
+                    return
+             }
+        self.displayInTarget(resized)
+        if self.mMemoryCache { self.saveToMemoryCache(resized) }
+        self.saveToDiskCache(resized)
+    }
+    func updateTargetFullSizeFileVideo(){
+        guard let url = URL(string: mUrl),
+           let fullSize = ImageHelper.getVideoThumbnail(videoUrl: url, second: mSecond)
+        else { self.onLoadFailed()
+                   return
+            }
+       self.displayInTarget(fullSize)
+       if self.mMemoryCache { self.saveToMemoryCache(fullSize) }
+       // self.saveToDiskCache(fullSize)
+    }
 
+    func updateTargetResizeFileAudio(){
+        guard let url = URL(string: mUrl),
+             let fullSize = ImageHelper.getAudioArtWrokFile(url),
+            let resized = self.resizeImage(fullSize)
+          else { self.onLoadFailed()
+                     return
+              }
+         self.displayInTarget(resized)
+         if self.mMemoryCache { self.saveToMemoryCache(resized) }
+         self.saveToDiskCache(resized)
+    }
+    func updateTargetFullSizeFileAudio(){
+        guard let url = URL(string: mUrl),
+            let fullSize = ImageHelper.getAudioArtWrokFile(url)
+        else { self.onLoadFailed()
+               return
+        }
+        self.displayInTarget(fullSize)
+        if self.mMemoryCache { self.saveToMemoryCache(fullSize) }
+       // self.saveToDiskCache(fullSize)
+    }
+    
+    func updateTargetResizeFileGif(){
+        guard let url = URL(string: mUrl),
+          let data = try? Data(contentsOf: url),
+            let gif = ImageHelper.makeGif(data, mReqW, mReqH, mScaleType,lanczos: self.mLanczos)
+        else { self.onLoadFailed()
+             return
+        }
+         let gifDrawable = ImageHelper.getGifDrawable(gif)
+        self.displayInTarget(gifDrawable)
+        if self.mMemoryCache { self.saveToMemoryCache(gifDrawable) }
+        self.saveToDiskCache(gif)
+    }
+    func updateTargetFullSizeFileGif(){
+        guard let url = URL(string: mUrl),
+            let data = try? Data(contentsOf: url),
+            let gif = ImageHelper.makeGif(data)
+        else { self.onLoadFailed()
+            return
+        }
+        let gifDrawable = ImageHelper.getGifDrawable(gif)
+        self.displayInTarget(gifDrawable)
+        if self.mMemoryCache { self.saveToMemoryCache(gifDrawable) }
+        //self.saveToDiskCache(gif)
+    }
+    
+    
     func saveToMemoryCache(_ img:UIImage?){
          if img == nil { return  }
          let cache = Guiso.get().getMemoryCache()

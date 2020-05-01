@@ -50,7 +50,6 @@ class GifLayer : CALayer {
      }
      
      private var index = 0
-    private var mCurrentTime = 0
     private var mFrameRate = 0
     private var mFrameInterval = 0
     private var mCurrentFrame = 1

@@ -30,33 +30,47 @@ class GuisoRequest : Runnable {
         if !mLoader.checkIfNeedIgnore() {
             mLoader.updateIdentifier()
             if !mLoader.updateImageFromCache()  {
-                if mUrl.isValidWebUrl() && !mUrl.contains("ipod-library") {
-                     switch mMediaType {
-                         case .gif:
-                             updateWebGif()
-                         default:
-                             updateWebImage()
-                     }
-                }else {
+                
+                if isWeb() {
+                    if mMediaType == .gif{
+                        updateWebGif()
+                    }else{
+                        updateWebImage()
+                    }
+                }else if isFile() {
                     if mMediaType == .gif {
-                        updateFileGif()
+                         updateFileGif()
+                   }else {
+                        switch getFileMediaType() {
+                        case .audio:
+                            updateFileAudio()
+                        case .video:
+                            updateFileVideo()
+                        default:
+                            updateFileImage()
+                        }
+                    }
+                }else{
+                    if mMediaType == .gif {
+                        updateGif()
                     }else {
-                        if mUrl.contains("ipod-library"){
-                             updateFileAudio()
+                        if isIpod() {
+                             updateAudio()
                         }else{
                             switch getAssetMediaType() {
                                 case .video:
-                                    updateFileVideo()
+                                    updateVideo()
                                 default:
-                                    updateFileImage()
+                                    updateImage()
                             }
                         }
                     }
                     
                 }
+             
                 
-            }
-        }
+            } //cache
+        } // checkignore
     }
     
     func getAssetMediaType() -> Guiso.MediaType {
@@ -76,7 +90,7 @@ class GuisoRequest : Runnable {
     }
   
     
-    func updateFileImage(){
+    func updateImage(){
             if mShouldTransform {
                 mLoader.updateTargetResize()
             }else {
@@ -86,7 +100,7 @@ class GuisoRequest : Runnable {
     }
     
 
-    func updateFileVideo(){
+    func updateVideo(){
             if mShouldTransform {
                 mLoader.updateTargetResizeVideo()
             }else {
@@ -94,14 +108,14 @@ class GuisoRequest : Runnable {
             }
     }
     
-    func updateFileGif(){
+    func updateGif(){
         if mShouldTransform {
            mLoader.updateTargetResizeGif()
        }else {
           mLoader.updateTargetFullSizeGif()
        }
     }
-    func updateFileAudio(){
+    func updateAudio(){
         if mShouldTransform {
            mLoader.updateTargetResizeAudio()
        }else {
@@ -125,7 +139,63 @@ class GuisoRequest : Runnable {
         }
     }
     
+    func updateFileGif(){
+        if mShouldTransform {
+            mLoader.updateTargetResizeFileGif()
+        }else {
+            mLoader.updateTargetFullSizeFileGif()
+        }
+    }
+    func updateFileVideo(){
+        if mShouldTransform {
+             mLoader.updateTargetResizeFileVideo()
+         }else {
+             mLoader.updateTargetFullSizeFileVideo()
+         }
+    }
+    func updateFileAudio(){
+        if mShouldTransform {
+            mLoader.updateTargetResizeFileAudio()
+        }else {
+            mLoader.updateTargetFullSizeFileAudio()
+        }
+    }
+    func updateFileImage(){
+        if mShouldTransform {
+          mLoader.updateTargetResizeFile()
+        }else {
+          mLoader.updateTargetFullSizeFile()
+        }
+    }
+    
   
+    private func isIpod() -> Bool {
+        return mUrl.contains("ipod-library")
+    }
+    
+    private func isWeb() -> Bool {
+        return  mUrl.isValidWebUrl() && !mUrl.contains("ipod-library") && !mUrl.contains("file://")
+    }
          
+    private func isFile() -> Bool {
+        return mUrl.contains("file://")
+    }
+    
+    private func getFileMediaType() -> Guiso.MediaType{
+        var result = Guiso.MediaType.image
+        if let url = URL(string: mUrl){
+            if url.isMimeTypeImage {
+                result = .image
+            }else if url.isMimeTypeVideo {
+                result = .video
+            }else if url.isMimeTypeAudio {
+                result = .audio
+            }else {
+                result = .image
+            }
+        }
+        return result
+    }
+    
     
 }

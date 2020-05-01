@@ -7,29 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D00895DC245BA4C000A3215B /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895D8245BA4BF00A3215B /* LRUCache.swift */; };
+		D00895DD245BA4C000A3215B /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895D9245BA4BF00A3215B /* LinkedList.swift */; };
+		D00895DE245BA4C000A3215B /* LRUCacheGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895DA245BA4BF00A3215B /* LRUCacheGif.swift */; };
+		D00895DF245BA4C000A3215B /* DiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895DB245BA4C000A3215B /* DiskCache.swift */; };
+		D00895E2245BA4C900A3215B /* Runnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895E0245BA4C900A3215B /* Runnable.swift */; };
+		D00895E3245BA4C900A3215B /* Executor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895E1245BA4C900A3215B /* Executor.swift */; };
+		D00895E9245BA4DF00A3215B /* GuisoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895E4245BA4DE00A3215B /* GuisoRequest.swift */; };
+		D00895EA245BA4DF00A3215B /* extension_URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895E5245BA4DE00A3215B /* extension_URL.swift */; };
+		D00895EB245BA4DF00A3215B /* GuisoLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895E6245BA4DE00A3215B /* GuisoLoader.swift */; };
+		D00895EC245BA4DF00A3215B /* GuisoRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895E7245BA4DE00A3215B /* GuisoRequestBuilder.swift */; };
+		D00895ED245BA4DF00A3215B /* Guiso.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895E8245BA4DE00A3215B /* Guiso.swift */; };
+		D00895F2245BA4EA00A3215B /* GifLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895EE245BA4EA00A3215B /* GifLayer.swift */; };
+		D00895F3245BA4EA00A3215B /* WeakTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895EF245BA4EA00A3215B /* WeakTimer.swift */; };
+		D00895F4245BA4EA00A3215B /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895F0245BA4EA00A3215B /* ImageHelper.swift */; };
+		D00895F5245BA4EA00A3215B /* extension_Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895F1245BA4EA00A3215B /* extension_Resize.swift */; };
+		D00895FB245BA50000A3215B /* GifDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895F7245BA50000A3215B /* GifDrawable.swift */; };
+		D00895FC245BA50000A3215B /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895F8245BA50000A3215B /* Key.swift */; };
+		D00895FD245BA50000A3215B /* GIf.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895F9245BA50000A3215B /* GIf.swift */; };
+		D00895FE245BA50000A3215B /* ViewTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895FA245BA50000A3215B /* ViewTarget.swift */; };
 		D01D1CA5244A5A6C00E0C8D1 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CA4244A5A6C00E0C8D1 /* Badge.swift */; };
 		D01D1CA8244A5A7800E0C8D1 /* Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CA7244A5A7800E0C8D1 /* Badge.m */; };
 		D01D1CAA244A5A8200E0C8D1 /* BadgeShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CA9244A5A8200E0C8D1 /* BadgeShadowView.swift */; };
 		D01D1CAC244A5A8900E0C8D1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CAB244A5A8900E0C8D1 /* BadgeView.swift */; };
 		D01D1CBC244A623F00E0C8D1 /* extension_AttrString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */; };
-		D021B29A245674840085F417 /* GuisoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B296245674830085F417 /* GuisoRequest.swift */; };
-		D021B29B245674840085F417 /* Guiso.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B297245674840085F417 /* Guiso.swift */; };
-		D021B29C245674840085F417 /* GuisoRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B298245674840085F417 /* GuisoRequestBuilder.swift */; };
-		D021B29D245674840085F417 /* GuisoLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B299245674840085F417 /* GuisoLoader.swift */; };
-		D021B2A3245674A70085F417 /* Runnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2A1245674A70085F417 /* Runnable.swift */; };
-		D021B2A4245674A70085F417 /* Executor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2A2245674A70085F417 /* Executor.swift */; };
-		D021B2A9245674B50085F417 /* DiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2A5245674B40085F417 /* DiskCache.swift */; };
-		D021B2AA245674B50085F417 /* LRUCacheGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2A6245674B40085F417 /* LRUCacheGif.swift */; };
-		D021B2AB245674B50085F417 /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2A7245674B50085F417 /* LRUCache.swift */; };
-		D021B2AC245674B50085F417 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2A8245674B50085F417 /* LinkedList.swift */; };
-		D021B2B1245674CB0085F417 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2AD245674CA0085F417 /* ImageHelper.swift */; };
-		D021B2B2245674CB0085F417 /* extension_Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2AE245674CA0085F417 /* extension_Resize.swift */; };
-		D021B2B3245674CB0085F417 /* WeakTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2AF245674CB0085F417 /* WeakTimer.swift */; };
-		D021B2B4245674CB0085F417 /* GifLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2B0245674CB0085F417 /* GifLayer.swift */; };
-		D021B2BA245674D80085F417 /* ViewTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2B6245674D80085F417 /* ViewTarget.swift */; };
-		D021B2BB245674D80085F417 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2B7245674D80085F417 /* Key.swift */; };
-		D021B2BC245674D80085F417 /* GIf.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2B8245674D80085F417 /* GIf.swift */; };
-		D021B2BD245674D80085F417 /* GifDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2B9245674D80085F417 /* GifDrawable.swift */; };
 		D021B2C12456754C0085F417 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2C02456754C0085F417 /* ImageView.swift */; };
 		D021B2C3245675CA0085F417 /* extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2C2245675CA0085F417 /* extension_String.swift */; };
 		D087E1FD24588AD9001C8C7E /* PhotoKit.m in Sources */ = {isa = PBXBuildFile; fileRef = D087E1FB24588AD8001C8C7E /* PhotoKit.m */; };
@@ -72,29 +73,30 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libJjkit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJjkit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D00895D8245BA4BF00A3215B /* LRUCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
+		D00895D9245BA4BF00A3215B /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
+		D00895DA245BA4BF00A3215B /* LRUCacheGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCacheGif.swift; sourceTree = "<group>"; };
+		D00895DB245BA4C000A3215B /* DiskCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCache.swift; sourceTree = "<group>"; };
+		D00895E0245BA4C900A3215B /* Runnable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Runnable.swift; sourceTree = "<group>"; };
+		D00895E1245BA4C900A3215B /* Executor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Executor.swift; sourceTree = "<group>"; };
+		D00895E4245BA4DE00A3215B /* GuisoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequest.swift; sourceTree = "<group>"; };
+		D00895E5245BA4DE00A3215B /* extension_URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_URL.swift; sourceTree = "<group>"; };
+		D00895E6245BA4DE00A3215B /* GuisoLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoLoader.swift; sourceTree = "<group>"; };
+		D00895E7245BA4DE00A3215B /* GuisoRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequestBuilder.swift; sourceTree = "<group>"; };
+		D00895E8245BA4DE00A3215B /* Guiso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guiso.swift; sourceTree = "<group>"; };
+		D00895EE245BA4EA00A3215B /* GifLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifLayer.swift; sourceTree = "<group>"; };
+		D00895EF245BA4EA00A3215B /* WeakTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakTimer.swift; sourceTree = "<group>"; };
+		D00895F0245BA4EA00A3215B /* ImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
+		D00895F1245BA4EA00A3215B /* extension_Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_Resize.swift; sourceTree = "<group>"; };
+		D00895F7245BA50000A3215B /* GifDrawable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifDrawable.swift; sourceTree = "<group>"; };
+		D00895F8245BA50000A3215B /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		D00895F9245BA50000A3215B /* GIf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIf.swift; sourceTree = "<group>"; };
+		D00895FA245BA50000A3215B /* ViewTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewTarget.swift; sourceTree = "<group>"; };
 		D01D1CA4244A5A6C00E0C8D1 /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		D01D1CA7244A5A7800E0C8D1 /* Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Badge.m; sourceTree = "<group>"; };
 		D01D1CA9244A5A8200E0C8D1 /* BadgeShadowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeShadowView.swift; sourceTree = "<group>"; };
 		D01D1CAB244A5A8900E0C8D1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_AttrString.swift; sourceTree = "<group>"; };
-		D021B296245674830085F417 /* GuisoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequest.swift; sourceTree = "<group>"; };
-		D021B297245674840085F417 /* Guiso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guiso.swift; sourceTree = "<group>"; };
-		D021B298245674840085F417 /* GuisoRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequestBuilder.swift; sourceTree = "<group>"; };
-		D021B299245674840085F417 /* GuisoLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoLoader.swift; sourceTree = "<group>"; };
-		D021B2A1245674A70085F417 /* Runnable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Runnable.swift; sourceTree = "<group>"; };
-		D021B2A2245674A70085F417 /* Executor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Executor.swift; sourceTree = "<group>"; };
-		D021B2A5245674B40085F417 /* DiskCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCache.swift; sourceTree = "<group>"; };
-		D021B2A6245674B40085F417 /* LRUCacheGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCacheGif.swift; sourceTree = "<group>"; };
-		D021B2A7245674B50085F417 /* LRUCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
-		D021B2A8245674B50085F417 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
-		D021B2AD245674CA0085F417 /* ImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
-		D021B2AE245674CA0085F417 /* extension_Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_Resize.swift; sourceTree = "<group>"; };
-		D021B2AF245674CB0085F417 /* WeakTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakTimer.swift; sourceTree = "<group>"; };
-		D021B2B0245674CB0085F417 /* GifLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifLayer.swift; sourceTree = "<group>"; };
-		D021B2B6245674D80085F417 /* ViewTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewTarget.swift; sourceTree = "<group>"; };
-		D021B2B7245674D80085F417 /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
-		D021B2B8245674D80085F417 /* GIf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIf.swift; sourceTree = "<group>"; };
-		D021B2B9245674D80085F417 /* GifDrawable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifDrawable.swift; sourceTree = "<group>"; };
 		D021B2C02456754C0085F417 /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		D021B2C2245675CA0085F417 /* extension_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_String.swift; sourceTree = "<group>"; };
 		D087E1FB24588AD8001C8C7E /* PhotoKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoKit.m; sourceTree = "<group>"; };
@@ -158,6 +160,49 @@
 			);
 			sourceTree = "<group>";
 		};
+		D00895D5245BA49200A3215B /* cache */ = {
+			isa = PBXGroup;
+			children = (
+				D00895DB245BA4C000A3215B /* DiskCache.swift */,
+				D00895D9245BA4BF00A3215B /* LinkedList.swift */,
+				D00895D8245BA4BF00A3215B /* LRUCache.swift */,
+				D00895DA245BA4BF00A3215B /* LRUCacheGif.swift */,
+			);
+			path = cache;
+			sourceTree = "<group>";
+		};
+		D00895D6245BA49700A3215B /* executor */ = {
+			isa = PBXGroup;
+			children = (
+				D00895E1245BA4C900A3215B /* Executor.swift */,
+				D00895E0245BA4C900A3215B /* Runnable.swift */,
+			);
+			path = executor;
+			sourceTree = "<group>";
+		};
+		D00895D7245BA4AF00A3215B /* imageHelper */ = {
+			isa = PBXGroup;
+			children = (
+				D00895E5245BA4DE00A3215B /* extension_URL.swift */,
+				D00895F1245BA4EA00A3215B /* extension_Resize.swift */,
+				D00895EE245BA4EA00A3215B /* GifLayer.swift */,
+				D00895F0245BA4EA00A3215B /* ImageHelper.swift */,
+				D00895EF245BA4EA00A3215B /* WeakTimer.swift */,
+			);
+			path = imageHelper;
+			sourceTree = "<group>";
+		};
+		D00895F6245BA4F800A3215B /* models */ = {
+			isa = PBXGroup;
+			children = (
+				D00895F9245BA50000A3215B /* GIf.swift */,
+				D00895F7245BA50000A3215B /* GifDrawable.swift */,
+				D00895F8245BA50000A3215B /* Key.swift */,
+				D00895FA245BA50000A3215B /* ViewTarget.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
 		D01D1CA3244A5A4B00E0C8D1 /* Badge */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,58 +217,16 @@
 		D021B295245674740085F417 /* guiso */ = {
 			isa = PBXGroup;
 			children = (
-				D021B2B5245674CF0085F417 /* models */,
-				D021B2A0245674970085F417 /* imageHelper */,
-				D021B29F245674900085F417 /* cache */,
-				D021B29E245674890085F417 /* executor */,
-				D021B297245674840085F417 /* Guiso.swift */,
-				D021B299245674840085F417 /* GuisoLoader.swift */,
-				D021B296245674830085F417 /* GuisoRequest.swift */,
-				D021B298245674840085F417 /* GuisoRequestBuilder.swift */,
+				D00895F6245BA4F800A3215B /* models */,
+				D00895E8245BA4DE00A3215B /* Guiso.swift */,
+				D00895E6245BA4DE00A3215B /* GuisoLoader.swift */,
+				D00895E4245BA4DE00A3215B /* GuisoRequest.swift */,
+				D00895E7245BA4DE00A3215B /* GuisoRequestBuilder.swift */,
+				D00895D7245BA4AF00A3215B /* imageHelper */,
+				D00895D6245BA49700A3215B /* executor */,
+				D00895D5245BA49200A3215B /* cache */,
 			);
 			path = guiso;
-			sourceTree = "<group>";
-		};
-		D021B29E245674890085F417 /* executor */ = {
-			isa = PBXGroup;
-			children = (
-				D021B2A2245674A70085F417 /* Executor.swift */,
-				D021B2A1245674A70085F417 /* Runnable.swift */,
-			);
-			path = executor;
-			sourceTree = "<group>";
-		};
-		D021B29F245674900085F417 /* cache */ = {
-			isa = PBXGroup;
-			children = (
-				D021B2A5245674B40085F417 /* DiskCache.swift */,
-				D021B2A8245674B50085F417 /* LinkedList.swift */,
-				D021B2A7245674B50085F417 /* LRUCache.swift */,
-				D021B2A6245674B40085F417 /* LRUCacheGif.swift */,
-			);
-			path = cache;
-			sourceTree = "<group>";
-		};
-		D021B2A0245674970085F417 /* imageHelper */ = {
-			isa = PBXGroup;
-			children = (
-				D021B2AE245674CA0085F417 /* extension_Resize.swift */,
-				D021B2B0245674CB0085F417 /* GifLayer.swift */,
-				D021B2AD245674CA0085F417 /* ImageHelper.swift */,
-				D021B2AF245674CB0085F417 /* WeakTimer.swift */,
-			);
-			path = imageHelper;
-			sourceTree = "<group>";
-		};
-		D021B2B5245674CF0085F417 /* models */ = {
-			isa = PBXGroup;
-			children = (
-				D021B2B8245674D80085F417 /* GIf.swift */,
-				D021B2B9245674D80085F417 /* GifDrawable.swift */,
-				D021B2B7245674D80085F417 /* Key.swift */,
-				D021B2B6245674D80085F417 /* ViewTarget.swift */,
-			);
-			path = models;
 			sourceTree = "<group>";
 		};
 		D040C033244E787400103477 /* PhotoKit */ = {
@@ -360,53 +363,54 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0BED1E4243AE49800881A99 /* ClipRectView.m in Sources */,
-				D021B29C245674840085F417 /* GuisoRequestBuilder.swift in Sources */,
 				D0AFDFDF244F8C0D00377C58 /* Image.swift in Sources */,
+				D00895EB245BA4DF00A3215B /* GuisoLoader.swift in Sources */,
 				D0BED1ED243AE4A100881A99 /* extension_UIColor.swift in Sources */,
-				D021B29B245674840085F417 /* Guiso.swift in Sources */,
-				D021B2BC245674D80085F417 /* GIf.swift in Sources */,
-				D021B2B1245674CB0085F417 /* ImageHelper.swift in Sources */,
 				D0F98D692443DAC6001CF3DA /* JJScreen.swift in Sources */,
-				D021B2AC245674B50085F417 /* LinkedList.swift in Sources */,
-				D021B2AB245674B50085F417 /* LRUCache.swift in Sources */,
-				D021B2A4245674A70085F417 /* Executor.swift in Sources */,
 				D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */,
+				D00895E9245BA4DF00A3215B /* GuisoRequest.swift in Sources */,
+				D00895FE245BA50000A3215B /* ViewTarget.swift in Sources */,
+				D00895DF245BA4C000A3215B /* DiskCache.swift in Sources */,
 				D0F98D6C2443DAC6001CF3DA /* JJLabelUI.swift in Sources */,
+				D00895ED245BA4DF00A3215B /* Guiso.swift in Sources */,
 				D0F98D602443DA71001CF3DA /* Toast.swift in Sources */,
-				D021B29A245674840085F417 /* GuisoRequest.swift in Sources */,
+				D00895DC245BA4C000A3215B /* LRUCache.swift in Sources */,
+				D00895EC245BA4DF00A3215B /* GuisoRequestBuilder.swift in Sources */,
 				D0BED1E5243AE49800881A99 /* LayerClip.swift in Sources */,
-				D021B2A3245674A70085F417 /* Runnable.swift in Sources */,
 				D0BED1DD243AE49100881A99 /* CircleProgressView.swift in Sources */,
-				D021B29D245674840085F417 /* GuisoLoader.swift in Sources */,
 				D021B2C3245675CA0085F417 /* extension_String.swift in Sources */,
+				D00895F2245BA4EA00A3215B /* GifLayer.swift in Sources */,
 				D0BED1EC243AE4A100881A99 /* extension_UIBezierPath.swift in Sources */,
 				D01D1CA5244A5A6C00E0C8D1 /* Badge.swift in Sources */,
 				D0F98D702443DAD8001CF3DA /* extension_UIView.swift in Sources */,
-				D021B2A9245674B50085F417 /* DiskCache.swift in Sources */,
+				D00895F3245BA4EA00A3215B /* WeakTimer.swift in Sources */,
 				D021B2C12456754C0085F417 /* ImageView.swift in Sources */,
-				D021B2B3245674CB0085F417 /* WeakTimer.swift in Sources */,
 				D01D1CA8244A5A7800E0C8D1 /* Badge.m in Sources */,
+				D00895FC245BA50000A3215B /* Key.swift in Sources */,
 				D01D1CAA244A5A8200E0C8D1 /* BadgeShadowView.swift in Sources */,
-				D021B2BD245674D80085F417 /* GifDrawable.swift in Sources */,
-				D021B2BB245674D80085F417 /* Key.swift in Sources */,
-				D021B2AA245674B50085F417 /* LRUCacheGif.swift in Sources */,
-				D021B2BA245674D80085F417 /* ViewTarget.swift in Sources */,
 				D01D1CBC244A623F00E0C8D1 /* extension_AttrString.swift in Sources */,
 				D087E1FD24588AD9001C8C7E /* PhotoKit.m in Sources */,
+				D00895E2245BA4C900A3215B /* Runnable.swift in Sources */,
+				D00895DE245BA4C000A3215B /* LRUCacheGif.swift in Sources */,
 				D0BED1E3243AE49800881A99 /* ClipRectView.swift in Sources */,
 				D01D1CAC244A5A8900E0C8D1 /* BadgeView.swift in Sources */,
 				D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */,
-				D021B2B4245674CB0085F417 /* GifLayer.swift in Sources */,
 				D0BED1DC243AE49100881A99 /* LayerCircleProgress.swift in Sources */,
-				D021B2B2245674CB0085F417 /* extension_Resize.swift in Sources */,
 				D0AFDFDE244F8C0D00377C58 /* Image.m in Sources */,
 				D0F98D6B2443DAC6001CF3DA /* ToastManager.swift in Sources */,
+				D00895E3245BA4C900A3215B /* Executor.swift in Sources */,
 				D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */,
 				D087E1FE24588AD9001C8C7E /* PhotoKit.swift in Sources */,
 				D0F98D6A2443DAC6001CF3DA /* JJLabel.swift in Sources */,
+				D00895FB245BA50000A3215B /* GifDrawable.swift in Sources */,
 				D0F98D622443DA79001CF3DA /* Toast.m in Sources */,
+				D00895F5245BA4EA00A3215B /* extension_Resize.swift in Sources */,
+				D00895FD245BA50000A3215B /* GIf.swift in Sources */,
 				D0BED1DB243AE49100881A99 /* CircleProgressView.m in Sources */,
+				D00895DD245BA4C000A3215B /* LinkedList.swift in Sources */,
 				D0BED1E6243AE49800881A99 /* ClipRect.swift in Sources */,
+				D00895EA245BA4DF00A3215B /* extension_URL.swift in Sources */,
+				D00895F4245BA4EA00A3215B /* ImageHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

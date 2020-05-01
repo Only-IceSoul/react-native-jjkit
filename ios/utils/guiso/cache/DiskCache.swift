@@ -1,6 +1,6 @@
 //
 //  FileCache.swift
-//  AnimationPractica
+//  
 //
 //  Created by Juan J LF on 4/23/20.
 //  Copyright © 2020 Juan J LF. All rights reserved.
