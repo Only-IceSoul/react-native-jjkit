@@ -152,6 +152,9 @@ class ImageView: UIImageView , ViewTarget {
            return mIdentifier
        }
 
+     func getContentMode() -> UIView.ContentMode {
+        return self.contentMode
+    }
        
        
        override func layoutSubviews() {

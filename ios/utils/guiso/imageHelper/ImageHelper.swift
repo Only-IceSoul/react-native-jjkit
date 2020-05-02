@@ -311,7 +311,7 @@ class ImageHelper {
         return nil
       }
       
-    static func getAudioArtWrokFile(_ audioUrl:URL) -> UIImage? {
+    static func getAudioArtWork(_ audioUrl:URL) -> UIImage? {
         
            let asset = AVURLAsset(url: audioUrl)
      

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 extension String {
     
@@ -118,4 +119,29 @@ extension String {
         return String(self[startIndex..<endIndex])
     }
 
+    var isMimeTypeImage: Bool {
+         guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self as CFString, nil)?.takeRetainedValue() else {
+             return false
+         }
+         return UTTypeConformsTo(uti, kUTTypeImage)
+     }
+     var isMimeTypeGif: Bool {
+            guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self as CFString, nil)?.takeRetainedValue() else {
+                return false
+            }
+            return UTTypeConformsTo(uti, kUTTypeGIF)
+     }
+     var isMimeTypeAudio: Bool {
+         guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self as CFString, nil)?.takeRetainedValue() else {
+             return false
+         }
+         return UTTypeConformsTo(uti, kUTTypeAudio)
+     }
+     var isMimeTypeVideo: Bool {
+         guard  let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self as CFString, nil)?.takeRetainedValue() else {
+             return false
+         }
+         return UTTypeConformsTo(uti, kUTTypeMovie)
+     }
+    
 }

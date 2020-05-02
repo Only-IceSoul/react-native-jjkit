@@ -1,6 +1,5 @@
 //
 //  GuisoLoader.swift
-//  AnimationPractica
 //
 //  Created by Juan J LF on 4/23/20.
 //  Copyright © 2020 Juan J LF. All rights reserved.
@@ -165,6 +164,8 @@ class GuisoLoader {
                     //self.saveToDiskCache(fullSize!)
             }else { self.onLoadFailed() }
     }
+    
+    
     func updateTargetResizeWebGif(){
          let web = URL(string: mUrl)
         URLSession.shared.dataTask(with: web!) { (data, response, error) in
@@ -245,6 +246,55 @@ class GuisoLoader {
         }.resume()
     }
    
+    func updateTargetResizeWebVideo(){
+        guard let url = URL(string: mUrl),
+            let fullSize =  ImageHelper.getVideoThumbnail(videoUrl: url, second: mSecond),
+            let resized = self.resizeImage(fullSize)
+            else { onLoadFailed()
+                return
+            }
+
+        self.displayInTarget(resized)
+        if self.mMemoryCache { self.saveToMemoryCache(resized) }
+        self.saveToDiskCache(resized)
+    }
+    func updateTargetFullSizeWebVideo(){
+        guard let url = URL(string: mUrl),
+        let fullSize =  ImageHelper.getVideoThumbnail(videoUrl: url, second: mSecond)
+        else { onLoadFailed()
+            return
+         }
+        
+         self.displayInTarget(fullSize)
+        if self.mMemoryCache { self.saveToMemoryCache(fullSize) }
+        self.saveToDiskCache(fullSize)
+    }
+    
+    func updateTargetResizeWebAudio(){
+        guard let url = URL(string: mUrl),
+            let fullSize =  ImageHelper.getAudioArtWork(url),
+            let resized = self.resizeImage(fullSize)
+            else { onLoadFailed()
+                return
+            }
+
+        self.displayInTarget(resized)
+        if self.mMemoryCache { self.saveToMemoryCache(resized) }
+        self.saveToDiskCache(resized)
+    }
+    
+    func updateTargetFullSizeWebAudio(){
+        guard let url = URL(string: mUrl),
+         let fullSize =  ImageHelper.getAudioArtWork(url)
+         else { onLoadFailed()
+             return
+          }
+         
+          self.displayInTarget(fullSize)
+         if self.mMemoryCache { self.saveToMemoryCache(fullSize) }
+         self.saveToDiskCache(fullSize)
+    }
+    
     func updateTargetResizeFile(){
         guard let url = URL(string: mUrl),
             let data = try? Data(contentsOf: url),
@@ -292,7 +342,7 @@ class GuisoLoader {
 
     func updateTargetResizeFileAudio(){
         guard let url = URL(string: mUrl),
-             let fullSize = ImageHelper.getAudioArtWrokFile(url),
+             let fullSize = ImageHelper.getAudioArtWork(url),
             let resized = self.resizeImage(fullSize)
           else { self.onLoadFailed()
                      return
@@ -303,7 +353,7 @@ class GuisoLoader {
     }
     func updateTargetFullSizeFileAudio(){
         guard let url = URL(string: mUrl),
-            let fullSize = ImageHelper.getAudioArtWrokFile(url)
+            let fullSize = ImageHelper.getAudioArtWork(url)
         else { self.onLoadFailed()
                return
         }
@@ -393,8 +443,8 @@ class GuisoLoader {
            case .centerCrop:
                return ImageHelper.centerCrop(image: img, width: mReqW, height: mReqH,lanczos: self.mLanczos)
            default:
-            return self.mLanczos ? ImageHelper.resizeVImage(img, mReqW, mReqH)
-            : ImageHelper.resizeImage(img, targetWidth: mReqW, targetHeight: mReqH)
+            return (self.mTarget != nil && self.mTarget!.getContentMode() == .scaleAspectFill) ? ImageHelper.centerCrop(image: img, width: mReqW, height: mReqH,lanczos: self.mLanczos)
+            : ImageHelper.fitCenter(image: img, width: mReqW, height: mReqH,lanczos: self.mLanczos)
        }
     }
        
@@ -464,6 +514,7 @@ class GuisoLoader {
     
     func onLoadFailed(){
         DispatchQueue.main.async {
+            self.mTarget?.setIdentifier("error")
             self.mTarget?.onLoadFailed()
         }
     }

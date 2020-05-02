@@ -5,7 +5,6 @@
 //  Created by Juan J LF on 4/22/20.
 //
 
-
 import UIKit
 import Photos
 
@@ -35,7 +34,19 @@ class GuisoRequest : Runnable {
                     if mMediaType == .gif{
                         updateWebGif()
                     }else{
-                        updateWebImage()
+                        getWebMediaType { (type) in
+                            switch type {
+                            case .video:
+                                self.updateWebVideo()
+                                break
+                            case .audio:
+                                self.updateWebAudio()
+                                break
+                            default:
+                                self.updateWebImage()
+                            }
+                        }
+                        
                     }
                 }else if isFile() {
                     if mMediaType == .gif {
@@ -44,8 +55,10 @@ class GuisoRequest : Runnable {
                         switch getFileMediaType() {
                         case .audio:
                             updateFileAudio()
+                            break
                         case .video:
                             updateFileVideo()
+                            break
                         default:
                             updateFileImage()
                         }
@@ -60,6 +73,7 @@ class GuisoRequest : Runnable {
                             switch getAssetMediaType() {
                                 case .video:
                                     updateVideo()
+                                    break
                                 default:
                                     updateImage()
                             }
@@ -79,7 +93,7 @@ class GuisoRequest : Runnable {
         assets.forEach { (a) in
             if a.localIdentifier == mUrl {
                 switch a.mediaType {
-                    case .video:
+                case .video:
                         type = Guiso.MediaType.video
                     default:
                         type = Guiso.MediaType.image
@@ -139,6 +153,21 @@ class GuisoRequest : Runnable {
         }
     }
     
+    func updateWebVideo(){
+        if mShouldTransform {
+          mLoader.updateTargetResizeWebVideo()
+        }else {
+          mLoader.updateTargetFullSizeWebVideo()
+        }
+    }
+    
+    func updateWebAudio(){
+        if mShouldTransform {
+            mLoader.updateTargetResizeWebAudio()
+        }else {
+            mLoader.updateTargetFullSizeWebAudio()
+        }
+    }
     func updateFileGif(){
         if mShouldTransform {
             mLoader.updateTargetResizeFileGif()
@@ -195,6 +224,35 @@ class GuisoRequest : Runnable {
             }
         }
         return result
+    }
+    
+    private func getWebMediaType(completion: @escaping (Guiso.MediaType) -> Void) {
+          var result = Guiso.MediaType.image
+        var request = URLRequest(url: URL(string: mUrl)!)
+        request.httpMethod = "HEAD"
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if error != nil {
+                completion(result)
+                print("Guis - UrlWeb Mediatype:error -> ",error!)
+            }else {
+                guard let httpResponse = response as? HTTPURLResponse,
+                     let ct = httpResponse.allHeaderFields["Content-Type"] as? String
+                    else {
+                       completion(result)
+                       return
+                    }
+                      
+                if ct.isMimeTypeVideo {
+                    result = .video
+                }else if ct.isMimeTypeAudio {
+                    result = .audio
+                }else {
+                    result = .image
+                }
+                completion(result)
+            }
+        }.resume()
+
     }
     
     

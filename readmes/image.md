@@ -8,7 +8,7 @@ An ImageView for url.
 - [x] Disk cache
 - [x] Resize(fitCenter)
 - [x] url local 
-- [x] url Web (image/gif)
+- [x] url Web 
 - [x] Gif
 
 

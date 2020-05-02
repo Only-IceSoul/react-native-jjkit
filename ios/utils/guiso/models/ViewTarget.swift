@@ -15,5 +15,6 @@ protocol ViewTarget {
     func onResourceReady(_ gif:GifLayer)
     func onResourceReady(_ img:UIImage)
     func onLoadFailed()
+    func getContentMode() -> UIView.ContentMode
 
 }
