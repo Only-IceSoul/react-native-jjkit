@@ -40,7 +40,7 @@ build porject
 
 **install**
 
-Terminal projectname
+project
 
 ```
  cd ios
