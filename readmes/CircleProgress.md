@@ -26,8 +26,8 @@ Animated.createAnimatedComponent(CircleProgressView);
 | strokeWidth | set the stroke width | Number | 4 |
 | colors |  The colors to be distributed between around the center.There must be at least 2 colors in the array. | Array String  | all colors |
 | positions | The relative position of each corresponding color in the colors array (0 to 1)  | Array Number |  spaced evenly  |
-| backColors | back stroke colors  | Array String  | Light Gray |
-| backPositions |  back stroke positions | Array Number |  spaced evenly  |
+| backColors | The colors to be distributed between around the center.There must be at least 2 colors in the array. | Array String  | Light Gray |
+| backPositions |  The relative position of each corresponding color in the colors array (0 to 1)  | Array Number |  spaced evenly  |
 | cap |  set the line cap style (butt,round,square) | String | "butt" |
 | progress | set the progress  | Number | 0 |
 
