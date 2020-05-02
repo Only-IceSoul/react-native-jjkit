@@ -57,9 +57,11 @@ open ios/podfile,  add in the first line
 ```
 
 **Missing librarys**  
-in terminal projectname/ios
+
+project
 
 ```
+ cd ios
  pod deintegrate
  pod install
 ```
