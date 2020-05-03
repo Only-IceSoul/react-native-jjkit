@@ -32,6 +32,16 @@ ios : 9.0+
 - [PhotoKit](./readmes/photokit.md)
 - [Image](./readmes/image.md)
 
+## Change log
+
+**1.5.7**
+
+- [Image](./readmes/image.md) fix asGif on Android
+
+
+
+See [full change log.](./readmes/changelog.md)
+
 # Fixing Issues (Optional)
 
 

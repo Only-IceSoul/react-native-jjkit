@@ -69,7 +69,9 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .fitCenter()
                     .override(w, h)
-            Glide.with(context).load(url)
+            Glide.with(context)
+                    .asBitmap()
+                    .load(url)
                     .apply(options)
                     .into(this)
         }
@@ -85,7 +87,9 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
             val options =  RequestOptions()
                     .frame(0L)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-            Glide.with(context).load(url)
+            Glide.with(context)
+                    .asBitmap()
+                    .load(url)
                     .apply(options)
                     .into(this)
         }
@@ -102,7 +106,9 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
                     .fitCenter()
                     .override(w, h)
                     .skipMemoryCache(true)
-            Glide.with(context).load(url)
+            Glide.with(context)
+                    .asBitmap()
+                    .load(url)
                     .apply(options)
                     .into(this)
         }
@@ -116,7 +122,9 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
             val options =  RequestOptions()
                     .frame(0L)
                     .skipMemoryCache(true)
-            Glide.with(context).load(url)
+            Glide.with(context)
+                    .asBitmap()
+                    .load(url)
                     .apply(options)
                     .into(this)
         }
