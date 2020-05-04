@@ -99,21 +99,26 @@ class DiskCache {
                                                              nil)!
 
         let loopProperty = [
-                          (kCGImagePropertyGIFDictionary as String): [(kCGImagePropertyGIFLoopCount as String): NSNumber(integerLiteral: loopCount)]
+                          (kCGImagePropertyGIFDictionary as String): [(kCGImagePropertyGIFLoopCount as String): NSNumber(integerLiteral: loopCount),
+                                (kCGImagePropertyGIFHasGlobalColorMap as String): false as NSNumber
+                        ]
                       ]
         
         CGImageDestinationSetProperties(destinationGIF,loopProperty as CFDictionary?)
     
 
         for (index, img)  in images.enumerated() {
+            let colorMap = img.getColorMap()
             // This dictionary controls the delay between frames
             // If you don't specify this, CGImage will apply a default delay
-            let delayProperty = [
-                (kCGImagePropertyGIFDictionary as String): [(kCGImagePropertyGIFDelayTime as String): delays[index]]
+            let imageProperty = [
+                (kCGImagePropertyGIFDictionary as String): [(kCGImagePropertyGIFDelayTime as String): delays[index],
+                    String(kCGImagePropertyGIFImageColorMap): colorMap.exported as NSData
+                ]
             ]
             
            // Add the frame to the GIF image
-           CGImageDestinationAddImage(destinationGIF, img, delayProperty as CFDictionary?)
+           CGImageDestinationAddImage(destinationGIF, img, imageProperty as CFDictionary?)
         }
 
       

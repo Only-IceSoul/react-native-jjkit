@@ -34,6 +34,11 @@ ios : 9.0+
 
 ## Change log
 
+**1.5.8**
+
+- [Image](./readmes/image.md) fix Colors Incorrect, Gif on IOS
+
+
 **1.5.7**
 
 - [Image](./readmes/image.md) fix asGif on Android
