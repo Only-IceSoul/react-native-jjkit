@@ -7,6 +7,7 @@ import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ReactShadowNode
 import com.facebook.react.uimanager.ViewManager
+import com.reactjjkit.cropper.CropperModule
 import com.reactjjkit.image.ImageViewManager
 import com.reactjjkit.viewManagers.CircleProgressViewManager
 import com.reactjjkit.viewManagers.ClipRectViewManager
@@ -20,7 +21,8 @@ class JJKitPackage : ReactPackage {
     override fun createNativeModules(reactContext: ReactApplicationContext): MutableList<NativeModule> {
         return mutableListOf(
              ToastModule(reactContext),
-             PhotoKitModule(reactContext)
+             PhotoKitModule(reactContext),
+                CropperModule(reactContext)
         )
     }
 

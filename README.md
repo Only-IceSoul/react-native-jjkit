@@ -31,18 +31,17 @@ ios : 9.0+
 - [Badge](./readmes/badge.md)
 - [PhotoKit](./readmes/photokit.md)
 - [Image](./readmes/image.md)
+- [Cropper](./readmes/cropper.md)
 
 ## Change log
+
+**1.5.9**
+
+- added  [Cropper](./readmes/cropper.md)
 
 **1.5.8**
 
 - [Image](./readmes/image.md) fix Colors Incorrect, Gif on IOS
-
-
-**1.5.7**
-
-- [Image](./readmes/image.md) fix asGif on Android
-
 
 
 See [full change log.](./readmes/changelog.md)

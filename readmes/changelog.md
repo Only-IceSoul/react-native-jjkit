@@ -1,5 +1,9 @@
 # Change Log
 
+**1.5.9**
+
+- added  [Cropper](./readmes/cropper.md)
+
 **1.5.8**
 
 - [Image](./readmes/image.md) fix Colors Incorrect, Gif on IOS
