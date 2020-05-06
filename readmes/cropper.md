@@ -18,7 +18,7 @@ Image cropping  for React Native.
 
 | key | description | type |
 | --- | --- | --- |
-| image | Image encoded to Base64 String | String | 
+| image | Base64 String or Static image uri | String | 
 | rect | Image rect , relative to container | Rect | 
 | cw |  Container width | Number | 
 | ch | Container height | Number | 
