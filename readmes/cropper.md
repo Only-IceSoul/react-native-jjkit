@@ -113,22 +113,26 @@ let scX = getDistanceSrollGestureX()
 let scY = getDistanceSrollGestureY()
 
 //moving rect
-Rect.offset(crop,scX,scY)
+crop = Rect.offset(crop,scX,scY)
 
 //resize rect
-Rect.inset(crop,scX,scY)
+crop = Rect.inset(crop,scX,scY)
 //Top left
 let h = sqr(scX * scX , scY * scY)
-Rect.insetTl(crop,h)
+crop = Rect.insetTl(crop,h)
 //Top right ....
 
 
 //scale - pivot is center.
 let scale = 2
-Rect.scale(imageRect,scale)
+ imageRect = Rect.scale(imageRect,scale)
 
 //scrolling Image scaled
-Rect.offset(imageRect,scX,scY)
+imageRect = Rect.offset(imageRect,scX,scY)
 
 
 ```
+
+# Example
+
+[demo]()

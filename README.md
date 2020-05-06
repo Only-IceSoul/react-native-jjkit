@@ -35,13 +35,16 @@ ios : 9.0+
 
 ## Change log
 
+**1.6.0**
+
+- [Cropper](./readmes/cropper.md) 
+    - Renamed makeCrop to makeCrop64
+    - added makeCropStatic for static images.
+-  Util Rect, now every function return a rect.
+
 **1.5.9**
 
 - added  [Cropper](./readmes/cropper.md)
-
-**1.5.8**
-
-- [Image](./readmes/image.md) fix Colors Incorrect, Gif on IOS
 
 
 See [full change log.](./readmes/changelog.md)
