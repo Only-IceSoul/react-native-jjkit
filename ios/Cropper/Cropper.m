@@ -12,7 +12,8 @@
 
 RCT_EXTERN_MODULE(Cropper,NSObject)
 
-RCT_EXTERN_METHOD(makeCrop:(NSDictionary)request resolve:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(makeCrop64:(NSDictionary)request resolve:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(makeCropStatic:(NSDictionary)request resolve:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 
 
 @end
