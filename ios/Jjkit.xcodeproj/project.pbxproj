@@ -50,6 +50,9 @@
 		D0BED1ED243AE4A100881A99 /* extension_UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */; };
 		D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */; };
 		D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */; };
+		D0E116E024623ADB009FF69C /* Cropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E116DD24623ADB009FF69C /* Cropper.swift */; };
+		D0E116E124623ADB009FF69C /* CropHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E116DE24623ADB009FF69C /* CropHelper.swift */; };
+		D0E116E224623ADB009FF69C /* Cropper.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E116DF24623ADB009FF69C /* Cropper.m */; };
 		D0F98D602443DA71001CF3DA /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F98D5F2443DA71001CF3DA /* Toast.swift */; };
 		D0F98D622443DA79001CF3DA /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F98D612443DA79001CF3DA /* Toast.m */; };
 		D0F98D692443DAC6001CF3DA /* JJScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F98D652443DAC6001CF3DA /* JJScreen.swift */; };
@@ -118,6 +121,9 @@
 		D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_UIColor.swift; sourceTree = "<group>"; };
 		D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_CGRect.swift; sourceTree = "<group>"; };
 		D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_CALayer.swift; sourceTree = "<group>"; };
+		D0E116DD24623ADB009FF69C /* Cropper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cropper.swift; sourceTree = "<group>"; };
+		D0E116DE24623ADB009FF69C /* CropHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropHelper.swift; sourceTree = "<group>"; };
+		D0E116DF24623ADB009FF69C /* Cropper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cropper.m; sourceTree = "<group>"; };
 		D0F98D5F2443DA71001CF3DA /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		D0F98D612443DA79001CF3DA /* Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toast.m; sourceTree = "<group>"; };
 		D0F98D652443DAC6001CF3DA /* JJScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JJScreen.swift; sourceTree = "<group>"; };
@@ -149,6 +155,7 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				D0E116DC24623AC9009FF69C /* Cropper */,
 				D040C034244E787E00103477 /* Image */,
 				D040C033244E787400103477 /* PhotoKit */,
 				D0BED1D6243AE49100881A99 /* react-native-jjkit-Bridging-Header.h */,
@@ -287,6 +294,16 @@
 			path = extension;
 			sourceTree = "<group>";
 		};
+		D0E116DC24623AC9009FF69C /* Cropper */ = {
+			isa = PBXGroup;
+			children = (
+				D0E116DE24623ADB009FF69C /* CropHelper.swift */,
+				D0E116DF24623ADB009FF69C /* Cropper.m */,
+				D0E116DD24623ADB009FF69C /* Cropper.swift */,
+			);
+			path = Cropper;
+			sourceTree = "<group>";
+		};
 		D0F98D5E2443DA33001CF3DA /* Toast */ = {
 			isa = PBXGroup;
 			children = (
@@ -380,6 +397,7 @@
 				D00895DC245BA4C000A3215B /* LRUCache.swift in Sources */,
 				D00895EC245BA4DF00A3215B /* GuisoRequestBuilder.swift in Sources */,
 				D0BED1E5243AE49800881A99 /* LayerClip.swift in Sources */,
+				D0E116E124623ADB009FF69C /* CropHelper.swift in Sources */,
 				D0BED1DD243AE49100881A99 /* CircleProgressView.swift in Sources */,
 				D021B2C3245675CA0085F417 /* extension_String.swift in Sources */,
 				D00895F2245BA4EA00A3215B /* GifLayer.swift in Sources */,
@@ -408,7 +426,9 @@
 				D00895FB245BA50000A3215B /* GifDrawable.swift in Sources */,
 				D0F98D622443DA79001CF3DA /* Toast.m in Sources */,
 				D0A3BD45245FB794000EF87A /* ColorMap.swift in Sources */,
+				D0E116E024623ADB009FF69C /* Cropper.swift in Sources */,
 				D00895F5245BA4EA00A3215B /* extension_Resize.swift in Sources */,
+				D0E116E224623ADB009FF69C /* Cropper.m in Sources */,
 				D00895FD245BA50000A3215B /* GIf.swift in Sources */,
 				D0BED1DB243AE49100881A99 /* CircleProgressView.m in Sources */,
 				D00895DD245BA4C000A3215B /* LinkedList.swift in Sources */,
