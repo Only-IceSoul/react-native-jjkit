@@ -35,17 +35,15 @@ ios : 9.0+
 
 ## Change log
 
+**1.6.2**
+
+- [PhotoKit](./readmes/photokit.md) key data renamed to uri.
+
+
 **1.6.1**
 
 - [Cropper](./readmes/cropper.md) now support rotation
 -  Util Rect, scale and rotate updated
-
-**1.6.0**
-
-- [Cropper](./readmes/cropper.md) 
-    - Renamed makeCrop to makeCrop64
-    - added makeCropStatic for static images.
--  Util Rect, now every function return a rect.
 
 See [full change log.](./readmes/changelog.md)
 

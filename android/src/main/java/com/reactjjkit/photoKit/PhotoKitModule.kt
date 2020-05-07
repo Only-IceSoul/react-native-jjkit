@@ -91,7 +91,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
 
     @ReactMethod
     fun requestImage(data:ReadableMap?,promise: Promise){
-        val identifier = data?.getString("data")
+        val identifier = data?.getString("uri")
         val width = data?.getInt("width") ?: 500
         val height = data?.getInt("height") ?: 500
         val quality = data?.getDouble("quality") ?: 1.0
@@ -252,7 +252,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                     media["height"] = metadata[1]
                     media["width"] = metadata[0]
                     media["mediaType"] = "video"
-                    media["data"] = uri.toString()
+                    media["uri"] = uri.toString()
 
                     if (albumsNames.contains(media["albumName"] as String)) {
                         for (album in galleryAlbums) {
@@ -268,7 +268,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                         album["id"] = generateId()
                         media["albumId"] = album["id"] as Int
                         album["name"] = media["albumName"] as String
-                        album["data"] = media["data"] as String
+                        album["uri"] = media["uri"] as String
                         album["mediaType"] = media["mediaType"] as String
                         album["count"] = 1
                         galleryMedia.add(media)
@@ -324,7 +324,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                     media["height"] = metadata[1]
                     media["width"] = metadata[0]
                     media["mediaType"] = if(type.contains("image/gif")) "gif" else "image"
-                    media["data"] = uri.toString()
+                    media["uri"] = uri.toString()
 
                     if (albumsNames.contains(media["albumName"] as String)) {
                         for (album in galleryAlbums) {
@@ -341,7 +341,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                         album["id"] = generateId()
                         media["albumId"] = album["id"] as Int
                         album["name"] = media["albumName"] as String
-                        album["data"] = media["data"] as String
+                        album["uri"] = media["uri"] as String
                         album["mediaType"] = media["mediaType"] as String
                         album["count"] = 1
                         galleryMedia.add(media)

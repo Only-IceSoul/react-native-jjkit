@@ -39,7 +39,7 @@ Preview: Use [Image](image.md)
 | id | album id | Number | 
 | name | album name | String | 
 | count |  the number of elements | Number | 
-| data | Path to the file, album cover | String | 
+| uri | Path to the file, album cover | String | 
 | mediaType | "video" - "image" - "gif" | String | 
 
 
@@ -50,7 +50,7 @@ Preview: Use [Image](image.md)
 | albumId | the album id, identifier | Number | 
 | albumName | the album name | String | 
 | displayName | The display name of the file | String | 
-| data | Path to the file | String | 
+| uri | Path to the file | String | 
 | mediaType | "video" - "image" - "gif" | String | 
 | date |   android(Date added) ios(Modification Date) | Number | 
 | duration | the playback duration of the data source in seconds | Number | 
@@ -67,7 +67,7 @@ byte array encoded to base64 String
 ```javascript
 import { PhotoKit } from 'react-native-jjkit'
 
-PhotoKit.requestRaw(Media.data).then(base64String => {
+PhotoKit.requestRaw(media.uri).then(base64String => {
     console.log("result : ",base64String)
 })
 ```
@@ -79,10 +79,10 @@ PhotoKit.requestRaw(Media.data).then(base64String => {
 import { PhotoKit } from 'react-native-jjkit'
 
 let request = {
-    data: media.data,
+    uri: media.uri,
     width: 1280,  //fitcenter
     height: 1280,  // fitcenter
-    quality : 0.8 //0.0 to 1  just jpeg
+    quality : 0.8, //0.0 to 1  just jpeg
     format : PhotoKit.jpeg  // or png
 }
 

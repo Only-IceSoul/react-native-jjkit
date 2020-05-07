@@ -81,7 +81,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                    ga["name"] = a.localizedTitle
                    ga["mediaType"] = "image"
                    let fo = datas.object(at: 0)
-                   ga["data"] = fo.localIdentifier
+                   ga["uri"] = fo.localIdentifier
                    if let type = fo.value(forKey: "uniformTypeIdentifier") as? String {
                          if type == kUTTypeGIF as String{
                              ga["mediaType"] = "gif"
@@ -109,7 +109,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                          }
                          
                       }
-                        media["data"] = m.localIdentifier
+                        media["uri"] = m.localIdentifier
                        mMediaList.append(media)
                    }
                }
@@ -134,7 +134,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                      }
                      
                    }
-                   ga["data"] = fo.localIdentifier
+                   ga["uri"] = fo.localIdentifier
                     mAlbumList.append(ga)
                  
                    for index in 0...datas.count-1{
@@ -157,7 +157,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                           }
                           
                        }
-                       media["data"] = m.localIdentifier
+                       media["uri"] = m.localIdentifier
                          mMediaList.append(media)
                    }
                }
@@ -190,7 +190,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                       ga["name"] = a.localizedTitle
                       ga["mediaType"] = "video"
                       let fo = datas.object(at: 0)
-                         ga["data"] = fo.localIdentifier
+                         ga["uri"] = fo.localIdentifier
                       mAlbumList.append(ga)
                       for index in 0...datas.count-1{
                           let m = datas.object(at: index)
@@ -207,7 +207,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                           media["width"] = m.pixelWidth
                           media["mediaType"] = "video"
                      
-                        media["data"] = m.localIdentifier
+                        media["uri"] = m.localIdentifier
                           mMediaList.append(media)
                       }
                   }
@@ -227,7 +227,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                       ga["mediaType"] = "video"
                         let fo = datas.object(at: 0)
                       ga["mediaType"] =  "video"
-                        ga["data"] = fo.localIdentifier
+                        ga["uri"] = fo.localIdentifier
                        mAlbumList.append(ga)
                       for index in 0...datas.count-1{
                           let m = datas.object(at: index)
@@ -242,7 +242,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                           media["height"] = m.pixelHeight
                           media["width"] = m.pixelWidth
                           media["mediaType"] = "video"
-                        media["data"] = m.localIdentifier
+                        media["uri"] = m.localIdentifier
                  
                           mMediaList.append(media)
                       }
@@ -282,7 +282,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                               }
                               
                           }
-                              ga["data"] = fo.localIdentifier
+                              ga["uri"] = fo.localIdentifier
                                       
                            
                            mAlbumList.append(ga)
@@ -300,7 +300,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                                media["height"] = m.pixelHeight
                                media["width"] = m.pixelWidth
                                media["mediaType"] = m.mediaType == .image ? "image" : "video"
-                                media["data"] = m.localIdentifier
+                                media["uri"] = m.localIdentifier
                               if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
                                   if type == kUTTypeGIF as String{
                                       media["mediaType"] = "gif"
@@ -331,7 +331,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                               }
                               
                           }
-                                   ga["data"] = fo.localIdentifier
+                                   ga["uri"] = fo.localIdentifier
                                                                        
                              
                             mAlbumList.append(ga)
@@ -355,7 +355,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                                   }
                                   
                               }
-                              media["data"] = m.localIdentifier
+                              media["uri"] = m.localIdentifier
                                  mMediaList.append(media)
                            }
                        }
@@ -418,7 +418,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
  
     @objc func requestImage(_ data:[String:Any]?, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
         
-            let identifier = data?["data"] as? String
+            let identifier = data?["uri"] as? String
               let width = data?["width"] as? Int ?? 500
               let height = data?["height"] as? Int ?? 500
               let format = data?["format"] as? Int ?? 0
