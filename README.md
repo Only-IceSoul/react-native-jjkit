@@ -35,17 +35,17 @@ ios : 9.0+
 
 ## Change log
 
+**1.6.1**
+
+- [Cropper](./readmes/cropper.md) now support rotation
+-  Util Rect, scale and rotate updated
+
 **1.6.0**
 
 - [Cropper](./readmes/cropper.md) 
     - Renamed makeCrop to makeCrop64
     - added makeCropStatic for static images.
 -  Util Rect, now every function return a rect.
-
-**1.5.9**
-
-- added  [Cropper](./readmes/cropper.md)
-
 
 See [full change log.](./readmes/changelog.md)
 

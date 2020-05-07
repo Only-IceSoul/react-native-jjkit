@@ -7,7 +7,7 @@ Image cropping  for React Native.
 
 - [x] scale
 - [x] scroll
-- [ ] rotation
+- [x] rotation
 
 
 
@@ -20,6 +20,7 @@ Image cropping  for React Native.
 | --- | --- | --- |
 | image | Base64 String or Static image uri | String | 
 | rect | Image rect , relative to container | Rect | 
+| rotate | degrees used on rect ( clockwise )| Number | 
 | cw |  Container width | Number | 
 | ch | Container height | Number | 
 | crop | rect for crop, relative to container | Rect | 
@@ -49,38 +50,41 @@ Everything is with logical numbers, like when you define width and height in a v
 ```javascript
 import { Cropper , Rect } from 'react-native-jjkit'
 
-//define ur container size
+//define ur container 
 let cw = 814 //width
 let ch = 414 //height
 // image size in pixels
 let imageWidth = 1200
 let imageHeight = 460
-//create a rect for image centered in the container
+
+//create a rect for image 
 let imageRect = Rect.fitCenterRect(imageWidth,imageHeight,cw,ch)
-// create a rect for crop centered in the container
-let crop = Rect.centerRect(100,100,cw,ch)
+// create a rect for crop 
+let cropRect = Rect.centerRect(100,100,cw,ch)
+
 //validate rect
 //return true if first rect contains second rect
  if (Rect.contains(imageRect,crop)){
 
         let dataForCrop = {
-            image : myImage, //static uri or base64 string
+            image : myImage, 
             rect: imageRect,
+            rotate: 0 
             cw: cw,
             ch: ch,
-            crop: crop,
+            crop: cropRect,
             quality: 1,
             format: Cropper.jpeg,
-            width: -1, //without resize
-            height: -1  //without resize
+            width: -1, 
+            height: -1  
         }
 
-        //if base64 string
+        // base64 string
         Cropper.makeCrop64(dataForCrop).then(image64String => {
             console.log("result ",image64String)
            
         })
-        // if static
+        //  static images
         Cropper.makeCropStatic(dataForCrop).then(image64String => {
             console.log("result ",image64String)
            
@@ -103,33 +107,40 @@ You can use ur own functions for transform the rect(scale and scroll).
 
 import { Rect } from 'react-native-jjkit'
 
-// create rect for crop centered in the container
-let crop = Rect.centerRect(100,100,cw,ch)
+//scroll
+ myRect = Rect.offset(myRect,distanceX,distanceY)
 
-//logical points
-let scX = getDistanceSrollGestureX()
-let scY = getDistanceSrollGestureY()
+ //scale focus center
+  myRect = Rect.scale(myRect,scale)
 
-//moving rect
-crop = Rect.offset(crop,scX,scY)
-
-//resize rect
-crop = Rect.inset(crop,scX,scY)
-//Top left
-let h = sqr(scX * scX , scY * scY)
-crop = Rect.insetTl(crop,h)
-//Top right ....
-
-
-//scale - pivot is center.
-let scale = 2
- imageRect = Rect.scale(imageRect,scale)
-
-//scrolling Image scaled
-imageRect = Rect.offset(imageRect,scX,scY)
+//resize with points
+ 
+ myRect =  Rect.inset(myRect,inseX,insetY)
+ //top left
+ myRect =  Rect.insetTl(myRect,inset)
+  //top left right
+ myRect =  Rect.insetTlr(myRect,inset)
+//....
 
 
 ```
+
+## Rotation
+
+How it's work.
+
+```javascript
+//clockwise
+ myRect =  Rect.rotate(myRect,degrees)
+```
+
+even
+
+<img src="../images/degreeeven.jpg" width="350" />
+
+odd
+
+<img src="../images/degreeodd.jpg" width="350" />
 
 # Example
 

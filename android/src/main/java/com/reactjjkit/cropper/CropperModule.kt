@@ -37,6 +37,7 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
             val hr = map.getInt("height")
             val quality = map.getDouble("quality").toFloat()
             val format = map.getInt("format")
+            val rotation = map.getDouble("rotate").toFloat()
 
             if(image != null && imgRect != null && crop != null){
 
@@ -44,11 +45,21 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
                 val options =  BitmapFactory.Options()
                 options.inMutable = true
                 val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
+
                 val r = mapToRectF(imgRect)
                 val c = mapToRectF(crop)
 
-                val rf = CropperHelper.crop(bmp,r,cw,ch,c)
-                val bf = cropBitmap(bmp,rf)
+                val finalBmp = if(rotation > 0 ){
+                     val matrix = Matrix()
+                     matrix.setRotate(rotation)
+                     Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, matrix, false)
+                }else{
+                    bmp
+                }
+
+                val rf = CropperHelper.crop(finalBmp,r,cw,ch,c)
+                val bf = cropBitmap(finalBmp,rf)
+
                 val fmt = if(format == 0) Bitmap.CompressFormat.JPEG else Bitmap.CompressFormat.PNG
                 if(wr > 0 && hr > 0){
                     val br = fitCenter(bf,wr,hr)
@@ -95,6 +106,8 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
             val hr = map.getInt("height")
             val quality = map.getDouble("quality").toFloat()
             val format = map.getInt("format")
+            val rotation = map.getDouble("rotate").toFloat()
+
             val bmp : Bitmap?
 
             bmp = if(image != null && image.contains("http")) {
@@ -109,8 +122,17 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
                 val r = mapToRectF(imgRect)
                 val c = mapToRectF(crop)
 
-                val rf = CropperHelper.crop(bmp,r,cw,ch,c)
-                val bf = cropBitmap(bmp,rf)
+                val finalBmp = if(rotation > 0 ){
+                    val matrix = Matrix()
+                    matrix.setRotate(rotation)
+                    Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, matrix, false)
+                }else{
+                    bmp
+                }
+
+                val rf = CropperHelper.crop(finalBmp,r,cw,ch,c)
+                val bf = cropBitmap(finalBmp,rf)
+
                 val fmt = if(format == 0) Bitmap.CompressFormat.JPEG else Bitmap.CompressFormat.PNG
                 if(wr > 0 && hr > 0){
                     val br = fitCenter(bf,wr,hr)
