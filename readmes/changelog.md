@@ -1,5 +1,10 @@
 # Change Log
 
+**1.6.1**
+
+- [Cropper](./readmes/cropper.md) now support rotation
+-  Util Rect, scale and rotate updated
+
 **1.6.0**
 
 - [Cropper](./readmes/cropper.md) 

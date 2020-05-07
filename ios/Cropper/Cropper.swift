@@ -24,7 +24,7 @@ class Cropper : NSObject, RCTBridgeModule {
         let cw = request?["cw"] as? CGFloat
         let ch = request?["ch"] as? CGFloat
         let crop = request?["crop"]  as? [String:Any?]
-       
+        let rotation = request?["rotate"] as! CGFloat
     
         if image != nil && imgRect != nil && cw != nil && ch != nil && crop != nil
         && checkRect(rect: imgRect!) && checkRect(rect: crop!){
@@ -38,11 +38,17 @@ class Cropper : NSObject, RCTBridgeModule {
             else { resolve(nil)
                 return
             }
-            let rf = CropHelper.crop(cg, imageRect: r, cw: cw!, ch: ch!, crop: c)
-            
+            var imageResult:CGImage!
+            if rotation > 0 {
+                imageResult = getImageRotated(image: cg, degree: rotation)
+            }else{
+                imageResult = cg
+            }
+            let rf = CropHelper.crop(imageResult, imageRect: r, cw: cw!, ch: ch!, crop: c)
+
             guard let quality = request?["quality"] as? CGFloat,
                 let format = request?["format"] as? Int,
-                let resultcg  = cg.cropping(to: rf)
+                let resultcg  = imageResult.cropping(to: rf)
                 else {
                     resolve(nil)
                     return
@@ -87,7 +93,7 @@ class Cropper : NSObject, RCTBridgeModule {
           let cw = request?["cw"] as? CGFloat
           let ch = request?["ch"] as? CGFloat
           let crop = request?["crop"]  as? [String:Any?]
-      
+         let rotation = request?["rotate"] as! CGFloat
     
       
           if image != nil && imgRect != nil && cw != nil && ch != nil && crop != nil
@@ -103,11 +109,18 @@ class Cropper : NSObject, RCTBridgeModule {
               else { resolve(nil)
                   return
               }
-              let rf = CropHelper.crop(cg, imageRect: r, cw: cw!, ch: ch!, crop: c)
+            var imageResult:CGImage!
+            if rotation > 0 {
+              imageResult = getImageRotated(image: cg, degree: rotation)
+            }else{
+             imageResult = cg
+            }
+            let rf = CropHelper.crop(imageResult, imageRect: r, cw: cw!, ch: ch!, crop: c)
+
               
               guard let quality = request?["quality"] as? CGFloat,
                   let format = request?["format"] as? Int,
-                  let resultcg  = cg.cropping(to: rf)
+                  let resultcg  = imageResult.cropping(to: rf)
                   else {
                       resolve(nil)
                       return
@@ -145,6 +158,17 @@ class Cropper : NSObject, RCTBridgeModule {
           }
           
       }
+    
+    //clockwise
+    func getImageRotated(image:CGImage,degree:CGFloat)-> CGImage? {
+        let sizeRotated = CropHelper.getSizeRotated(image: image, degree: degree, cx: CGFloat(image.width/2), cy: CGFloat(image.height/2))
+        guard
+        let centered = CropHelper.createImageCentered(image, width: sizeRotated.width, height: sizeRotated.height),
+        let rotated = CropHelper.rotateContent(centered, degree:degree),
+        let backColor = CropHelper.createImageCentered(rotated, width: CGFloat(rotated.width), height: CGFloat(rotated.height), backColor: UIColor.black.cgColor)
+            else { return nil }
+        return backColor
+    }
     
     func checkRect(rect:[String:Any?]) -> Bool{
         

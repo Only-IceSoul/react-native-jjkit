@@ -56,12 +56,63 @@ const scale = (rect,scale) => {
         let r = rect.right - dx
         let b = rect.bottom - dy
         return { left: l, top: t, right: r, bottom: b}
+    }else{
+        return { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom}
     }
 }
+/*
+      if degrees % 90 != 0         else swap w and h
+      ----------------               -------------
+      -      *       -               -           -
+      -    *    *    -               -           -
+      -  *        *  -  height       -           -  h
+      -*            *-               -           -
+      -   *       *  -               -           -
+      -     *   *    -               -           -
+      -       *      -               -           -
+      -----------------              --------------
+            width                           w
+*/
+// pivot center 
+ const rotate = (rect,degrees) => {
+    let radian = degrees * Math.PI / 180
+    let angle = radian * -1
+    
+    var left = 0
+    var top = 0
+    let w = width(rect)
+    let h = height(rect)
+    let cx = w/2
+    let cy = h/2
+    let xAx = Math.cos(angle * -1)
+    let xAy = Math.sin(angle * -1)
+  
+    left -= cx
+    top -= cy
 
-// const rotate = (rect,degress) => {
+    let tlX = left * xAx - top * xAy + cx
+    let tlY = left * xAy + top * xAx + cy
+    let trX = (left + w) * xAx - top * xAy + cx
+    let trY = (left + w) * xAy + top * xAx + cy
+    let brX = (left + w) * xAx - (top + h) * xAy + cx
+    let brY = (left + w) * xAy + (top + h) * xAx + cy
+    let blX = left * xAx - (top + h) * xAy + cx
+    let blY = left * xAy + (top + h) * xAx + cy
+    
+    let w1 = Math.abs(brX - tlX)
+    let h1 = Math.abs(brY - tlY)
+    let w2 = Math.abs(trX - blX)
+    let h2 = Math.abs(blY - trY)
 
-// }
+    
+    let wFinal =  Math.max(w1,w2)
+    let hFinal = Math.max(h1,h2)
+    
+    let l = rect.left - (wFinal - w)/2
+    let t =  rect.top - (hFinal - h)/2
+    
+    return { left: l,top: t,right: l+wFinal,bottom: t + hFinal}
+ }
 
 const inset = (rect,dx,dy)=>{
     let l = rect.left + dx
@@ -162,5 +213,6 @@ export default {
     offset,
     width,
     height,
-    scale
+    scale,
+    rotate
 }
