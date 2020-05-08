@@ -59,9 +59,8 @@ let ch = 414 //height
 let imageWidth = 1200
 let imageHeight = 460
 
-//create a rect for image 
+
 let imageRect = Rect.fitCenterRect(imageWidth,imageHeight,cw,ch)
-// create a rect for crop 
 let cropRect = Rect.centerRect(100,100,cw,ch)
 
 //validate rect
