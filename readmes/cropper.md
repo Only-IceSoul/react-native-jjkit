@@ -8,7 +8,7 @@ Image cropping  for React Native.
 - [x] scale
 - [x] scroll
 - [x] rotation
-
+- [ ] flip
 
 
 
