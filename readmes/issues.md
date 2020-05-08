@@ -65,3 +65,9 @@ project
  pod deintegrate
  pod install
 ```
+
+
+**To much files**
+
+brew uninstall watchman
+brew install watchman
