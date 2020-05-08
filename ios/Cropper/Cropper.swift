@@ -25,7 +25,9 @@ class Cropper : NSObject, RCTBridgeModule {
         let ch = request?["ch"] as? CGFloat
         let crop = request?["crop"]  as? [String:Any?]
         let rotation = request?["rotate"] as! CGFloat
-    
+        let flipVertical = request?["flipVertically"] as! Bool
+        let flipHorizontal = request?["flipHorizontally"] as! Bool
+        
         if image != nil && imgRect != nil && cw != nil && ch != nil && crop != nil
         && checkRect(rect: imgRect!) && checkRect(rect: crop!){
 
@@ -39,11 +41,15 @@ class Cropper : NSObject, RCTBridgeModule {
                 return
             }
             var imageResult:CGImage!
-            if rotation > 0 {
-                imageResult = getImageRotated(image: cg, degree: rotation)
+            if rotation > 0 || flipVertical || flipHorizontal {
+             imageResult = CropHelper.flipContent(cg, vertical: flipVertical, horizontal: flipHorizontal)
+                 if rotation > 0 {
+                     imageResult = getImageRotated(image: imageResult, degree: rotation)
+                 }
             }else{
                 imageResult = cg
             }
+            
             let rf = CropHelper.crop(imageResult, imageRect: r, cw: cw!, ch: ch!, crop: c)
 
             guard let quality = request?["quality"] as? CGFloat,
@@ -93,8 +99,9 @@ class Cropper : NSObject, RCTBridgeModule {
           let cw = request?["cw"] as? CGFloat
           let ch = request?["ch"] as? CGFloat
           let crop = request?["crop"]  as? [String:Any?]
-         let rotation = request?["rotate"] as! CGFloat
-    
+          let rotation = request?["rotate"] as! CGFloat
+          let flipVertical = request?["flipVertically"] as! Bool
+          let flipHorizontal = request?["flipHorizontally"] as! Bool
       
           if image != nil && imgRect != nil && cw != nil && ch != nil && crop != nil
           && checkRect(rect: imgRect!) && checkRect(rect: crop!){
@@ -109,12 +116,17 @@ class Cropper : NSObject, RCTBridgeModule {
               else { resolve(nil)
                   return
               }
+        
             var imageResult:CGImage!
-            if rotation > 0 {
-              imageResult = getImageRotated(image: cg, degree: rotation)
+            if rotation > 0 || flipVertical || flipHorizontal {
+               imageResult = CropHelper.flipContent(cg, vertical: flipVertical, horizontal: flipHorizontal)
+               if rotation > 0 {
+                   imageResult = getImageRotated(image: imageResult, degree: rotation)
+               }
             }else{
-             imageResult = cg
+                imageResult = cg
             }
+            
             let rf = CropHelper.crop(imageResult, imageRect: r, cw: cw!, ch: ch!, crop: c)
 
               
