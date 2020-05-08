@@ -1,5 +1,10 @@
 # Change Log
 
+**1.6.3**
+
+- [Cropper](./readmes/cropper.md) now support flip
+  
+
 **1.6.2**
 
 - [PhotoKit](./readmes/photokit.md) key data renamed to uri.

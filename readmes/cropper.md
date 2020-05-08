@@ -8,7 +8,7 @@ Image cropping  for React Native.
 - [x] scale
 - [x] scroll
 - [x] rotation
-- [ ] flip
+- [x] flip
 
 
 
@@ -20,7 +20,9 @@ Image cropping  for React Native.
 | --- | --- | --- |
 | image | Base64 String or Static image uri | String | 
 | rect | Image rect , relative to container | Rect | 
-| rotate | degrees used on rect ( clockwise )| Number | 
+| rotate | degrees used on image rect ( clockwise )| Number | 
+| flipVertically | Reflects the image top to bottom  | Bool | 
+| flipHorizontally | Reflects the image left to right | Bool | 
 | cw |  Container width | Number | 
 | ch | Container height | Number | 
 | crop | rect for crop, relative to container | Rect | 
@@ -69,7 +71,9 @@ let cropRect = Rect.centerRect(100,100,cw,ch)
         let dataForCrop = {
             image : myImage, 
             rect: imageRect,
-            rotate: 0 
+            rotate: 0,
+            flipVertically: false,
+            flipHorizontally: false,
             cw: cw,
             ch: ch,
             crop: cropRect,
