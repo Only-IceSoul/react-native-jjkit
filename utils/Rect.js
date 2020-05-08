@@ -42,9 +42,9 @@ const offset = (rect,dx,dy)=>{
     return { left: l, top: t, right: r, bottom: b}
 }
 
-// pivot center
+// focus center
 const scale = (rect,scale) => {
-    if (scale != 1){
+    if (scale != 1 && scale >= 0){
         let w = width(rect)
         let h = height(rect)
         let nw =  w * scale
@@ -61,7 +61,7 @@ const scale = (rect,scale) => {
     }
 }
 /*
-      if degrees % 90 != 0         else swap w and h
+      if degrees % 90 != 0         90deg swap w and h
       ----------------               -------------
       -      *       -               -           -
       -    *    *    -               -           -
@@ -73,7 +73,7 @@ const scale = (rect,scale) => {
       -----------------              --------------
             width                           w
 */
-// pivot center 
+// pivot center , clockwise
  const rotate = (rect,degrees) => {
     let radian = degrees * Math.PI / 180
     let angle = radian * -1

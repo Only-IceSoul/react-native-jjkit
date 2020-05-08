@@ -38,6 +38,8 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
             val quality = map.getDouble("quality").toFloat()
             val format = map.getInt("format")
             val rotation = map.getDouble("rotate").toFloat()
+            val flipVertical = map.getBoolean("flipVertically")
+            val flipHorizontal = map.getBoolean("flipHorizontally")
 
             if(image != null && imgRect != null && crop != null){
 
@@ -49,10 +51,13 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
                 val r = mapToRectF(imgRect)
                 val c = mapToRectF(crop)
 
-                val finalBmp = if(rotation > 0 ){
-                     val matrix = Matrix()
-                     matrix.setRotate(rotation)
-                     Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, matrix, false)
+                val finalBmp = if(rotation > 0 || flipHorizontal || flipVertical ){
+                    val matrix = Matrix()
+                    val fv = if(flipVertical)  -1f else  1f
+                    val fh = if(flipHorizontal)  -1f else  1f
+                    matrix.setScale(fh,fv)
+                    if(rotation > 0) matrix.postRotate(rotation)
+                    Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, matrix, false)
                 }else{
                     bmp
                 }
@@ -107,6 +112,8 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
             val quality = map.getDouble("quality").toFloat()
             val format = map.getInt("format")
             val rotation = map.getDouble("rotate").toFloat()
+            val flipVertical = map.getBoolean("flipVertically")
+            val flipHorizontal = map.getBoolean("flipHorizontally")
 
             val bmp : Bitmap?
 
@@ -122,9 +129,12 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
                 val r = mapToRectF(imgRect)
                 val c = mapToRectF(crop)
 
-                val finalBmp = if(rotation > 0 ){
+                val finalBmp = if(rotation > 0 || flipHorizontal || flipVertical ){
                     val matrix = Matrix()
-                    matrix.setRotate(rotation)
+                    val fv = if(flipVertical)  -1f else  1f
+                    val fh = if(flipHorizontal)  -1f else  1f
+                    matrix.setScale(fh,fv)
+                    if(rotation > 0) matrix.postRotate(rotation)
                     Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, matrix, false)
                 }else{
                     bmp
