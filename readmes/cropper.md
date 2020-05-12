@@ -25,7 +25,7 @@ Image cropping  for React Native.
 | flipHorizontally | Reflects the image left to right | Bool | 
 | cw |  Container width | Number | 
 | ch | Container height | Number | 
-| crop | rect for crop, relative to container | Rect | 
+| crop |Crop rect, relative to container | Rect | 
 | width | The width for resize in pixels (fit center)  | Number |
 | height | The height for resize in pixels (fit center) | Number |
 | quality | The quality 0 to 1, png will ignore the quality | Number |
