@@ -100,7 +100,9 @@ let cropRect = Rect.centerRect(100,100,cw,ch)
 
 ```
 
-## Transform Rect
+## Rect
+
+**Transform**
 
 When you transform view, you have to update also in the rect.
 
@@ -131,7 +133,7 @@ import { Rect } from 'react-native-jjkit'
 
 ```
 
-## Rotation
+**Rotation**
 
 How it's work.
 
