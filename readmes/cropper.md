@@ -10,6 +10,9 @@ Image cropping  for React Native.
 - [x] rotation
 - [x] flip
 
+## Example
+
+[demo](https://github.com/Only-IceSoul/canal/tree/master/demos/RNCropper)
 
 
 ## Objects
@@ -145,6 +148,3 @@ odd
 
 <img src="../images/degreeodd.jpg" width="350" />
 
-# Example
-
-[demo](https://github.com/Only-IceSoul/canal/tree/master/demos/RNCropper)
