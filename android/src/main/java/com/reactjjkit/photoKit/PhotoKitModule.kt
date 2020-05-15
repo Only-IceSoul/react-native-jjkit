@@ -51,7 +51,11 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
     }
 
     override fun getConstants(): MutableMap<String, Any> {
-        return mutableMapOf("jpeg" to 0,
+        return mutableMapOf(
+                "image" to "image",
+                "video" to "video",
+                "all" to "all",
+                "jpeg" to 0,
                 "png" to 1)
     }
 
@@ -135,8 +139,8 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val albumsNames: ArrayList<String> = ArrayList()
 
-                getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames)
-                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames)
+                getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
+                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
                 val resultAlbum = Arguments.createArray()
                 val resultMedia = Arguments.createArray()
                 for (a in galleryAlbums){
@@ -165,7 +169,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val albumsNames: ArrayList<String> = ArrayList()
 
-                getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames)
+                getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
                 val resultAlbum = Arguments.createArray()
                 val resultMedia = Arguments.createArray()
                 for (a in galleryAlbums){
@@ -192,7 +196,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val albumsNames: ArrayList<String> = ArrayList()
-                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames)
+                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
                 val resultAlbum = Arguments.createArray()
                 val resultMedia = Arguments.createArray()
                 for (a in galleryAlbums){
@@ -213,24 +217,70 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
         }.start()
     }
 
+    @ReactMethod
+    fun fetchAlbum(name: String?, media: String?,promise: Promise)  {
+        if(name.isNullOrEmpty()) {
+            promise.resolve(null)
+            return
+        }
+            Thread {
+                try{
+                    val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
+                    val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
+                    val albumsNames: ArrayList<String> = ArrayList()
+                    val select = "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ?"
+                    when (media) {
+                        "image" -> {
+                            getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames,select, arrayOf(name))
+                        }
+                        "video" -> {
+                            getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arrayOf(name))
+                        }
+                        else -> {
+                            getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arrayOf(name))
+                            getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arrayOf(name))
+                        }
+                    }
+
+                    val resultAlbum = Arguments.createArray()
+                    val resultMedia = Arguments.createArray()
+                    for (a in galleryAlbums){
+                        resultAlbum.pushMap(Arguments.makeNativeMap(a))
+                    }
+                    for (m in galleryMedia){
+                        resultMedia.pushMap(Arguments.makeNativeMap(m))
+                    }
+                    val result = Arguments.createArray()
+                    result.pushArray(resultAlbum)
+                    result.pushArray(resultMedia)
+                    promise.resolve(result)
+                }catch ( e: Exception){
+                    Log.e("PhotoKit", "fetchPhotoVideos:error $e")
+                    promise.reject(e)
+                }
+                Thread.currentThread().interrupt()
+            }.start()
+        }
+    }
+
     private fun getGalleryVideos(ctx: Context?,
                                  galleryAlbums: ArrayList<MutableMap<String,Any>>, galleryMedia:ArrayList<MutableMap<String,Any>>,
-                                 albumsNames: ArrayList<String>){
+                                 albumsNames: ArrayList<String>,select:String?,selectArgs:Array<String>?){
         val videoQueryUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
             val mediaProjection = arrayOf(
                     MediaStore.Video.Media._ID,
-                    MediaStore.Video.Media.DATA,
+                    MediaStore.Video.Media.BUCKET_DISPLAY_NAME,
                     MediaStore.Video.Media.DATE_ADDED,
                     MediaStore.Video.Media.DISPLAY_NAME
             )
         val videoCursor =
-                ctx?.contentResolver?.query(videoQueryUri, mediaProjection, null, null, null)
+                ctx?.contentResolver?.query(videoQueryUri, mediaProjection, select, selectArgs, null)
 
         if (videoCursor != null && videoCursor.count > 0) {
             if (videoCursor.moveToFirst()) {
                 val idColumn = videoCursor.getColumnIndex(MediaStore.Video.Media._ID)
                 val dataColumn =
-                        videoCursor.getColumnIndex(MediaStore.Video.Media.DATA)
+                        videoCursor.getColumnIndex(MediaStore.Video.Media.BUCKET_DISPLAY_NAME)
                 val dateAddedColumn =
                         videoCursor.getColumnIndex(MediaStore.Video.Media.DATE_ADDED)
                 val displayName =
@@ -245,7 +295,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                     val media = mutableMapOf<String,Any>()
                     val uri = Uri.withAppendedPath(videoQueryUri, id)
                     val metadata = getVideoMetadata(ctx,uri)
-                    media["albumName"] = File(data).parentFile?.name ?: "error"
+                    media["albumName"] = data
                     media["displayName"] = nameWithFormat
                     media["date"] = dateAdded
                     media["duration"] = metadata[2]
@@ -283,23 +333,23 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
 
     private fun getGalleryPhotos(ctx: Context?,
                                  galleryAlbums: ArrayList<MutableMap<String,Any>>, galleryMedia:ArrayList<MutableMap<String,Any>>,
-                                 albumsNames: ArrayList<String>){
+                                 albumsNames: ArrayList<String>,select:String?,selectArgs:Array<String>?){
         val imagesQueryUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val mediaProjection = arrayOf(
                 MediaStore.Images.Media._ID,
-                MediaStore.Images.Media.DATA,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
                 MediaStore.Images.Media.DATE_ADDED,
                 MediaStore.Images.Media.DISPLAY_NAME,
                 MediaStore.Images.Media.MIME_TYPE
         )
         val imagesCursor =
-                ctx?.contentResolver?.query(imagesQueryUri, mediaProjection, null, null, null)
+                ctx?.contentResolver?.query(imagesQueryUri, mediaProjection, select, selectArgs, null)
 
         if (imagesCursor != null && imagesCursor.count > 0) {
             if (imagesCursor.moveToFirst()) {
                 val idColumn = imagesCursor.getColumnIndex(MediaStore.Images.Media._ID)
                 val dataColumn =
-                        imagesCursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                        imagesCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
                 val dateAddedColumn =
                         imagesCursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED)
                 val displayName =
@@ -317,7 +367,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                     val media = mutableMapOf<String,Any>()
                     val uri  = Uri.withAppendedPath(imagesQueryUri, id)
                     val metadata = getPhotoMetadata(ctx,uri)
-                    media["albumName"] = File(data).parentFile?.name ?: "error"
+                    media["albumName"] = data
                     media["displayName"] = nameWithFormat
                     media["date"] = dateAdded
                     media["duration"] = 0
