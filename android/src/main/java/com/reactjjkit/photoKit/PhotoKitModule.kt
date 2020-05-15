@@ -218,49 +218,74 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
     }
 
     @ReactMethod
-    fun fetchAlbum(name: String?, media: String?,promise: Promise)  {
-        if(name.isNullOrEmpty()) {
+    fun fetchAlbums(names:ReadableArray?, media: String?,promise: Promise)  {
+        if(names == null || names.size() < 1) {
             promise.resolve(null)
             return
         }
             Thread {
                 try{
-                    val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
-                    val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
-                    val albumsNames: ArrayList<String> = ArrayList()
-                    val select = "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ?"
-                    when (media) {
-                        "image" -> {
-                            getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames,select, arrayOf(name))
-                        }
-                        "video" -> {
-                            getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arrayOf(name))
-                        }
-                        else -> {
-                            getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arrayOf(name))
-                            getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arrayOf(name))
+                    var select = ""
+                    val selectArgs = mutableListOf<String>()
+
+                    for (i in 0 until names.size()){
+                        val s = names.getString(i)
+                        if(!s.isNullOrEmpty()) {
+                            selectArgs.add(s)
                         }
                     }
 
-                    val resultAlbum = Arguments.createArray()
-                    val resultMedia = Arguments.createArray()
-                    for (a in galleryAlbums){
-                        resultAlbum.pushMap(Arguments.makeNativeMap(a))
+                    if (selectArgs.size > 1){
+                        selectArgs.forEachIndexed { index, _ ->
+                            select += if (index != selectArgs.size - 1)
+                                "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ? OR "
+                            else
+                                "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ?"
+                        }
+                    }else if (selectArgs.size > 0){
+                        select = "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ?"
                     }
-                    for (m in galleryMedia){
-                        resultMedia.pushMap(Arguments.makeNativeMap(m))
-                    }
-                    val result = Arguments.createArray()
-                    result.pushArray(resultAlbum)
-                    result.pushArray(resultMedia)
-                    promise.resolve(result)
+
+                    if (select.isEmpty()) {
+                        promise.resolve(null)
+                    }else{
+                        val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
+                        val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
+                        val albumsNames: ArrayList<String> = ArrayList()
+                        val sArgs = selectArgs.toTypedArray()
+                        when (media) {
+                            "image" -> {
+                                getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames,select, sArgs)
+                            }
+                            "video" -> {
+                                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
+                            }
+                            else -> {
+                                getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
+                                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
+                            }
+                         }
+
+                            val resultAlbum = Arguments.createArray()
+                            val resultMedia = Arguments.createArray()
+                            for (a in galleryAlbums){
+                                resultAlbum.pushMap(Arguments.makeNativeMap(a))
+                            }
+                            for (m in galleryMedia){
+                                resultMedia.pushMap(Arguments.makeNativeMap(m))
+                            }
+                            val result = Arguments.createArray()
+                            result.pushArray(resultAlbum)
+                            result.pushArray(resultMedia)
+                            promise.resolve(result)
+                        }
                 }catch ( e: Exception){
-                    Log.e("PhotoKit", "fetchPhotoVideos:error $e")
+                    Log.e("PhotoKit", "fetchAlbums:error $e")
                     promise.reject(e)
                 }
                 Thread.currentThread().interrupt()
             }.start()
-        }
+
     }
 
     private fun getGalleryVideos(ctx: Context?,
