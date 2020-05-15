@@ -32,6 +32,9 @@ rejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(fetchAll:(RCTPromiseResolveBlock)resolve
 rejecter:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(fetchAlbums:(NSArray)names media:(NSString)media resolve:(RCTPromiseResolveBlock)resolve
+rejecter:(RCTPromiseRejectBlock)reject)
+
 RCT_EXTERN_METHOD(requestRaw:(NSString)identifier resolve:(RCTPromiseResolveBlock)resolve
 rejecter:(RCTPromiseRejectBlock)reject)
 
