@@ -11,10 +11,15 @@ You can use PhotoKit [Permission](./photokitPermission.md)
 
 ```javascript
 import { PhotoKit } from 'react-native-jjkit'
+                                                     
+    var mediaType =  
+     PhotoKit.gif
+     PhotoKit.photo
+     null or any string  // gif and photo
 
-    PhotoKit.fetchPhotos().then(res => {
+    PhotoKit.fetchImages(mediaType).then(res => {
       console.log("albums: ",res[0])
-      console.log("photos: ",res[1])
+      console.log("Images: ",res[1])
     })
     PhotoKit.fetchVideos().then(res => {
         console.log("albums: ",res[0])
@@ -22,9 +27,24 @@ import { PhotoKit } from 'react-native-jjkit'
     })
     PhotoKit.fetchAll().then(res => {
         console.log("albums: ",res[0])
-        console.log("photosVideos: ",res[1])
+        console.log("Images/Videos: ",res[1])
     })
 
+    //It will ask if the album name is in the array
+    var names = ["Pictures","Camera roll","WhatsApp","Whats App","whats app images"]
+    var oneAlbum = ["Pictures"]
+    var mediaType = 
+    PhotoKit.gif  
+    PhotoKit.photo   
+    PhotoKit.image  // git and photo
+    PhotoKit.video  // video
+    PhotoKit.all  // image and video
+
+    PhotoKit.fetchAlbums(names,mediaType).then(res => {
+        console.log("albums: ",res[0])
+        console.log("Images/Videos: ",res[1])
+    })
+   
 
 ```
 

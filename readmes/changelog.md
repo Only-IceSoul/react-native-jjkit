@@ -1,5 +1,12 @@
 # Change Log
 
+**1.6.4**
+
+- [PhotoKit](./readmes/photokit.md) 
+    - fetchPhotos renamed to fetchImages (added 1 parameter)
+    - added method fetchAlbums
+
+
 **1.6.3**
 
 - [Cropper](./readmes/cropper.md) now support flip

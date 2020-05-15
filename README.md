@@ -35,6 +35,12 @@ ios : 9.0+
 
 ## Change log
 
+**1.6.4**
+
+- [PhotoKit](./readmes/photokit.md) 
+    - fetchPhotos renamed to fetchImages (added 1 parameter)
+    - added method fetchAlbums
+
 
 **1.6.3**
 
@@ -45,11 +51,6 @@ ios : 9.0+
 
 - [PhotoKit](./readmes/photokit.md) key data renamed to uri.
 
-
-**1.6.1**
-
-- [Cropper](./readmes/cropper.md) now support rotation
--  Util Rect, scale and rotate updated
 
 See [full change log.](./readmes/changelog.md)
 

@@ -23,7 +23,7 @@ rejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(requestPermission:(RCTPromiseResolveBlock)resolve
 rejecter:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(fetchPhotos:(RCTPromiseResolveBlock)resolve
+RCT_EXTERN_METHOD(fetchImages:(NSString)media resolve:(RCTPromiseResolveBlock)resolve
 rejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(fetchVideos:(RCTPromiseResolveBlock)resolve

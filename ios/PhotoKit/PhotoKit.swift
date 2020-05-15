@@ -60,110 +60,104 @@ class PhotoKit : NSObject, RCTBridgeModule {
            }
        }
     
-    @objc func fetchPhotos(_ resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
+    @objc func fetchImages(_ media:String?, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
         Guiso.get().getExecutor().doWork {
-        var mAlbumList = [[String:Any]]()
-        var mMediaList = [[String:Any]]()
+            var mAlbumList = [[String:Any]]()
+            var mMediaList = [[String:Any]]()
 
-
-        let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: nil )
-        let userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)
-
-        if smartAlbums.count > 0 {
-            for i in 0...(smartAlbums.count-1){
-               let a = smartAlbums.object(at: i)
-              let datas = PhotoKit.getAssetsPhotos(fromCollection: a)
-             
-               if( datas.count > 0){
-                  var ga = [String:Any]()
-                   ga["count"] = datas.count
-                   ga["id"] =  PhotoKit.generateId()
-                   ga["name"] = a.localizedTitle
-                   ga["mediaType"] = "image"
-                   let fo = datas.object(at: 0)
-                   ga["uri"] = fo.localIdentifier
-                   if let type = fo.value(forKey: "uniformTypeIdentifier") as? String {
-                         if type == kUTTypeGIF as String{
-                             ga["mediaType"] = "gif"
-                         }
-                         
-                      }
-                   mAlbumList.append(ga)
-                 
-                   for index in 0...datas.count-1{
-                       let m = datas.object(at: index)
-                       let assetResources = PHAssetResource.assetResources(for: m)
-                       let name = assetResources.first?.originalFilename
-                       var  media = [String:Any]()
-                       media["albumId"] = ga["id"]
-                       media["albumName"] = ga["name"]
-                       media["displayName"] = name
-                       media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
-                       media["duration"] = m.duration
-                       media["height"] = m.pixelHeight
-                       media["width"] = m.pixelWidth
-                       media["mediaType"] = "image"
-                       if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
-                         if type == kUTTypeGIF as String{
-                             media["mediaType"] = "gif"
-                         }
-                         
-                      }
-                        media["uri"] = m.localIdentifier
-                       mMediaList.append(media)
-                   }
-               }
-            }
-        }
-
-        if userCollections.count > 0 {
-            for i in 0...(userCollections.count-1){
-               let a = userCollections.object(at: i)
-               let datas = PhotoKit.getAssetsPhotos(fromCollection: a as! PHAssetCollection)
-               if( datas.count > 0){
-                  var ga = [String:Any]()
-                   ga["count"] = datas.count
-                   ga["id"] =  PhotoKit.generateId()
-                   ga["name"] = a.localizedTitle
-                   ga["mediaType"] = "image"
-                     let fo = datas.object(at: 0)
+            let albums = self.getAllAlbums()
+             if albums.count > 0 {
+                 for i in 0...(albums.count-1){
+                     let a = albums[i]
+                  let datas = PhotoKit.getAssets(fromCollection: a)
                    
-                   if let type = fo.value(forKey: "uniformTypeIdentifier") as? String {
-                     if type == kUTTypeGIF as String{
-                         ga["mediaType"] = "gif"
-                     }
-                     
-                   }
-                   ga["uri"] = fo.localIdentifier
-                    mAlbumList.append(ga)
-                 
-                   for index in 0...datas.count-1{
-                       let m = datas.object(at: index)
-                       let assetResources = PHAssetResource.assetResources(for: m)
-                       let name = assetResources.first?.originalFilename
-                      var media = [String:Any]()
-                       media["albumId"] = ga["id"]
-                       media["albumName"] = ga["name"]
-                       media["displayName"] = name
-                       media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
+                   if(datas.count > 0){
+                      var ga = [String:Any]()
+                         ga["count"] = datas.count
+                         ga["id"] =  PhotoKit.generateId()
+                         ga["name"] = a.localizedTitle
 
-                       media["duration"] = m.duration
-                       media["height"] = m.pixelHeight
-                       media["width"] = m.pixelWidth
-                       media["mediaType"] =  "image"
-                       if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
-                          if type == kUTTypeGIF as String{
-                              media["mediaType"] = "gif"
-                          }
-                          
-                       }
-                       media["uri"] = m.localIdentifier
-                         mMediaList.append(media)
-                   }
-               }
-            }
-        }
-        resolve([mAlbumList,mMediaList])
+                         var firstItem = true
+                          let type = media ?? "all"
+                         for index in 0...datas.count-1{
+                           let m = datas.object(at: index)
+                      
+                           var shouldContinue = false
+                            switch type {
+                            case "gif":
+                              if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                 if mt == kUTTypeGIF as String{
+                                     shouldContinue = false
+                                 }else{
+                                    shouldContinue = true
+                                  }
+                                 
+                              }else{
+                                  shouldContinue = true
+                              }
+                              break
+                            case "photo":
+                              shouldContinue = m.mediaType != .image
+                              if !shouldContinue {
+                                  if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                       if mt == kUTTypeGIF as String{
+                                           shouldContinue = true
+                                       }else{
+                                          shouldContinue = false
+                                        }
+                                   
+                                  }else{
+                                    shouldContinue = true
+                                  }
+                              }
+                            default:
+                               shouldContinue = m.mediaType != .image
+                            }
+
+                           
+                           if shouldContinue {
+                               continue
+                           }
+                           
+                             let assetResources = PHAssetResource.assetResources(for: m)
+                             let name = assetResources.first?.originalFilename
+                     
+                          var media = [String:Any]()
+                             media["albumId"] = ga["id"]
+                             media["albumName"] = ga["name"]
+                             media["displayName"] = name
+                             media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
+                             media["duration"] = m.duration
+                             media["height"] = m.pixelHeight
+                             media["width"] = m.pixelWidth
+                             media["mediaType"] = m.mediaType == .image ? "image" : "video"
+                              media["uri"] = m.localIdentifier
+                            if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                if type == kUTTypeGIF as String{
+                                    media["mediaType"] = "gif"
+                                }
+                                
+                            }
+                           if firstItem{
+                               firstItem = false
+                               ga["mediaType"] = media["mediaType"]
+                               ga["uri"] = media["uri"]
+                               mAlbumList.append(ga)
+                           }
+                             
+                           mMediaList.append(media)
+                         }
+                         
+
+                         
+                     }//datas cond > 0
+                 }//for albums
+               
+            }//albums count filtered
+             
+            resolve([mAlbumList,mMediaList])
+       
+
         }
 
     }
@@ -527,6 +521,26 @@ class PhotoKit : NSObject, RCTBridgeModule {
          return result
      }
       
+    func getAllAlbums() -> [PHAssetCollection]{
+        let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: nil )
+        let userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)
+        var result = [PHAssetCollection]()
+        if smartAlbums.count > 0 {
+            for i in 0...(smartAlbums.count-1){
+                let a = smartAlbums.object(at: i)
+                result.append(a)
+            }
+        }
+        
+        if userCollections.count > 0 {
+            for i in 0...(userCollections.count-1){
+                let a = userCollections.object(at: i)
+                result.append(a as! PHAssetCollection)
+            }
+        }
+        
+        return result
+    }
     
        static var mCurrentId = 0
        static func generateId() -> Int {
