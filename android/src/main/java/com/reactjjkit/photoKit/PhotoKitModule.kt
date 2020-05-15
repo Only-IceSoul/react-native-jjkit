@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.webkit.MimeTypeMap
 import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -21,7 +22,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.facebook.react.bridge.*
 import java.io.ByteArrayOutputStream
-import java.io.File
+
 class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context)  {
 
    private val reactContext: ReactApplicationContext = context
@@ -54,6 +55,8 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
         return mutableMapOf(
                 "image" to "image",
                 "video" to "video",
+                "gif" to "gif",
+                "photo" to "photo",
                 "all" to "all",
                 "jpeg" to 0,
                 "png" to 1)
@@ -139,7 +142,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val albumsNames: ArrayList<String> = ArrayList()
 
-                getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
+                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
                 getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
                 val resultAlbum = Arguments.createArray()
                 val resultMedia = Arguments.createArray()
@@ -162,14 +165,32 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
     }
 
     @ReactMethod
-    fun fetchPhotos( promise: Promise)  {
+    fun fetchImages(media:String?, promise: Promise)  {
         Thread {
             try{
                 val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val albumsNames: ArrayList<String> = ArrayList()
 
-                getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
+                when(media){
+                    "photo" ->{
+                        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
+                        val select = "${MediaStore.Images.Media.MIME_TYPE} != ?"
+                        val arr = arrayOf(mimeType)
+                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arr)
+                    }
+                    "gif"->{
+                        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
+                        val select = "${MediaStore.Images.Media.MIME_TYPE} = ?"
+                        val arr = arrayOf(mimeType)
+                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arr)
+                    }
+                    else -> {
+                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
+                    }
+                }
+
+
                 val resultAlbum = Arguments.createArray()
                 val resultMedia = Arguments.createArray()
                 for (a in galleryAlbums){
@@ -255,13 +276,27 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                         val sArgs = selectArgs.toTypedArray()
                         when (media) {
                             "image" -> {
-                                getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames,select, sArgs)
+                                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select, sArgs)
                             }
                             "video" -> {
                                 getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
                             }
+                            "gif" ->{
+                                val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
+                                val selectMod = "$select AND ${MediaStore.Images.Media.MIME_TYPE} = ?"
+                                selectArgs.add(mimeType)
+                                val arr = selectArgs.toTypedArray()
+                                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
+                            }
+                            "photo" -> {
+                                val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
+                                val selectMod = "$select AND ${MediaStore.Images.Media.MIME_TYPE} != ?"
+                                selectArgs.add(mimeType)
+                                val arr = selectArgs.toTypedArray()
+                                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
+                            }
                             else -> {
-                                getGalleryPhotos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
+                                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
                                 getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
                             }
                          }
@@ -356,9 +391,9 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
         } else Log.e("PhotoKit", "getGalleryVideos:error Cursor is null or empty")
     }
 
-    private fun getGalleryPhotos(ctx: Context?,
+    private fun getGalleryImages(ctx: Context?,
                                  galleryAlbums: ArrayList<MutableMap<String,Any>>, galleryMedia:ArrayList<MutableMap<String,Any>>,
-                                 albumsNames: ArrayList<String>,select:String?,selectArgs:Array<String>?){
+                                 albumsNames: ArrayList<String>, select:String?, selectArgs:Array<String>?){
         val imagesQueryUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val mediaProjection = arrayOf(
                 MediaStore.Images.Media._ID,
