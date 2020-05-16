@@ -27,7 +27,6 @@ import { PhotoKit } from 'react-native-jjkit'
     })
    
 
-    //It will ask if the album name is in the array
     var names = ["Pictures","Camera roll","WhatsApp","Whats App","whats app images"]
     var oneAlbum = ["Pictures"]
   
