@@ -1,4 +1,10 @@
 # Change Log
+
+**1.6.6**
+
+- [PhotoKit](./readmes/photokit.md) fix query (Android)
+    
+
 **1.6.5**
 
 - [PhotoKit](./readmes/photokit.md) 

@@ -258,21 +258,21 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                             }
                             "gif" ->{
                                 val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
-                                val selectMod = "$select AND ${MediaStore.Images.Media.MIME_TYPE} = ?"
+                                val selectMod = "($select) AND ${MediaStore.Images.Media.MIME_TYPE} = ?"
                                 selectArgs.add(mimeType)
                                 val arr = selectArgs.toTypedArray()
                                 getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
                             }
                             "photo" -> {
                                 val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
-                                val selectMod = "$select AND ${MediaStore.Images.Media.MIME_TYPE} != ?"
+                                val selectMod = "($select) AND ${MediaStore.Images.Media.MIME_TYPE} != ?"
                                 selectArgs.add(mimeType)
                                 val arr = selectArgs.toTypedArray()
                                 getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
                             }
                             "video_gif"->{
                                 val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
-                                val selectMod = "$select AND ${MediaStore.Images.Media.MIME_TYPE} = ?"
+                                val selectMod = "($select) AND ${MediaStore.Images.Media.MIME_TYPE} = ?"
                                 selectArgs.add(mimeType)
                                 val arr = selectArgs.toTypedArray()
                                 getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
@@ -280,7 +280,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                             }
                             "video_photo" ->{
                                 val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
-                                val selectMod = "$select AND ${MediaStore.Images.Media.MIME_TYPE} != ?"
+                                val selectMod = "($select) AND ${MediaStore.Images.Media.MIME_TYPE} != ?"
                                 selectArgs.add(mimeType)
                                 val arr = selectArgs.toTypedArray()
                                 getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
