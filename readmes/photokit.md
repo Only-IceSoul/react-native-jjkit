@@ -12,16 +12,16 @@ You can use PhotoKit [Permission](./photokitPermission.md)
 ```javascript
 import { PhotoKit } from 'react-native-jjkit'
                                                      
-    var mediaType = 
+    var mediaQuery = 
     PhotoKit.gif  
     PhotoKit.photo   
-    PhotoKit.image  // git and photo
+    PhotoKit.image  // gif and photo
     PhotoKit.video  // video
     PhotoKit.video_gif // video and gif
     PhotoKit.video_photo // video and photo
     PhotoKit.all  // image and video
 
-    PhotoKit.fetch(mediaType).then(res => {
+    PhotoKit.fetch(mediaQuery).then(res => {
       console.log("albums: ",res[0])
       console.log("Images/Videos: ",res[1])
     })
@@ -32,7 +32,7 @@ import { PhotoKit } from 'react-native-jjkit'
     var oneAlbum = ["Pictures"]
   
 
-    PhotoKit.fetchAlbums(names,mediaType).then(res => {
+    PhotoKit.fetchAlbums(names,mediaQuery).then(res => {
         console.log("albums: ",res[0])
         console.log("Images/Videos: ",res[1])
     })
