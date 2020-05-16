@@ -53,23 +53,34 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
             }
         }
     }
-
-
     private fun updateImageCache(url:String,asGif:Boolean,w:Int,h:Int){
         if (asGif ){
             val options =  RequestOptions()
                     .fitCenter()
                     .override(w, h)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-            Glide.with(context).asGif().load(url).apply(options).into(this)
+
+            if (url.contains("base64,")){
+                val s = url.split(",")[1]
+                val bytes = android.util.Base64.decode(s,android.util.Base64.DEFAULT)
+                Glide.with(context).asGif().load(bytes).apply(options).into(this)
+            }else{
+                Glide.with(context).asGif().load(url).apply(options).into(this)
+            }
 
         }else{
             val options =  RequestOptions()
                     .frame(0L)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .fitCenter()
                     .override(w, h)
-            Glide.with(context)
+            if ( url.contains("base64,")){
+                val s = url.split(",")[1]
+                val bytes = android.util.Base64.decode(s,android.util.Base64.DEFAULT)
+                Glide.with(context)
+                        .asBitmap()
+                        .load(bytes)
+                        .apply(options)
+                        .into(this)
+            }else Glide.with(context)
                     .asBitmap()
                     .load(url)
                     .apply(options)
@@ -80,14 +91,25 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
 
     private fun updateImageCache(url:String,asGif: Boolean){
         if (asGif){
-            val options =  RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-            Glide.with(context).asGif().load(url).apply(options).into(this)
+            if (url.contains("base64,")){
+                val s = url.split(",")[1]
+                val bytes = android.util.Base64.decode(s,android.util.Base64.DEFAULT)
+                Glide.with(context).asGif().load(bytes).into(this)
+            }else{
+                Glide.with(context).asGif().load(url).into(this)
+            }
         }else{
             val options =  RequestOptions()
                     .frame(0L)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-            Glide.with(context)
+            if (url.contains("base64,")){
+                val s = url.split(",")[1]
+                val bytes = android.util.Base64.decode(s,android.util.Base64.DEFAULT)
+                Glide.with(context)
+                        .asBitmap()
+                        .load(bytes)
+                        .apply(options)
+                        .into(this)
+            }else Glide.with(context)
                     .asBitmap()
                     .load(url)
                     .apply(options)
@@ -99,14 +121,30 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
         if (asGif){
             val options =  RequestOptions().fitCenter().override(w, h)
                     .skipMemoryCache(true)
-            Glide.with(context).asGif().load(url).apply(options).into(this)
+
+            if (url.contains("base64,")){
+                val s = url.split(",")[1]
+                val bytes = android.util.Base64.decode(s,android.util.Base64.DEFAULT)
+                Glide.with(context).asGif().load(bytes).apply(options).into(this)
+            }else{
+                Glide.with(context).asGif().load(url).apply(options).into(this)
+            }
         }else{
             val options =  RequestOptions()
                     .frame(0L)
                     .fitCenter()
                     .override(w, h)
                     .skipMemoryCache(true)
-            Glide.with(context)
+
+            if (url.contains("base64,")){
+                val s = url.split(",")[1]
+                val bytes = android.util.Base64.decode(s,android.util.Base64.DEFAULT)
+                Glide.with(context)
+                        .asBitmap()
+                        .load(bytes)
+                        .apply(options)
+                        .into(this)
+            }else Glide.with(context)
                     .asBitmap()
                     .load(url)
                     .apply(options)
@@ -117,16 +155,32 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
         if (asGif){
             val options =  RequestOptions()
                     .skipMemoryCache(true)
-            Glide.with(context).asGif().load(url).apply(options).into(this)
+
+            if (url.contains("base64,")){
+                val s = url.split(",")[1]
+                val bytes = android.util.Base64.decode(s,android.util.Base64.DEFAULT)
+                Glide.with(context).asGif().load(bytes).apply(options).into(this)
+            }else{
+                Glide.with(context).asGif().load(url).apply(options).into(this)
+            }
         }else{
             val options =  RequestOptions()
                     .frame(0L)
                     .skipMemoryCache(true)
-            Glide.with(context)
+            if (url.contains("base64,")){
+                val s = url.split(",")[1]
+                val bytes = android.util.Base64.decode(s,android.util.Base64.DEFAULT)
+                Glide.with(context)
+                        .asBitmap()
+                        .load(bytes)
+                        .apply(options)
+                        .into(this)
+            }else Glide.with(context)
                     .asBitmap()
                     .load(url)
                     .apply(options)
                     .into(this)
         }
     }
+
 }
