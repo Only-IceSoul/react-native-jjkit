@@ -35,6 +35,12 @@ ios : 9.0+
 
 ## Change log
 
+**1.6.5**
+
+- [PhotoKit](./readmes/photokit.md) 
+    - deleted fetch videos,images,all
+    - added method fetch 
+
 **1.6.4**
 
 - [PhotoKit](./readmes/photokit.md) 

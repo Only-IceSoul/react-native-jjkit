@@ -12,6 +12,8 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.webkit.MimeTypeMap
@@ -55,6 +57,8 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
         return mutableMapOf(
                 "image" to "image",
                 "video" to "video",
+                "video_photo" to "video_photo",
+                "video_gif" to "video_gif",
                 "gif" to "gif",
                 "photo" to "photo",
                 "all" to "all",
@@ -134,38 +138,10 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
         }
     }
 
-    @ReactMethod
-    fun fetchAll( promise: Promise)  {
-        Thread {
-            try{
-                val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
-                val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
-                val albumsNames: ArrayList<String> = ArrayList()
 
-                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
-                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
-                val resultAlbum = Arguments.createArray()
-                val resultMedia = Arguments.createArray()
-                for (a in galleryAlbums){
-                    resultAlbum.pushMap(Arguments.makeNativeMap(a))
-                }
-                for (m in galleryMedia){
-                    resultMedia.pushMap(Arguments.makeNativeMap(m))
-                }
-                val result = Arguments.createArray()
-                result.pushArray(resultAlbum)
-                result.pushArray(resultMedia)
-                promise.resolve(result)
-            }catch ( e: Exception){
-                Log.e("PhotoKit", "fetchPhotoVideos:error $e")
-                promise.reject(e)
-            }
-            Thread.currentThread().interrupt()
-        }.start()
-    }
 
     @ReactMethod
-    fun fetchImages(media:String?, promise: Promise)  {
+    fun fetch(media:String?, promise: Promise)  {
         Thread {
             try{
                 val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
@@ -173,6 +149,12 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 val albumsNames: ArrayList<String> = ArrayList()
 
                 when(media){
+                    "image" -> {
+                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,null, null)
+                    }
+                    "video" -> {
+                        getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
+                    }
                     "photo" ->{
                         val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
                         val select = "${MediaStore.Images.Media.MIME_TYPE} != ?"
@@ -185,8 +167,23 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                         val arr = arrayOf(mimeType)
                         getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arr)
                     }
+                    "video_gif"->{
+                        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
+                        val select = "${MediaStore.Images.Media.MIME_TYPE} = ?"
+                        val arr = arrayOf(mimeType)
+                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arr)
+                        getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
+                    }
+                    "video_photo" ->{
+                        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
+                        val select = "${MediaStore.Images.Media.MIME_TYPE} != ?"
+                        val arr = arrayOf(mimeType)
+                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arr)
+                        getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
+                    }
                     else -> {
                         getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
+                        getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
                     }
                 }
 
@@ -202,42 +199,20 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 val result = Arguments.createArray()
                 result.pushArray(resultAlbum)
                 result.pushArray(resultMedia)
-                promise.resolve(result)
+                Handler(Looper.getMainLooper()).post {
+                    promise.resolve(result)
+                }
+
             }catch ( e: Exception){
                 Log.e("PhotoKit", "fetchPhotos:error $e")
-                promise.reject(e)
-            }
-            Thread.currentThread().interrupt()
-        }.start()
-    }
-    @ReactMethod
-    fun fetchVideos( promise: Promise)  {
-        Thread {
-            try{
-                val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
-                val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
-                val albumsNames: ArrayList<String> = ArrayList()
-                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
-                val resultAlbum = Arguments.createArray()
-                val resultMedia = Arguments.createArray()
-                for (a in galleryAlbums){
-                    resultAlbum.pushMap(Arguments.makeNativeMap(a))
+                Handler(Looper.getMainLooper()).post {
+                    promise.reject(e)
                 }
-                for (m in galleryMedia){
-                    resultMedia.pushMap(Arguments.makeNativeMap(m))
-                }
-                val result = Arguments.createArray()
-                result.pushArray(resultAlbum)
-                result.pushArray(resultMedia)
-                promise.resolve(result)
-            }catch ( e: Exception){
-                Log.e("PhotoKit", "fetchVideos:error $e")
-                promise.reject(e)
-            }
-            Thread.currentThread().interrupt()
-        }.start()
-    }
 
+            }
+            Thread.currentThread().interrupt()
+        }.start()
+    }
     @ReactMethod
     fun fetchAlbums(names:ReadableArray?, media: String?,promise: Promise)  {
         if(names == null || names.size() < 1) {
@@ -295,6 +270,22 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                                 val arr = selectArgs.toTypedArray()
                                 getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
                             }
+                            "video_gif"->{
+                                val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
+                                val selectMod = "$select AND ${MediaStore.Images.Media.MIME_TYPE} = ?"
+                                selectArgs.add(mimeType)
+                                val arr = selectArgs.toTypedArray()
+                                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
+                                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
+                            }
+                            "video_photo" ->{
+                                val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
+                                val selectMod = "$select AND ${MediaStore.Images.Media.MIME_TYPE} != ?"
+                                selectArgs.add(mimeType)
+                                val arr = selectArgs.toTypedArray()
+                                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
+                                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
+                            }
                             else -> {
                                 getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
                                 getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
@@ -312,11 +303,15 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                             val result = Arguments.createArray()
                             result.pushArray(resultAlbum)
                             result.pushArray(resultMedia)
-                            promise.resolve(result)
+                            Handler(Looper.getMainLooper()).post {
+                                promise.resolve(result)
+                            }
                         }
                 }catch ( e: Exception){
                     Log.e("PhotoKit", "fetchAlbums:error $e")
-                    promise.reject(e)
+                    Handler(Looper.getMainLooper()).post {
+                        promise.reject(e)
+                    }
                 }
                 Thread.currentThread().interrupt()
             }.start()
