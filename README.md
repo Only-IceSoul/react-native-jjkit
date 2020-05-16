@@ -41,22 +41,6 @@ ios : 9.0+
     - deleted fetch videos,images,all
     - added method fetch 
 
-**1.6.4**
-
-- [PhotoKit](./readmes/photokit.md) 
-    - fetchPhotos renamed to fetchImages (added 1 parameter)
-    - added method fetchAlbums
-
-
-**1.6.3**
-
-- [Cropper](./readmes/cropper.md) now support flip
-
-
-**1.6.2**
-
-- [PhotoKit](./readmes/photokit.md) key data renamed to uri.
-
 
 See [full change log.](./readmes/changelog.md)
 

@@ -23,13 +23,7 @@ rejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(requestPermission:(RCTPromiseResolveBlock)resolve
 rejecter:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(fetchImages:(NSString)media resolve:(RCTPromiseResolveBlock)resolve
-rejecter:(RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(fetchVideos:(RCTPromiseResolveBlock)resolve
-rejecter:(RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(fetchAll:(RCTPromiseResolveBlock)resolve
+RCT_EXTERN_METHOD(fetch:(NSString)media resolve:(RCTPromiseResolveBlock)resolve
 rejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(fetchAlbums:(NSArray)names media:(NSString)media resolve:(RCTPromiseResolveBlock)resolve

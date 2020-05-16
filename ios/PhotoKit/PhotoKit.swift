@@ -60,7 +60,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
            }
        }
     
-    @objc func fetchImages(_ media:String?, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
+    @objc func fetch(_ media:String?, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
         Guiso.get().getExecutor().doWork {
             var mAlbumList = [[String:Any]]()
             var mMediaList = [[String:Any]]()
@@ -83,38 +83,74 @@ class PhotoKit : NSObject, RCTBridgeModule {
                            let m = datas.object(at: index)
                       
                            var shouldContinue = false
-                            switch type {
-                            case "gif":
-                              if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                 if mt == kUTTypeGIF as String{
-                                     shouldContinue = false
-                                 }else{
-                                    shouldContinue = true
-                                  }
-                                 
-                              }else{
-                                  shouldContinue = true
-                              }
-                              break
-                            case "photo":
-                              shouldContinue = m.mediaType != .image
-                              if !shouldContinue {
-                                  if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                       if mt == kUTTypeGIF as String{
-                                           shouldContinue = true
-                                       }else{
-                                          shouldContinue = false
-                                        }
-                                   
-                                  }else{
-                                    shouldContinue = true
-                                  }
-                              }
-                            default:
+                       switch type {
+                           case "image":
                                shouldContinue = m.mediaType != .image
+                               break
+                           case "video":
+                               shouldContinue = m.mediaType != .video
+                               break
+                           case "gif":
+                               if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                  if mt == kUTTypeGIF as String{
+                                      shouldContinue = false
+                                  }else{
+                                     shouldContinue = true
+                                   }
+                                  
+                               }else{
+                                   shouldContinue = true
+                               }
+                               break
+                           case "photo":
+                               shouldContinue = m.mediaType != .image
+                               if !shouldContinue {
+                                   if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                        if mt == kUTTypeGIF as String{
+                                            shouldContinue = true
+                                        }else{
+                                           shouldContinue = false
+                                         }
+                                    
+                                   }else{
+                                     shouldContinue = true
+                                   }
+                               }
+                                break
+                            case "video_gif":
+                                 shouldContinue = m.mediaType != .video
+                                 if shouldContinue {
+                                    if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                          if mt == kUTTypeGIF as String{
+                                              shouldContinue = false
+                                          }else{
+                                             shouldContinue = true
+                                           }
+                                      
+                                    }else{
+                                       shouldContinue = true
+                                    }
+                                 }
+                                break
+                       case "video_photo":
+                            shouldContinue = m.mediaType != .video
+                            if shouldContinue {
+                                if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                     if mt == kUTTypeGIF as String{
+                                         shouldContinue = true
+                                     }else{
+                                        shouldContinue = false
+                                      }
+                                 
+                                }else{
+                                  shouldContinue = true
+                                }
                             }
+                            break
+                           default:
+                               shouldContinue = false
+                           }
 
-                           
                            if shouldContinue {
                                continue
                            }
@@ -163,203 +199,9 @@ class PhotoKit : NSObject, RCTBridgeModule {
     }
     
 
-       
-       @objc func fetchVideos(_ resolve: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock){
-        Guiso.get().getExecutor().doWork {
-            var mAlbumList = [[String:Any]]()
-            var mMediaList = [[String:Any]]()
-
-            let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: nil )
-            let userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)
-
-            if smartAlbums.count > 0 {
-              for i in 0...(smartAlbums.count-1){
-                  let a = smartAlbums.object(at: i)
-               let datas = PhotoKit.getAssetsVideos(fromCollection: a)
-                
-                  if datas.count > 0 {
-                   var ga = [String:Any]()
-                      ga["count"] = datas.count
-                      ga["id"] =  PhotoKit.generateId()
-                      ga["name"] = a.localizedTitle
-                      ga["mediaType"] = "video"
-                      let fo = datas.object(at: 0)
-                         ga["uri"] = fo.localIdentifier
-                      mAlbumList.append(ga)
-                      for index in 0...datas.count-1{
-                          let m = datas.object(at: index)
-                          let assetResources = PHAssetResource.assetResources(for: m)
-                          let name = assetResources.first?.originalFilename
-                  
-                       var media = [String:Any]()
-                          media["albumId"] = ga["id"]
-                          media["albumName"] = ga["name"]
-                          media["displayName"] = name
-                          media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
-                          media["duration"] = m.duration
-                          media["height"] = m.pixelHeight
-                          media["width"] = m.pixelWidth
-                          media["mediaType"] = "video"
-                     
-                        media["uri"] = m.localIdentifier
-                          mMediaList.append(media)
-                      }
-                  }
-              }
-            }
-
-            if userCollections.count > 0 {
-              for i in 0...(userCollections.count-1){
-                  let a = userCollections.object(at: i)
-                  let datas = PhotoKit.getAssetsVideos(fromCollection: a as! PHAssetCollection)
-
-                  if( datas.count > 0){
-                   var ga = [String:Any]()
-                      ga["count"] = datas.count
-                      ga["id"] =  PhotoKit.generateId()
-                      ga["name"] = a.localizedTitle
-                      ga["mediaType"] = "video"
-                        let fo = datas.object(at: 0)
-                      ga["mediaType"] =  "video"
-                        ga["uri"] = fo.localIdentifier
-                       mAlbumList.append(ga)
-                      for index in 0...datas.count-1{
-                          let m = datas.object(at: index)
-                          let assetResources = PHAssetResource.assetResources(for: m)
-                          let name = assetResources.first?.originalFilename
-                       var media = [String:Any]()
-                          media["albumId"] = ga["id"]
-                          media["albumName"] = ga["name"]
-                          media["displayName"] = name
-                          media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
-                          media["duration"] = m.duration
-                          media["height"] = m.pixelHeight
-                          media["width"] = m.pixelWidth
-                          media["mediaType"] = "video"
-                        media["uri"] = m.localIdentifier
-                 
-                          mMediaList.append(media)
-                      }
-               
-                    
-                  }
-              }
-            }
-            resolve([mAlbumList,mMediaList])
-        }
-    }
-  
+     
        
 
-    @objc func fetchAll(_ resolve: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock){
-    Guiso.get().getExecutor().doWork {
-        var mAlbumList = [[String:Any]]()
-        var mMediaList = [[String:Any]]()
-       let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: nil )
-       let userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)
-
-               if smartAlbums.count > 0 {
-                   for i in 0...(smartAlbums.count-1){
-                       let a = smartAlbums.object(at: i)
-                    let datas = PhotoKit.getAssets(fromCollection: a)
-                     
-                if(datas.count > 0){
-                        var ga = [String:Any]()
-                           ga["count"] = datas.count
-                           ga["id"] =  PhotoKit.generateId()
-                           ga["name"] = a.localizedTitle
-                           let fo = datas.object(at: 0)
-                          ga["mediaType"] = fo.mediaType == .image ? "image" : "video"
-                          if let type = fo.value(forKey: "uniformTypeIdentifier") as? String {
-                              if type == kUTTypeGIF as String{
-                                  ga["mediaType"] = "gif"
-                              }
-                              
-                          }
-                              ga["uri"] = fo.localIdentifier
-                                      
-                           
-                           mAlbumList.append(ga)
-                           for index in 0...datas.count-1{
-                               let m = datas.object(at: index)
-                               let assetResources = PHAssetResource.assetResources(for: m)
-                               let name = assetResources.first?.originalFilename
-                       
-                            var media = [String:Any]()
-                               media["albumId"] = ga["id"]
-                               media["albumName"] = ga["name"]
-                               media["displayName"] = name
-                               media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
-                               media["duration"] = m.duration
-                               media["height"] = m.pixelHeight
-                               media["width"] = m.pixelWidth
-                               media["mediaType"] = m.mediaType == .image ? "image" : "video"
-                                media["uri"] = m.localIdentifier
-                              if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                  if type == kUTTypeGIF as String{
-                                      media["mediaType"] = "gif"
-                                  }
-                                  
-                              }
-                               mMediaList.append(media)
-                           }
-                       }//cond > 0
-                   }//for albums
-               }
-               
-               if userCollections.count > 0 {
-                   for i in 0...(userCollections.count-1){
-                       let a = userCollections.object(at: i)
-                       let datas = PhotoKit.getAssets(fromCollection: a as! PHAssetCollection)
-
-                       if( datas.count > 0){
-                        var ga = [String:Any]()
-                           ga["count"] = datas.count
-                           ga["id"] =  PhotoKit.generateId()
-                           ga["name"] = a.localizedTitle
-                             let fo = datas.object(at: 0)
-                              ga["mediaType"] = fo.mediaType == .image ? "image" : "video"
-                       if let type = fo.value(forKey: "uniformTypeIdentifier") as? String {
-                              if type == kUTTypeGIF as String{
-                                  ga["mediaType"] = "gif"
-                              }
-                              
-                          }
-                                   ga["uri"] = fo.localIdentifier
-                                                                       
-                             
-                            mAlbumList.append(ga)
-                           for index in 0...datas.count-1{
-                               let m = datas.object(at: index)
-                               let assetResources = PHAssetResource.assetResources(for: m)
-                               let name = assetResources.first?.originalFilename
-                           
-                            var media = [String:Any]()
-                               media["albumId"] = ga["id"]
-                               media["albumName"] = ga["name"]
-                               media["displayName"] = name
-                               media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
-                               media["duration"] = m.duration
-                               media["height"] = m.pixelHeight
-                               media["width"] = m.pixelWidth
-                               media["mediaType"] = m.mediaType == .image ? "image" : "video"
-                               if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                  if type == kUTTypeGIF as String{
-                                      media["mediaType"] = "gif"
-                                  }
-                                  
-                              }
-                              media["uri"] = m.localIdentifier
-                                 mMediaList.append(media)
-                           }
-                       }
-                   }
-               }
-
-        resolve([mAlbumList,mMediaList])
-
-        }
-    }
 
     @objc func fetchAlbums(_ names:NSArray?,media:String?, resolve: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock){
          Guiso.get().getExecutor().doWork {
@@ -404,39 +246,70 @@ class PhotoKit : NSObject, RCTBridgeModule {
                              
                                   var shouldContinue = false
                                  
-                                  switch type {
-                                  case "image":
-                                      shouldContinue = m.mediaType != .image
-                                      break
-                                  case "video":
-                                      shouldContinue = m.mediaType != .video
-                                      break
-                                  case "gif":
+                      switch type {
+                          case "image":
+                              shouldContinue = m.mediaType != .image
+                              break
+                          case "video":
+                              shouldContinue = m.mediaType != .video
+                              break
+                          case "gif":
+                              if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                 if mt == kUTTypeGIF as String{
+                                     shouldContinue = false
+                                 }else{
+                                    shouldContinue = true
+                                  }
+                                 
+                              }else{
+                                  shouldContinue = true
+                              }
+                              break
+                              case "photo":
+                                  shouldContinue = m.mediaType != .image
+                                  if !shouldContinue {
                                       if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                         if mt == kUTTypeGIF as String{
-                                             shouldContinue = false
-                                         }else{
-                                            shouldContinue = true
-                                          }
-                                         
+                                           if mt == kUTTypeGIF as String{
+                                               shouldContinue = true
+                                           }else{
+                                              shouldContinue = false
+                                            }
+                                       
                                       }else{
-                                          shouldContinue = true
+                                        shouldContinue = true
                                       }
-                                      break
-                                  case "photo":
-                                      shouldContinue = m.mediaType != .image
-                                      if !shouldContinue {
-                                          if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                               if mt == kUTTypeGIF as String{
-                                                   shouldContinue = true
-                                               }else{
-                                                  shouldContinue = false
-                                                }
-                                           
-                                          }else{
-                                            shouldContinue = true
-                                          }
+                                  }
+                                break
+                            case "video_gif":
+                                shouldContinue = m.mediaType != .video
+                                if shouldContinue {
+                                   if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                     if mt == kUTTypeGIF as String{
+                                         shouldContinue = false
+                                     }else{
+                                        shouldContinue = true
                                       }
+                                     
+                                   }else{
+                                      shouldContinue = true
+                                   }
+                                }
+                               break
+                              case "video_photo":
+                                   shouldContinue = m.mediaType != .video
+                                   if shouldContinue {
+                                       if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                            if mt == kUTTypeGIF as String{
+                                                shouldContinue = true
+                                            }else{
+                                               shouldContinue = false
+                                             }
+                                        
+                                       }else{
+                                         shouldContinue = true
+                                       }
+                                   }
+                                   break
                                   default:
                                       shouldContinue = false
                                   }
@@ -638,6 +511,8 @@ class PhotoKit : NSObject, RCTBridgeModule {
    @objc func constantsToExport() ->  [AnyHashable : Any]! {
        return ["image": "image",
        "video" : "video",
+       "video_photo":"video_photo",
+       "video_gif":"video_gif",
        "all":"all",
        "gif":"gif",
        "photo":"photo",

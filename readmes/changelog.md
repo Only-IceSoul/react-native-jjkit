@@ -1,4 +1,9 @@
 # Change Log
+**1.6.5**
+
+- [PhotoKit](./readmes/photokit.md) 
+    - removed fetch videos,images,all
+    - added method fetch 
 
 **1.6.4**
 
