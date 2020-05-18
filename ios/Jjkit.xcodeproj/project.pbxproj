@@ -10,7 +10,7 @@
 		D00895DC245BA4C000A3215B /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895D8245BA4BF00A3215B /* LRUCache.swift */; };
 		D00895DD245BA4C000A3215B /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895D9245BA4BF00A3215B /* LinkedList.swift */; };
 		D00895DE245BA4C000A3215B /* LRUCacheGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895DA245BA4BF00A3215B /* LRUCacheGif.swift */; };
-		D00895DF245BA4C000A3215B /* DiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895DB245BA4C000A3215B /* DiskCache.swift */; };
+		D00895DF245BA4C000A3215B /* LRUDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895DB245BA4C000A3215B /* LRUDiskCache.swift */; };
 		D00895E2245BA4C900A3215B /* Runnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895E0245BA4C900A3215B /* Runnable.swift */; };
 		D00895E3245BA4C900A3215B /* Executor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895E1245BA4C900A3215B /* Executor.swift */; };
 		D00895E9245BA4DF00A3215B /* GuisoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00895E4245BA4DE00A3215B /* GuisoRequest.swift */; };
@@ -80,7 +80,7 @@
 		D00895D8245BA4BF00A3215B /* LRUCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
 		D00895D9245BA4BF00A3215B /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		D00895DA245BA4BF00A3215B /* LRUCacheGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCacheGif.swift; sourceTree = "<group>"; };
-		D00895DB245BA4C000A3215B /* DiskCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCache.swift; sourceTree = "<group>"; };
+		D00895DB245BA4C000A3215B /* LRUDiskCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUDiskCache.swift; sourceTree = "<group>"; };
 		D00895E0245BA4C900A3215B /* Runnable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Runnable.swift; sourceTree = "<group>"; };
 		D00895E1245BA4C900A3215B /* Executor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Executor.swift; sourceTree = "<group>"; };
 		D00895E4245BA4DE00A3215B /* GuisoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequest.swift; sourceTree = "<group>"; };
@@ -172,7 +172,7 @@
 		D00895D5245BA49200A3215B /* cache */ = {
 			isa = PBXGroup;
 			children = (
-				D00895DB245BA4C000A3215B /* DiskCache.swift */,
+				D00895DB245BA4C000A3215B /* LRUDiskCache.swift */,
 				D00895D9245BA4BF00A3215B /* LinkedList.swift */,
 				D00895D8245BA4BF00A3215B /* LRUCache.swift */,
 				D00895DA245BA4BF00A3215B /* LRUCacheGif.swift */,
@@ -390,7 +390,7 @@
 				D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */,
 				D00895E9245BA4DF00A3215B /* GuisoRequest.swift in Sources */,
 				D00895FE245BA50000A3215B /* ViewTarget.swift in Sources */,
-				D00895DF245BA4C000A3215B /* DiskCache.swift in Sources */,
+				D00895DF245BA4C000A3215B /* LRUDiskCache.swift in Sources */,
 				D0F98D6C2443DAC6001CF3DA /* JJLabelUI.swift in Sources */,
 				D00895ED245BA4DF00A3215B /* Guiso.swift in Sources */,
 				D0F98D602443DA71001CF3DA /* Toast.swift in Sources */,

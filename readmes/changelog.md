@@ -1,5 +1,11 @@
 # Change Log
 
+**1.6.7**
+
+- [Image](./readmes/image.md) support base64 string
+    
+
+
 **1.6.6**
 
 - [PhotoKit](./readmes/photokit.md) fix query (Android)

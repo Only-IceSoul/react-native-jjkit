@@ -35,16 +35,16 @@ ios : 9.0+
 
 ## Change log
 
+
+**1.6.7**
+
+- [Image](./readmes/image.md) support base64 string
+    
+
 **1.6.6**
 
 - [PhotoKit](./readmes/photokit.md) fix query (Android)
     
-
-**1.6.5**
-
-- [PhotoKit](./readmes/photokit.md) 
-    - deleted fetch videos,images,all
-    - added method fetch 
 
 
 See [full change log.](./readmes/changelog.md)

@@ -13,9 +13,6 @@ import MobileCoreServices
 @objc(PhotoKit)
 class PhotoKit : NSObject, RCTBridgeModule {
     
-    
-    
-    
     static func moduleName() -> String! {
         return  "PhotoKit"
     }

@@ -36,7 +36,7 @@ extension String {
        }
     
     func getExtImage() -> String {
-        var format = "jpeg"
+        var format = "png"
         let imageFormats = ["jpg", "png","JPEG","jpeg","JPG","PNG"]
         if URL(string: self) != nil  {
          let ext = (self as NSString).pathExtension

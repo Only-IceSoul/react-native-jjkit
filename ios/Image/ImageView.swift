@@ -73,42 +73,115 @@ class ImageView: UIImageView , ViewTarget {
     
     private func updateImageCache(_ url:String,_ asGif:Bool,_ w:CGFloat,_ h:CGFloat){
         if (asGif){
-            Guiso.load(url).asGif().fitCenter().override(w,h).into(self)
+            if url.contains("base64,"){
+                let s = url.split(separator: ",")[1]
+                guard let data = Data(base64Encoded: String(s))
+                    else {return}
+                Guiso.load(data).asGif().fitCenter().override(w,h).into(self)
+            }else {
+               Guiso.load(url).asGif().fitCenter().override(w,h).into(self)
+            }
         }else{
-           Guiso.load(url).frame(1)
+            if url.contains("base64,"){
+                let s = url.split(separator: ",")[1]
+                guard let data = Data(base64Encoded: String(s))
+                    else {return}
+                Guiso.load(data).frame(1)
+                .fitCenter().override(w,h).into(self)
+            }else {
+              Guiso.load(url).frame(1)
                .fitCenter().override(w,h).into(self)
+            }
+           
         }
     }
 
     private func updateImageCache(_ url:String,_ asGif:Bool){
         if (asGif){
-            Guiso.load(url).asGif().into(self)
+            if url.contains("base64,"){
+               let s = url.split(separator: ",")[1]
+               guard let data = Data(base64Encoded: String(s))
+                   else {return}
+                 Guiso.load(data).asGif().into(self)
+            }else {
+                Guiso.load(url).asGif().into(self)
+            }
+          
         }else{
-            Guiso.load(url).frame(1).into(self)
+            if url.contains("base64,"){
+               let s = url.split(separator: ",")[1]
+               guard let data = Data(base64Encoded: String(s))
+                   else {return}
+                 Guiso.load(data).frame(1).into(self)
+            }else {
+                Guiso.load(url).frame(1).into(self)
+            }
+            
         }
     }
 
     private func updateImageNoCache(_ url:String,_ asGif:Bool,_ w:CGFloat,_ h:CGFloat){
         if asGif {
-            Guiso.load(url).asGif()
-            .skipMemoryCache()
-            .fitCenter().override(w,h).into(self)
+            if url.contains("base64,"){
+             let s = url.split(separator: ",")[1]
+             guard let data = Data(base64Encoded: String(s))
+                 else {return}
+                 Guiso.load(data).asGif()
+                         .skipMemoryCache()
+                         .fitCenter().override(w,h).into(self)
+            }else {
+                Guiso.load(url).asGif()
+                        .skipMemoryCache()
+                        .fitCenter().override(w,h).into(self)
+            }
+          
         }else{
-            Guiso.load(url).frame(1)
-            .skipMemoryCache()
-            .fitCenter().override(w,h).into(self)
+            if url.contains("base64,"){
+                let s = url.split(separator: ",")[1]
+                guard let data = Data(base64Encoded: String(s))
+                    else {return}
+                    Guiso.load(data).frame(1)
+                    .skipMemoryCache()
+                    .fitCenter().override(w,h).into(self)
+            }else {
+               Guiso.load(url).frame(1)
+               .skipMemoryCache()
+               .fitCenter().override(w,h).into(self)
+            }
+            
         }
     }
     
     private func updateImageNoCache(_ url:String,_ asGif:Bool){
         if asGif {
-           Guiso.load(url).asGif()
-           .skipMemoryCache()
-           .into(self)
+            if url.contains("base64,"){
+               let s = url.split(separator: ",")[1]
+               guard let data = Data(base64Encoded: String(s))
+                   else {return}
+                     Guiso.load(data).asGif()
+                            .skipMemoryCache()
+                            .into(self)
+            }else {
+                Guiso.load(url).asGif()
+                       .skipMemoryCache()
+                       .into(self)
+            }
+         
         }else{
-            Guiso.load(url).frame(1)
-                        .skipMemoryCache()
-                        .into(self)
+            
+            if url.contains("base64,"){
+             let s = url.split(separator: ",")[1]
+             guard let data = Data(base64Encoded: String(s))
+                 else {return}
+                   Guiso.load(data).frame(1)
+                   .skipMemoryCache()
+                   .into(self)
+            }else {
+             Guiso.load(url).frame(1)
+              .skipMemoryCache()
+              .into(self)
+            }
+            
         }
     }
 
@@ -139,7 +212,7 @@ class ImageView: UIImageView , ViewTarget {
        
        func onLoadFailed() {
            // image error
-           print("Load failed")
+           print("Load failed Guiso")
        }
      
        

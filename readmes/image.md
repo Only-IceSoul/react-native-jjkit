@@ -11,6 +11,7 @@ Image is a wrapper around [Guiso](https://github.com/Only-IceSoul/ios-Guiso) (iO
 - [x] Resize(fitCenter)
 - [x] url local 
 - [x] url Web 
+- [x] Base64 String 
 - [x] Gif
 
 
@@ -27,7 +28,7 @@ Image is a wrapper around [Guiso](https://github.com/Only-IceSoul/ios-Guiso) (iO
       cache: true // memory cache
   }
   const original = {
-      url: "Path to the file ",
+      url: "base64,YASDADEQEq/dsYssa....",
       asGif: false
       width: -1, 
       height: -1, 
