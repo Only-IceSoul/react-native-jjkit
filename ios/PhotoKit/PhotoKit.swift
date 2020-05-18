@@ -450,44 +450,62 @@ class PhotoKit : NSObject, RCTBridgeModule {
             Guiso.get().getExecutor().doWork {
                 if let asset = self.resolveAsset(identifier!){
                     ImageHelper.getDataFileManager(asset: asset) { (data) in
-                        if data != nil {
-                                resolve(data!.base64EncodedString())
-                        }
+                        DispatchQueue.main.async { resolve(data?.base64EncodedString()) }
+                        
                      }
                 }else {  DispatchQueue.main.async {  resolve(nil) }  }
             }
             
-         }else { resolve(nil) }
+         }else {DispatchQueue.main.async {  resolve(nil) } }
      }
  
     @objc func requestImage(_ data:[String:Any]?, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
         
-            let identifier = data?["uri"] as? String
-              let width = data?["width"] as? Int ?? 500
-              let height = data?["height"] as? Int ?? 500
-              let format = data?["format"] as? Int ?? 0
-              let quality = data?["quality"] as? CGFloat ?? 1
-        
-             
-            if identifier != nil && !identifier!.isEmpty{
-            
-               Guiso.get().getExecutor().doWork {
-                   if let asset = self.resolveAsset(identifier!){
+        let identifier = data?["uri"] as? String
+          var width = data?["width"] as? Int ?? 500
+          var height = data?["height"] as? Int ?? 500
+          let format = data?["format"] as? Int ?? 0
+          let quality = data?["quality"] as? CGFloat ?? 1
+
+        width = width < 10 ? 10 : width
+        height = height < 10 ? 10 : height
+         
+        if identifier != nil && !identifier!.isEmpty{
+
+           Guiso.get().getExecutor().doWork {
+               if let asset = self.resolveAsset(identifier!){
+                if asset.mediaType == .video {
+                    ImageHelper.getVideoThumbnail(asset, second: 1, exact: false) { (img, error) in
+                        if img != nil{
+                            if let image = ImageHelper.fitCenter(image: img!, width: CGFloat(width), height: CGFloat(height),lanczos: false){
+                            
+                                let data = format == 0 ? image.jpegData(compressionQuality: quality)
+                                : image.pngData()
+                                    DispatchQueue.main.async {  resolve(data?.base64EncodedString()) }
+                            }else {DispatchQueue.main.async {  resolve(nil) }}
+                        }else{
+                             DispatchQueue.main.async {  resolve(nil) }
+                        }
+                    }
+                }else{
                     ImageHelper.getImage(asset: asset, size: CGSize(width: width, height: height), contentMode: .aspectFit) { (image) in
                         if image != nil {
                             let data = format == 0 ? image!.jpegData(compressionQuality: quality)
                                 : image!.pngData()
-                            
-                            resolve(data?.base64EncodedString())
+                            DispatchQueue.main.async {
+                                resolve(data?.base64EncodedString())
+                            }
                         }else {
-                            resolve(nil)
+                            DispatchQueue.main.async {  resolve(nil) }
                         }
                         
                     }
-                   }else {  DispatchQueue.main.async {  resolve(nil) } }
-               }
-               
-            }else { resolve(nil) }
+                }
+                
+               }else {  DispatchQueue.main.async {  resolve(nil) } }
+           }
+           
+        }else {  DispatchQueue.main.async {  resolve(nil) } }
       
     }
 

@@ -1,4 +1,8 @@
 # Change Log
+**1.6.8**
+
+- [PhotoKit](./readmes/photokit.md) fix requestImage on video (IOS)
+    
 
 **1.6.7**
 

@@ -34,18 +34,15 @@ ios : 9.0+
 - [Cropper](./readmes/cropper.md)
 
 ## Change log
+**1.6.8**
 
+- [PhotoKit](./readmes/photokit.md) fix requestImage on Video (IOS)
+    
 
 **1.6.7**
 
 - [Image](./readmes/image.md) support base64 string
     
-
-**1.6.6**
-
-- [PhotoKit](./readmes/photokit.md) fix query (Android)
-    
-
 
 See [full change log.](./readmes/changelog.md)
 
