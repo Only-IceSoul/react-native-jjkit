@@ -33,6 +33,7 @@
 		D01D1CBC244A623F00E0C8D1 /* extension_AttrString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */; };
 		D021B2C12456754C0085F417 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2C02456754C0085F417 /* ImageView.swift */; };
 		D021B2C3245675CA0085F417 /* extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2C2245675CA0085F417 /* extension_String.swift */; };
+		D087A6B6247371A600F46C40 /* GuisoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D087A6B5247371A600F46C40 /* GuisoHeader.swift */; };
 		D087E1FD24588AD9001C8C7E /* PhotoKit.m in Sources */ = {isa = PBXBuildFile; fileRef = D087E1FB24588AD8001C8C7E /* PhotoKit.m */; };
 		D087E1FE24588AD9001C8C7E /* PhotoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D087E1FC24588AD9001C8C7E /* PhotoKit.swift */; };
 		D0A3BD45245FB794000EF87A /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3BD44245FB794000EF87A /* ColorMap.swift */; };
@@ -103,6 +104,7 @@
 		D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_AttrString.swift; sourceTree = "<group>"; };
 		D021B2C02456754C0085F417 /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		D021B2C2245675CA0085F417 /* extension_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_String.swift; sourceTree = "<group>"; };
+		D087A6B5247371A600F46C40 /* GuisoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuisoHeader.swift; sourceTree = "<group>"; };
 		D087E1FB24588AD8001C8C7E /* PhotoKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoKit.m; sourceTree = "<group>"; };
 		D087E1FC24588AD9001C8C7E /* PhotoKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoKit.swift; sourceTree = "<group>"; };
 		D0A3BD44245FB794000EF87A /* ColorMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorMap.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 			children = (
 				D00895F6245BA4F800A3215B /* models */,
 				D00895E8245BA4DE00A3215B /* Guiso.swift */,
+				D087A6B5247371A600F46C40 /* GuisoHeader.swift */,
 				D00895E6245BA4DE00A3215B /* GuisoLoader.swift */,
 				D00895E4245BA4DE00A3215B /* GuisoRequest.swift */,
 				D00895E7245BA4DE00A3215B /* GuisoRequestBuilder.swift */,
@@ -420,6 +423,7 @@
 				D0AFDFDE244F8C0D00377C58 /* Image.m in Sources */,
 				D0F98D6B2443DAC6001CF3DA /* ToastManager.swift in Sources */,
 				D00895E3245BA4C900A3215B /* Executor.swift in Sources */,
+				D087A6B6247371A600F46C40 /* GuisoHeader.swift in Sources */,
 				D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */,
 				D087E1FE24588AD9001C8C7E /* PhotoKit.swift in Sources */,
 				D0F98D6A2443DAC6001CF3DA /* JJLabel.swift in Sources */,

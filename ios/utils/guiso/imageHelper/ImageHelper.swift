@@ -13,273 +13,277 @@ import MediaPlayer
 
 class ImageHelper {
     
-
+       
     enum Mode : Int {
-     case fitCenter = 0,
-     cropCenter
+        case fitCenter = 0,
+        cropCenter
     }
 
 
     static func fitCenter(image: UIImage,width: CGFloat,height:CGFloat,lanczos:Bool = false) -> UIImage? {
-     let inWidth = image.size.width
-     let inHeight = image.size.height
-     
-     if(inWidth == width && inHeight == height){
-         return image
-     }
-     
-     let widthPercentage = width / inWidth
-     let heightPercentage = height / inHeight
-     let minPercentage = min(widthPercentage, heightPercentage)
-     
-     let targetWidth = round(minPercentage * inWidth)
-     let targetHeight = round(minPercentage * inHeight)
-     
-     if(inWidth == targetWidth && inHeight == targetHeight){
-        return image
-     }
-     
-     let finalW = Int(minPercentage * inWidth)
-     let finalH = Int(minPercentage * inHeight)
-     
-     return lanczos ? resizeVImage(image, CGFloat(finalW), CGFloat(finalH))
-     : resizeImage(image, targetWidth: CGFloat(finalW), targetHeight:  CGFloat(finalH))
-     
+        let inWidth = image.size.width
+        let inHeight = image.size.height
+        
+        if(inWidth == width && inHeight == height){
+            return image
+        }
+        
+        let widthPercentage = width / inWidth
+        let heightPercentage = height / inHeight
+        let minPercentage = min(widthPercentage, heightPercentage)
+        
+        let targetWidth = round(minPercentage * inWidth)
+        let targetHeight = round(minPercentage * inHeight)
+        
+        if(inWidth == targetWidth && inHeight == targetHeight){
+           return image
+        }
+        
+        let finalW = Int(minPercentage * inWidth)
+        let finalH = Int(minPercentage * inHeight)
+        
+        return lanczos ? resizeVImage(image, CGFloat(finalW), CGFloat(finalH))
+        : resizeImage(image, targetWidth: CGFloat(finalW), targetHeight:  CGFloat(finalH))
+        
     }
 
     static func fitCenter(cgImage: CGImage,width: CGFloat,height:CGFloat, lanczos:Bool = false) -> CGImage? {
-      let inWidth = CGFloat(cgImage.width)
-      let inHeight = CGFloat(cgImage.height)
-      
-      if(inWidth == width && inHeight == height){
-          return cgImage
-      }
-     
-      let widthPercentage = width / inWidth
-      let heightPercentage = height / inHeight
-      let minPercentage = min(widthPercentage, heightPercentage)
-      
-      let targetWidth = round(minPercentage * inWidth)
-      let targetHeight = round(minPercentage * inHeight)
-      
-      if(inWidth == targetWidth && inHeight == targetHeight){
-         return cgImage
-      }
-     
-     let finalW = Int(minPercentage * inWidth)
-     let finalH = Int(minPercentage * inHeight)
-     
-     return lanczos ? resizeVImage(cgImage: cgImage, CGFloat(finalW), CGFloat(finalH)) :
-                     resizeImage(cgImage,CGFloat(finalW), CGFloat(finalH))
-      
-    }
+         let inWidth = CGFloat(cgImage.width)
+         let inHeight = CGFloat(cgImage.height)
+         
+         if(inWidth == width && inHeight == height){
+             return cgImage
+         }
+        
+         let widthPercentage = width / inWidth
+         let heightPercentage = height / inHeight
+         let minPercentage = min(widthPercentage, heightPercentage)
+         
+         let targetWidth = round(minPercentage * inWidth)
+         let targetHeight = round(minPercentage * inHeight)
+         
+         if(inWidth == targetWidth && inHeight == targetHeight){
+            return cgImage
+         }
+        
+        let finalW = Int(minPercentage * inWidth)
+        let finalH = Int(minPercentage * inHeight)
+        
+        return lanczos ? resizeVImage(cgImage: cgImage, CGFloat(finalW), CGFloat(finalH)) :
+                        resizeImage(cgImage,CGFloat(finalW), CGFloat(finalH))
+         
+     }
 
 
     static func centerCrop(image:UIImage,width:CGFloat,height:CGFloat,lanczos:Bool = false) -> UIImage? {
-     let inWidth = image.size.width
-     let inHeight = image.size.height
+        let inWidth = image.size.width
+        let inHeight = image.size.height
 
-     if(inWidth == width && inHeight == height){
-       return image
-     }
-           
-     var dx:CGFloat = 0
-     var dy:CGFloat = 0
-     var scale:CGFloat = 1
-     
-     if inWidth * height > width * inHeight {
-         scale = height / inHeight
-         dx = (width - inWidth * scale) * 0.5
-         dy = 0
-     }else{
-         scale = width / inWidth
-         dy = (height - inHeight * scale) * 0.5
-         dx = 0
-     }
-     
-     
-     let scaleW = scale * inWidth
-     let scaleH = scale * inHeight
-     
-     let newSize = CGSize(width: width, height: height)
-     let centerRect = CGRect(x: dx, y: dy, width: scaleW, height: scaleH)
-     return  resizeImage(image, bitmapSize: newSize, drawRect: centerRect)
-     
+        if(inWidth == width && inHeight == height){
+          return image
+        }
+              
+        var dx:CGFloat = 0
+        var dy:CGFloat = 0
+        var scale:CGFloat = 1
+        
+        if inWidth * height > width * inHeight {
+            scale = height / inHeight
+            dx = (width - inWidth * scale) * 0.5
+            dy = 0
+        }else{
+            scale = width / inWidth
+            dy = (height - inHeight * scale) * 0.5
+            dx = 0
+        }
+        
+        
+        let scaleW = scale * inWidth
+        let scaleH = scale * inHeight
+        
+        let newSize = CGSize(width: width, height: height)
+        let centerRect = CGRect(x: dx, y: dy, width: scaleW, height: scaleH)
+        return  resizeImage(image, bitmapSize: newSize, drawRect: centerRect)
+        
     }
     static func centerCrop(cgImage:CGImage,width:CGFloat,height:CGFloat, lanczos:Bool = false) -> CGImage? {
-     let inWidth = CGFloat(cgImage.width)
-     let inHeight = CGFloat(cgImage.height)
-     
-     if(inWidth == width && inHeight == height){
-      return cgImage
-     }
-          
-     var dx:CGFloat = 0
-     var dy:CGFloat = 0
-     var scale:CGFloat = 1
+        let inWidth = CGFloat(cgImage.width)
+        let inHeight = CGFloat(cgImage.height)
+        
+        if(inWidth == width && inHeight == height){
+         return cgImage
+        }
+             
+        var dx:CGFloat = 0
+        var dy:CGFloat = 0
+        var scale:CGFloat = 1
 
-     if inWidth * height > width * inHeight {
-        scale = height / inHeight
-        dx = (width - inWidth * scale) * 0.5
-        dy = 0
-     }else{
-        scale = width / inWidth
-        dy = (height - inHeight * scale) * 0.5
-        dx = 0
-     }
+        if inWidth * height > width * inHeight {
+           scale = height / inHeight
+           dx = (width - inWidth * scale) * 0.5
+           dy = 0
+        }else{
+           scale = width / inWidth
+           dy = (height - inHeight * scale) * 0.5
+           dx = 0
+        }
 
 
-     let scaleW = scale * inWidth
-     let scaleH = scale * inHeight
+        let scaleW = scale * inWidth
+        let scaleH = scale * inHeight
 
-     let newSize = CGSize(width: width, height: height)
-     let centerRect = CGRect(x: dx, y: dy, width: scaleW, height: scaleH)
-     
-     return  resizeImage(cgImage:cgImage, bitmapSize: newSize, drawRect: centerRect)
+        let newSize = CGSize(width: width, height: height)
+        let centerRect = CGRect(x: dx, y: dy, width: scaleW, height: scaleH)
+        
+        return  resizeImage(cgImage:cgImage, bitmapSize: newSize, drawRect: centerRect)
 
     }
-
+       
 
     static func getImage(url: URL)-> UIImage? {
-     
-     let path = url.path.replacingOccurrences(of: "/file:/", with: "")
-     if FileManager.default.fileExists(atPath: path) {
-         if let newImage = UIImage(contentsOfFile: path)  {
-            return newImage
-         } else {
-             print("ImageHelper:error - getImageFile -> [Warning: file exists at \(path) :: Unable to create image]")
-            return nil
-         }
+        
+        let path = url.path.replacingOccurrences(of: "/file:/", with: "")
+        if FileManager.default.fileExists(atPath: path) {
+            if let newImage = UIImage(contentsOfFile: path)  {
+               return newImage
+            } else {
+                print("ImageHelper:error - getImageFile -> [Warning: file exists at \(path) :: Unable to create image]")
+               return nil
+            }
 
-     } else {
-          print("ImageHelper:error - getImageFile -> [Warning: file does not exist at \(path)]")
-          return nil
-     }
-     
+        } else {
+             print("ImageHelper:error - getImageFile -> [Warning: file does not exist at \(path)]")
+             return nil
+        }
+        
     }
 
 
     static func getImage(asset: PHAsset,_ completion: @escaping (UIImage?)->Void) {
 
-     let options = PHImageRequestOptions()
-     options.isNetworkAccessAllowed = true
-     options.deliveryMode = .highQualityFormat
-      options.isSynchronous = true
-     PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: options) { (img, info) in
-         completion(img)
-     }
-
-    }
-
-    static func getImage(asset: PHAsset,size:CGSize,contentMode: PHImageContentMode,_ completion: @escaping (UIImage?)->Void) {
-
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .highQualityFormat
          options.isSynchronous = true
-     PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: contentMode, options: options) { (img, info) in
+        PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: options) { (img, info) in
             completion(img)
         }
 
+      }
+      
+    static func getImage(asset: PHAsset,size:CGSize,contentMode: PHImageContentMode,_ completion: @escaping (UIImage?)->Void) {
+      
+           let options = PHImageRequestOptions()
+           options.isNetworkAccessAllowed = true
+           options.deliveryMode = .highQualityFormat
+            options.isSynchronous = true
+        PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: contentMode, options: options) { (img, info) in
+               completion(img)
+           }
+      
     }
 
     static func getImageData(_ imageUrl: URL)-> Data? {
-     let path = imageUrl.path.replacingOccurrences(of: "/file:/", with: "")
-     if FileManager.default.fileExists(atPath: path) {
-         do {
-             let dataUrl = URL(fileURLWithPath: path)
-             let data = try Data(contentsOf: dataUrl)
-            return data
-         } catch let error {
-             print("ImageHelper:error - getImageData -> [Warning: file exists at \(path) :: Unable to create image error -> \(error)]")
-            return nil
-         }
+        let path = imageUrl.path.replacingOccurrences(of: "/file:/", with: "")
+        if FileManager.default.fileExists(atPath: path) {
+            do {
+                let dataUrl = URL(fileURLWithPath: path)
+                let data = try Data(contentsOf: dataUrl)
+               return data
+            } catch let error {
+                print("ImageHelper:error - getImageData -> [Warning: file exists at \(path) :: Unable to create image error -> \(error)]")
+               return nil
+            }
 
-     } else {
-          print("ImageHelper:error - getImageData -> [Warning: file does not exist at \(path)]")
-          return nil
-     }
-     
+        } else {
+             print("ImageHelper:error - getImageData -> [Warning: file does not exist at \(path)]")
+             return nil
+        }
+        
     }
 
 
 
     static func getImageData(asset: PHAsset,crop:CGRect,completion: @escaping (Data?)->Void) {
 
-     let options = PHImageRequestOptions()
-     options.isNetworkAccessAllowed = true
-     options.deliveryMode = .highQualityFormat
-     options.isSynchronous = true
-     options.normalizedCropRect = crop
-     options.resizeMode = .exact
+        let options = PHImageRequestOptions()
+        options.isNetworkAccessAllowed = true
+        options.deliveryMode = .highQualityFormat
+        options.isSynchronous = true
+        options.normalizedCropRect = crop
+        options.resizeMode = .exact
 
-     PHImageManager.default().requestImageData(for: asset, options: options, resultHandler: { (data, anyString, orientation, info) in
+        PHImageManager.default().requestImageData(for: asset, options: options, resultHandler: { (data, anyString, orientation, info) in
 
-         completion(data)
-     })
+            completion(data)
+        })
 
     }
 
     static func getCGImage(imgUrl: String)-> CGImage? {
-     let url = URL(fileURLWithPath:imgUrl)
-     let path = url.path.replacingOccurrences(of: "/file:/", with: "")
-     if FileManager.default.fileExists(atPath: path) {
-         let urlCorrect = URL(fileURLWithPath: path)
+        let url = URL(fileURLWithPath:imgUrl)
+        let path = url.path.replacingOccurrences(of: "/file:/", with: "")
+        if FileManager.default.fileExists(atPath: path) {
+            let urlCorrect = URL(fileURLWithPath: path)
 
-         guard let imageSource = CGImageSourceCreateWithURL(urlCorrect as NSURL, nil),
-            let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
-         else {
-             print("ImageHelper:error - getCGImageFile -> [Warning: file exists at \(path) :: Unable to create image]")
-            return nil
-         }
-             return image
-     } else {
-          print("ImageHelper:error - getCGImageFile -> [Warning: file does not exist at \(path)]")
-          return nil
-     }
-     
+            guard let imageSource = CGImageSourceCreateWithURL(urlCorrect as NSURL, nil),
+               let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
+            else {
+                print("ImageHelper:error - getCGImageFile -> [Warning: file exists at \(path) :: Unable to create image]")
+               return nil
+            }
+                return image
+        } else {
+             print("ImageHelper:error - getCGImageFile -> [Warning: file does not exist at \(path)]")
+             return nil
+        }
+        
     }
 
-    static func getVideoThumbnail(videoUrl:URL,second:Double,exact:Bool) -> UIImage? {
+    static func getVideoThumbnail(videoUrl:URL,header:GuisoHeader?,second:Double,exact:Bool) -> UIImage? {
 
-     let asset = AVURLAsset(url: videoUrl)
-     
-     let generator = AVAssetImageGenerator(asset: asset)
-     generator.appliesPreferredTrackTransform = true
-     if exact {
-         generator.requestedTimeToleranceAfter = .zero
-         generator.requestedTimeToleranceBefore = .zero
-     }
-     
-     let timestamp = CMTime(seconds: second, preferredTimescale: 1)
+        let asset = header != nil ? AVURLAsset(url: videoUrl, options: ["AVURLAssetHTTPHeaderFieldsKey": header!.getFields() ] ) : AVURLAsset(url: videoUrl)
 
-     do {
-         let imageRef = try generator.copyCGImage(at: timestamp, actualTime: nil)
-         let newImage = UIImage(cgImage: imageRef)
-         return newImage
-     }
-     catch (let error as NSError)
-     {
-         print("ImageHelper:error - getVideoThumbnail URL -> Image generation path: \(videoUrl.path) -  failed with error: \(error)")
-         return nil
 
-     }
-             
+        let generator = AVAssetImageGenerator(asset: asset)
+        generator.appliesPreferredTrackTransform = true
+        
+        
+        
+        if exact {
+            generator.requestedTimeToleranceAfter = .zero
+            generator.requestedTimeToleranceBefore = .zero
+        }
+        
+        let timestamp = CMTime(seconds: second, preferredTimescale: 1)
+
+        do {
+            let imageRef = try generator.copyCGImage(at: timestamp, actualTime: nil)
+            let newImage = UIImage(cgImage: imageRef)
+            return newImage
+        }
+        catch (let error as NSError)
+        {
+            print("ImageHelper:error - getVideoThumbnail URL -> Image generation path: \(videoUrl.path) -  failed with error: \(error)")
+            return nil
+
+        }
+                
     }
 
     static func getVideoThumbnail(video:Data,second:Double,exact:Bool) -> UIImage? {
-
-     do{
-         let cacheDir = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
-         let path = URL(fileURLWithPath: cacheDir).appendingPathComponent("guiso_video.mp4")
-         try video.write(to: path)
-         return getVideoThumbnail(videoUrl: path, second: second, exact: exact)
-         
-     }catch let error as NSError {
-         print("ImageHelper:error - getVideoThumbnail Data -> Image generation -  failed with error: \(error)")
-         return nil
-     }
+       
+        do{
+            let cacheDir = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
+            let path = URL(fileURLWithPath: cacheDir).appendingPathComponent("guiso_video.mp4")
+            try video.write(to: path)
+            return getVideoThumbnail(videoUrl: path, header: nil, second: second, exact: exact)
             
+        }catch let error as NSError {
+            print("ImageHelper:error - getVideoThumbnail Data -> Image generation -  failed with error: \(error)")
+            return nil
+        }
+               
     }
 
     static func getVideoThumbnail(_ asset:PHAsset,second:Double,exact:Bool, completion:@escaping (UIImage?,NSError?)-> Void) {
@@ -287,276 +291,277 @@ class ImageHelper {
 
     let options = PHVideoRequestOptions()
     options.isNetworkAccessAllowed = false
-     options.deliveryMode = .highQualityFormat
+        options.deliveryMode = .highQualityFormat
 
-     PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avasset, audiomix, info) in
-         if avasset != nil {
-             let generator = AVAssetImageGenerator(asset: avasset!)
-              generator.appliesPreferredTrackTransform = true
-             if exact {
-                 generator.requestedTimeToleranceAfter = .zero
-                 generator.requestedTimeToleranceBefore = .zero
-             }
+        PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avasset, audiomix, info) in
+            if avasset != nil {
+                let generator = AVAssetImageGenerator(asset: avasset!)
+                 generator.appliesPreferredTrackTransform = true
+                if exact {
+                    generator.requestedTimeToleranceAfter = .zero
+                    generator.requestedTimeToleranceBefore = .zero
+                }
 
-              let timestamp = CMTime(seconds: second, preferredTimescale: 1)
+                 let timestamp = CMTime(seconds: second, preferredTimescale: 1)
 
-              do {
-                  let imageRef = try generator.copyCGImage(at: timestamp, actualTime: nil)
-                  let newImage = UIImage(cgImage: imageRef)
-                  completion(newImage,nil)
-              }
-              catch (let error as NSError)
-              {
-                   completion(nil,error)
-              }
-         }else{
-             completion(nil,nil)
-         }
-         
-     }
-
+                 do {
+                     let imageRef = try generator.copyCGImage(at: timestamp, actualTime: nil)
+                     let newImage = UIImage(cgImage: imageRef)
+                     completion(newImage,nil)
+                 }
+                 catch (let error as NSError)
+                 {
+                      completion(nil,error)
+                 }
+            }else{
+                completion(nil,nil)
+            }
+            
+        }
+      
     }
 
     static func getAudioArtWork(_ ipodUrl:String) -> UIImage? {
-       
-       let id = ipodUrl.substring(from: 32)
-     
-       let query = MPMediaQuery.songs()
-       let urlQuery = MPMediaPropertyPredicate(value:id,forProperty: MPMediaItemPropertyPersistentID,comparisonType: .contains)
-        query.addFilterPredicate(urlQuery);
-     let mediaItems = query.items
-     if let media = mediaItems?.first{
-         if let artwork =  media.artwork {
-             return artwork.image(at: CGSize(width: 100, height: 100))
-         }
-     }
-     return nil
-    }
-
-    static func getAudioArtWork(_ audioUrl:URL) -> UIImage? {
-     
-        let asset = AVURLAsset(url: audioUrl)
-
-     var result : UIImage? = nil
+          
+          let id = ipodUrl.substring(from: 32)
         
-        for metadata in asset.metadata {
-            guard let key = metadata.commonKey,
-             let data = metadata.dataValue
-             else{ continue }
-         
-             if key.rawValue == "artwork" {
-                  result = UIImage(data: data)
-                 break
-             }
+          let query = MPMediaQuery.songs()
+          let urlQuery = MPMediaPropertyPredicate(value:id,forProperty: MPMediaItemPropertyPersistentID,comparisonType: .contains)
+           query.addFilterPredicate(urlQuery);
+        let mediaItems = query.items
+        if let media = mediaItems?.first{
+            if let artwork =  media.artwork {
+                return artwork.image(at: CGSize(width: 100, height: 100))
+            }
         }
-           return result
+        return nil
+      }
+      
+    static func getAudioArtWork(_ audioUrl:URL,header:GuisoHeader?) -> UIImage? {
+        
+           let asset = header != nil ? AVURLAsset(url: audioUrl, options: ["AVURLAssetHTTPHeaderFieldsKey": header!.getFields() ] ) : AVURLAsset(url: audioUrl)
+              
+     
+        var result : UIImage? = nil
+           
+           for metadata in asset.metadata {
+               guard let key = metadata.commonKey,
+                let data = metadata.dataValue
+                else{ continue }
+            
+                if key.rawValue == "artwork" {
+                     result = UIImage(data: data)
+                    break
+                }
+           }
+              return result
     }
 
     static func getAudioArtWork(_ audio:Data) -> UIImage? {
 
-     do{
-         let cacheDir = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
-         let path = URL(fileURLWithPath: cacheDir).appendingPathComponent("guiso_audio.mp3")
-         try audio.write(to: path)
-         return getAudioArtWork(path)
+        do{
+            let cacheDir = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
+            let path = URL(fileURLWithPath: cacheDir).appendingPathComponent("guiso_audio.mp3")
+            try audio.write(to: path)
+            return getAudioArtWork(path,header: nil)
 
-     }catch let error as NSError {
-         print("ImageHelper:error - getAudioArtWork Data -> Image generation -  failed with error: \(error)")
-     return nil
-     }
-
+        }catch let error as NSError {
+            print("ImageHelper:error - getAudioArtWork Data -> Image generation -  failed with error: \(error)")
+        return nil
+        }
+     
     }
 
 
     static func getRect(cgImage:CGImage,width:CGFloat,height:CGFloat,_ scaleType: UIView.ContentMode) -> CGRect{
-     switch scaleType {
-     case .scaleAspectFill:
-         return rectCenterCrop(cgImage: cgImage, width: width, height: height)
-     case .scaleAspectFit:
-         return rectFitCenter(cgImage: cgImage, width: width, height: height)
-     default:
-         return CGRect(x: 0, y: 0, width: width, height: height)
-     }
+        switch scaleType {
+        case .scaleAspectFill:
+            return rectCenterCrop(cgImage: cgImage, width: width, height: height)
+        case .scaleAspectFit:
+            return rectFitCenter(cgImage: cgImage, width: width, height: height)
+        default:
+            return CGRect(x: 0, y: 0, width: width, height: height)
+        }
     }
 
     static func getRect(image:UIImage,width:CGFloat,height:CGFloat,_ scaleType: UIView.ContentMode) -> CGRect{
-       switch scaleType {
-       case .scaleAspectFill:
-           return rectCenterCrop(image: image, width: width, height: height)
-       case .scaleAspectFit:
-           return rectFitCenter(image: image, width: width, height: height)
-       default:
-           return CGRect(x: 0, y: 0, width: width, height: height)
-       }
-    }
+          switch scaleType {
+          case .scaleAspectFill:
+              return rectCenterCrop(image: image, width: width, height: height)
+          case .scaleAspectFit:
+              return rectFitCenter(image: image, width: width, height: height)
+          default:
+              return CGRect(x: 0, y: 0, width: width, height: height)
+          }
+      }
 
 
 
 
 
     static func rectFitCenter(image: UIImage,width: CGFloat,height:CGFloat) -> CGRect {
-     let inWidth = image.size.width
-     let inHeight = image.size.height
-     
-     if(inWidth == width && inHeight == height){
-         return CGRect(x: 0, y: 0, width: width, height: height)
-     }
-     
-     let widthPercentage = width / inWidth
-     let heightPercentage = height / inHeight
-     let minPercentage = min(widthPercentage, heightPercentage)
-     
-     let targetWidth = round(minPercentage * inWidth)
-     let targetHeight = round(minPercentage * inHeight)
-     
-     if(inWidth == targetWidth && inHeight == targetHeight){
-        return CGRect(x: 0, y: 0, width: width, height: height)
-     }
-     
-     let dx = (width - targetWidth) / 2
-     let dy = (height - targetHeight) / 2
+        let inWidth = image.size.width
+        let inHeight = image.size.height
+        
+        if(inWidth == width && inHeight == height){
+            return CGRect(x: 0, y: 0, width: width, height: height)
+        }
+        
+        let widthPercentage = width / inWidth
+        let heightPercentage = height / inHeight
+        let minPercentage = min(widthPercentage, heightPercentage)
+        
+        let targetWidth = round(minPercentage * inWidth)
+        let targetHeight = round(minPercentage * inHeight)
+        
+        if(inWidth == targetWidth && inHeight == targetHeight){
+           return CGRect(x: 0, y: 0, width: width, height: height)
+        }
+        
+        let dx = (width - targetWidth) / 2
+        let dy = (height - targetHeight) / 2
 
-     return CGRect(x: dx, y: dy, width: targetWidth, height: targetHeight)
-     
+        return CGRect(x: dx, y: dy, width: targetWidth, height: targetHeight)
+        
     }
 
     static func rectCenterCrop(image:UIImage,width:CGFloat,height:CGFloat) -> CGRect {
-     let inWidth = image.size.width
-     let inHeight = image.size.height
-     
-     if(inWidth == width && inHeight == height){
-       return CGRect(x: 0, y: 0, width: width, height: height)
-     }
-          
-     var dx:CGFloat = 0
-     var dy:CGFloat = 0
-     var scale:CGFloat = 1
+        let inWidth = image.size.width
+        let inHeight = image.size.height
+        
+        if(inWidth == width && inHeight == height){
+          return CGRect(x: 0, y: 0, width: width, height: height)
+        }
+             
+        var dx:CGFloat = 0
+        var dy:CGFloat = 0
+        var scale:CGFloat = 1
 
-     if inWidth * height > width * inHeight {
-        scale = height / inHeight
-        dx = (width - inWidth * scale) * 0.5
-        dy = 0
-     }else{
-        scale = width / inWidth
-        dy = (height - inHeight * scale) * 0.5
-        dx = 0
-     }
-     let scaleW = scale * inWidth
-     let scaleH = scale * inHeight
-    return  CGRect(x: dx, y: dy, width: scaleW, height: scaleH)
+        if inWidth * height > width * inHeight {
+           scale = height / inHeight
+           dx = (width - inWidth * scale) * 0.5
+           dy = 0
+        }else{
+           scale = width / inWidth
+           dy = (height - inHeight * scale) * 0.5
+           dx = 0
+        }
+        let scaleW = scale * inWidth
+        let scaleH = scale * inHeight
+       return  CGRect(x: dx, y: dy, width: scaleW, height: scaleH)
     }
 
     static func rectFitCenter(cgImage: CGImage,width: CGFloat,height:CGFloat) -> CGRect {
-     let inWidth = CGFloat(cgImage.width)
-     let inHeight = CGFloat(cgImage.height)
-     
-     if(inWidth == width && inHeight == height){
-         return CGRect(x: 0, y: 0, width: width, height: height)
-     }
-     
-     let widthPercentage = width / inWidth
-     let heightPercentage = height / inHeight
-     let minPercentage = min(widthPercentage, heightPercentage)
-     
-     let targetWidth = round(minPercentage * inWidth)
-     let targetHeight = round(minPercentage * inHeight)
-     
-     if(inWidth == targetWidth && inHeight == targetHeight){
-        return CGRect(x: 0, y: 0, width: width, height: height)
-     }
-     
-     let dx = (width - targetWidth) / 2
-     let dy = (height - targetHeight) / 2
+        let inWidth = CGFloat(cgImage.width)
+        let inHeight = CGFloat(cgImage.height)
+        
+        if(inWidth == width && inHeight == height){
+            return CGRect(x: 0, y: 0, width: width, height: height)
+        }
+        
+        let widthPercentage = width / inWidth
+        let heightPercentage = height / inHeight
+        let minPercentage = min(widthPercentage, heightPercentage)
+        
+        let targetWidth = round(minPercentage * inWidth)
+        let targetHeight = round(minPercentage * inHeight)
+        
+        if(inWidth == targetWidth && inHeight == targetHeight){
+           return CGRect(x: 0, y: 0, width: width, height: height)
+        }
+        
+        let dx = (width - targetWidth) / 2
+        let dy = (height - targetHeight) / 2
 
-     return CGRect(x: dx, y: dy, width: targetWidth, height: targetHeight)
-     
+        return CGRect(x: dx, y: dy, width: targetWidth, height: targetHeight)
+        
     }
 
     static func rectCenterCrop(cgImage:CGImage,width:CGFloat,height:CGFloat) -> CGRect {
-     let inWidth = CGFloat(cgImage.width)
-     let inHeight = CGFloat(cgImage.height)
-     
-     if(inWidth == width && inHeight == height){
-       return CGRect(x: 0, y: 0, width: width, height: height)
-     }
-          
-     var dx:CGFloat = 0
-     var dy:CGFloat = 0
-     var scale:CGFloat = 1
+        let inWidth = CGFloat(cgImage.width)
+        let inHeight = CGFloat(cgImage.height)
+        
+        if(inWidth == width && inHeight == height){
+          return CGRect(x: 0, y: 0, width: width, height: height)
+        }
+             
+        var dx:CGFloat = 0
+        var dy:CGFloat = 0
+        var scale:CGFloat = 1
 
-     if inWidth * height > width * inHeight {
-        scale = height / inHeight
-        dx = (width - inWidth * scale) * 0.5
-        dy = 0
-     }else{
-        scale = width / inWidth
-        dy = (height - inHeight * scale) * 0.5
-        dx = 0
-     }
-     let scaleW = scale * inWidth
-     let scaleH = scale * inHeight
-    return  CGRect(x: dx, y: dy, width: scaleW, height: scaleH)
+        if inWidth * height > width * inHeight {
+           scale = height / inHeight
+           dx = (width - inWidth * scale) * 0.5
+           dy = 0
+        }else{
+           scale = width / inWidth
+           dy = (height - inHeight * scale) * 0.5
+           dx = 0
+        }
+        let scaleW = scale * inWidth
+        let scaleH = scale * inHeight
+       return  CGRect(x: dx, y: dy, width: scaleW, height: scaleH)
     }
 
 
     static func getImageDataIO(url: URL)-> Data?{
-     guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
-         let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil),
-         let data =  image.dataProvider?.data as Data?
-         else{
-             return nil
-             }
-     return data
+        guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
+            let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil),
+            let data =  image.dataProvider?.data as Data?
+            else{
+                return nil
+                }
+        return data
     }
 
-    static func getImageIO(url: URL)-> CGImage?{
-      guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
-          let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
-          else{
-              return nil
-              }
-      return image
-    }
+     static func getImageIO(url: URL)-> CGImage?{
+         guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
+             let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
+             else{
+                 return nil
+                 }
+         return image
+     }
 
     static func getImageIO(data: Data)-> UIImage? {
-     guard let imageSource = CGImageSourceCreateWithData(data as CFData, nil),
-                 let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
-                 else{
-                     return nil
-                     }
-             return UIImage(cgImage: image)
+        guard let imageSource = CGImageSourceCreateWithData(data as CFData, nil),
+                    let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
+                    else{
+                        return nil
+                        }
+                return UIImage(cgImage: image)
     }
 
     static func getDataFileManager(asset:PHAsset,completion: @escaping (Data?)->Void){
-     let options = PHContentEditingInputRequestOptions()
-     options.canHandleAdjustmentData = {(adjustmeta: PHAdjustmentData) -> Bool in
-                 return true
-             }
-     asset.requestContentEditingInput(with: options) { (value, info) in
-         if asset.mediaType == .image {
-             if let url = value?.fullSizeImageURL {
-                   do{
-                       let imageData = try Data(contentsOf: url)
-                       completion(imageData)
-                   }catch let e as NSError {
-                        completion(nil)
-                       print("ImageHelper - getDataFileManager:error -> ",e)
-                   }
-             }else { completion(nil) }
-         }else { completion(nil) }
-         if asset.mediaType == .video {
-             if let url = (value?.audiovisualAsset as? AVURLAsset)?.url {
-                   do{
-                       let imageData = try Data(contentsOf: url)
-                       completion(imageData)
-                   }catch let e as NSError {
-                        completion(nil)
-                       print("ImageHelper - getDataFileManager:error -> ",e)
-                   }
-             }else { completion(nil)   }
-         }else { completion(nil) }
-      
-     }
+        let options = PHContentEditingInputRequestOptions()
+        options.canHandleAdjustmentData = {(adjustmeta: PHAdjustmentData) -> Bool in
+                    return true
+                }
+        asset.requestContentEditingInput(with: options) { (value, info) in
+            if asset.mediaType == .image {
+                if let url = value?.fullSizeImageURL {
+                      do{
+                          let imageData = try Data(contentsOf: url)
+                          completion(imageData)
+                      }catch let e as NSError {
+                           completion(nil)
+                          print("ImageHelper - getDataFileManager:error -> ",e)
+                      }
+                }else { completion(nil) }
+            }else { completion(nil) }
+            if asset.mediaType == .video {
+                if let url = (value?.audiovisualAsset as? AVURLAsset)?.url {
+                      do{
+                          let imageData = try Data(contentsOf: url)
+                          completion(imageData)
+                      }catch let e as NSError {
+                           completion(nil)
+                          print("ImageHelper - getDataFileManager:error -> ",e)
+                      }
+                }else { completion(nil)   }
+            }else { completion(nil) }
+         
+        }
     }
 
 
