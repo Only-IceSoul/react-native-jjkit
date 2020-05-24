@@ -143,5 +143,4 @@ extension String {
         return UTTypeConformsTo(uti, kUTTypeMovie)
     }
     
-    
 }

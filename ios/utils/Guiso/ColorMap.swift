@@ -52,7 +52,6 @@ extension CGImage{
         let pixelData = self.dataProvider!.data
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
 
-        var byteIndex = 0
 
 //        for _ in 0 ..< Int(height){
 //            for _ in 0 ..< Int(width){

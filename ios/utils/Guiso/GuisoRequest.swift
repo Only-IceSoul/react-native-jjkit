@@ -46,7 +46,7 @@ public class GuisoRequest : Runnable {
     func setThumb(_ t:GuisoRequestThumb?){
         mThumb = t
     }
-    //loader //decoder-transform //display target //cache saver
+    
     public func run(){
 //        if !checkIfNeedIgnore() {
              updateIdentifier()

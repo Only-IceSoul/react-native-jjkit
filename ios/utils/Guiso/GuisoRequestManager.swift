@@ -43,7 +43,6 @@ import Foundation
             tracker.setRequest(request)
             
             if let t = builder.getOptions().getThumbnail() , builder.getOptions().getThumbnail()?.getModel() != nil {
-                print("adding thumb")
                 let thumb = GuisoRequestThumb(model: t.getModel()!, options: t.getOptions(), target, loader: t.getLoader(), gifDecoder: t.getGifDecoder())
                 request.setThumb(thumb)
                 Guiso.get().getExecutor().doWork(thumb,priority: p , flags: .enforceQoS )

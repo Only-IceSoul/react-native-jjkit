@@ -99,8 +99,7 @@ class LRUDiskCacheObject {
 
     private func addObject(url: URL,object:Any) -> Bool{
         do {
-          
-             let data = NSKeyedArchiver.archivedData(withRootObject: object)
+            let data = NSKeyedArchiver.archivedData(withRootObject: object)
             try data.write(to: url)
             sumCurrentSize(data: data)
             return true

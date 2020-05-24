@@ -95,6 +95,7 @@ class GuisoLoaderString : LoaderProtocol {
         self.sendResult(data,.data)
             
         }
+        self.mWebLoad?.priority = getPriorityWeb()
         self.mWebLoad?.resume()
     }
     
@@ -145,11 +146,11 @@ class GuisoLoaderString : LoaderProtocol {
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = false
         options.deliveryMode = .highQualityFormat
-
+        
        mPhId = PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avasset, audiomix, info) in
                 if avasset != nil {
-                   let img = self.avAssetVideo(avasset!)
-                    self.sendResult(img,.uiimg)
+                    self.avAssetVideoAsync(avasset!)
+                    
                 }else{
                     self.sendResult(nil,.data)
                 }
@@ -184,10 +185,7 @@ class GuisoLoaderString : LoaderProtocol {
         }
         let asset = header != nil && !mUrlFile ? AVURLAsset(url: videoUrl, options: ["AVURLAssetHTTPHeaderFieldsKey": header! ] ) : AVURLAsset(url: videoUrl)
 
-
           avAssetVideoAsync(asset)
-//        let img = avAssetVideo(asset)
-//        self.sendResult(img,.uiimg)
          
     }
 
@@ -214,32 +212,7 @@ class GuisoLoaderString : LoaderProtocol {
          
     }
 
- private func avAssetVideo(_ asset: AVAsset) -> UIImage?{
-        let generator = AVAssetImageGenerator(asset: asset)
-               generator.appliesPreferredTrackTransform = true
-       if mOptions.getExactFrame() {
-            generator.requestedTimeToleranceAfter = .zero
-            generator.requestedTimeToleranceBefore = .zero
-       }
-    
-  
-        mGenerator = generator
-    
-       let timestamp = CMTime(seconds: mOptions.getFrameSecond(), preferredTimescale: 1)
- 
-       do {
-           let imageRef = try generator.copyCGImage(at: timestamp, actualTime: nil)
-           let newImage = UIImage(cgImage: imageRef)
-            mGenerator = nil
-           return newImage
-       }
-       catch (let error as NSError)
-       {
-           print("GuisoLoaderString avAssetVideo -> Image generation - failed with error: \(error)")
-            mGenerator = nil
-           return nil
-       }
-    }
+
     
     private func urlAudio(){
         let header = mOptions.getHeader()?.getFields()
@@ -334,23 +307,6 @@ class GuisoLoaderString : LoaderProtocol {
       return result
     }
     
-   private func getAssetMediaType() -> Guiso.MediaType {
-          let assets = Guiso.get().getAssets()
-          var type = Guiso.MediaType.image
-          assets.forEach { (a) in
-              if a.localIdentifier == mUrl {
-                  switch a.mediaType {
-                  case .video:
-                          type = Guiso.MediaType.video
-                      default:
-                          type = Guiso.MediaType.image
-                  }
-              }
-          }
-          return type
-      }
-    
-        
     private func getConfigWeb() ->URLSessionConfiguration {
           let config = URLSessionConfiguration.default
              config.timeoutIntervalForRequest = TimeInterval(120)
@@ -368,19 +324,14 @@ class GuisoLoaderString : LoaderProtocol {
     }
     
     private func getAsset(identifier: String) -> PHAsset? {
-           let assets = Guiso.get().getAssets()
-           var a: PHAsset?
-               
+           let assets = Guiso.get().getAsset(identifier)
         if assets.count > 0 {
-           for i in 0...(assets.count-1){
-               let ph = assets[i]
-               if ph.localIdentifier == identifier {
-                  a = ph
-                  break
-               }
-           }
+            return assets.firstObject
+            
+        }else{
+            return nil
         }
-           return a
+               
            
     }
     

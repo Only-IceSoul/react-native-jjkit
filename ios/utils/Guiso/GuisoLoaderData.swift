@@ -15,26 +15,23 @@ class GuisoLoaderData: LoaderProtocol {
     func loadData(model: Any, width: CGFloat, height: CGFloat, options: GuisoOptions, callback: @escaping (Any?, Guiso.LoadType) -> Void) {
         mOptions = options
         mCallback = callback
+        guard let data = model as? Data else {
+             sendResult(nil,.data)
+             return
+        }
         if options.getAsGif() {
             sendResult(model,.data)
         }else{
-            guard let data = model as? Data else {
-                sendResult(nil,.data)
-                return
-            }
+
             if let img = UIImage(data: data){
                 sendResult(img,.uiimg)
             }else{
-                if let imgv = dataVideo(data){
-                    sendResult(imgv,.uiimg)
+                if let imga =  dataAudio(data){
+                      sendResult(imga,.uiimg)
                 }else{
 
-                guard let imga =  dataAudio(data)
-                    else {
-                        sendResult(nil,.data)
-                        return
-                     }
-                    sendResult(imga,.uiimg)
+                    dataVideo(data)
+                    
                 }
             }
     
@@ -47,33 +44,23 @@ class GuisoLoaderData: LoaderProtocol {
        }
     
     private func dataAudio(_ data:Data) -> UIImage? {
-        do{
-             let cacheDir = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
-             let path = URL(fileURLWithPath: cacheDir).appendingPathComponent("guiso_audio.mp3")
-             try data.write(to: path)
-             return avAssetAudio(AVURLAsset(url: path))
-
-         }catch let error as NSError {
-             print("ImageHelper:error - getAudioArtWork Data -> Image generation -  failed with error: \(error)")
-         return nil
-         }
         
+        if let path = Guiso.get().writeToCacheFolder(data, name: "guiso_audio.mp3"){
+            return avAssetAudio(AVURLAsset(url: path))
+        }else{
+            return nil
+        }
         
     }
     
-    private func dataVideo(_ video:Data) -> UIImage? {
+    private func dataVideo(_ video:Data) {
         
-         do{
-             let cacheDir = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
-             let path = URL(fileURLWithPath: cacheDir).appendingPathComponent("guiso_video.mp4")
-             try video.write(to: path)
-             return avAssetVideo(AVURLAsset(url: path))
-             
-         }catch let error as NSError {
-             print("GuisoLoaderData - dataVideo  -> Image generation -  failed with error: \(error)")
-             return nil
-         }
-                
+        if let path = Guiso.get().writeToCacheFolder(video, name: "guiso_video.mp4"){
+            avAssetVideo(AVURLAsset(url: path))
+        }else{
+            sendResult(nil, .data)
+        }
+         
     }
     
     private func avAssetAudio(_ asset:AVAsset) -> UIImage?{
@@ -93,27 +80,25 @@ class GuisoLoaderData: LoaderProtocol {
         
     }
     
-    private func avAssetVideo(_ asset: AVAsset) -> UIImage?{
-           let generator = AVAssetImageGenerator(asset: asset)
-                  generator.appliesPreferredTrackTransform = true
-          if mOptions.getExactFrame() {
-               generator.requestedTimeToleranceAfter = .zero
-               generator.requestedTimeToleranceBefore = .zero
-          }
+    private func avAssetVideo(_ asset: AVAsset){
+    
+        let generator = AVAssetImageGenerator(asset: asset)
+        generator.appliesPreferredTrackTransform = true
+        if mOptions.getExactFrame() {
+            generator.requestedTimeToleranceAfter = .zero
+            generator.requestedTimeToleranceBefore = .zero
+        }
 
-          let timestamp = CMTime(seconds: mOptions.getFrameSecond(), preferredTimescale: 1)
+        let timestamp = CMTime(seconds: mOptions.getFrameSecond(), preferredTimescale: 1)
+        generator.generateCGImagesAsynchronously(forTimes: [NSValue(time: timestamp)]) { (time, cg, time2, result, error) in
 
-          do {
-              let imageRef = try generator.copyCGImage(at: timestamp, actualTime: nil)
-              let newImage = UIImage(cgImage: imageRef)
-              return newImage
-          }
-          catch (let error as NSError)
-          {
-              print("GuisoLoaderData avAssetVideo -> Image generation - failed with error: \(error)")
-              return nil
-          }
-       }
+            if cg != nil {
+                self.sendResult(UIImage(cgImage: cg!), .uiimg)
+            }else{
+                self.sendResult(nil, .uiimg)
+            }
+        }
+    }
     
     
     //MARK: Tracker

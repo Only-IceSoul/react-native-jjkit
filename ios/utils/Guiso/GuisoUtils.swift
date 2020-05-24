@@ -22,7 +22,6 @@ class GuisoUtils {
         return newImage
     }
     
-    
     static func getData(asset:PHAsset,completion: @escaping (Data?)->Void){
            let options = PHContentEditingInputRequestOptions()
            options.canHandleAdjustmentData = {(adjustmeta: PHAdjustmentData) -> Bool in
@@ -55,49 +54,50 @@ class GuisoUtils {
            }
        }
     
+    
     static func getVideoThumbnail(_ asset:PHAsset,second:Double,exact:Bool, completion:@escaping (UIImage?,NSError?)-> Void) {
 
 
-       let options = PHVideoRequestOptions()
-       options.isNetworkAccessAllowed = false
-       options.deliveryMode = .highQualityFormat
+     let options = PHVideoRequestOptions()
+     options.isNetworkAccessAllowed = true
+     options.deliveryMode = .highQualityFormat
 
-           PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avasset, audiomix, info) in
-               if avasset != nil {
-                   let generator = AVAssetImageGenerator(asset: avasset!)
-                    generator.appliesPreferredTrackTransform = true
-                   if exact {
-                       generator.requestedTimeToleranceAfter = .zero
-                       generator.requestedTimeToleranceBefore = .zero
-                   }
+         PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avasset, audiomix, info) in
+             if avasset != nil {
+                 let generator = AVAssetImageGenerator(asset: avasset!)
+                  generator.appliesPreferredTrackTransform = true
+                 if exact {
+                     generator.requestedTimeToleranceAfter = .zero
+                     generator.requestedTimeToleranceBefore = .zero
+                 }
 
-                    let timestamp = CMTime(seconds: second, preferredTimescale: 1)
+                  let timestamp = CMTime(seconds: second, preferredTimescale: 1)
 
-                  generator.generateCGImagesAsynchronously(forTimes: [NSValue(time: timestamp)]) { (time, cg, time2, result, error) in
-                              
-                          if cg != nil {
-                            completion(UIImage(cgImage: cg!),nil)
-                          }else{
-                              completion(nil,nil)
-                          }
-                      }
-               }else{
-                   completion(nil,nil)
-               }
-               
-           }
-         
-       }
+                generator.generateCGImagesAsynchronously(forTimes: [NSValue(time: timestamp)]) { (time, cg, time2, result, error) in
+                            
+                        if cg != nil {
+                          completion(UIImage(cgImage: cg!),nil)
+                        }else{
+                            completion(nil,nil)
+                        }
+                    }
+             }else{
+                 completion(nil,nil)
+             }
+             
+         }
+       
+     }
 
-      static func getImage(asset: PHAsset,size:CGSize,contentMode: PHImageContentMode,_ completion: @escaping (UIImage?)->Void) {
-         
-              let options = PHImageRequestOptions()
-              options.isNetworkAccessAllowed = true
-              options.deliveryMode = .highQualityFormat
-               options.isSynchronous = true
-           PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: contentMode, options: options) { (img, info) in
-                  completion(img)
-              }
-         
-       }
+    static func getImage(asset: PHAsset,size:CGSize,contentMode: PHImageContentMode,_ completion: @escaping (UIImage?)->Void) {
+       
+            let options = PHImageRequestOptions()
+            options.isNetworkAccessAllowed = true
+            options.deliveryMode = .highQualityFormat
+             options.isSynchronous = true
+         PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: contentMode, options: options) { (img, info) in
+                completion(img)
+            }
+       
+     }
 }

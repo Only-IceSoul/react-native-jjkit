@@ -15,7 +15,6 @@ public class Guiso {
     private var mDiskCache = LRUDiskCache("Guiso", maxSize: 50)
     private var mDiskCacheObject = LRUDiskCacheObject("Guiso", maxSize: 20)
     private var mMemoryCacheGif = LRUCacheGif(10)
-    private var mAssets = [PHAsset]()
     private var mLock = NSLock()
     private init() {}
     
@@ -37,54 +36,12 @@ public class Guiso {
     func getExecutor() -> Executor {
         return mExecutor
     }
-    
-    func getAssets() -> [PHAsset]{
-        mLock.lock() ; defer { mLock.unlock() }
-        if mAssets.isEmpty {
-            mAssets = allAssets()
-        }
-        return mAssets
-    }
-    
-    private func allAssets()-> [PHAsset]{
-        let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: nil )
-        let userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)
-        
-        var array = [PHAsset]()
-        if smartAlbums.count > 0 {
-            for i in 0...(smartAlbums.count-1){
-               let a = smartAlbums.object(at: i)
-               let assets = getAssets(fromCollection: a )
-                if assets.count > 0 {
-                    for sii in 0...(assets.count-1){
-                        array.append(assets.object(at: sii))
-                    }
-                }
-            }
-        }
-        
-        if userCollections.count > 0 {
-           for i in 0...(userCollections.count-1){
-              let c = userCollections.object(at: i)
-            let assets = getAssets(fromCollection: c as! PHAssetCollection )
-               if assets.count > 0 {
-                   for ci in 0...(assets.count-1){
-                       array.append(assets.object(at: ci))
-                   }
-               }
-           }
-        }
-        return array
-    }
-    
-    private func getAssets(fromCollection collection: PHAssetCollection) -> PHFetchResult<PHAsset> {
-        let options = PHFetchOptions()
-        options.predicate = NSPredicate(format: "mediaType == %d || mediaType == %d",
-        PHAssetMediaType.image.rawValue,
-        PHAssetMediaType.video.rawValue)
-        return PHAsset.fetchAssets(in: collection, options: options)
-    }
-    
+
+    func getAsset(_ id:String) -> PHFetchResult<PHAsset> {
+         let options = PHFetchOptions()
+         options.predicate = NSPredicate(format: "localIdentifier == %@",id)
+         return PHAsset.fetchAssets(with: options)
+     }
     
     public func cleanMemoryCache(){
         mMemoryCache.clear()
@@ -146,4 +103,18 @@ public class Guiso {
          uiimg
       }
       
+    
+    func writeToCacheFolder(_ data:Data,name:String) -> URL? {
+            mLock.lock(); defer { mLock.unlock() }
+        do{
+            let cacheDir = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
+            let path = URL(fileURLWithPath: cacheDir).appendingPathComponent(name)
+            try data.write(to: path)
+            return path
+
+        }catch let error as NSError {
+            print("writeToCacheFolder - dataVideo  -> Image generation -  failed with error: \(error)")
+            return nil
+        }
+    }
 }

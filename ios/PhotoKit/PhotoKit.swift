@@ -506,16 +506,9 @@ class PhotoKit : NSObject, RCTBridgeModule {
     }
 
     func resolveAsset(_ identifier:String)->PHAsset?{
-        let assets = Guiso.get().getAssets()
-        var asset: PHAsset?
-        for i in 0...(assets.count-1){
-            let a = assets[i]
-            if a.localIdentifier == identifier {
-                 asset = a
-                break
-            }
-        }
-        return asset
+          let result = Guiso.get().getAsset(identifier)
+             if result.count > 0 { return result.firstObject }
+             else { return nil }
     }
      
         
