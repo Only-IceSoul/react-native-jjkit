@@ -23,7 +23,7 @@ class GuisoUtils {
     }
     
     
-    static func getDataFileManager(asset:PHAsset,completion: @escaping (Data?)->Void){
+    static func getData(asset:PHAsset,completion: @escaping (Data?)->Void){
            let options = PHContentEditingInputRequestOptions()
            options.canHandleAdjustmentData = {(adjustmeta: PHAdjustmentData) -> Bool in
                        return true
@@ -39,7 +39,7 @@ class GuisoUtils {
                              print("GuisoUtils - getDataFileManager:error -> ",e)
                          }
                    }else { completion(nil) }
-               }else { completion(nil) }
+               }
                if asset.mediaType == .video {
                    if let url = (value?.audiovisualAsset as? AVURLAsset)?.url {
                          do{
@@ -50,7 +50,7 @@ class GuisoUtils {
                              print("GuisoUtils - getDataFileManager:error -> ",e)
                          }
                    }else { completion(nil)   }
-               }else { completion(nil) }
+               }
             
            }
        }

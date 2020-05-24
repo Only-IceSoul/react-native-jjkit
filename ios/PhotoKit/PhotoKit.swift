@@ -445,7 +445,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
          if identifier != nil && !identifier!.isEmpty{
             Guiso.get().getExecutor().doWork {
                 if let asset = self.resolveAsset(identifier!){
-                    GuisoUtils.getDataFileManager(asset: asset) { (data) in
+                    GuisoUtils.getData(asset: asset) { (data) in
                         DispatchQueue.main.async { resolve(data?.base64EncodedString()) }
                         
                      }

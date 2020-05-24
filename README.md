@@ -35,20 +35,11 @@ ios : 9.0+
 
 ## Change log
 
-**1.6.9**
+**1.7.0**
 
 - [Image](./readmes/image.md) updgrade (IOS)
     
 
-**1.6.8**
-
-- [PhotoKit](./readmes/photokit.md) fix requestImage on Video (IOS)
-    
-
-**1.6.7**
-
-- [Image](./readmes/image.md) support base64 string
-    
 
 See [full change log.](./readmes/changelog.md)
 
