@@ -73,6 +73,8 @@ Preview: Use [Image](image.md)
 
 byte array encoded to base64 String
 
+Warn: Maybe freeze with debug.
+
 ### Raw 
 
 ```javascript
