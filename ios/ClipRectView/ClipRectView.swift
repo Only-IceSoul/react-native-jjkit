@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 @objc(ClipRectView)
 class ClipRectView: RCTViewManager {

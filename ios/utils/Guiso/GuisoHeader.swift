@@ -1,12 +1,12 @@
 //
 //  GuisoHeader.swift
-//  Jjkit
+//  Guiso
 //
 //  Created by Juan J LF on 5/18/20.
-//  Copyright © 2020 Facebook. All rights reserved.
 //
 
 import Foundation
+
 
 public class GuisoHeader {
     
@@ -22,3 +22,4 @@ public class GuisoHeader {
     }
    
 }
+

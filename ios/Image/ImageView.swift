@@ -11,22 +11,7 @@ import UIKit
 class ImageView: UIImageView , ViewTarget {
    
     
-     init(){
-       super.init(frame:.zero)
-        contentMode = .scaleAspectFill
-        clipsToBounds = true
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentMode = .scaleAspectFill
-        clipsToBounds = true
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+      
     
     @objc func setScaleType(_ scaleType:Int){
         switch scaleType {
@@ -40,8 +25,8 @@ class ImageView: UIImageView , ViewTarget {
     @objc func setData(_ data:[String:Any]?){
 
         if data != nil {
-            let w = data!["width"] as? CGFloat ?? -1
-            let h = data!["height"] as? CGFloat ?? -1
+            let w = data!["width"] as? Int ?? -1
+            let h = data!["height"] as? Int ?? -1
             let cache = data!["cache"] as? Bool ?? false
             let asGif = data!["asGif"] as? Bool ?? false
             
@@ -55,7 +40,7 @@ class ImageView: UIImageView , ViewTarget {
         }
     }
     
-    private func updateImage(_ url:String,_ cache:Bool,_ asGif:Bool,_ w:CGFloat,_ h:CGFloat,_ reqW:CGFloat,_ reqH:CGFloat){
+    private func updateImage(_ url:String,_ cache:Bool,_ asGif:Bool,_ w:Int,_ h:Int,_ reqW:Int,_ reqH:Int){
             if (cache) {
                 if (w != 1 && h != -1) {
                     updateImageCache(url,asGif,reqW,reqH)
@@ -71,25 +56,25 @@ class ImageView: UIImageView , ViewTarget {
             }
     }
     
-    private func updateImageCache(_ url:String,_ asGif:Bool,_ w:CGFloat,_ h:CGFloat){
+    private func updateImageCache(_ url:String,_ asGif:Bool,_ w:Int,_ h:Int){
         if (asGif){
             if url.contains("base64,"){
                 let s = url.split(separator: ",")[1]
                 guard let data = Data(base64Encoded: String(s))
                     else {return}
-                Guiso.load(data).asGif().fitCenter().override(w,h).into(self)
+                Guiso.load(model: data).asGif().fitCenter().override(w,h).into(self)
             }else {
-               Guiso.load(url).asGif().fitCenter().override(w,h).into(self)
+                Guiso.load(model: url).asGif().fitCenter().override(w,h).into(self)
             }
         }else{
             if url.contains("base64,"){
                 let s = url.split(separator: ",")[1]
                 guard let data = Data(base64Encoded: String(s))
                     else {return}
-                Guiso.load(data).frame(1)
+                Guiso.load(model: data).frame(1)
                 .fitCenter().override(w,h).into(self)
             }else {
-              Guiso.load(url).frame(1)
+                Guiso.load(model: url).frame(1)
                .fitCenter().override(w,h).into(self)
             }
            
@@ -102,9 +87,9 @@ class ImageView: UIImageView , ViewTarget {
                let s = url.split(separator: ",")[1]
                guard let data = Data(base64Encoded: String(s))
                    else {return}
-                 Guiso.load(data).asGif().into(self)
+                Guiso.load(model: data).asGif().into(self)
             }else {
-                Guiso.load(url).asGif().into(self)
+                Guiso.load(model: url).asGif().into(self)
             }
           
         }else{
@@ -112,26 +97,26 @@ class ImageView: UIImageView , ViewTarget {
                let s = url.split(separator: ",")[1]
                guard let data = Data(base64Encoded: String(s))
                    else {return}
-                 Guiso.load(data).frame(1).into(self)
+                Guiso.load(model: data).frame(1).into(self)
             }else {
-                Guiso.load(url).frame(1).into(self)
+                Guiso.load(model: url).frame(1).into(self)
             }
             
         }
     }
 
-    private func updateImageNoCache(_ url:String,_ asGif:Bool,_ w:CGFloat,_ h:CGFloat){
+    private func updateImageNoCache(_ url:String,_ asGif:Bool,_ w:Int,_ h:Int){
         if asGif {
             if url.contains("base64,"){
              let s = url.split(separator: ",")[1]
              guard let data = Data(base64Encoded: String(s))
                  else {return}
-                 Guiso.load(data).asGif()
-                         .skipMemoryCache()
+                Guiso.load(model: data).asGif()
+                         .skipMemoryCache(true)
                          .fitCenter().override(w,h).into(self)
             }else {
-                Guiso.load(url).asGif()
-                        .skipMemoryCache()
+                Guiso.load(model: url).asGif()
+                        .skipMemoryCache(true)
                         .fitCenter().override(w,h).into(self)
             }
           
@@ -140,12 +125,12 @@ class ImageView: UIImageView , ViewTarget {
                 let s = url.split(separator: ",")[1]
                 guard let data = Data(base64Encoded: String(s))
                     else {return}
-                    Guiso.load(data).frame(1)
-                    .skipMemoryCache()
+                Guiso.load(model: data).frame(1)
+                    .skipMemoryCache(true)
                     .fitCenter().override(w,h).into(self)
             }else {
-               Guiso.load(url).frame(1)
-               .skipMemoryCache()
+                Guiso.load(model: url).frame(1)
+               .skipMemoryCache(true)
                .fitCenter().override(w,h).into(self)
             }
             
@@ -158,12 +143,12 @@ class ImageView: UIImageView , ViewTarget {
                let s = url.split(separator: ",")[1]
                guard let data = Data(base64Encoded: String(s))
                    else {return}
-                     Guiso.load(data).asGif()
-                            .skipMemoryCache()
+                Guiso.load(model: data).asGif()
+                            .skipMemoryCache(true)
                             .into(self)
             }else {
-                Guiso.load(url).asGif()
-                       .skipMemoryCache()
+                Guiso.load(model: url).asGif()
+                       .skipMemoryCache(true)
                        .into(self)
             }
          
@@ -173,64 +158,100 @@ class ImageView: UIImageView , ViewTarget {
              let s = url.split(separator: ",")[1]
              guard let data = Data(base64Encoded: String(s))
                  else {return}
-                   Guiso.load(data).frame(1)
-                   .skipMemoryCache()
+                Guiso.load(model: data).frame(1)
+                   .skipMemoryCache(true)
                    .into(self)
             }else {
-             Guiso.load(url).frame(1)
-              .skipMemoryCache()
+                Guiso.load(model: url).frame(1)
+              .skipMemoryCache(true)
               .into(self)
             }
             
         }
     }
 
+    init(){
+           super.init(frame: .zero)
+           clipsToBounds = true
+          contentMode = .scaleAspectFill
+       }
+       
+       public override init(frame: CGRect) {
+           super.init(frame: frame)
+           clipsToBounds = true
+          contentMode = .scaleAspectFill
+       }
+       
+       required init?(coder: NSCoder) {
+           super.init(coder: coder)
+           clipsToBounds = true
+          contentMode = .scaleAspectFill
+       }
+       
+       
+       public func onFallback() {
+         
+       }
+       
+       //error, placeholder, fallback
+       public func onHolder(_ image: UIImage?) {
+           self.image = image
+       }
     
-    private var mGif: GifLayer?
-        override var bounds: CGRect{
+       
+       private var mGif: GifLayer?
+       override public var bounds: CGRect{
            didSet{
                mGif?.onBoundsChange(bounds)
            }
        }
        
-       func onResourceReady(_ gif: GifLayer) {
+       public func onResourceReady(_ gif: GifLayer) {
            image = nil
-           mGif?.removeFromSuperlayer()
-           mGif = gif
-           mGif?.setContentMode(self.contentMode)
-           layer.addSublayer(mGif!)
-           mGif?.onBoundsChange(bounds)
-          
-           
+           removeGif()
+           addGif(gif)
        }
        
-       func onResourceReady(_ img: UIImage) {
-           mGif?.removeFromSuperlayer()
-           mGif = nil
+       public func onResourceReady(_ img: UIImage) {
+           removeGif()
            image = img
        }
        
-       func onLoadFailed() {
-           // image error
-           print("Load failed Guiso")
+       public func onThumbReady(_ img: UIImage?) {
+           //if thumb fail and error thumb fail  img is nil.
+               removeGif()
+               image = img
+           
+       }
+       
+       public func onThumbReady(_ gif: GifLayer) {
+           image = nil
+           removeGif()
+           addGif(gif)
+          
+       }
+       
+       public func onLoadFailed() {
+           // auto retry?
+           //show clickview and let user retry?
+           print("Load failed")
        }
      
        
-       private var mIdentifier = "error"
-               
-       func setIdentifier(_ tag:String) {
-           mIdentifier = tag
+       private var mRequest: GuisoRequest?
+       public func setRequest(_ tag:GuisoRequest?) {
+           mRequest = tag
        }
-       func getIdentifier() -> String{
-           return mIdentifier
+       public func getRequest() -> GuisoRequest?{
+           return mRequest
        }
+      
 
-     func getContentMode() -> UIView.ContentMode {
-        return self.contentMode
-    }
+       public func getContentMode() -> UIView.ContentMode {
+           return self.contentMode
+       }
        
-       
-       override func layoutSubviews() {
+       override public func layoutSubviews() {
            super.layoutSubviews()
            if bounds.width > 0 && bounds.height > 0 && mGif?.isAnimating() == false {
                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -238,5 +259,20 @@ class ImageView: UIImageView , ViewTarget {
                }
            }
        }
+       
+       private func removeGif(){
+           mGif?.removeFromSuperlayer()
+           mGif = nil
+       }
+       
+       private func addGif(_ gif:GifLayer){
+           mGif = gif
+           mGif?.setContentMode(self.contentMode)
+           layer.addSublayer(mGif!)
+           mGif?.onBoundsChange(bounds)
+       }
+
+    
+   
        
 }

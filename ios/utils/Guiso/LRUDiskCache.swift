@@ -1,6 +1,6 @@
 //
 //  FileCache.swift
-//  
+//  AnimationPractica
 //
 //  Created by Juan J LF on 4/23/20.
 //  Copyright © 2020 Juan J LF. All rights reserved.
@@ -19,6 +19,7 @@ class LRUDiskCache {
     private var mPriority: LinkedList<String> = LinkedList<String>()
     private var mKey2node: [String: LinkedList<String>.LinkedListNode<String>] = [:]
     init(_ folder: String, maxSize:Double) {
+//        let cacheFolder = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
         let document = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         mDirectory = document.appendingPathComponent(folder)
         createDirectory(mDirectory.path)
@@ -36,7 +37,6 @@ class LRUDiskCache {
         if !FileManager.default.fileExists(atPath: pathString) {
             do {
                 try FileManager.default.createDirectory(atPath: pathString, withIntermediateDirectories: true, attributes: nil)
-                print("directory created : " ,pathString)
                 return true
             } catch {
                 print("DiskCache:error - createDirectory -> ",error.localizedDescription);
@@ -57,6 +57,7 @@ class LRUDiskCache {
         return data
     }
     
+ 
     open func getSizeObject(data: Data?) -> Double {
           let bytes  = data?.count ?? 0
           return Double(bytes) / 1048576
@@ -86,8 +87,8 @@ class LRUDiskCache {
         if needAdd {
             if mCurrentSize >= mMaxSize,  let keyToRemove = mPriority.last?.value {
                 let fileToRemove = mDirectory.appendingPathComponent(keyToRemove)
-                let data = getData(url: fileToRemove)
-                removeData(url: fileToRemove,data:data)
+                let datar = getData(url: fileToRemove)
+                removeData(url: fileToRemove,data:datar)
                 removeKey(keyToRemove)
             }
             result = addData(url: fileUrl, data: data)
@@ -96,6 +97,8 @@ class LRUDiskCache {
         
         return result
     }
+    
+   
     
     @discardableResult
     func addGif(_ key:String, images: [CGImage],delays: [Double],loopCount: Int = 0,isUpdate: Bool = true) -> Bool{
@@ -126,10 +129,11 @@ class LRUDiskCache {
         if needAdd {
            if mCurrentSize >= mMaxSize,  let keyToRemove = mPriority.last?.value {
                let fileToRemove = mDirectory.appendingPathComponent(keyToRemove)
-               let data = getData(url: fileToRemove)
-               removeData(url: fileToRemove,data:data)
+               let datar = getData(url: fileToRemove)
+               removeData(url: fileToRemove,data:datar)
                removeKey(keyToRemove)
            }
+           
            result = saveGif(url: fileUrl, images: images, delays: delays, loopCount: loopCount)
            if result { insertKey(key) }
         }
@@ -145,10 +149,10 @@ class LRUDiskCache {
                                                          nil)!
 
         let gifProperty = [
-                            (kCGImagePropertyGIFDictionary as String): [(kCGImagePropertyGIFLoopCount as String): NSNumber(integerLiteral: loopCount),
-                                  (kCGImagePropertyGIFHasGlobalColorMap as String): false as NSNumber
-                          ]
-                        ]
+            
+        (kCGImagePropertyGIFLoopCount as String): NSNumber(integerLiteral: loopCount),
+                (kCGImagePropertyGIFHasGlobalColorMap as String): false as NSNumber
+        ]
 
         CGImageDestinationSetProperties(destinationGIF,gifProperty as CFDictionary?)
 
@@ -158,9 +162,10 @@ class LRUDiskCache {
         // This dictionary controls the delay between frames
         // If you don't specify this, CGImage will apply a default delay
         let imgProperty = [
-            (kCGImagePropertyGIFDictionary as String): [(kCGImagePropertyGIFDelayTime as String): delays[index],
+            (kCGImagePropertyGIFDictionary as String): [
+                (kCGImagePropertyGIFDelayTime as String): delays[index]
+                ,
                 String(kCGImagePropertyGIFImageColorMap): colorMap.exported as NSData
-            
             ]
         ]
 
@@ -239,7 +244,9 @@ class LRUDiskCache {
             if fileManager.fileExists(atPath: mDirectory.path) {
                 try fileManager.removeItem(atPath: mDirectory.path)
                 resetCurrentSize()
+                print("Cleaned - Guiso")
             } else {
+                resetCurrentSize()
                 print("File does not exist")
             }
         }
@@ -272,5 +279,5 @@ class LRUDiskCache {
         guard let first = mPriority.first else {return}
         mKey2node[key] = first
     }
-
+    
 }

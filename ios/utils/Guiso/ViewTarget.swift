@@ -8,13 +8,17 @@
 import UIKit
 
 
-protocol ViewTarget {
+public protocol ViewTarget {
     
-    func setIdentifier(_ tag:String)
-    func getIdentifier() -> String
+    func setRequest(_ tag:GuisoRequest?)
+    func getRequest() -> GuisoRequest?
     func onResourceReady(_ gif:GifLayer)
     func onResourceReady(_ img:UIImage)
+    func onThumbReady(_ img: UIImage?)
+    func onThumbReady(_ gif: GifLayer)
     func onLoadFailed()
     func getContentMode() -> UIView.ContentMode
+    func onHolder(_ image:UIImage?)
+    func onFallback()
 
 }

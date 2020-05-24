@@ -9,10 +9,10 @@
 import Foundation
 
 
- class LRUCacheGif : LRUCache<GifDrawable> {
+ class LRUCacheGif : LRUCache<Gif> {
     
     
-     override func getSizeObject(obj: GifDrawable) -> Double {
+     override func getSizeObject(obj: Gif) -> Double {
         return 1
     }
 }

@@ -1,5 +1,5 @@
 //
-//  extension_ColorMap.swift
+//  ColorMap.swift
 //  Guiso
 //
 //  Created by Juan J LF on 5/3/20.
@@ -54,14 +54,23 @@ extension CGImage{
 
         var byteIndex = 0
 
-        for _ in 0 ..< Int(height){
-            for _ in 0 ..< Int(width){
-
-                let color = Color(red: data[byteIndex], green: data[byteIndex + 1], blue: data[byteIndex + 2])
-                colorMap.colors.insert(color)
-                byteIndex += 4
+//        for _ in 0 ..< Int(height){
+//            for _ in 0 ..< Int(width){
+//                print("byteindex :" , byteIndex)
+//                let color = Color(red: data[byteIndex], green: data[byteIndex + 1], blue: data[byteIndex + 2])
+//                colorMap.colors.insert(color)
+//                byteIndex += 4
+//            }
+//        }
+        
+        for y in 0 ..< height{
+                 for x in 0 ..< width{
+                      let offset = y * width * 4 + x * 4
+                        print("offset ",offset)
+                      let color = Color(red: data[offset], green: data[offset + 1], blue: data[offset + 2])
+                      colorMap.colors.insert(color)
             }
-        }
+         }
 
         return colorMap
     }

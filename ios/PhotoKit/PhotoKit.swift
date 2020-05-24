@@ -196,10 +196,6 @@ class PhotoKit : NSObject, RCTBridgeModule {
     }
     
 
-     
-       
-
-
     @objc func fetchAlbums(_ names:NSArray?,media:String?, resolve: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock){
          Guiso.get().getExecutor().doWork {
              var mAlbumList = [[String:Any]]()
@@ -449,7 +445,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
          if identifier != nil && !identifier!.isEmpty{
             Guiso.get().getExecutor().doWork {
                 if let asset = self.resolveAsset(identifier!){
-                    ImageHelper.getDataFileManager(asset: asset) { (data) in
+                    GuisoUtils.getDataFileManager(asset: asset) { (data) in
                         DispatchQueue.main.async { resolve(data?.base64EncodedString()) }
                         
                      }
@@ -467,17 +463,17 @@ class PhotoKit : NSObject, RCTBridgeModule {
           let format = data?["format"] as? Int ?? 0
           let quality = data?["quality"] as? CGFloat ?? 1
 
-        width = width < 10 ? 10 : width
-        height = height < 10 ? 10 : height
+        width = width < 20 ? 20 : width
+        height = height < 20 ? 20 : height
          
         if identifier != nil && !identifier!.isEmpty{
 
            Guiso.get().getExecutor().doWork {
                if let asset = self.resolveAsset(identifier!){
                 if asset.mediaType == .video {
-                    ImageHelper.getVideoThumbnail(asset, second: 1, exact: false) { (img, error) in
+                    GuisoUtils.getVideoThumbnail(asset, second: 1, exact: false) { (img, error) in
                         if img != nil{
-                            if let image = ImageHelper.fitCenter(image: img!, width: CGFloat(width), height: CGFloat(height),lanczos: false){
+                            if let image = TransformationUtils.fitCenter(image: img!, width: CGFloat(width), height: CGFloat(height),lanczos: false){
                             
                                 let data = format == 0 ? image.jpegData(compressionQuality: quality)
                                 : image.pngData()
@@ -488,7 +484,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                         }
                     }
                 }else{
-                    ImageHelper.getImage(asset: asset, size: CGSize(width: width, height: height), contentMode: .aspectFit) { (image) in
+                    GuisoUtils.getImage(asset: asset, size: CGSize(width: width, height: height), contentMode: .aspectFit) { (image) in
                         if image != nil {
                             let data = format == 0 ? image!.jpegData(compressionQuality: quality)
                                 : image!.pngData()

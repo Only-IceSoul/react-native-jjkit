@@ -71,7 +71,7 @@ class Cropper : NSObject, RCTBridgeModule {
             }
         
             if wr > 0 && hr > 0 {
-                let resized = ImageHelper.fitCenter(cgImage: resultcg, width: wr, height: hr)
+                let resized = TransformationUtils.fitCenter(cgImage: resultcg, width: wr, height: hr)
                 if resized != nil {
                    let result = UIImage(cgImage: resized!)
                    let data = format == 0 ? result.jpegData(compressionQuality: quality) :
@@ -149,7 +149,7 @@ class Cropper : NSObject, RCTBridgeModule {
               }
           
               if wr > 0 && hr > 0 {
-                  let resized = ImageHelper.fitCenter(cgImage: resultcg, width: wr, height: hr)
+                  let resized = TransformationUtils.fitCenter(cgImage: resultcg, width: wr, height: hr)
                   if resized != nil {
                      let result = UIImage(cgImage: resized!)
                      let data = format == 0 ? result.jpegData(compressionQuality: quality) :

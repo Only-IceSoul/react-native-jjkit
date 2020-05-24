@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol  Runnable {
+public protocol  Runnable {
     
     func run()
     

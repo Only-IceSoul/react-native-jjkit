@@ -10,13 +10,13 @@
 import UIKit
 
 
-class GifLayer : CALayer {
+public class GifLayer : CALayer {
 
-    private var gifDrawable: GifDrawable!
+    private var gifDrawable: Gif!
      private var contentMode : UIView.ContentMode = .scaleAspectFit
   
-     init(_ gif:GifDrawable){
-            super.init()
+     public init(_ gif:Gif){
+        super.init()
             self.gifDrawable = gif
 
      }
@@ -24,7 +24,7 @@ class GifLayer : CALayer {
          fatalError("init(coder:) has not been implemented")
      }
 
-     func setContentMode(_ mode: UIView.ContentMode){
+     public func setContentMode(_ mode: UIView.ContentMode){
          self.contentMode = mode
      }
      
@@ -32,8 +32,8 @@ class GifLayer : CALayer {
      private var mCurrentAnimator : CADisplayLink?
      private var mIsAnimating = false
 
-     func startAnimation() {
-         if !mIsAnimating {
+     public func startAnimation() {
+        if !mIsAnimating && self.gifDrawable.frames.count > 0{
              mIsAnimating = true
             mCurrentAnimator = CADisplayLink(target: self, selector: #selector(makeAnimation(_:)))
               
@@ -43,13 +43,14 @@ class GifLayer : CALayer {
          }
      }
      
-     func stopAnimation(){
+     public func stopAnimation(){
          mCurrentAnimator?.invalidate()
          mCurrentAnimator = nil
          mIsAnimating = false
      }
      
      private var index = 0
+    private var mCurrentTime = 0
     private var mFrameRate = 0
     private var mFrameInterval = 0
     private var mCurrentFrame = 1
@@ -70,27 +71,27 @@ class GifLayer : CALayer {
             mCurrentFrame += 1
      }
     
-     func isAnimating() -> Bool {
+     public func isAnimating() -> Bool {
          return mIsAnimating
      }
 
      
-     override  func display() {
+    override  public func display() {
          super.display()
          self.contents =  self.gifDrawable.frames[self.index]
      }
      
 
-     func onBoundsChange(_ bounds: CGRect){
+     public func onBoundsChange(_ bounds: CGRect){
             invalidateFrame(bounds)
        }
      
      private var mMainRect = CGRect.zero
      private func invalidateFrame(_ bounds:CGRect){
-         let rect = ImageHelper.getRect(cgImage: gifDrawable.frames[0], width: bounds.width, height: bounds.height, self.contentMode)
+         let rect = TransformationUtils.getRect(cgImage: gifDrawable.frames[0], width: bounds.width, height: bounds.height, self.contentMode)
          super.frame = CGRect(x: 0, y: 0, width: rect.width, height: rect.height)
-         super.position.x = bounds.center.x
-         super.position.y = bounds.center.y
+        super.position.x = bounds.midX
+         super.position.y = bounds.midY
      
      }
 }

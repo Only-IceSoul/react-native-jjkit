@@ -8,10 +8,10 @@
 import UIKit
 import Foundation
 
-public class LRUCache<T: AnyObject>{
+ class LRUCache<T: AnyObject>{
   private var mMaxSize: Double
   private var mCurrentSize : Double = 0
-    private var mCache  = NSCache<NSString,T>()
+  private var mCache  = NSCache<NSString,T>()
   private var mPriority: LinkedList<String> = LinkedList<String>()
   private var mKey2node: [String: LinkedList<String>.LinkedListNode<String>] = [:]
   private let mLock = NSLock()
@@ -20,11 +20,11 @@ public class LRUCache<T: AnyObject>{
     
   }
     
-    public func setMaxSize(_ maxSize: Double){
+     func setMaxSize(_ maxSize: Double){
         self.mMaxSize = maxSize
     }
   
-  public func get(_ key: String) -> T? {
+   func get(_ key: String) -> T? {
      mLock.lock(); defer { mLock.unlock() }
     guard let val = mCache.object(forKey: key as NSString) else  { return nil }
     
@@ -34,9 +34,10 @@ public class LRUCache<T: AnyObject>{
     return val
   }
 
-    public func add(_ key: String, val: T, isUpdate: Bool = true) {
+     func add(_ key: String, val: T, isUpdate: Bool = true) {
         objc_sync_enter(mLock); defer { objc_sync_exit(mLock) }
    
+            if key.isEmpty { return  }
         var needAdd = false
         let item = mCache.object(forKey: key as NSString)
         

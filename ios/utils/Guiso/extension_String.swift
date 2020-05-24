@@ -33,8 +33,7 @@ extension String {
            cgSize.width =  ceil(boundingBox.width)
            cgSize.height = ceil(boundingBox.height)
        
-       }
-    
+    }
     func getExtImage() -> String {
         var format = "png"
         let imageFormats = ["jpg", "png","JPEG","jpeg","JPG","PNG"]
@@ -89,8 +88,8 @@ extension String {
     
 
     func isValidWebUrl() -> Bool {
-        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-        if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
+        let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        if let match = detector?.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
          return match.range.length == self.utf16.count
         } else {
          return false
@@ -118,30 +117,31 @@ extension String {
         let endIndex = index(from: r.upperBound)
         return String(self[startIndex..<endIndex])
     }
-
+    
     var isMimeTypeImage: Bool {
-         guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self as CFString, nil)?.takeRetainedValue() else {
-             return false
-         }
-         return UTTypeConformsTo(uti, kUTTypeImage)
-     }
-     var isMimeTypeGif: Bool {
-            guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self as CFString, nil)?.takeRetainedValue() else {
-                return false
-            }
-            return UTTypeConformsTo(uti, kUTTypeGIF)
-     }
-     var isMimeTypeAudio: Bool {
-         guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self as CFString, nil)?.takeRetainedValue() else {
-             return false
-         }
-         return UTTypeConformsTo(uti, kUTTypeAudio)
-     }
-     var isMimeTypeVideo: Bool {
-         guard  let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self as CFString, nil)?.takeRetainedValue() else {
-             return false
-         }
-         return UTTypeConformsTo(uti, kUTTypeMovie)
-     }
+        guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self as CFString, nil)?.takeRetainedValue() else {
+            return false
+        }
+        return UTTypeConformsTo(uti, kUTTypeImage)
+    }
+    var isMimeTypeGif: Bool {
+           guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self as CFString, nil)?.takeRetainedValue() else {
+               return false
+           }
+           return UTTypeConformsTo(uti, kUTTypeGIF)
+    }
+    var isMimeTypeAudio: Bool {
+        guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self as CFString, nil)?.takeRetainedValue() else {
+            return false
+        }
+        return UTTypeConformsTo(uti, kUTTypeAudio)
+    }
+    var isMimeTypeVideo: Bool {
+        guard  let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self as CFString, nil)?.takeRetainedValue() else {
+            return false
+        }
+        return UTTypeConformsTo(uti, kUTTypeMovie)
+    }
+    
     
 }
