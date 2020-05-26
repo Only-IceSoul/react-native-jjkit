@@ -88,7 +88,7 @@ class CropHelper {
                                        bitsPerComponent: 8,
                                        bytesPerRow: 0,
                                        space:  cgImage.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!,
-                                       bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+                                       bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue)
            
              else { return nil }
 
@@ -152,7 +152,7 @@ class CropHelper {
                                        nil,
                                        radians,
                                        &backColor,
-                                       vImage_Flags(kvImageBackgroundColorFill))
+                                       vImage_Flags(kvImageNoFlags))
 
          guard error == kvImageNoError else { return nil }
 

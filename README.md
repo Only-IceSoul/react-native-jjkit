@@ -35,6 +35,11 @@ ios : 9.0+
 
 ## Change log
 
+**1.7.2**
+
+- [Cropper](./readmes/cropper.md) updgrade    
+
+
 **1.7.1**
 
 - [Image](./readmes/image.md) updgrade (IOS)
