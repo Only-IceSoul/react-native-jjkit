@@ -1,4 +1,12 @@
 # Change Log
+
+**1.7.2**
+
+- [Cropper](./readmes/cropper.md) 
+    - remove makecrop64 and makecropstatic
+    - add method transform    
+
+
 **1.7.1**
 
 - [Image](./readmes/image.md) updgrade (IOS)

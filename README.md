@@ -37,7 +37,9 @@ ios : 9.0+
 
 **1.7.2**
 
-- [Cropper](./readmes/cropper.md) updgrade    
+- [Cropper](./readmes/cropper.md) 
+    - remove makecrop64 and makecropstatic
+    -  method transform    
 
 
 **1.7.1**

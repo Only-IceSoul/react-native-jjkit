@@ -50,6 +50,35 @@ If you don't want to resize the image cropped , set width -1 and height -1
 
 ## Usage
 
+### transform
+
+```javascript
+
+ let base64 = "base64,QEQWEQWeqwesd/asdmlmlzz"
+ let staticUri = `static;${image.uri}`
+  
+  let data = {
+        image : staticUri, 
+        rotate: 90,
+        flipVertically: false,
+        flipHorizontally: false,
+        output: {
+            quality: 1,
+            format: Cropper.jpeg,
+            width: -1, 
+            height: -1  
+        }
+    }
+
+
+  Cropper.transform(data).then(re=>{
+      let img64 = re
+  })
+
+```
+
+### Crop
+
 Everything is with logical numbers, like when you define width and height in a view
 
 ```javascript
@@ -70,8 +99,11 @@ let cropRect = Rect.centerRect(100,100,cw,ch)
 //return true if first rect contains second rect
  if (Rect.contains(imageRect,crop)){
 
+ let base64 = "base64,QEQWEQWeqwesd/asdmlmlzz"
+ let staticUri = `static;${image.uri}`
+
         let dataForCrop = {
-            image : myImage, 
+            image : staticUri, 
             rect: imageRect,
             rotate: 0,
             flipVertically: false,
@@ -85,13 +117,9 @@ let cropRect = Rect.centerRect(100,100,cw,ch)
             height: -1  
         }
 
-        // base64 string
-        Cropper.makeCrop64(dataForCrop).then(image64String => {
-            console.log("result ",image64String)
-           
-        })
-        //  static images
-        Cropper.makeCropStatic(dataForCrop).then(image64String => {
+
+
+      Cropper.makeCrop(dataForCrop).then(image64String => {
             console.log("result ",image64String)
            
         })
@@ -120,9 +148,7 @@ import { Rect } from 'react-native-jjkit'
 
  //scale focus center
   myRect = Rect.scale(myRect,scale)
-
-//resize with points
- 
+ //inset 
  myRect =  Rect.inset(myRect,inseX,insetY)
  //top left
  myRect =  Rect.insetTl(myRect,inset)

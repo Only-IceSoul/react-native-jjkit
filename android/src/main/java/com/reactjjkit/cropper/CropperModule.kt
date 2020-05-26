@@ -24,9 +24,8 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
                 "png" to 1)
     }
 
-
     @ReactMethod
-    fun makeCrop64(map:ReadableMap?,promise: Promise){
+    fun makeCrop(map:ReadableMap?,promise: Promise){
         if(map != null){
             val image = map.getString("image")
             val imgRect = map.getMap("rect")
@@ -41,12 +40,8 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
             val flipVertical = map.getBoolean("flipVertically")
             val flipHorizontal = map.getBoolean("flipHorizontally")
 
-            if(image != null && imgRect != null && crop != null){
-
-                val bytes = Base64.decode(image,Base64.DEFAULT)
-                val options =  BitmapFactory.Options()
-                options.inMutable = true
-                val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
+            val bmp = load(image)
+            if(imgRect != null && crop != null && bmp != null){
 
                 val r = mapToRectF(imgRect)
                 val c = mapToRectF(crop)
@@ -57,6 +52,7 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
                     val fh = if(flipHorizontal)  -1f else  1f
                     matrix.setScale(fh,fv)
                     if(rotation > 0) matrix.postRotate(rotation)
+                    bmp.setHasAlpha(true)
                     Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, matrix, false)
                 }else{
                     bmp
@@ -97,82 +93,91 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
         }
     }
 
-
-
     @ReactMethod
-    fun makeCropStatic(map:ReadableMap?,promise: Promise){
-        if(map != null){
-            val image = map.getString("image")
-            val imgRect = map.getMap("rect")
-            val cw = map.getDouble("cw").toFloat()
-            val ch = map.getDouble("ch").toFloat()
-            val crop = map.getMap("crop")
-            val wr = map.getInt("width")
-            val hr = map.getInt("height")
-            val quality = map.getDouble("quality").toFloat()
-            val format = map.getInt("format")
-            val rotation = map.getDouble("rotate").toFloat()
-            val flipVertical = map.getBoolean("flipVertically")
-            val flipHorizontal = map.getBoolean("flipHorizontally")
+    fun transform(map:ReadableMap?,promise: Promise){
+        if (map == null ) {
+            promise.resolve(null)
+             return
+        }
 
-            val bmp : Bitmap?
+        val image = map.getString("image")
+        val rotation = map.getDouble("rotate").toFloat()
+        val flipVertical = map.getBoolean("flipVertically")
+        val flipHorizontal = map.getBoolean("flipHorizontally")
+        val op = map.getMap("output")
+        val wr = op.getInt("width")
+        val hr = op.getInt("height")
+        val quality = op.getDouble("quality").toFloat()
+        val format = op.getInt("format")
 
-            bmp = if(image != null && image.contains("http")) {
-                val url = URL(image)
-                BitmapFactory.decodeStream(url.openConnection().getInputStream())
-            }else{
-                val id = reactContext.resources.getIdentifier(image,"drawable",reactContext.packageName)
-                ContextCompat.getDrawable(reactContext,id)?.toBitmap()
-            }
-            if(image != null && imgRect != null && crop != null && bmp != null){
+        val bmp = load(image)
 
-                val r = mapToRectF(imgRect)
-                val c = mapToRectF(crop)
-
-                val finalBmp = if(rotation > 0 || flipHorizontal || flipVertical ){
-                    val matrix = Matrix()
-                    val fv = if(flipVertical)  -1f else  1f
-                    val fh = if(flipHorizontal)  -1f else  1f
-                    matrix.setScale(fh,fv)
-                    if(rotation > 0) matrix.postRotate(rotation)
-                    Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, matrix, false)
-                }else{
-                    bmp
-                }
-
-                val rf = CropperHelper.crop(finalBmp,r,cw,ch,c)
-                val bf = cropBitmap(finalBmp,rf)
-
-                val fmt = if(format == 0) Bitmap.CompressFormat.JPEG else Bitmap.CompressFormat.PNG
-                if(wr > 0 && hr > 0){
-                    val br = fitCenter(bf,wr,hr)
-                    val output = ByteArrayOutputStream()
-                    if( br.compress(fmt,(quality*100).toInt(),output) ){
-                        val array = output.toByteArray()
-                        val encodedString = Base64.encodeToString(array,Base64.DEFAULT)
-                        promise.resolve(encodedString)
-                    }else{
-                        promise.resolve(null)
-                    }
-
-                }else{
-                    val output = ByteArrayOutputStream()
-                    if( bf.compress(fmt,(quality*100).toInt(),output) ){
-                        val array = output.toByteArray()
-                        val encodedString = Base64.encodeToString(array,Base64.DEFAULT)
-                        promise.resolve(encodedString)
-                    }else{
-                        promise.resolve(null)
-                    }
-                }
-
+        if (bmp == null) {
+            promise.resolve(null)
+            return
+        }
+        val finalBmp = if(rotation > 0 || flipHorizontal || flipVertical ){
+            val matrix = Matrix()
+            val fv = if(flipVertical)  -1f else  1f
+            val fh = if(flipHorizontal)  -1f else  1f
+            matrix.setScale(fh,fv)
+            if(rotation > 0) matrix.postRotate(rotation)
+            bmp.setHasAlpha(true)
+            Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, matrix, false)
+        }else{
+            bmp
+        }
+        val fmt = if(format == 0) Bitmap.CompressFormat.JPEG else Bitmap.CompressFormat.PNG
+        if(wr > 0 && hr > 0){
+            val br = fitCenter(finalBmp,wr,hr)
+            val output = ByteArrayOutputStream()
+            if( br.compress(fmt,(quality*100).toInt(),output) ){
+                val array = output.toByteArray()
+                val encodedString = Base64.encodeToString(array,Base64.DEFAULT)
+                promise.resolve(encodedString)
             }else{
                 promise.resolve(null)
             }
-        }else{
-            promise.resolve(null)
 
+        }else{
+            val output = ByteArrayOutputStream()
+            if( finalBmp.compress(fmt,(quality*100).toInt(),output) ){
+                val array = output.toByteArray()
+                val encodedString = Base64.encodeToString(array,Base64.DEFAULT)
+                promise.resolve(encodedString)
+            }else{
+                promise.resolve(null)
+            }
         }
+
+    }
+
+    private fun load(model: String?) : Bitmap? {
+        if (model.isNullOrEmpty()) return null
+
+        when {
+            model.contains("base64,") -> {
+                val s = model.split(",")[1]
+                val bytes = Base64.decode(s,Base64.DEFAULT)
+                val options =  BitmapFactory.Options()
+                options.inMutable = true
+                return BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
+            }
+            model.contains("static;") -> {
+                val s = model.split("c;")[1]
+                return if(s.contains("http")) {
+                     val url = URL(s)
+                     BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                 }else{
+                     val id = reactContext.resources.getIdentifier(s,"drawable", reactContext.packageName)
+                     ContextCompat.getDrawable(reactContext,id)?.toBitmap()
+                 }
+            }
+            else -> {
+                return null
+            }
+        }
+
     }
 
     private fun cropBitmap(bmp:Bitmap,rect:RectF) : Bitmap {
