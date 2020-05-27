@@ -105,10 +105,10 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
         val flipVertical = map.getBoolean("flipVertically")
         val flipHorizontal = map.getBoolean("flipHorizontally")
         val op = map.getMap("output")
-        val wr = op.getInt("width")
-        val hr = op.getInt("height")
-        val quality = op.getDouble("quality").toFloat()
-        val format = op.getInt("format")
+        val wr = op?.getInt("width") ?: -1
+        val hr = op?.getInt("height") ?: -1
+        val quality = op?.getDouble("quality")?.toFloat() ?: 1f
+        val format = op?.getInt("format") ?: 1
 
         val bmp = load(image)
 
