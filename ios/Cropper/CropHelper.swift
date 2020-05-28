@@ -107,160 +107,162 @@ class CropHelper {
          
      }
      
-     
-     //clockwise
-     static func rotateContent(_ cgImage:CGImage,degree:CGFloat) -> CGImage?{
-         // Define the image format
-         
-         let radians = Float((degree * .pi / 180) * -1)
-         var format = vImage_CGImageFormat(bitsPerComponent: 8,
-                                     bitsPerPixel: 32,
-                                     colorSpace: nil,
-                                     bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue),
-                                     version: 0,
-                                     decode: nil,
-                                     renderingIntent: CGColorRenderingIntent.defaultIntent)
-
-
-
-         //create source buffer
-         var sourceBuffer = vImage_Buffer()
-         defer { free(sourceBuffer.data) }
-         var error = vImageBuffer_InitWithCGImage(&sourceBuffer,
-                                             &format,
-                                             nil,
-                                             cgImage,
-                                             numericCast(kvImageNoFlags))
-         guard error == kvImageNoError else { return nil }
-
-         // create a destination buffer
-         var destinationBuffer = vImage_Buffer()
-         defer { free(destinationBuffer.data) }
-         error = vImageBuffer_Init(&destinationBuffer,
-                                   vImagePixelCount(cgImage.height),
-                                   vImagePixelCount(cgImage.width),
-                               format.bitsPerPixel,
-                               vImage_Flags(kvImageNoFlags))
-
-         guard error == kvImageNoError else { return nil }
-
-         // rotate the image
+//clockwise
+ static func rotateContent(_ source:CGImage,dstSize:CGSize,degree:CGFloat) -> CGImage?{
+      // Define the image format
       
-         var backColor = UInt8(0)
-         error = vImageRotate_ARGB8888(&sourceBuffer,
-                                       &destinationBuffer,
-                                       nil,
-                                       radians,
-                                       &backColor,
-                                       vImage_Flags(kvImageNoFlags))
-
-         guard error == kvImageNoError else { return nil }
-
-         // create a CGImage from vImage_Buffer
-         guard let rotatedImage = vImageCreateCGImageFromBuffer(&destinationBuffer,
-                                                           &format,
-                                                           nil,
-                                                           nil,
-                                                           numericCast(kvImageNoFlags),
-                                                           &error)?.takeRetainedValue()
-         ,error == kvImageNoError
-         else { return nil }
-
-         // create a UIImage
-
-
-         return   rotatedImage
-     }
-
-    static func flipContent(_ cgImage:CGImage,vertical:Bool,horizontal:Bool) -> CGImage?{
-           // Define the image format
-           
-           if !vertical && !horizontal { return cgImage }
-           
-           var format = vImage_CGImageFormat(bitsPerComponent: 8,
-                                       bitsPerPixel: 32,
-                                       colorSpace: nil,
-                                       bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue),
-                                       version: 0,
-                                       decode: nil,
-                                       renderingIntent: CGColorRenderingIntent.defaultIntent)
+      let radians = Float((degree * .pi / 180) * -1)
+      var format = vImage_CGImageFormat(bitsPerComponent: 8,
+                                  bitsPerPixel: 32,
+                                  colorSpace: nil,
+                                  bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue),
+                                  version: 0,
+                                  decode: nil,
+                                  renderingIntent: CGColorRenderingIntent.defaultIntent)
 
 
 
-           //create source buffer
-           var sourceBuffer = vImage_Buffer()
-           defer { free(sourceBuffer.data) }
-           var error = vImageBuffer_InitWithCGImage(&sourceBuffer,
-                                               &format,
-                                               nil,
-                                               cgImage,
-                                               numericCast(kvImageNoFlags))
-           guard error == kvImageNoError else { return nil }
+      //create source buffer
+      var sourceBuffer = vImage_Buffer()
+      defer { free(sourceBuffer.data) }
+      var error = vImageBuffer_InitWithCGImage(&sourceBuffer,
+                                          &format,
+                                          nil,
+                                          source,
+                                          numericCast(kvImageNoFlags))
+      guard error == kvImageNoError else { return nil }
 
-           
-           // create a intermediate Buffer
-           var intermediateBuffer = vImage_Buffer()
-           defer { free(intermediateBuffer.data) }
-           error = vImageBuffer_Init(&intermediateBuffer,
-                                     vImagePixelCount(cgImage.height),
-                                     vImagePixelCount(cgImage.width),
-                                 format.bitsPerPixel,
-                                 vImage_Flags(kvImageNoFlags))
-           
-           // create a destination buffer
-           var destinationBuffer = vImage_Buffer()
-           defer { free(destinationBuffer.data) }
-           error = vImageBuffer_Init(&destinationBuffer,
-                                     vImagePixelCount(cgImage.height),
-                                     vImagePixelCount(cgImage.width),
-                                 format.bitsPerPixel,
-                                 vImage_Flags(kvImageNoFlags))
+      // create a destination buffer
+      var destinationBuffer = vImage_Buffer()
+      defer { free(destinationBuffer.data) }
+      error = vImageBuffer_Init(&destinationBuffer,
+                                vImagePixelCount(dstSize.height),
+                                vImagePixelCount(dstSize.width),
+                            format.bitsPerPixel,
+                            vImage_Flags(kvImageNoFlags))
 
-           guard error == kvImageNoError else { return nil }
+      guard error == kvImageNoError else { return nil }
 
-           // flip the image
-           if vertical && horizontal{
-               
-               error = vImageHorizontalReflect_ARGB8888(&sourceBuffer,
-                                                        &intermediateBuffer,
-                                                        vImage_Flags(kvImageNoFlags))
+      // rotate the image
+   
+      var backColor = UInt8(0)
+      error = vImageRotate_ARGB8888(&sourceBuffer,
+                                    &destinationBuffer,
+                                    nil,
+                                    radians,
+                                    &backColor,
+                                    vImage_Flags(kvImageNoFlags))
 
-               guard error == kvImageNoError else { return nil }
-               
-               error = vImageVerticalReflect_ARGB8888(&intermediateBuffer,
+      guard error == kvImageNoError else { return nil }
+
+      // create a CGImage from vImage_Buffer
+      guard let rotatedImage = vImageCreateCGImageFromBuffer(&destinationBuffer,
+                                                        &format,
+                                                        nil,
+                                                        nil,
+                                                        numericCast(kvImageNoFlags),
+                                                        &error)?.takeRetainedValue()
+      ,error == kvImageNoError
+      else { return nil }
+
+      // create a UIImage
+
+
+      return   rotatedImage
+  }
+
+ static func flipContent(_ cgImage:CGImage,vertical:Bool,horizontal:Bool) -> CGImage?{
+        // Define the image format
+        
+        if !vertical && !horizontal { return cgImage }
+        
+        var format = vImage_CGImageFormat(bitsPerComponent: 8,
+                                    bitsPerPixel: 32,
+                                    colorSpace: nil,
+                                    bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue),
+                                    version: 0,
+                                    decode: nil,
+                                    renderingIntent: CGColorRenderingIntent.defaultIntent)
+
+
+
+        //create source buffer
+        var sourceBuffer = vImage_Buffer()
+        defer { free(sourceBuffer.data) }
+        var error = vImageBuffer_InitWithCGImage(&sourceBuffer,
+                                            &format,
+                                            nil,
+                                            cgImage,
+                                            numericCast(kvImageNoFlags))
+        guard error == kvImageNoError else { return nil }
+
+        
+        // create a intermediate Buffer
+        var intermediateBuffer = vImage_Buffer()
+        defer { free(intermediateBuffer.data) }
+        error = vImageBuffer_Init(&intermediateBuffer,
+                                  vImagePixelCount(cgImage.height),
+                                  vImagePixelCount(cgImage.width),
+                              format.bitsPerPixel,
+                              vImage_Flags(kvImageNoFlags))
+        
+        // create a destination buffer
+        var destinationBuffer = vImage_Buffer()
+        defer { free(destinationBuffer.data) }
+        error = vImageBuffer_Init(&destinationBuffer,
+                                  vImagePixelCount(cgImage.height),
+                                  vImagePixelCount(cgImage.width),
+                              format.bitsPerPixel,
+                              vImage_Flags(kvImageNoFlags))
+
+        guard error == kvImageNoError else { return nil }
+
+        // flip the image
+        if vertical && horizontal{
+            
+            error = vImageHorizontalReflect_ARGB8888(&sourceBuffer,
+                                                     &intermediateBuffer,
+                                                     vImage_Flags(kvImageNoFlags))
+
+            guard error == kvImageNoError else { return nil }
+            
+            error = vImageVerticalReflect_ARGB8888(&intermediateBuffer,
+                                                 &destinationBuffer,
+                                                 vImage_Flags(kvImageNoFlags))
+
+            guard error == kvImageNoError else { return nil }
+        }else if vertical {
+            error = vImageVerticalReflect_ARGB8888(&sourceBuffer,
+                                                   &destinationBuffer,
+                                                   vImage_Flags(kvImageNoFlags))
+
+            guard error == kvImageNoError else { return nil }
+        }else if horizontal{
+            error = vImageHorizontalReflect_ARGB8888(&sourceBuffer,
                                                     &destinationBuffer,
                                                     vImage_Flags(kvImageNoFlags))
 
-               guard error == kvImageNoError else { return nil }
-           }else if vertical {
-               error = vImageVerticalReflect_ARGB8888(&sourceBuffer,
-                                                      &destinationBuffer,
-                                                      vImage_Flags(kvImageNoFlags))
+            guard error == kvImageNoError else { return nil }
+        }
+      
 
-               guard error == kvImageNoError else { return nil }
-           }else if horizontal{
-               error = vImageHorizontalReflect_ARGB8888(&sourceBuffer,
-                                                       &destinationBuffer,
-                                                       vImage_Flags(kvImageNoFlags))
+        // create a CGImage from vImage_Buffer
+        guard let resultImage = vImageCreateCGImageFromBuffer(&destinationBuffer,
+                                                          &format,
+                                                          nil,
+                                                          nil,
+                                                          numericCast(kvImageNoFlags),
+                                                          &error)?.takeRetainedValue()
+        ,error == kvImageNoError
+        else { return nil }
 
-               guard error == kvImageNoError else { return nil }
-           }
-         
-
-           // create a CGImage from vImage_Buffer
-           guard let resultImage = vImageCreateCGImageFromBuffer(&destinationBuffer,
-                                                             &format,
-                                                             nil,
-                                                             nil,
-                                                             numericCast(kvImageNoFlags),
-                                                             &error)?.takeRetainedValue()
-           ,error == kvImageNoError
-           else { return nil }
-
-           // create a UIImage
+        // create a UIImage
 
 
-           return   resultImage
-       }
+        return   resultImage
+    }
+
+
+    
   
 }

@@ -35,17 +35,10 @@ ios : 9.0+
 
 ## Change log
 
-**1.7.2**
+**1.7.3**
 
-- [Cropper](./readmes/cropper.md) 
-    - remove makecrop64 and makecropstatic
-    -  method transform    
+- [Cropper](./readmes/cropper.md) fix bug
 
-
-**1.7.1**
-
-- [Image](./readmes/image.md) updgrade (IOS)
-    
 
 
 See [full change log.](./readmes/changelog.md)

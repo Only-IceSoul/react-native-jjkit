@@ -1,4 +1,8 @@
 # Change Log
+**1.7.3**
+
+- [Cropper](./readmes/cropper.md) fix bug
+
 
 **1.7.2**
 

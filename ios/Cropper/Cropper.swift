@@ -160,7 +160,9 @@ class Cropper : NSObject, RCTBridgeModule {
             let d = Data(base64Encoded: ss)
             return d
         }else if model!.contains("static;"){
-            guard let url = URL(string: model!),
+            let s = model!.split(separator: ";")[1]
+            let ss = String(s)
+            guard let url = URL(string: ss),
             let data = try? Data(contentsOf: url)
             else { return nil }
             return data
@@ -173,8 +175,7 @@ class Cropper : NSObject, RCTBridgeModule {
     func getImageRotated(image:CGImage,degree:CGFloat)-> CGImage? {
         let sizeRotated = CropHelper.getSizeRotated(image: image, degree: degree, cx: CGFloat(image.width/2), cy: CGFloat(image.height/2))
         guard
-        let centered = CropHelper.createImageCentered(image, width: sizeRotated.width, height: sizeRotated.height),
-        let rotated = CropHelper.rotateContent(centered, degree:degree)
+        let rotated = CropHelper.rotateContent(image,dstSize: sizeRotated, degree:degree)
         else{ return nil }
         
         return rotated
