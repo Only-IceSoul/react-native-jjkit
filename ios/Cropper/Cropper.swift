@@ -75,15 +75,18 @@ class Cropper : NSObject, RCTBridgeModule {
               }
           
               if wr > 0 && hr > 0 {
-                  let resized = TransformationUtils.fitCenter(cgImage: resultcg, width: wr, height: hr)
-                  if resized != nil {
-                     let result = UIImage(cgImage: resized!)
-                     let data = format == 0 ? result.jpegData(compressionQuality: quality) :
-                        result.pngData()
-                        resolve(data?.base64EncodedString())
-                  }else{
-                      resolve(nil)
-                  }
+                    let imgr = UIImage(cgImage: resultcg)
+                    guard
+                    let dat = imgr.pngData(),
+                    let imgd = UIImage(data: dat),
+                    let resized = TransformationUtils.fitCenter(image: imgd, width: wr, height: hr)
+                    else { resolve (nil )
+                       return
+                    }
+
+                    let data = format == 0 ? resized.jpegData(compressionQuality: quality) :
+                    resized.pngData()
+                    resolve(data?.base64EncodedString())
               }else {
                   let result = UIImage(cgImage: resultcg)
                   let data = format == 0 ? result.jpegData(compressionQuality: quality) :
@@ -134,15 +137,18 @@ class Cropper : NSObject, RCTBridgeModule {
                     
 
         if wr > 0 && hr > 0 {
-            let resized = TransformationUtils.fitCenter(cgImage: resultcg, width: wr, height: hr)
-            if resized != nil {
-                let result = UIImage(cgImage: resized!)
-                let data = format == 0 ? result.jpegData(compressionQuality: quality) :
-                result.pngData()
-                resolve(data?.base64EncodedString())
-            }else{
-                resolve(nil)
+            let imgr = UIImage(cgImage: resultcg)
+            guard
+            let dat = imgr.pngData(),
+            let imgd = UIImage(data: dat),
+            let resized = TransformationUtils.fitCenter(image: imgd, width: wr, height: hr)
+              else { resolve (nil )
+                  return
             }
+
+            let data = format == 0 ? resized.jpegData(compressionQuality: quality) :
+              resized.pngData()
+              resolve(data?.base64EncodedString())
         }else {
             let result = UIImage(cgImage: resultcg)
             let data = format == 0 ? result.jpegData(compressionQuality: quality) :

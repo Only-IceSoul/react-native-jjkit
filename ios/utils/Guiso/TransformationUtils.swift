@@ -225,14 +225,12 @@ public class TransformationUtils {
                                        bitsPerComponent: 8,
                                        bytesPerRow: 0,
                                        space:  cgImage.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!,
-                                       bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+                                       bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue)
              else { return nil }
 
 
          // draw image to context (resizing it)
          context.interpolationQuality = .high
-        context.setFillColor(UIColor.clear.cgColor)
-        context.fill(CGRect(x: 0, y: 0, width: context.width, height: context.height))
          context.draw(cgImage, in: rect)
 
          // extract resulting image from context
@@ -255,8 +253,6 @@ public class TransformationUtils {
 
 
              context.interpolationQuality = .high
-        context.setFillColor(UIColor.clear.cgColor)
-        context.fill(CGRect(x: 0, y: 0, width: context.width, height: context.height))
              context.draw(cgImage, in: drawRect)
 
              return context.makeImage()

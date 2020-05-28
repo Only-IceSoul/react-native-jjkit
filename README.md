@@ -35,9 +35,9 @@ ios : 9.0+
 
 ## Change log
 
-**1.7.4**
+**1.7.5**
 
-- [Cropper](./readmes/cropper.md) fix bug
+- [Cropper](./readmes/cropper.md) fix bug (IOS)
 
 
 
