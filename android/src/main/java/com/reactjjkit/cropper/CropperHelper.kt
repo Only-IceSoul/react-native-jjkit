@@ -6,7 +6,7 @@ import kotlin.math.abs
 
 object CropperHelper {
 
-    fun crop(image: Bitmap, imageRect: RectF, cw:Float, ch:Float, crop: RectF) : RectF {
+    fun crop(image: Bitmap, imageRect: RectF, crop: RectF) : RectF {
         val w = crop.width() / imageRect.width() * image.width
         val h = crop.height() / imageRect.height() * image.height
         var x = crop.left

@@ -27,18 +27,21 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
     @ReactMethod
     fun makeCrop(map:ReadableMap?,promise: Promise){
         if(map != null){
+
             val image = map.getString("image")
             val imgRect = map.getMap("rect")
-            val cw = map.getDouble("cw").toFloat()
-            val ch = map.getDouble("ch").toFloat()
             val crop = map.getMap("crop")
-            val wr = map.getInt("width")
-            val hr = map.getInt("height")
-            val quality = map.getDouble("quality").toFloat()
-            val format = map.getInt("format")
             val rotation = map.getDouble("rotate").toFloat()
             val flipVertical = map.getBoolean("flipVertically")
             val flipHorizontal = map.getBoolean("flipHorizontally")
+
+            //output
+            val op = map.getMap("output")
+            val wr = op?.getInt("width") ?: -1
+            val hr = op?.getInt("height") ?: -1
+            val quality = op?.getDouble("quality")?.toFloat() ?: 1f
+            val format = op?.getInt("format") ?: 1
+
 
             val bmp = load(image)
             if(imgRect != null && crop != null && bmp != null){
@@ -58,7 +61,7 @@ class CropperModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
                     bmp
                 }
 
-                val rf = CropperHelper.crop(finalBmp,r,cw,ch,c)
+                val rf = CropperHelper.crop(finalBmp,r,c)
                 val bf = cropBitmap(finalBmp,rf)
 
                 val fmt = if(format == 0) Bitmap.CompressFormat.JPEG else Bitmap.CompressFormat.PNG
