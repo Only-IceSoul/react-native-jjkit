@@ -21,16 +21,20 @@ class Cropper : NSObject, RCTBridgeModule {
  
     
     @objc func makeCrop(_ request:[String:Any]?, resolve: RCTPromiseResolveBlock, rejecter:RCTPromiseRejectBlock){
-          let image = request?["image"] as? String
-          let imgRect = request?["rect"] as? [String:Any?]
-          let cw = request?["cw"] as? CGFloat
-          let ch = request?["ch"] as? CGFloat
-          let crop = request?["crop"]  as? [String:Any?]
-          let rotation = request?["rotate"] as! CGFloat
-          let flipVertical = request?["flipVertically"] as! Bool
-          let flipHorizontal = request?["flipHorizontally"] as! Bool
+        let image = request?["image"] as? String
+        let imgRect = request?["rect"] as? [String:Any?]
+        let crop = request?["crop"]  as? [String:Any?]
+        let rotation = request?["rotate"] as! CGFloat
+        let flipVertical = request?["flipVertically"] as! Bool
+        let flipHorizontal = request?["flipHorizontally"] as! Bool
+
+        let op = request?["output"] as? [String:Any?]
+        let quality = op?["quality"] as? CGFloat ?? 1
+        let format = op?["format"] as? Int ?? 1
+        let wr = op?["width"] as? CGFloat ?? -1
+        let hr = op?["height"] as? CGFloat ?? -1
       
-          if image != nil && imgRect != nil && cw != nil && ch != nil && crop != nil
+          if image != nil && imgRect != nil && crop != nil
           && checkRect(rect: imgRect!) && checkRect(rect: crop!){
 
              guard
@@ -43,56 +47,48 @@ class Cropper : NSObject, RCTBridgeModule {
                   return
               }
         
-            var imageResult:CGImage!
+
+            var imageResult:CGImage?
             if rotation > 0 || flipVertical || flipHorizontal {
-               imageResult = CropHelper.flipContent(cg, vertical: flipVertical, horizontal: flipHorizontal)
-               if rotation > 0 {
-                   imageResult = getImageRotated(image: imageResult, degree: rotation)
-               }
+                imageResult = CropHelper.flipContent(cg, vertical: flipVertical, horizontal: flipHorizontal)
+                if rotation > 0  && imageResult != nil {
+                    imageResult = getImageRotated(image: imageResult!, degree: rotation)
+                }
             }else{
                 imageResult = cg
             }
+
+            guard let imgRes = imageResult else { resolve(nil) }
             
-            let rf = CropHelper.crop(imageResult, imageRect: r, cw: cw!, ch: ch!, crop: c)
+            let rf = CropHelper.crop(imageResult!, imageRect: r, crop: c)
 
-              
-              guard let quality = request?["quality"] as? CGFloat,
-                  let format = request?["format"] as? Int,
-                  let resultcg  = imageResult.cropping(to: rf)
-                  else {
-                      resolve(nil)
-                      return
-                   }
-              
-              guard let wr = request?["width"] as? CGFloat,
-                    let hr = request?["height"] as? CGFloat
-              else {
-                  let result = UIImage(cgImage: resultcg)
-                  let data = format == 0 ? result.jpegData(compressionQuality: quality) :
-                   result.pngData()
-                    resolve(data?.base64EncodedString())
-                    return
-              }
+
+            guard let resultcg  = imageResult!.cropping(to: rf)
+            else {
+               resolve(nil)
+               return
+            }
+                   
           
-              if wr > 0 && hr > 0 {
-                    let imgr = UIImage(cgImage: resultcg)
-                    guard
-                    let dat = imgr.pngData(),
-                    let imgd = UIImage(data: dat),
-                    let resized = TransformationUtils.fitCenter(image: imgd, width: wr, height: hr)
-                    else { resolve (nil )
-                       return
-                    }
+            if wr > 0 && hr > 0 {
+                let imgr = UIImage(cgImage: resultcg)
+                guard
+                let dat = imgr.pngData(),
+                let imgd = UIImage(data: dat),
+                let resized = TransformationUtils.fitCenter(image: imgd, width: wr, height: hr)
+                else { resolve (nil )
+                    return
+                }
 
-                    let data = format == 0 ? resized.jpegData(compressionQuality: quality) :
-                    resized.pngData()
-                    resolve(data?.base64EncodedString())
-              }else {
-                  let result = UIImage(cgImage: resultcg)
-                  let data = format == 0 ? result.jpegData(compressionQuality: quality) :
-                  result.pngData()
-                  resolve(data?.base64EncodedString())
-              }
+                let data = format == 0 ? resized.jpegData(compressionQuality: quality) :
+                resized.pngData()
+                resolve(data?.base64EncodedString())
+            }else {
+                let result = UIImage(cgImage: resultcg)
+                let data = format == 0 ? result.jpegData(compressionQuality: quality) :
+                result.pngData()
+                resolve(data?.base64EncodedString())
+            }
                 
           }else {
               resolve(nil)

@@ -1,4 +1,10 @@
 # Change Log
+
+**1.7.6**
+
+- [Cropper](./readmes/cropper.md) Pretty
+
+
 **1.7.5**
 
 - [Cropper](./readmes/cropper.md) fix bug (IOS)

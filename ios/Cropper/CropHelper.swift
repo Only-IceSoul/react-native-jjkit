@@ -12,7 +12,7 @@ import Accelerate
 class CropHelper {
     
 
-    static func crop(_ image:CGImage,imageRect:CGRect,cw:CGFloat,ch:CGFloat,crop: CGRect) -> CGRect {
+    static func crop(_ image:CGImage,imageRect:CGRect,crop: CGRect) -> CGRect {
         let w = crop.width / imageRect.width * CGFloat(image.width)
         let h = crop.height / imageRect.height * CGFloat(image.height)
         var x:CGFloat = crop.origin.x
