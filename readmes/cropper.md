@@ -107,18 +107,18 @@ let cropRect = Rect.centerRect(100,100,cw,ch)
  let staticUri = `static;${image.uri}`
 
         let dataForCrop = {
-            image : staticUri, 
+            image : staticUri,
             rect: imageRect,
-            rotate: 0,
+            crop: cropRect,
+            rotate : 0,
             flipVertically: false,
             flipHorizontally: false,
-            cw: cw,
-            ch: ch,
-            crop: cropRect,
-            quality: 1,
-            format: Cropper.jpeg,
-            width: -1, 
-            height: -1  
+            output: {
+                quality: 1,
+                format: Cropper.png,
+                width: -1,
+                height: -1
+            }
         }
 
 
