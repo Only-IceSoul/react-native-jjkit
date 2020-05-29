@@ -58,7 +58,11 @@ class Cropper : NSObject, RCTBridgeModule {
                 imageResult = cg
             }
 
-            guard let imgRes = imageResult else { resolve(nil) }
+             guard imageResult != nil
+               else {
+                   resolve(nil)
+                   return
+               }
             
             let rf = CropHelper.crop(imageResult!, imageRect: r, crop: c)
 
