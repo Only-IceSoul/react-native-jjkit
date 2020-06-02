@@ -12,7 +12,9 @@ Image cropping  for React Native.
 
 ## Example
 
-[demo](https://github.com/Only-IceSoul/canal/tree/master/demos/RNCropper)
+This is not a Component or view.
+
+[demo](https://github.com/Only-IceSoul/canal/tree/master/demos/RNCropper)  
 
 <img src="../images/cropper.gif" title="Cropper Demo" height="400" float="left">
 
