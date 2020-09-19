@@ -14,7 +14,7 @@ class ImageViewManager : SimpleViewManager<JJImageView>() {
     companion object{
         const val EVENT_ON_LOAD_START = "onLoadStart"
         const val EVENT_ON_LOAD_END = "onLoadEnd"
-        const val EVENT_ON_LOAD_FAILED = "onLoadError"
+        const val EVENT_ON_LOAD_ERROR = "onLoadError"
         const val EVENT_ON_LOAD_SUCCESS = "onLoadSuccess"
     }
 
@@ -49,7 +49,7 @@ class ImageViewManager : SimpleViewManager<JJImageView>() {
         return MapBuilder.builder<String,Any>()
                 .put(EVENT_ON_LOAD_START, MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", EVENT_ON_LOAD_START)))
                 .put(EVENT_ON_LOAD_END, MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", EVENT_ON_LOAD_END)))
-                .put(EVENT_ON_LOAD_FAILED, MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", EVENT_ON_LOAD_FAILED)))
+                .put(EVENT_ON_LOAD_ERROR, MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", EVENT_ON_LOAD_ERROR)))
                 .put(EVENT_ON_LOAD_SUCCESS, MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", EVENT_ON_LOAD_SUCCESS)))
                 .build()
     }

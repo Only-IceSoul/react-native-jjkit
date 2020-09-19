@@ -14,7 +14,6 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
@@ -35,7 +34,7 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
     companion object{
         const val EVENT_ON_LOAD_START = "onLoadStart"
         const val EVENT_ON_LOAD_END = "onLoadEnd"
-        const val EVENT_ON_LOAD_FAILED = "onLoadError"
+        const val EVENT_ON_LOAD_ERROR = "onLoadError"
         const val EVENT_ON_LOAD_SUCCESS = "onLoadSuccess"
     }
 
@@ -78,7 +77,7 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
                     Glide.with(context).asGif()
                             .listener(object: RequestListener<GifDrawable> {
                                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
-                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_FAILED, Arguments.createMap())
+                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_ERROR, Arguments.createMap())
                                     reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
                                     return false
                                 }
@@ -96,7 +95,7 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
                                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
                                     val mapFailed =  Arguments.createMap()
                                     mapFailed.putString("error",e?.message)
-                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_FAILED,mapFailed)
+                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_ERROR,mapFailed)
                                     reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
                                     return false
                                 }
