@@ -24,7 +24,7 @@ Image is a wrapper around [Guiso](https://github.com/Only-IceSoul/ios-Guiso) (iO
   
   const source = {
       uri: 'https://unsplash.it/200/200?image=1',
-      asGif: false
+      asGif: false,
       placeholder: null,
       width: 400, 
       height: 400, 
@@ -53,7 +53,7 @@ url --> ("https://...")
 
 ---
 
-### `source.asGif?: string`
+### `source.asGif?: boolean`
 
  if the image you load is an animated GIF, Image will display a animated gif.
 
@@ -85,7 +85,7 @@ Scales the image uniformly (maintaining the image's aspect ratio) so that one of
 
 ---
 
-### `source.cache?: Boolean`
+### `source.cache?: boolean`
 
 skip the memory cache
 
