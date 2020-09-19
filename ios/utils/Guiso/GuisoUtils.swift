@@ -12,7 +12,7 @@ class GuisoUtils {
     
     static func imageColor(color: UIColor) -> UIImage? {
 
-        let newSize = CGSize(width: 200, height: 200)
+        let newSize = CGSize(width: 300, height: 300)
         let centerRect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
         UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)
        color.setFill()

@@ -11,7 +11,10 @@ import UIKit
 class ImageView: UIImageView , ViewTarget {
    
     
-      
+    @objc var onLoadStart : RCTDirectEventBlock?
+    @objc var onLoadError : RCTDirectEventBlock?
+    @objc var onLoadSuccess : RCTDirectEventBlock?
+    @objc var onLoadEnd : RCTDirectEventBlock?
     
     @objc func setScaleType(_ scaleType:Int){
         switch scaleType {
@@ -22,170 +25,130 @@ class ImageView: UIImageView , ViewTarget {
         }
     }
     
-    @objc func setData(_ data:[String:Any]?){
+ 
+    
+    @objc func setSource(_ data:[String:Any]?){
 
         if data != nil {
             let w = data!["width"] as? Int ?? -1
             let h = data!["height"] as? Int ?? -1
             let cache = data!["cache"] as? Bool ?? false
             let asGif = data!["asGif"] as? Bool ?? false
+            let placeholder = data!["placeholder"] as? String
             
-            if let url = data!["url"] as? String {
+            if let url = data!["uri"] as? String {
+                let resize = w != 1 && h != -1
                 let reqW = w > 20 ? w : 20
-                let reqH = h > 20 ? w : 20
+                let reqH = h > 20 ? h : 20
                 
-                updateImage(url, cache, asGif, w, h, reqW, reqH)
+                updateImage(url,placeholder, cache, asGif, resize, reqW, reqH)
                
             }
         }
     }
     
-    private func updateImage(_ url:String,_ cache:Bool,_ asGif:Bool,_ w:Int,_ h:Int,_ reqW:Int,_ reqH:Int){
-            if (cache) {
-                if (w != 1 && h != -1) {
-                    updateImageCache(url,asGif,reqW,reqH)
+    private func updateImage(_ url:String,_ placeholder:String?,_ cache:Bool,_ asGif:Bool,_ resize:Bool,_ reqW:Int,_ reqH:Int){
+        
+        Guiso.get().getExecutor().doWork {
+            let options = self.getOptions(asGif: asGif, cache: cache, placeholder: placeholder, resize: resize, reqW: reqW, reqH: reqH)
+                
+                var manager = Guiso.load(model: "")
+                
+                if url.contains("base64,"){
+                    let s = url.split(separator: ",")[1]
+                     let data = Data(base64Encoded: String(s))
+                     
+                    manager = Guiso.load(model: data)
+                
+                }else if url.contains("static;"){
+                    let s = url.split(separator: ";")[1]
+                    let ss = String(s)
+                    manager = Guiso.load(model:  URL(string: ss))
+                
                 }else {
-                    updateImageCache(url,asGif)
+                     manager = Guiso.load(model: url)
                 }
-            }else {
-                if (w != 1 && h != -1)  {
-                    updateImageNoCache(url,asGif,reqW,reqH)
-                }else {
-                    updateImageNoCache(url,asGif)
+                
+            
+                DispatchQueue.main.async {
+                    self.onLoadStart?([String:Any]())
+                          manager.apply(options)
+                          .into(self)
                 }
-            }
-    }
-    
-    private func updateImageCache(_ url:String,_ asGif:Bool,_ w:Int,_ h:Int){
-        if (asGif){
-            if url.contains("base64,"){
-                let s = url.split(separator: ",")[1]
-                guard let data = Data(base64Encoded: String(s))
-                    else {return}
-                Guiso.load(model: data).asGif().fitCenter().override(w,h).into(self)
-            }else {
-                Guiso.load(model: url).asGif().fitCenter().override(w,h).into(self)
-            }
-        }else{
-            if url.contains("base64,"){
-                let s = url.split(separator: ",")[1]
-                guard let data = Data(base64Encoded: String(s))
-                    else {return}
-                Guiso.load(model: data).frame(1)
-                .fitCenter().override(w,h).into(self)
-            }else {
-                Guiso.load(model: url).frame(1)
-               .fitCenter().override(w,h).into(self)
-            }
+            
+        }
+        
+        
+      
            
-        }
-    }
-
-    private func updateImageCache(_ url:String,_ asGif:Bool){
-        if (asGif){
-            if url.contains("base64,"){
-               let s = url.split(separator: ",")[1]
-               guard let data = Data(base64Encoded: String(s))
-                   else {return}
-                Guiso.load(model: data).asGif().into(self)
-            }else {
-                Guiso.load(model: url).asGif().into(self)
-            }
-          
-        }else{
-            if url.contains("base64,"){
-               let s = url.split(separator: ",")[1]
-               guard let data = Data(base64Encoded: String(s))
-                   else {return}
-                Guiso.load(model: data).frame(1).into(self)
-            }else {
-                Guiso.load(model: url).frame(1).into(self)
-            }
-            
-        }
-    }
-
-    private func updateImageNoCache(_ url:String,_ asGif:Bool,_ w:Int,_ h:Int){
-        if asGif {
-            if url.contains("base64,"){
-             let s = url.split(separator: ",")[1]
-             guard let data = Data(base64Encoded: String(s))
-                 else {return}
-                Guiso.load(model: data).asGif()
-                         .skipMemoryCache(true)
-                         .fitCenter().override(w,h).into(self)
-            }else {
-                Guiso.load(model: url).asGif()
-                        .skipMemoryCache(true)
-                        .fitCenter().override(w,h).into(self)
-            }
-          
-        }else{
-            if url.contains("base64,"){
-                let s = url.split(separator: ",")[1]
-                guard let data = Data(base64Encoded: String(s))
-                    else {return}
-                Guiso.load(model: data).frame(1)
-                    .skipMemoryCache(true)
-                    .fitCenter().override(w,h).into(self)
-            }else {
-                Guiso.load(model: url).frame(1)
-               .skipMemoryCache(true)
-               .fitCenter().override(w,h).into(self)
-            }
-            
-        }
     }
     
-    private func updateImageNoCache(_ url:String,_ asGif:Bool){
-        if asGif {
-            if url.contains("base64,"){
-               let s = url.split(separator: ",")[1]
-               guard let data = Data(base64Encoded: String(s))
-                   else {return}
-                Guiso.load(model: data).asGif()
-                            .skipMemoryCache(true)
-                            .into(self)
-            }else {
-                Guiso.load(model: url).asGif()
-                       .skipMemoryCache(true)
-                       .into(self)
-            }
-         
-        }else{
-            
-            if url.contains("base64,"){
-             let s = url.split(separator: ",")[1]
-             guard let data = Data(base64Encoded: String(s))
-                 else {return}
-                Guiso.load(model: data).frame(1)
-                   .skipMemoryCache(true)
-                   .into(self)
-            }else {
-                Guiso.load(model: url).frame(1)
-              .skipMemoryCache(true)
-              .into(self)
-            }
-            
+    private func getOptions(asGif:Bool,cache:Bool,
+                            placeholder:String?,resize:Bool,reqW:Int,reqH:Int) -> GuisoOptions {
+        var options = GuisoOptions().skipMemoryCache(cache)
+        
+        if let ph = load(model: placeholder){
+            options = options.placeHolder(ph)
         }
+        
+        if(!asGif){
+            options = options.frame(1)
+        }else{
+            options = options.asGif()
+        }
+        
+        if(resize){
+            options = options.fitCenter().override(reqW,reqH)
+        }
+        
+        return options
+        
     }
-
+    
+    
+    private func load(model:String?) -> UIImage?{
+        var result: UIImage? = nil
+        if(model != nil){
+   
+            if(model!.contains("base64,")){
+                let s = model!.split(separator: ",")[1]
+                let ss = String(s)
+               if let d = Data(base64Encoded: ss){
+                 result = UIImage(data: d)
+                }
+            }
+            
+            if(model!.contains("static;")){
+                let s = model!.split(separator: ";")[1]
+                let ss = String(s)
+                if let url = URL(string: ss), let data = try? Data(contentsOf: url){
+                    result = UIImage(data: data)
+                }
+            }
+        }
+        
+        return result
+        
+    }
+    
+    
+ 
     init(){
            super.init(frame: .zero)
            clipsToBounds = true
-          contentMode = .scaleAspectFill
+          contentMode = .scaleAspectFit
        }
        
        public override init(frame: CGRect) {
            super.init(frame: frame)
            clipsToBounds = true
-          contentMode = .scaleAspectFill
+          contentMode = .scaleAspectFit
        }
        
        required init?(coder: NSCoder) {
            super.init(coder: coder)
            clipsToBounds = true
-          contentMode = .scaleAspectFill
+          contentMode = .scaleAspectFit
        }
        
        
@@ -210,11 +173,17 @@ class ImageView: UIImageView , ViewTarget {
            image = nil
            removeGif()
            addGif(gif)
+        onLoadSuccess?(["width": gif.pixelWidth,
+                            "height": gif.pixelHeight])
+        onLoadEnd?([String:Any]())
        }
        
        public func onResourceReady(_ img: UIImage) {
            removeGif()
            image = img
+        onLoadSuccess?(["width": img.cgImage?.width ?? 0 ,
+                         "height": img.cgImage?.height ?? 0])
+        onLoadEnd?([String:Any]())
        }
        
        public func onThumbReady(_ img: UIImage?) {
@@ -235,6 +204,8 @@ class ImageView: UIImageView , ViewTarget {
            // auto retry?
            //show clickview and let user retry?
            print("Load failed")
+          onLoadError?(["error":""])
+          onLoadEnd?([String:Any]())
        }
      
        

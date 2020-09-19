@@ -20,4 +20,5 @@ class Image: RCTViewManager {
       return true
     }
     
+    
 }

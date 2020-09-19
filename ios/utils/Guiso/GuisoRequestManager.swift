@@ -32,8 +32,8 @@ import Foundation
     
     
     static func into(_ target: ViewTarget, builder:GuisoRequestBuilder) -> ViewTarget? {
-          builder.getOptions().getPlaceHolder()?.setTarget(target)
-          builder.getOptions().getPlaceHolder()?.load()
+     
+        builder.getOptions().getPlaceHolder()?.setTarget(target).setOptions(options: builder.getOptions()).load()
          
         let tracker = target
         tracker.getRequest()?.cancel()

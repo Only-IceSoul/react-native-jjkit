@@ -14,7 +14,7 @@ class ImageViewManager : SimpleViewManager<JJImageView>() {
     companion object{
         const val EVENT_ON_LOAD_START = "onLoadStart"
         const val EVENT_ON_LOAD_END = "onLoadEnd"
-        const val EVENT_ON_LOAD_FAILED = "onLoadFailed"
+        const val EVENT_ON_LOAD_FAILED = "onLoadError"
         const val EVENT_ON_LOAD_SUCCESS = "onLoadSuccess"
     }
 

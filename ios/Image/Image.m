@@ -11,11 +11,16 @@
 
 
 @interface
+
+
 RCT_EXTERN_MODULE(Image,RCTViewManager)
 
-RCT_EXPORT_VIEW_PROPERTY(data, NSDictionary)
+RCT_EXPORT_VIEW_PROPERTY(source, NSDictionary)
 RCT_EXPORT_VIEW_PROPERTY(scaleType, NSInteger)
 
-
+RCT_EXPORT_VIEW_PROPERTY(onLoadStart, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onLoadError, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onLoadSuccess, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onLoadEnd, RCTDirectEventBlock)
 
 @end

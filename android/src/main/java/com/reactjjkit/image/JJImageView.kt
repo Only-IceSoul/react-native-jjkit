@@ -35,7 +35,7 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
     companion object{
         const val EVENT_ON_LOAD_START = "onLoadStart"
         const val EVENT_ON_LOAD_END = "onLoadEnd"
-        const val EVENT_ON_LOAD_FAILED = "onLoadFailed"
+        const val EVENT_ON_LOAD_FAILED = "onLoadError"
         const val EVENT_ON_LOAD_SUCCESS = "onLoadSuccess"
     }
 
@@ -54,7 +54,7 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
             val w = data.getInt("width")
             val h = data.getInt("height")
             val cache = data.getBoolean("cache")
-            val url = data.getString("url")
+            val url = data.getString("uri")
             val asGif = data.getBoolean("asGif")
             val placeholder = data.getString("placeholder")
 
