@@ -33,11 +33,11 @@ import Foundation
     
     static func into(_ target: ViewTarget, builder:GuisoRequestBuilder) -> ViewTarget? {
      
-        Guiso.get().getExecutor().doWork {
-            builder.getOptions().getPlaceHolder()?.setTarget(target).setOptions(options: builder.getOptions()).load()
-        }
+    
+        builder.getOptions().getPlaceHolder()?.setTarget(target).load()
         
-         
+        
+    
         let tracker = target
         tracker.getRequest()?.cancel()
         
