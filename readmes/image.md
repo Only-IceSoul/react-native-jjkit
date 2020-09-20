@@ -93,6 +93,8 @@ Scales the image uniformly (maintaining the image's aspect ratio) so that one of
 
 ### `scaleType?: number`
 
+ Controls how the image should be displayed.
+ 
 0 --> cover
 1 --> contain
 
