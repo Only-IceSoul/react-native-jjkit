@@ -24,11 +24,8 @@ Image is a wrapper around [Guiso](https://github.com/Only-IceSoul/ios-Guiso) (iO
   
   const source = {
       uri: 'https://unsplash.it/200/200?image=1',
-      asGif: false,
-      placeholder: null,
       width: 400, 
       height: 400, 
-      cache: true 
   }
 
   <Image source={source}  />
@@ -56,12 +53,14 @@ url --> ("https://...")
 ### `source.asGif?: boolean`
 
  if the image you load is an animated GIF, Image will display a animated gif.
+ Default Value -> false
 
 ---
 
 ### `source.placeholder?: string`
 
 only accept static image ("static;${uri}") and base64String ("base64,${value}")
+ Default value -> null
 
 Image that is shown while a request is in progress. When a request completes successfully, the placeholder is replaced with the requested resource. If the requested resource is loaded from memory, the placeholder may never be shown. If the request fails , the placeholder will continue to be displayed.
 
@@ -70,8 +69,8 @@ Image that is shown while a request is in progress. When a request completes suc
 ### `source.width?: number`
 
 The width to be used in the resize, -1 ignore resize.
+ Default value -> -1 
 
-fitCenter:
 Scales the image uniformly (maintaining the image's aspect ratio) so that one of the dimensions of the image will be equal to the given dimension and the other will be less than the given dimension.
 
 ---
@@ -79,8 +78,8 @@ Scales the image uniformly (maintaining the image's aspect ratio) so that one of
 ### `source.height?: number`
 
 The height to be used in the resize, -1 ignore resize.
+ Default value -> -1 
 
-fitCenter:
 Scales the image uniformly (maintaining the image's aspect ratio) so that one of the dimensions of the image will be equal to the given dimension and the other will be less than the given dimension.
 
 ---
@@ -88,14 +87,16 @@ Scales the image uniformly (maintaining the image's aspect ratio) so that one of
 ### `source.cache?: boolean`
 
 skip the memory cache
+ Default value -> true
 
 ---
 
 ### `scaleType?: number`
 
 0 --> cover
-
 1 --> contain
+
+ Default value -> 1
 
 ---
 

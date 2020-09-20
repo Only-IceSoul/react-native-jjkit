@@ -35,9 +35,15 @@ ios : 9.0+
 
 ## Change log
 
-**1.7.7**
+**1.7.9**
 
-- [Cropper](./readmes/cropper.md) Pretty
+- [Image](./readmes/image.md) source object changes
+
+
+
+**1.7.8**
+
+- [Image](./readmes/image.md) placeholder and listener
 
 
 

@@ -1,5 +1,21 @@
 # Change Log
 
+**1.7.9**
+
+- [Image](./readmes/image.md) source object changes
+
+
+
+**1.7.8**
+
+- [Image](./readmes/image.md) placeholder and listener
+
+**1.7.7**
+
+- [Cropper](./readmes/cropper.md) Pretty
+
+
+
 **1.7.6**
 
 - [Cropper](./readmes/cropper.md) Pretty

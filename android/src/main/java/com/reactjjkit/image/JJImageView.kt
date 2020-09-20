@@ -28,6 +28,7 @@ import java.lang.ref.WeakReference
 import java.net.URL
 import android.view.ViewOutlineProvider as ViewOutlineProvider1
 
+
 class JJImageView(context: Context) : AppCompatImageView(context) {
 
 
@@ -50,18 +51,26 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
 
     fun setSrc(data: ReadableMap?){
         if(data != null) {
-            val w = data.getInt("width")
-            val h = data.getInt("height")
-            val cache = data.getBoolean("cache")
-            val url = data.getString("uri")
-            val asGif = data.getBoolean("asGif")
-            val placeholder = data.getString("placeholder")
+            val w = try {  data.getInt("width") }catch(e:Exception) {  -1 }
+            val h = try { data.getInt("height") }catch(e:Exception) {  -1 }
+            val cache =try { data.getBoolean("cache") }catch(e:Exception) { true }
+            val uri =  try { data.getString("uri") } catch(e:Exception) { null }
+            val asGif = try { data.getBoolean("asGif") }catch(e:Exception) { false }
+            val placeholder = try { data.getString("placeholder") }catch(e:Exception) { null }
 
-            if (url != null ) {
+            if (uri != null ) {
                 val resize = w != -1 && h != -1
                 val reqW = if (w > 20) w else 20
                 val reqH = if (h > 20) h else 20
-                updateImage(url,placeholder, cache, asGif,resize,reqW, reqH)
+                updateImage(uri,placeholder, cache, asGif,resize,reqW, reqH)
+            }else{
+                val mapFailed =  Arguments.createMap()
+                mapFailed.putString("error","uri is null")
+                val c = context as ReactContext
+                c.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_START, Arguments.createMap())
+                c.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_ERROR, mapFailed)
+                c.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
+
             }
         }
     }
@@ -77,13 +86,18 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
                     Glide.with(context).asGif()
                             .listener(object: RequestListener<GifDrawable> {
                                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
-                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_ERROR, Arguments.createMap())
+                                    val mapFailed =  Arguments.createMap()
+                                    mapFailed.putString("error",e?.message)
+                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_ERROR, mapFailed)
                                     reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
                                     return false
                                 }
 
                                 override fun onResourceReady(resource: GifDrawable?, model: Any?, target: Target<GifDrawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_SUCCESS, Arguments.createMap())
+                                    val mapSuccess =  Arguments.createMap()
+                                    mapSuccess.putInt("width",resource?.intrinsicWidth ?: 0)
+                                    mapSuccess.putInt("height",resource?.intrinsicHeight ?: 0)
+                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_SUCCESS, mapSuccess)
                                     reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
                                     return false
                                 }
