@@ -13,8 +13,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
@@ -57,28 +60,23 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
             val uri =  try { data.getString("uri") } catch(e:Exception) { null }
             val asGif = try { data.getBoolean("asGif") }catch(e:Exception) { false }
             val placeholder = try { data.getString("placeholder") }catch(e:Exception) { null }
+            val headers =  try { data.getMap("headers") } catch(e:Exception) { null }
+            val prior =  try { data.getInt("priority") } catch(e:Exception) { 5 }
+            val priority = if(prior <= 0) Priority.LOW else if(prior in 1..5) Priority.NORMAL else Priority.HIGH
 
-            if (uri != null ) {
-                val resize = w != -1 && h != -1
-                val reqW = if (w > 20) w else 20
-                val reqH = if (h > 20) h else 20
-                updateImage(uri,placeholder, cache, asGif,resize,reqW, reqH)
-            }else{
-                val mapFailed =  Arguments.createMap()
-                mapFailed.putString("error","uri is null")
-                val c = context as ReactContext
-                c.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_START, Arguments.createMap())
-                c.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_ERROR, mapFailed)
-                c.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
 
-            }
+            val resize = w != -1 && h != -1
+            val reqW = if (w > 20) w else 20
+            val reqH = if (h > 20) h else 20
+            updateImage(uri,placeholder, cache, headers, priority,asGif,resize,reqW, reqH)
+
         }
     }
 
-    private fun updateImage(url:String,placeholder:String?,cache:Boolean,asGif:Boolean,resize:Boolean,reqW:Int,reqH:Int){
+    private fun updateImage(url:String?, placeholder:String?, cache:Boolean, headers:ReadableMap?, priority: Priority, asGif:Boolean, resize:Boolean, reqW:Int, reqH:Int){
         val reactContext = WeakReference(context as ReactContext)
         Thread{
-            val options = getOptions(asGif,cache,placeholder,resize,reqW,reqH)
+            val options = getOptions(asGif,priority,cache,placeholder,resize,reqW,reqH)
 
             Handler(Looper.getMainLooper()).post{
 
@@ -125,12 +123,12 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
                             })
                 }
                 when {
-                    url.contains("base64,") -> {
+                    url?.contains("base64,") == true -> {
                         val s = url.split(",")[1]
                         val bytes = android.util.Base64.decode(s,android.util.Base64.DEFAULT)
                         manager = manager.load(bytes)
                     }
-                    url.contains("static;") -> {
+                    url?.contains("static;") == true -> {
                         val s = url.split("c;")[1]
                         manager = if(s.contains("http")) {
                             manager.load(s)
@@ -140,7 +138,19 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
                         }
                     }
                     else -> {
-                        manager = manager.load(url)
+                        var u = if(url != null) GlideUrl(url) else null
+                        headers?.let {
+                            val iterator = it.keySetIterator()
+                            val h = LazyHeaders.Builder()
+                            while (iterator.hasNextKey()){
+                                val key = iterator.nextKey()
+                                val value = it.getString(key) ?: ""
+                                h.addHeader(key,value)
+                            }
+                            u = if(url != null) GlideUrl(url,h.build()) else null
+                        }
+
+                        manager = manager.load(u)
                     }
                 }
 
@@ -157,9 +167,11 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
     }
 
 
-    private fun getOptions(asGif:Boolean,cache:Boolean,placeholder: String?,resize:Boolean,reqW:Int,reqH:Int):RequestOptions{
+    private fun getOptions(asGif:Boolean, priority: Priority, cache:Boolean, placeholder: String?, resize:Boolean, reqW:Int, reqH:Int):RequestOptions{
         var options = RequestOptions()
                 .skipMemoryCache(cache)
+                .priority(priority)
+
 
         load(placeholder)?.toDrawable(context.resources)?.let {
             options = options.placeholder(it)
