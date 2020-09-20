@@ -86,7 +86,7 @@ Scales the image uniformly (maintaining the image's aspect ratio) so that one of
 
 ### `source.cache?: boolean`
 
-skip the memory cache
+ memory cache
  Default value -> true
 
 ---
