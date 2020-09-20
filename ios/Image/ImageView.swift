@@ -35,40 +35,37 @@ class ImageView: UIImageView , ViewTarget {
             let cache = data!["cache"] as? Bool ?? true
             let asGif = data!["asGif"] as? Bool ?? false
             let placeholder = data!["placeholder"] as? String
+            let headers = data!["headers"] as? [String:String]
+            let prio = data!["priority"] as? Int ?? 5
+            let uri = data!["uri"] as? String
+    
+            let priority :Guiso.Priority = prio <= 0 ? .low : (prio > 0 && prio < 6) ? .normal : .high
             
-            if let url = data!["uri"] as? String {
-                let resize = w != 1 && h != -1
-                let reqW = w > 20 ? w : 20
-                let reqH = h > 20 ? h : 20
-                
-                updateImage(url,placeholder, cache, asGif, resize, reqW, reqH)
-               
-            }else{
-                DispatchQueue.main.async {
-                    
-                    self.onLoadStart?([String:Any]())
-                    self.onLoadError?(["error":"uri is null"])
-                    self.onLoadEnd?([String:Any]())
-                }
-            }
+            let resize = w != 1 && h != -1
+            let reqW = w > 20 ? w : 20
+            let reqH = h > 20 ? h : 20
+            
+            updateImage(uri,placeholder,headers,priority, cache, asGif, resize, reqW, reqH)
+           
+            
         }
     }
     
-    private func updateImage(_ url:String,_ placeholder:String?,_ cache:Bool,_ asGif:Bool,_ resize:Bool,_ reqW:Int,_ reqH:Int){
+    private func updateImage(_ url:String?,_ placeholder:String?,_ headers:[String:String]?,_ priority:Guiso.Priority,_ cache:Bool,_ asGif:Bool,_ resize:Bool,_ reqW:Int,_ reqH:Int){
         
         Guiso.get().getExecutor().doWork {
-            let options = self.getOptions(asGif: asGif, cache: cache, placeholder: placeholder, resize: resize, reqW: reqW, reqH: reqH)
+            let options = self.getOptions(asGif: asGif,headers:headers, cache: cache, placeholder: placeholder,priority: priority, resize: resize, reqW: reqW, reqH: reqH)
                 
                 var manager = Guiso.load(model: "")
                 
-                if url.contains("base64,"){
-                    let s = url.split(separator: ",")[1]
+                if url?.contains("base64,") == true{
+                    let s = url!.split(separator: ",")[1]
                      let data = Data(base64Encoded: String(s))
                      
                     manager = Guiso.load(model: data)
                 
-                }else if url.contains("static;"){
-                    let s = url.split(separator: ";")[1]
+                }else if url?.contains("static;") == true{
+                    let s = url!.split(separator: ";")[1]
                     let ss = String(s)
                     manager = Guiso.load(model:  URL(string: ss))
                 
@@ -90,9 +87,15 @@ class ImageView: UIImageView , ViewTarget {
            
     }
     
-    private func getOptions(asGif:Bool,cache:Bool,
-                            placeholder:String?,resize:Bool,reqW:Int,reqH:Int) -> GuisoOptions {
+    private func getOptions(asGif:Bool,headers: [String:String]?,cache:Bool,
+                            placeholder:String?,priority:Guiso.Priority,resize:Bool,reqW:Int,reqH:Int) -> GuisoOptions {
+        
         var options = GuisoOptions().skipMemoryCache(cache)
+            .priority(priority)
+         
+        if headers != nil {
+            options = options.header(GuisoHeader(headers!))
+        }
         
         if let ph = load(model: placeholder){
             options = options.placeHolder(ph)

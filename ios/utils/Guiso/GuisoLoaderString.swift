@@ -28,7 +28,7 @@ class GuisoLoaderString : LoaderProtocol {
     func loadData(model: Any, width: CGFloat, height: CGFloat, options: GuisoOptions,callback:@escaping (Any?,Guiso.LoadType,String)-> Void) {
         mCallback = callback
         guard let url = model as? String else {
-            sendResult(nil,.data,"url is nil or not a String")
+            sendResult(nil,.data,"model is nil or incorrect ")
             return
         }
         mOptions = options

@@ -40,18 +40,26 @@ class GuisoPlaceHolder {
 
     func load() {
        if mImage != nil {
-        if let img = transformImage(img: mImage!){
-           mTarget?.onHolder(img)
-        }
-       }else if mColor != nil {
-        if let img = transformImage(img: GuisoUtils.imageColor(color: mColor!)){
-           mTarget?.onHolder(img)
-        }
-       }else{
-            if let img = transformImage(img: UIImage(named: mName ?? "")){
-                mTarget?.onHolder(img)
+            if let img = transformImage(img: mImage!){
+                   display(img: img)
+            }else if mColor != nil {
+                if let img = transformImage(img: GuisoUtils.imageColor(color: mColor!)){
+                     display(img: img)
+                }
+            }else{
+                if let img = transformImage(img: UIImage(named: mName ?? "")){
+                    display(img: img)
+                }
             }
-       }
+        }
+    }
+    
+    private func display(img: UIImage){
+        if(!mIsCancelled){
+            DispatchQueue.main.async {
+                self.mTarget?.onHolder(img)
+            }
+        }
     }
 
     func setTarget(_ target:ViewTarget?) -> GuisoPlaceHolder{
@@ -72,5 +80,9 @@ class GuisoPlaceHolder {
         return result
     }
     
+    private var mIsCancelled = false
+    func cancel(){
+        mIsCancelled = true
+    }
     
 }

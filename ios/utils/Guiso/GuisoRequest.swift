@@ -22,9 +22,10 @@ public class GuisoRequest : Runnable {
     private var mGifDecoder : GifDecoderProtocol!
     private var mSaver:GuisoSaver!
     private var mThumb: GuisoRequestThumb?
+    private var mPlaceholder: GuisoPlaceHolder?
     init(model:Any,options:GuisoOptions,_ target: ViewTarget?, loader: LoaderProtocol,gifDecoder : GifDecoderProtocol) {
         mOptions = options
-      
+        mPlaceholder = mOptions.getPlaceHolder()
         mModel = model
         mGifDecoder = gifDecoder
             
@@ -270,6 +271,7 @@ public class GuisoRequest : Runnable {
         DispatchQueue.main.async {
             if self.mTarget?.getRequest()?.getKey() == self.mKey && !self.mIsCancelled{
                 self.mThumb?.cancel()
+                self.mPlaceholder?.cancel()
                  self.mTarget?.setRequest(nil)
                  self.mTarget?.onResourceReady(img)
             }
@@ -280,6 +282,7 @@ public class GuisoRequest : Runnable {
         DispatchQueue.main.async {
             if self.mTarget?.getRequest()?.getKey() == self.mKey && !self.mIsCancelled {
                 self.mThumb?.cancel()
+                self.mPlaceholder?.cancel()
                  self.mTarget?.setRequest(nil)
                 let layer = GifLayer(gif)
                 self.mTarget?.onResourceReady(layer)
@@ -312,6 +315,7 @@ public class GuisoRequest : Runnable {
         mIsCancelled = true
         mTarget?.setRequest(nil)
         mThumb?.cancel()
+        mPlaceholder?.cancel()
         mLoader.cancel()
     }
 }

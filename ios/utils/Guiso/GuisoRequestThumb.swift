@@ -20,11 +20,13 @@ class GuisoRequestThumb : Runnable {
     private var mScale : Guiso.ScaleType!
     private var mGifDecoder : GifDecoderProtocol!
     private var mSaver:GuisoSaver!
+    private var mParentPlaceholder: GuisoPlaceHolder?
     init(model:Any,options:GuisoOptions,_ target: ViewTarget?, loader: LoaderProtocol,gifDecoder : GifDecoderProtocol) {
         mOptions = options
         mModel = model
         mGifDecoder = gifDecoder
         mTarget = target
+    
         mLoader = loader
         mScale = mOptions.getScaleType()  == .none ? getScaleTypeFrom(mTarget?.getContentMode() ?? .scaleAspectFit): mOptions.getScaleType()
         let key = makeKey(mOptions.getIsOverride())
@@ -32,6 +34,10 @@ class GuisoRequestThumb : Runnable {
         mTransformer = GuisoTransform(scale: mScale, l: mOptions.getLanczos())
         mSaver = GuisoSaver(mOptions.getDiskCacheStrategy(), format: key.getExtension(),skipMemory: mOptions.getSkipMemoryCache() )
         if mOptions.getSignature().isEmpty { mKey = "" }
+    }
+    
+    func setParentPlaceholder(_ ph:GuisoPlaceHolder?){
+        mParentPlaceholder = ph
     }
     
     
@@ -242,6 +248,7 @@ class GuisoRequestThumb : Runnable {
     func displayInTarget(_ img:UIImage){
         DispatchQueue.main.async {
             if !self.mIsCancelled {
+                self.mParentPlaceholder?.cancel()
                 self.mTarget?.onThumbReady(img)
             }
         }
@@ -250,17 +257,13 @@ class GuisoRequestThumb : Runnable {
        DispatchQueue.main.async {
         if  !self.mIsCancelled {
             let layer = GifLayer(gif)
+            self.mParentPlaceholder?.cancel()
             self.mTarget?.onThumbReady(layer)
            }
        }
     }
     func onLoadFailed(){
-        DispatchQueue.main.async {
-            if !self.mIsCancelled {
-                self.mOptions.getErrorHolder()?.setTarget(self.mTarget)
-                self.mOptions.getErrorHolder()?.load(true)
-            }
-        }
+      //thumb failed
     }
     
 
