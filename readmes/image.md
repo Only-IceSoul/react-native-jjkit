@@ -110,7 +110,7 @@ Called when the image starts to load.
 
 Called on a successful image fetch. Called with the width and height of the loaded image.
 
-e.g. `onLoadError={e => console.log(e.nativeEvent.width, e.nativeEvent.height)}`
+e.g. `onLoadSuccess={e => console.log(e.nativeEvent.width, e.nativeEvent.height)}`
 
 ---
 
