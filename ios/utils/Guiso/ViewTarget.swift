@@ -16,7 +16,7 @@ public protocol ViewTarget {
     func onResourceReady(_ img:UIImage)
     func onThumbReady(_ img: UIImage?)
     func onThumbReady(_ gif: GifLayer)
-    func onLoadFailed()
+    func onLoadFailed(_ error:String)
     func getContentMode() -> UIView.ContentMode
     func onHolder(_ image:UIImage?)
     func onFallback()

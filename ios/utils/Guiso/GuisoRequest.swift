@@ -54,20 +54,20 @@ public class GuisoRequest : Runnable {
                 
                 if !updateFromSourceCache(){
                     
-                    mLoader.loadData(model: mModel!, width: mOptions.getWidth(), height: mOptions.getHeight(), options: mOptions) { (result, type) in
+                    mLoader.loadData(model: mModel!, width: mOptions.getWidth(), height: mOptions.getHeight(), options: mOptions) { (result, type,error) in
                         if Thread.isMainThread {
                             Guiso.get().getExecutor().doWork {
                                 if self.mOptions.getAsGif() {
-                                    self.handleGif(result, type: type)
+                                    self.handleGif(result, type: type,error)
                                 }else{
-                                    self.handleImage(result,type:type)
+                                    self.handleImage(result,type:type,error)
                                 }
                             }
                         }else{
                             if self.mOptions.getAsGif() {
-                               self.handleGif(result, type: type)
+                               self.handleGif(result, type: type,error)
                             }else{
-                               self.handleImage(result,type:type)
+                               self.handleImage(result,type:type,error)
                             }
                         }
                       
@@ -77,13 +77,13 @@ public class GuisoRequest : Runnable {
 //        } // checkignore
         
     }
-    func handleImage(_ result:Any?,type:Guiso.LoadType){
+    func handleImage(_ result:Any?,type:Guiso.LoadType,_ error:String){
         if type == .data {
            
             guard let data = result as? Data,
                   let img = UIImage(data: data)
                 else {
-                    self.onLoadFailed()
+                    self.onLoadFailed("Data to image ,loader error -> \(error)")
                     return
             }
    
@@ -94,7 +94,7 @@ public class GuisoRequest : Runnable {
         if type == .uiimg{
             guard let img = result as? UIImage
                else {
-                   self.onLoadFailed()
+                   self.onLoadFailed("getting Image ,loader error -> \(error)")
                    return
             }
             transformDisplayCacheImage(img)
@@ -102,11 +102,11 @@ public class GuisoRequest : Runnable {
     }
     
  
-    func handleGif(_ result:Any?,type:Guiso.LoadType){
+    func handleGif(_ result:Any?,type:Guiso.LoadType,_ error:String){
         if type == .data {
           guard let data = result as? Data,
           let gif = self.mGifDecoder.decode(data:data) else {
-              self.onLoadFailed()
+              self.onLoadFailed("decoding gif, loader error -> \(error)")
               return
           }
         
@@ -116,7 +116,7 @@ public class GuisoRequest : Runnable {
         if type == .uiimg {
             guard let img = result as? UIImage
               else{
-                  self.onLoadFailed()
+                  self.onLoadFailed("getting gift from uiimage, loader error -> \(error)")
                   return
             }
 
@@ -147,7 +147,7 @@ public class GuisoRequest : Runnable {
                 self.mSaver.saveToDiskCache(key: self.mKey, image: final!)
             }
         }else{
-            self.onLoadFailed()
+            self.onLoadFailed("failed transformation")
         }
     }
 
@@ -286,14 +286,14 @@ public class GuisoRequest : Runnable {
             }
         }
     }
-    func onLoadFailed(){
+    func onLoadFailed(_ msg:String){
         DispatchQueue.main.async {
             if self.mTarget?.getRequest()?.getKey() == self.mKey && !self.mIsCancelled {
                 self.mThumb?.cancel()
                 self.mTarget?.setRequest(nil)
                 self.mOptions.getErrorHolder()?.setTarget(self.mTarget)
                 self.mOptions.getErrorHolder()?.load()
-                self.mTarget?.onLoadFailed()
+                self.mTarget?.onLoadFailed(msg)
             }
             
         }

@@ -32,7 +32,7 @@ class ImageView: UIImageView , ViewTarget {
         if data != nil {
             let w = data!["width"] as? Int ?? -1
             let h = data!["height"] as? Int ?? -1
-            let cache = data!["cache"] as? Bool ?? false
+            let cache = data!["cache"] as? Bool ?? true
             let asGif = data!["asGif"] as? Bool ?? false
             let placeholder = data!["placeholder"] as? String
             
@@ -43,6 +43,13 @@ class ImageView: UIImageView , ViewTarget {
                 
                 updateImage(url,placeholder, cache, asGif, resize, reqW, reqH)
                
+            }else{
+                DispatchQueue.main.async {
+                    
+                    self.onLoadStart?([String:Any]())
+                    self.onLoadError?(["error":"uri is null"])
+                    self.onLoadEnd?([String:Any]())
+                }
             }
         }
     }
@@ -200,11 +207,10 @@ class ImageView: UIImageView , ViewTarget {
           
        }
        
-       public func onLoadFailed() {
+    public func onLoadFailed(_ error:String) {
            // auto retry?
            //show clickview and let user retry?
-           print("Load failed")
-          onLoadError?(["error":""])
+          onLoadError?(["error":error])
           onLoadEnd?([String:Any]())
        }
      

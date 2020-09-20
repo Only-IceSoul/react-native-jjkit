@@ -40,7 +40,7 @@ class GuisoRequestThumb : Runnable {
         if !updateImageFromCache()  {
             if !updateFromSourceCache(){
                 
-                mLoader.loadData(model: mModel!, width: mOptions.getWidth(), height: mOptions.getHeight(), options: mOptions) { (result, type) in
+                mLoader.loadData(model: mModel!, width: mOptions.getWidth(), height: mOptions.getHeight(), options: mOptions) { (result, type,error) in
                     if Thread.isMainThread {
                         Guiso.get().getExecutor().doWork {
                             if self.mOptions.getAsGif() {

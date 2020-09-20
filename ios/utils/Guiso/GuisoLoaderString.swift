@@ -16,7 +16,7 @@ class GuisoLoaderString : LoaderProtocol {
     private var mUrl = ""
     private var mOptions : GuisoOptions!
     private var mUrlFile = false
-    private var mCallback: ((Any?,Guiso.LoadType)-> Void)?
+    private var mCallback: ((Any?,Guiso.LoadType,String)-> Void)?
     
     private var mWebType : URLSessionTask?
     private var mWebLoad : URLSessionTask?
@@ -25,10 +25,10 @@ class GuisoLoaderString : LoaderProtocol {
     private var mPha : PHAsset?
     private var mPhaId : PHContentEditingInputRequestID?
   
-    func loadData(model: Any, width: CGFloat, height: CGFloat, options: GuisoOptions,callback:@escaping (Any?,Guiso.LoadType)-> Void) {
+    func loadData(model: Any, width: CGFloat, height: CGFloat, options: GuisoOptions,callback:@escaping (Any?,Guiso.LoadType,String)-> Void) {
         mCallback = callback
         guard let url = model as? String else {
-            sendResult(nil,.data)
+            sendResult(nil,.data,"url is nil or not a String")
             return
         }
         mOptions = options
@@ -64,7 +64,7 @@ class GuisoLoaderString : LoaderProtocol {
                 assetAudio()
             }else{
                 guard let a = getAsset(identifier: mUrl)
-                else{ callback(nil,.data)
+                else{ callback(nil,.data,"failed get Asset")
                     return
                 }
                 if a.mediaType == .video {
@@ -88,11 +88,11 @@ class GuisoLoaderString : LoaderProtocol {
     mWebLoad = session.dataTask(with: request) { (data, response, error) in
             if error != nil {
                 print("ImageWorker:error - updateWebImage -> ",error!)
-                self.sendResult(nil,.data)
+                self.sendResult(nil,.data,error!.localizedDescription)
                 return
             }
             
-        self.sendResult(data,.data)
+        self.sendResult(data,.data,"")
             
         }
         self.mWebLoad?.priority = getPriorityWeb()
@@ -106,10 +106,10 @@ class GuisoLoaderString : LoaderProtocol {
         guard let url = URL(string: mUrl),
             let data = try? Data(contentsOf: url)
                 else {
-                    self.sendResult(nil,.data)
+                    self.sendResult(nil,.data,"file url : can't get the file")
                    return
                }
-        self.sendResult(data,.data)
+        self.sendResult(data,.data,"")
     }
     
     //MARk: fetcher Asset
@@ -125,14 +125,14 @@ class GuisoLoaderString : LoaderProtocol {
         mPha = asset
        mPhaId = asset.requestContentEditingInput(with: options) { (value, info) in
             guard let url = value?.fullSizeImageURL else {
-                self.sendResult(nil,.data)
+                self.sendResult(nil,.data,"asset: can't get image url")
                 return
             }
             do{
                 let imageData = try Data(contentsOf: url)
-                self.sendResult(imageData,.data)
+                self.sendResult(imageData,.data,"")
             }catch let e as NSError {
-                self.sendResult(nil,.data)
+                self.sendResult(nil,.data,"asset: can't get the file with url \(url)")
                 print("GuisoLoaderString - asset:error -> ",e)
             }
             self.mPha = nil
@@ -152,7 +152,7 @@ class GuisoLoaderString : LoaderProtocol {
                     self.avAssetVideoAsync(avasset!)
                     
                 }else{
-                    self.sendResult(nil,.data)
+                    self.sendResult(nil,.data,"asset: could not get avasset")
                 }
             self.mPhId = nil
         }
@@ -167,11 +167,11 @@ class GuisoLoaderString : LoaderProtocol {
         let mediaItems = query.items
         guard let media = mediaItems?.first,
            let artwork =  media.artwork else {
-            self.sendResult(nil,.uiimg)
+            self.sendResult(nil,.uiimg,"asset: could not get artwork")
             return
           }
         let img = artwork.image(at: CGSize(width: 220, height: 220))
-        self.sendResult(img,.uiimg)
+        self.sendResult(img,.uiimg,"")
     }
     
    
@@ -180,7 +180,7 @@ class GuisoLoaderString : LoaderProtocol {
     private func urlVideo(){
         let header = mOptions.getHeader()?.getFields()
         guard let videoUrl = URL(string: mUrl) else {
-            self.sendResult(nil,.uiimg)
+            self.sendResult(nil,.uiimg,"url: not correct format ")
             return
         }
         let asset = header != nil && !mUrlFile ? AVURLAsset(url: videoUrl, options: ["AVURLAssetHTTPHeaderFieldsKey": header! ] ) : AVURLAsset(url: videoUrl)
@@ -204,9 +204,9 @@ class GuisoLoaderString : LoaderProtocol {
         generator.generateCGImagesAsynchronously(forTimes: [NSValue(time: timestamp)]) { (time, cg, time2, result, error) in
                 
             if cg != nil {
-                self.sendResult(UIImage(cgImage: cg!), .uiimg)
+                self.sendResult(UIImage(cgImage: cg!), .uiimg,"")
             }else{
-                 self.sendResult(nil, .uiimg)
+                 self.sendResult(nil, .uiimg,"asset: failed generating image from video")
             }
         }
          
@@ -219,14 +219,14 @@ class GuisoLoaderString : LoaderProtocol {
        
        
         guard let audioUrl = URL(string: mUrl) else {
-            self.sendResult(nil,.uiimg)
+            self.sendResult(nil,.uiimg,"url: not correct format")
             return
         }
     
         let asset = header != nil && !mUrlFile ? AVURLAsset(url: audioUrl, options: ["AVURLAssetHTTPHeaderFieldsKey": header! ] ) : AVURLAsset(url: audioUrl)
                
         let result = avAssetAudio(asset)
-        self.sendResult(result,.uiimg)
+        self.sendResult(result,.uiimg,"")
     }
     private func avAssetAudio(_ asset:AVAsset) -> UIImage?{
         
@@ -348,8 +348,8 @@ class GuisoLoaderString : LoaderProtocol {
         }
     }
     
-    func sendResult(_ obj:Any?,_ type: Guiso.LoadType){
-        mCallback?(obj,type)
+    func sendResult(_ obj:Any?,_ type: Guiso.LoadType,_ error:String){
+        mCallback?(obj,type,error)
         mCallback = nil
     }
     
