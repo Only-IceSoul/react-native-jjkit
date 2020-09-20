@@ -9,13 +9,10 @@ Image is a wrapper around [Guiso](https://github.com/Only-IceSoul/ios-Guiso) (iO
 - [x] Memory cache
 - [x] Disk cache
 - [x] Resize
-- [x] url local 
-- [x] url Web 
+- [x] uri
 - [x] Base64 String 
 - [x] static Image 
 - [x] Gif
-- [x] PlaceHolder
-
 
 ## **Usage**
 
@@ -43,10 +40,10 @@ Source for the remote image to load.
 
 ### `source.uri?: string`
 
-uri to load the image from. e.g. `'https://facebook.github.io/react/img/logo_og.png'`.
+uri to load the image from. e.g. `'https://facebook.github.io/react/img/logo_og.png'`.  
 static image --> ("static;${uri}")  
-base64String --> ("base64,${value}")
-url --> ("https://...")
+base64String --> ("base64,${value}")  
+uri --> ("value")
 
 ---
 
@@ -57,9 +54,26 @@ url --> ("https://...")
 
 ---
 
+### `source.headers?: Object key:string `
+
+Headers to load the image with. e.g. { Authorization: 'someAuthToken' }.
+
+---
+
+### `source.priority?: number`
+
+Low Priority --> 0  
+Normal Priority (Default)  -> 5  
+High Priority  --> 10
+
+Priorities for completing loads. If more than one load is queued at a time, the load with the higher priority will end first. Priorities are considered best effort, there are no guarantees about the order in which loads will start or finish.
+
+---
+
 ### `source.placeholder?: string`
 
 only accept static image ("static;${uri}") and base64String ("base64,${value}")
+
  Default value -> null
 
 Image that is shown while a request is in progress. When a request completes successfully, the placeholder is replaced with the requested resource. If the requested resource is loaded from memory, the placeholder may never be shown. If the request fails , the placeholder will continue to be displayed.
@@ -68,7 +82,7 @@ Image that is shown while a request is in progress. When a request completes suc
 
 ### `source.width?: number`
 
-The width to be used in the resize, -1 ignore resize.
+The width to be used in the resize, -1 ignore resize.  
  Default value -> -1 
 
 Scales the image uniformly (maintaining the image's aspect ratio) so that one of the dimensions of the image will be equal to the given dimension and the other will be less than the given dimension.
@@ -77,7 +91,7 @@ Scales the image uniformly (maintaining the image's aspect ratio) so that one of
 
 ### `source.height?: number`
 
-The height to be used in the resize, -1 ignore resize.
+The height to be used in the resize, -1 ignore resize.  
  Default value -> -1 
 
 Scales the image uniformly (maintaining the image's aspect ratio) so that one of the dimensions of the image will be equal to the given dimension and the other will be less than the given dimension.
@@ -86,7 +100,7 @@ Scales the image uniformly (maintaining the image's aspect ratio) so that one of
 
 ### `source.cache?: boolean`
 
- memory cache
+ memory cache  
  Default value -> true
 
 ---
@@ -95,7 +109,7 @@ Scales the image uniformly (maintaining the image's aspect ratio) so that one of
 
  Controls how the image should be displayed.
  
-0 --> cover
+0 --> cover  
 1 --> contain
 
  Default value -> 1

@@ -1,5 +1,10 @@
 # Change Log
 
+**1.8.0**
+
+- [Image](./readmes/image.md) priority and headers
+
+
 **1.7.9**
 
 - [Image](./readmes/image.md) source object changes

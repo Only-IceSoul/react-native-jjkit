@@ -35,16 +35,14 @@ ios : 9.0+
 
 ## Change log
 
+**1.8.0**
+
+- [Image](./readmes/image.md) priority and headers
+
+
 **1.7.9**
 
 - [Image](./readmes/image.md) source object changes
-
-
-
-**1.7.8**
-
-- [Image](./readmes/image.md) placeholder and listener
-
 
 
 
