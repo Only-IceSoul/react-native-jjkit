@@ -138,19 +138,19 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
                         }
                     }
                     else -> {
-                        var u = if(url != null) GlideUrl(url) else null
-                        headers?.let {
-                            val iterator = it.keySetIterator()
+                       
+                        manager = if(headers != null){
+                            val iterator = headers.keySetIterator()
                             val h = LazyHeaders.Builder()
                             while (iterator.hasNextKey()){
                                 val key = iterator.nextKey()
-                                val value = it.getString(key) ?: ""
+                                val value = headers.getString(key) ?: ""
                                 h.addHeader(key,value)
                             }
-                            u = if(url != null) GlideUrl(url,h.build()) else null
+                            manager.load(GlideUrl(url,h.build()))
+                        }else{
+                            manager.load(url)
                         }
-
-                        manager = manager.load(u)
                     }
                 }
 
