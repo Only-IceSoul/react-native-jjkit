@@ -21,6 +21,7 @@ public class GuisoRequestBuilder {
         if let s = model as? String {
             mOptions.signature(string: s)
         }else if let ss = model as? URL{
+            mModel = ss.absoluteString
             mOptions.signature(string: ss.absoluteString)
         }else{
             mLoader = GuisoLoaderData()
