@@ -520,10 +520,13 @@ class PhotoKit : NSObject, RCTBridgeModule {
        "all":"all",
        "gif":"gif",
        "photo":"photo",
-        "fitCenter": 0,
-               "centerCrop": 1,
                "jpeg":0,
-               "png":1]
+               "png":1,
+               "AUTHORIZED" : 1,
+                "UNDETERMINED" : 0,
+                "DENIED" : 2,
+                "cover" : 0,
+                "contain" : 1]
    }
       
        

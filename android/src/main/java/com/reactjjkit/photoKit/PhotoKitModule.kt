@@ -63,9 +63,22 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 "photo" to "photo",
                 "all" to "all",
                 "jpeg" to 0,
-                "png" to 1)
+                "png" to 1,
+                 "AUTHORIZED" to 1,
+                "UNDETERMINED" to 0,
+                "DENIED" to 2,
+                "cover" to 0,
+                "contain" to 1)
     }
 
+  @ReactMethod
+    fun clearMemoryCache(promise:Promise){
+        Handler(Looper.getMainLooper()).post {
+            Glide.get(reactContext).clearMemory()
+            promise.resolve(true)
+            Glide.with(reactContext).load("").into(ImageView(reactContext))
+        }
+    }
 
     @ReactMethod
     fun isPermissionGranted(promise: Promise){

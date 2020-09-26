@@ -35,11 +35,6 @@ ios : 9.0+
 
 ## Change log
 
-**1.8.2**
-
-- [Image](./readmes/image.md) 
-
-
 
 **1.8.1**
 
