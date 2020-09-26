@@ -76,7 +76,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
         Handler(Looper.getMainLooper()).post {
             Glide.get(reactContext).clearMemory()
             promise.resolve(true)
-            Glide.with(reactContext).load("").into(ImageView(reactContext))
+          
         }
     }
 
