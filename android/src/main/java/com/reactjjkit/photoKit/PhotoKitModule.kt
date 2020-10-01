@@ -68,7 +68,12 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 "UNDETERMINED" to 0,
                 "DENIED" to 2,
                 "cover" to 0,
-                "contain" to 1)
+                "contain" to 1,
+                "AUTOMATIC" to 0,
+                "NONE" to 1,
+                "ALL" to 2,
+                "DATA" to 3,
+                "RESOURCE" to 4)
     }
 
   @ReactMethod

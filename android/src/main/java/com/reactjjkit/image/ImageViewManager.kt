@@ -18,17 +18,6 @@ class ImageViewManager : SimpleViewManager<JJImageView>() {
         const val EVENT_ON_LOAD_SUCCESS = "onLoadSuccess"
     }
 
-    override fun getExportedViewConstants(): MutableMap<String, Any> {
-        return mutableMapOf(
-                "AUTOMATIC" to 0,
-                "NONE" to 1,
-                "ALL" to 2,
-                "DATA" to 3,
-                "RESOURCE" to 4,
-                "cover" to 0,
-                "contain" to 1
-        )
-    }
     override fun getName(): String {
         return "Image"
     }
