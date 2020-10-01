@@ -12,6 +12,7 @@ public class Key {
     
     
     private var mSignature:String = ""
+    private var mExtra:String = ""
     private var mWidth:Int = -1
     private var mHeight:Int = -1
     private var mScaleType: Guiso.ScaleType!
@@ -20,8 +21,9 @@ public class Key {
     private var mFrame : Int = 0
     private var mExactFrame = false
     private var mTransform = ""
-    public init(signature: String, width:CGFloat, height: CGFloat,scaleType: Guiso.ScaleType, frame:Double,exactFrame: Bool , isGif: Bool,transform:String) {
+    public init(signature: String,extra:String, width:CGFloat, height: CGFloat,scaleType: Guiso.ScaleType, frame:Double,exactFrame: Bool , isGif: Bool,transform:String) {
         mSignature = signature
+        mExtra = extra
         mWidth = Int(width)
         mHeight = Int(height)
         mScaleType = scaleType
@@ -32,7 +34,7 @@ public class Key {
     }
 
      private var ext = ""
-    public func toString(_ wfr: Bool = false) -> String {
+    public func toString() -> String {
         var exact = mExactFrame ? "t" : "f"
          var e = ""
         if mIsGif {
@@ -59,11 +61,23 @@ public class Key {
         }
         
        
+        if mSignature.isEmpty && mExtra.isEmpty { return ""}
       
-         cleanSignature()
-         cleanTransform()
-        return wfr ? "\(mSignature)_\(mTransform)\(mWidth)x\(mHeight)x\(scale)\(e)"
-        : "\(mSignature)_\(mTransform)\(mWidth)x\(mHeight)x\(scale)x\(mFrame)\(exact)\(e)"
+        cleanSignature()
+        cleanTransform()
+        cleanExtra()
+        
+        var result = mSignature
+        if !mExtra.isEmpty { result.append("_\(mExtra)")}
+        if !mTransform.isEmpty { result.append("_\(mTransform)")}
+        result.append("_\(mWidth)x\(mHeight)")
+        if !scale.isEmpty { result.append("x\(scale)")}
+       
+        result.append("x\(mFrame)\(exact)")
+        
+        result.append(e)
+        
+        return result
     }
     
   
@@ -111,6 +125,12 @@ public class Key {
         mTransform = mTransform.replacingOccurrences(of: " ", with: "_")
         mTransform = mTransform.replacingOccurrences(of: "/", with: "2")
         mTransform = mTransform.replacingOccurrences(of: ":", with: "z")
+    }
+    
+    private func cleanExtra(){
+        mExtra = mExtra.replacingOccurrences(of: " ", with: "_")
+        mExtra = mExtra.replacingOccurrences(of: "/", with: "2")
+        mExtra = mExtra.replacingOccurrences(of: ":", with: "z")
     }
     
 }

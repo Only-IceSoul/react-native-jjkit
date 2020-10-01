@@ -10,11 +10,11 @@ import Photos
 public class Guiso {
     
     static private var instance : Guiso?
-    private var mMemoryCache = LRUCache<UIImage>(25)
+    private var mMemoryCache = LRUCache<UIImage>(30)
     private var mExecutor = Executor("Guiso")
-    private var mDiskCache = LRUDiskCache("Guiso", maxSize: 50)
-    private var mDiskCacheObject = LRUDiskCacheObject("Guiso", maxSize: 20)
-    private var mMemoryCacheGif = LRUCacheGif(10)
+    private var mDiskCache = LRUDiskCache("Guiso", maxSize: 100)
+    private var mDiskCacheObject = LRUDiskCacheObject("Guiso", maxSize: 100)
+    private var mMemoryCacheGif = LRUCacheGif(13)
     private var mLock = NSLock()
     private init() {}
     

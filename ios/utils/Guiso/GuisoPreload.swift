@@ -19,17 +19,19 @@ class GuisoPreload : Runnable {
     private var mScale : Guiso.ScaleType!
     private var mGifDecoder : GifDecoderProtocol!
     private var mSaver:GuisoSaver!
-    init(model:Any,options:GuisoOptions, loader: LoaderProtocol,gifDecoder : GifDecoderProtocol) {
+    private var mPrimarySignature = ""
+    init(model:Any,_ primarySignature:String,options:GuisoOptions, loader: LoaderProtocol,gifDecoder : GifDecoderProtocol) {
         mOptions = options
         mModel = model
+        mPrimarySignature = primarySignature
         mGifDecoder = gifDecoder
         mLoader = loader
         mScale = mOptions.getScaleType()  == .none ? .fitCenter : mOptions.getScaleType()
-        let key = makeKey(mOptions.getIsOverride())
+        let key = makeKey()
         mKey = key.toString()
         mTransformer = GuisoTransform(scale: mScale, l: mOptions.getLanczos())
         mSaver = GuisoSaver(format: key.getExtension())
-        if mOptions.getSignature().isEmpty { mKey = "" }
+
     }
     
 
@@ -162,9 +164,9 @@ class GuisoPreload : Runnable {
         return GuisoRequestManager.containsPreload(mKey) || mKey.isEmpty
     }
     
-    func makeKey(_ override: Bool) -> Key {
-        let key = override ? Key(signature: mOptions.getSignature(), width: mOptions.getWidth(), height: mOptions.getHeight(), scaleType: mScale, frame: mOptions.getFrameSecond()   ,exactFrame:mOptions.getExactFrame(), isGif:mOptions.getAsGif(), transform: mOptions.getTransformerSignature()) :
-            Key(signature: mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
+    func makeKey() -> Key {
+        let key = mOptions.getIsOverride() ? Key(signature: mPrimarySignature ,extra:mOptions.getSignature(), width: mOptions.getWidth(), height: mOptions.getHeight(), scaleType: mScale, frame: mOptions.getFrameSecond()   ,exactFrame:mOptions.getExactFrame(), isGif:mOptions.getAsGif(), transform: mOptions.getTransformerSignature()) :
+            Key(signature: mPrimarySignature,extra: mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
         transform: mOptions.getTransformerSignature())
         return key
     }
@@ -172,7 +174,7 @@ class GuisoPreload : Runnable {
         return scale == UIView.ContentMode.scaleAspectFill ? .centerCrop : .fitCenter
     }
     func keySource() -> Key {
-        return  Key(signature: mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
+        return  Key(signature:mPrimarySignature,extra: mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
           transform: "")
     
     }

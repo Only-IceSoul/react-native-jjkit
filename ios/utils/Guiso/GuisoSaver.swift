@@ -29,12 +29,12 @@ class GuisoSaver {
       }
       
     func saveToDiskCache(key:String,image:UIImage?){
-        if image == nil { return  }
+        if image?.cgImage == nil { return  }
         let diskCache = Guiso.get().getDiskCache()
         if let data = makeImageData(image!, format: mFormat){
               diskCache.add(key, data: data,isUpdate: false)
         }
-          
+        
     }
 
     func saveToDiskCache(key:String,gif:Gif?){
@@ -44,12 +44,7 @@ class GuisoSaver {
             
     }
     
-    func saveToDiskCache(key:String,data:Data?){
-        if data == nil { return }
-        let diskCache = Guiso.get().getDiskCache()
-        diskCache.add(key, data: data!,isUpdate: false)
-         
-     }
+  
     
 
     private func makeImageData(_ img:UIImage, format: String) -> Data? {

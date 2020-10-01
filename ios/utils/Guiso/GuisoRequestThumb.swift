@@ -20,18 +20,20 @@ class GuisoRequestThumb : Runnable {
     private var mScale : Guiso.ScaleType!
     private var mGifDecoder : GifDecoderProtocol!
     private var mSaver:GuisoSaver!
-    init(model:Any,options:GuisoOptions,_ target: ViewTarget?, loader: LoaderProtocol,gifDecoder : GifDecoderProtocol) {
+    private var mPrimarySignature = ""
+    init(model:Any,_ primarySignature:String,options:GuisoOptions,_ target: ViewTarget?, loader: LoaderProtocol,gifDecoder : GifDecoderProtocol) {
         mOptions = options
         mModel = model
+        mPrimarySignature = primarySignature
         mGifDecoder = gifDecoder
         mTarget = target
         mLoader = loader
         mScale = mOptions.getScaleType()  == .none ? getScaleTypeFrom(mTarget?.getContentMode() ?? .scaleAspectFit): mOptions.getScaleType()
-        let key = makeKey(mOptions.getIsOverride())
+        let key = makeKey()
         mKey = key.toString()
         mTransformer = GuisoTransform(scale: mScale, l: mOptions.getLanczos())
         mSaver = GuisoSaver( format: key.getExtension() )
-        if mOptions.getSignature().isEmpty { mKey = "" }
+      
     }
     
     
@@ -162,9 +164,9 @@ class GuisoRequestThumb : Runnable {
     
 
   
-    func makeKey(_ override: Bool) -> Key {
-        let key = override ? Key(signature: mOptions.getSignature(), width: mOptions.getWidth(), height: mOptions.getHeight(), scaleType: mScale, frame: mOptions.getFrameSecond()   ,exactFrame:mOptions.getExactFrame(), isGif:mOptions.getAsGif(), transform: mOptions.getTransformerSignature()) :
-            Key(signature: mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
+    func makeKey() -> Key {
+        let key = mOptions.getIsOverride() ? Key(signature:mPrimarySignature ,extra:mOptions.getSignature(), width: mOptions.getWidth(), height: mOptions.getHeight(), scaleType: mScale, frame: mOptions.getFrameSecond()   ,exactFrame:mOptions.getExactFrame(), isGif:mOptions.getAsGif(), transform: mOptions.getTransformerSignature()) :
+            Key(signature: mPrimarySignature,extra:mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
         transform: mOptions.getTransformerSignature())
         return key
     }
@@ -173,7 +175,7 @@ class GuisoRequestThumb : Runnable {
     }
     
     func keySource() -> Key {
-        return  Key(signature: mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
+        return  Key(signature: mPrimarySignature,extra:mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
           transform: "")
     }
     func updateFromSourceCache() -> Bool{

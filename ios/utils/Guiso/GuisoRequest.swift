@@ -9,7 +9,6 @@
 import UIKit
 import Photos
 
-
 public class GuisoRequest : Runnable {
     
 
@@ -23,17 +22,18 @@ public class GuisoRequest : Runnable {
     private var mGifDecoder : GifDecoderProtocol!
     private var mSaver:GuisoSaver!
     private var mThumb: GuisoRequestThumb?
-    init(model:Any,options:GuisoOptions,_ target: ViewTarget?, loader: LoaderProtocol,gifDecoder : GifDecoderProtocol) {
+    private var mPrimarySignature = ""
+    init(model:Any,_ primarySignature:String,options:GuisoOptions,_ target: ViewTarget?, loader: LoaderProtocol,gifDecoder : GifDecoderProtocol) {
         mOptions = options
-      
+        mPrimarySignature = primarySignature
         mModel = model
         mGifDecoder = gifDecoder
             
         mTarget = target
         mLoader = loader
         mScale = mOptions.getScaleType()  == .none ? getScaleTypeFrom(mTarget?.getContentMode() ?? .scaleAspectFit) : mOptions.getScaleType()
-        let key = makeKey(mOptions.getIsOverride())
-        mKey = mOptions.getSignature().isEmpty ? "" : key.toString()
+        let key = makeKey()
+        mKey = key.toString()
         mTransformer = GuisoTransform(scale: mScale, l: mOptions.getLanczos())
         mSaver = GuisoSaver(format: key.getExtension())
         
@@ -196,7 +196,8 @@ public class GuisoRequest : Runnable {
             self.mSaver.saveToDiskCache(key: sourceKey().toString(), image: img)
         }
         if st == .automatic ||  st == .all &&  dataSource == .remote {
-            self.mSaver.saveToDiskCache(key: sourceKey().toString(), image: img)
+           self.mSaver.saveToDiskCache(key: sourceKey().toString(), image: img)
+            
         }
         
     }
@@ -255,15 +256,15 @@ public class GuisoRequest : Runnable {
         return mTarget?.getRequest()?.getKey() == mKey && !mKey.isEmpty
     }
     
-    func makeKey(_ override: Bool) -> Key {
-        let key = override ? Key(signature: mOptions.getSignature(), width: mOptions.getWidth(), height: mOptions.getHeight(), scaleType: mScale, frame: mOptions.getFrameSecond()   ,exactFrame:mOptions.getExactFrame(), isGif:mOptions.getAsGif(), transform: mOptions.getTransformerSignature()) :
-            Key(signature: mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
+    func makeKey() -> Key {
+        let key = mOptions.getIsOverride() ? Key(signature:mPrimarySignature ,extra:mOptions.getSignature(), width: mOptions.getWidth(), height: mOptions.getHeight(), scaleType: mScale, frame: mOptions.getFrameSecond()   ,exactFrame:mOptions.getExactFrame(), isGif:mOptions.getAsGif(), transform: mOptions.getTransformerSignature()) :
+            Key(signature:mPrimarySignature,extra: mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
         transform: mOptions.getTransformerSignature())
         return key
     }
     
     func sourceKey() -> Key {
-      return  Key(signature: mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
+        return  Key(signature: mPrimarySignature, extra: mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
         transform: "")
     }
     private func getScaleTypeFrom(_ scale:UIView.ContentMode)-> Guiso.ScaleType{

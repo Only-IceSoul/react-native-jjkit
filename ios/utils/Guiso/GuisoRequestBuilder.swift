@@ -13,16 +13,17 @@ public class GuisoRequestBuilder {
     private var mOptions  = GuisoOptions()
     private var mLoader: LoaderProtocol!
     private var mModel: Any?
+    private var mPrimarySignature = ""
  
     private var mGifDecoder : GifDecoderProtocol = GuisoGifDecoder()
      init(model:Any?) {
            mModel = model
            mLoader = GuisoLoaderString()
         if let s = model as? String {
-            mOptions.signature(string: s)
+            mPrimarySignature =  s
         }else if let ss = model as? URL{
             mModel = ss.absoluteString
-            mOptions.signature(string: ss.absoluteString)
+            mPrimarySignature = ss.absoluteString
         }else{
             mLoader = GuisoLoaderData()
         }
@@ -143,7 +144,7 @@ public class GuisoRequestBuilder {
     
     @discardableResult
     public func preload() -> Bool {
-        return GuisoRequestManager.preload(mModel, loader: mLoader, gifd: mGifDecoder, options: mOptions)
+        return GuisoRequestManager.preload(mModel,mPrimarySignature, loader: mLoader, gifd: mGifDecoder, options: mOptions)
     }
     
     public func diskCacheStrategy(_ strategy: Guiso.DiskCacheStrategy) -> GuisoRequestBuilder{
@@ -159,6 +160,10 @@ public class GuisoRequestBuilder {
     }
     func getModel() -> Any? {
         return mModel
+    }
+    
+    func getPrimarySignature()->String{
+        return mPrimarySignature
     }
     
    
