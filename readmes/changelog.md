@@ -1,5 +1,15 @@
 # Change Log
 
+**1.8.6**
+
+- [Image](./readmes/image.md) diskCacheStrategy and skipMemoryCache
+
+**1.8.1 to 1.8.5**
+
+- [Image](./readmes/image.md) fixed bug
+
+
+
 **1.8.0**
 
 - [Image](./readmes/image.md) priority and headers

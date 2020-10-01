@@ -36,9 +36,9 @@ ios : 9.0+
 ## Change log
 
 
-**1.8.1**
+**1.8.6**
 
-- [Image](./readmes/image.md) priority and headers
+- [Image](./readmes/image.md) diskCacheStrategy and skipMemoryCache
 
 
 

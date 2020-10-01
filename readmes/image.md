@@ -98,21 +98,37 @@ Scales the image uniformly (maintaining the image's aspect ratio) so that one of
 
 ---
 
-### `source.cache?: boolean`
+### `source.skipMemoryCache?: boolean`
 
- memory cache  
- Default value -> true
+ Default value -> false
+
+ Allows the loaded resource to skip the memory cache.  
+ Note - this is not a guarantee. If a request is already pending for this resource and that request is not also skipping the memory cache, the resource will be cached in memory.
+
+---
+
+### `source.diskCacheStrategy?: number`
+
+ Default value -> 0 (Automatic)
+
+Constants:  
+PhotoKit.AUTOMATIC (0)   
+PhotoKit.NONE (1)   
+PhotoKit.ALL (2)   
+PhotoKit.DATA (3)  
+PhotoKit.RESOURCE (4) 
 
 ---
 
 ### `scaleType?: number`
 
  Controls how the image should be displayed.
- 
-0 --> cover  
-1 --> contain
 
- Default value -> 1
+ Default value -> 1 (contain)
+
+Constants:  
+PhotoKit.cover (0)   
+PhotoKit.contain (1)   
 
 ---
 
