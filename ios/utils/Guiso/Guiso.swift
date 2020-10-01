@@ -100,7 +100,8 @@ public class Guiso {
     
     public enum LoadType {
          case data,
-         uiimg
+         uiimg,
+         gif
       }
     
     public enum DataSource {

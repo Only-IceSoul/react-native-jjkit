@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 
+
 public class GuisoRequest : Runnable {
     
 
@@ -32,11 +33,10 @@ public class GuisoRequest : Runnable {
         mLoader = loader
         mScale = mOptions.getScaleType()  == .none ? getScaleTypeFrom(mTarget?.getContentMode() ?? .scaleAspectFit) : mOptions.getScaleType()
         let key = makeKey(mOptions.getIsOverride())
-        mKey = key.toString()
+        mKey = mOptions.getSignature().isEmpty ? "" : key.toString()
         mTransformer = GuisoTransform(scale: mScale, l: mOptions.getLanczos())
         mSaver = GuisoSaver(format: key.getExtension())
-
-        if mOptions.getSignature().isEmpty { mKey = "" }
+        
     }
     
     func getKey() -> String{
@@ -120,11 +120,18 @@ public class GuisoRequest : Runnable {
             }
             
             self.displayInTarget(img)
-            if !self.mOptions.getSignature().isEmpty {
-               saveResource(img,dataSource,false)
-            }
+            saveResource(img,dataSource,false)
+            
         }
-        
+        if type == .gif {
+            guard let gif = result as? Gif
+            else {
+              self.onLoadFailed("error: casting any to gif")
+                return
+            }
+            saveData(gif,dataSource)
+            transformDisplayCacheGif(gif,dataSource)
+        }
         
     }
     
@@ -143,9 +150,8 @@ public class GuisoRequest : Runnable {
         }
         if final != nil {
             self.displayInTarget(final!)
-            if !self.mOptions.getSignature().isEmpty {
-                saveResource(final!,dataSource,isTransformed)
-            }
+            saveToMemoryCache(final!)
+            saveResource(final!,dataSource,isTransformed)
         }else{
             self.onLoadFailed("failed transformation")
         }
@@ -176,11 +182,71 @@ public class GuisoRequest : Runnable {
 
         let drawable = TransformationUtils.cleanGif(gif)
         self.displayInTarget(drawable)
-        if !self.mOptions.getSignature().isEmpty {
-            saveResource(drawable,dataSource,isTransformed)
-        }
+        saveToMemoryCache(gif)
+        saveResource(drawable,dataSource,isTransformed)
+        
     }
 
+   
+    
+    private func saveData(_ img:UIImage,_ dataSource:Guiso.DataSource){
+        if mKey.isEmpty { return }
+        let st =  mOptions.getDiskCacheStrategy()
+        if st == .data && dataSource != .dataDiskCache {
+            self.mSaver.saveToDiskCache(key: sourceKey().toString(), image: img)
+        }
+        if st == .automatic ||  st == .all &&  dataSource == .remote {
+            self.mSaver.saveToDiskCache(key: sourceKey().toString(), image: img)
+        }
+        
+    }
+    private func saveData(_ gif:Gif,_ dataSource:Guiso.DataSource){
+        if mKey.isEmpty { return }
+        let st =  mOptions.getDiskCacheStrategy()
+        if st == .data && dataSource != .dataDiskCache {
+            self.mSaver.saveToDiskCache(key: sourceKey().toString(),gif: gif)
+        }
+        if st == .automatic ||  st == .all &&  dataSource == .remote {
+            self.mSaver.saveToDiskCache(key: sourceKey().toString(),gif: gif)
+        }
+    }
+    
+    private func saveResource(_ img:UIImage,_ dataSource:Guiso.DataSource,_ isTransformed:Bool){
+        if mKey.isEmpty { return }
+       let st =  mOptions.getDiskCacheStrategy()
+        
+        if st == .resource || st == .all && dataSource != .memoryCache
+            && dataSource != .resourceDiskCache {
+           self.mSaver.saveToDiskCache(key: mKey, image: img)
+           
+       }
+        if st == .automatic && isTransformed {
+            self.mSaver.saveToDiskCache(key: mKey, image: img)
+        }
+       
+    }
+    private func saveResource(_ gif:Gif,_ dataSource:Guiso.DataSource,_ isTransformed:Bool){
+        if mKey.isEmpty { return }
+       let st =  mOptions.getDiskCacheStrategy()
+        if st == .resource || st == .all && dataSource != .memoryCache
+        && dataSource != .resourceDiskCache {
+           self.mSaver.saveToDiskCache(key: mKey,gif: gif)
+       }
+        if st == .automatic && isTransformed {
+            self.mSaver.saveToDiskCache(key: mKey,gif: gif)
+        }
+    }
+    
+    private func saveToMemoryCache(_ img:UIImage){
+        let sm = mOptions.getSkipMemoryCache()
+        if !sm { self.mSaver.saveToMemoryCache(key: mKey, image: img)}
+    }
+    
+    private func saveToMemoryCache(_ gif:Gif){
+        let sm = mOptions.getSkipMemoryCache()
+        if !sm { self.mSaver.saveToMemoryCache(key: mKey, gif:gif) }
+    }
+    
     func updateIdentifier(){
         self.mTarget?.setRequest(self)
     }
@@ -196,60 +262,13 @@ public class GuisoRequest : Runnable {
         return key
     }
     
-    func keySourceData() -> Key {
+    func sourceKey() -> Key {
       return  Key(signature: mOptions.getSignature(), width: -1, height: -1, scaleType: .none,frame: mOptions.getFrameSecond()  ,exactFrame:mOptions.getExactFrame(), isGif: mOptions.getAsGif(),
         transform: "")
     }
     private func getScaleTypeFrom(_ scale:UIView.ContentMode)-> Guiso.ScaleType{
         return scale == UIView.ContentMode.scaleAspectFill ? .centerCrop : .fitCenter
     }
-    
-    private func saveData(_ img:UIImage,_ dataSource:Guiso.DataSource){
-        let st =  mOptions.getDiskCacheStrategy()
-        if st == .data || st == .all {
-            self.mSaver.saveToDiskCache(key: keySourceData().toString(), image: img)
-        }
-        if st == .automatic && dataSource == .remote {
-            self.mSaver.saveToDiskCache(key: keySourceData().toString(), image: img)
-        }
-        
-    }
-    private func saveData(_ gif:Gif,_ dataSource:Guiso.DataSource){
-        let st =  mOptions.getDiskCacheStrategy()
-        if st == .data || st == .all  {
-            self.mSaver.saveToDiskCache(key: keySourceData().toString(),gif: gif)
-        }
-        if st == .automatic && dataSource == .remote {
-            self.mSaver.saveToDiskCache(key: keySourceData().toString(),gif: gif)
-        }
-    }
-    
-    private func saveResource(_ img:UIImage,_ dataSource:Guiso.DataSource,_ isTransformed:Bool){
-       let st =  mOptions.getDiskCacheStrategy()
-        let sm = mOptions.getSkipMemoryCache()
-        if !sm { self.mSaver.saveToMemoryCache(key: mKey, image: img)}
-        if st == .resource || st == .all {
-           self.mSaver.saveToDiskCache(key: mKey, image: img)
-           
-       }
-        if st == .automatic && isTransformed {
-            self.mSaver.saveToDiskCache(key: mKey, image: img)
-        }
-       
-    }
-    private func saveResource(_ gif:Gif,_ dataSource:Guiso.DataSource,_ isTransformed:Bool){
-       let st =  mOptions.getDiskCacheStrategy()
-        let sm = mOptions.getSkipMemoryCache()
-        if !sm { self.mSaver.saveToMemoryCache(key: mKey, gif:gif) }
-        if st == .resource || st == .all {
-           self.mSaver.saveToDiskCache(key: mKey,gif: gif)
-       }
-        if st == .automatic && isTransformed {
-            self.mSaver.saveToDiskCache(key: mKey,gif: gif)
-        }
-    }
-    
-  
     
     //should update disk cache if convertion to gif or image fail?
     func updateImageFromCache() -> Bool {
@@ -260,7 +279,7 @@ public class GuisoRequest : Runnable {
         
         let diskStrategy = mOptions.getDiskCacheStrategy()
         let skipCache = mOptions.getSkipMemoryCache()
-        let keyD = keySourceData().toString()
+        let keyD = sourceKey().toString()
 
         if mOptions.getAsGif(){
             if !skipCache {
@@ -269,23 +288,26 @@ public class GuisoRequest : Runnable {
                      return true
                 }
             }
-            if diskStrategy != .none && diskStrategy != .data {
+            if diskStrategy != .none {
                 if let obj = diskCacheGif.get(mKey) {
                     if let gif = obj as? Gif{
                         displayInTarget(gif)
-                        if !mOptions.getSkipMemoryCache() { cacheGif.add(mKey, val: gif,isUpdate: false) }
+                        if !skipCache {
+                            cacheGif.add(mKey, val: gif,isUpdate: false)
+                            
+                        }
                         return true
                     }
                 }
-            }
-            if diskStrategy != .none && diskStrategy != .resource {
+                
                 if let obj = diskCacheGif.get(keyD) {
                     if let gif = obj as? Gif{
-                        transformDisplayCacheGif(gif,.dataDiskCache)
+                        handleGif(gif, type: .gif, "",.dataDiskCache)
                         return true
                     }
                 }
             }
+          
                  
         }else{
             
@@ -294,26 +316,28 @@ public class GuisoRequest : Runnable {
                     return true
             }
             
-            if diskStrategy != .none && diskStrategy != .data{
+            if diskStrategy != .none {
                   if let data = diskCache.get(mKey) {
                         if let img =  UIImage(data: data) {
                              displayInTarget(img)
-                            if !mOptions.getSkipMemoryCache() {
+                            if !skipCache {
                                 cache.add(mKey, val: img, isUpdate: false)
                                 
                             }
                             return true
                         }
                   }
-            }
-            if diskStrategy != .none && diskStrategy != .resource {
+                
                 if let data = diskCache.get(keyD) {
                     if let img =  UIImage(data: data) {
-                        transformDisplayCacheImage(img,.dataDiskCache)
+                        handleImage(img, type: .uiimg, "",.dataDiskCache)
                         return true
                     }
                 }
             }
+            
+            
+            
 
         }
 
