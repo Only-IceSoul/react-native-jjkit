@@ -28,7 +28,7 @@ class GuisoPreload : Runnable {
         let key = makeKey(mOptions.getIsOverride())
         mKey = key.toString()
         mTransformer = GuisoTransform(scale: mScale, l: mOptions.getLanczos())
-        mSaver = GuisoSaver(mOptions.getDiskCacheStrategy(), format: key.getExtension(),skipMemory: mOptions.getSkipMemoryCache() )
+        mSaver = GuisoSaver(format: key.getExtension())
         if mOptions.getSignature().isEmpty { mKey = "" }
     }
     
@@ -41,7 +41,7 @@ class GuisoPreload : Runnable {
                 
                 if !preloadFromSourceCache(){
 
-                    mLoader.loadData(model: mModel!, width: mOptions.getWidth(), height: mOptions.getHeight(), options: mOptions) { (result, type,error) in
+                    mLoader.loadData(model: mModel!, width: mOptions.getWidth(), height: mOptions.getHeight(), options: mOptions) { (result, type,error,dataSource) in
                         if Thread.isMainThread {
                             Guiso.get().getExecutor().doWork {
                                 if self.mOptions.getAsGif() {

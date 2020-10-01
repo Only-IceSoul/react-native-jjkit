@@ -32,24 +32,18 @@ import Foundation
     
     
     static func into(_ target: ViewTarget, builder:GuisoRequestBuilder) -> ViewTarget? {
-     
-    
-        builder.getOptions().getPlaceHolder()?.setTarget(target).load()
-        
-        
-    
+          builder.getOptions().getPlaceHolder()?.setTarget(target)
+          builder.getOptions().getPlaceHolder()?.load()
+         
         let tracker = target
         tracker.getRequest()?.cancel()
-        
         if let model = builder.getModel() {
             let request = GuisoRequest(model:model,options: builder.getOptions(),target,loader:builder.getLoader(),gifDecoder: builder.getGifDecoder())
             let p = getPriority( builder.getOptions().getPriority())
             tracker.setRequest(request)
             
             if let t = builder.getOptions().getThumbnail() , builder.getOptions().getThumbnail()?.getModel() != nil {
-                
                 let thumb = GuisoRequestThumb(model: t.getModel()!, options: t.getOptions(), target, loader: t.getLoader(), gifDecoder: t.getGifDecoder())
-                thumb.setParentPlaceholder(builder.getOptions().getPlaceHolder())
                 request.setThumb(thumb)
                 Guiso.get().getExecutor().doWork(thumb,priority: p , flags: .enforceQoS )
             }
@@ -57,7 +51,6 @@ import Foundation
             Guiso.get().getExecutor().doWork(request,priority: p , flags: .enforceQoS )
           
         }else{
-            target.onLoadFailed("recieved a nil model")
             builder.getOptions().getFallbackHolder()?.setTarget(target)
             builder.getOptions().getFallbackHolder()?.load()
         }

@@ -10,57 +10,45 @@ import UIKit
 
 class GuisoSaver {
     
-    private var mStrategy = Guiso.DiskCacheStrategy.automatic
     private var mFormat = "png"
-    private var mSkipMemory = false
-    init(_ st:Guiso.DiskCacheStrategy,format:String,skipMemory:Bool) {
-        mStrategy = st
+
+    init(format:String) {
         mFormat = format
-        mSkipMemory = skipMemory
-    }
-    
-    func setStrategy(_ st:Guiso.DiskCacheStrategy){
-        mStrategy = st
     }
     
     func saveToMemoryCache(key:String,image:UIImage?){
-          if image == nil || mSkipMemory { return  }
+          if image == nil { return  }
            let cache = Guiso.get().getMemoryCache()
            cache.add(key, val: image!,isUpdate: false)
       }
       
     func saveToMemoryCache(key: String,gif:Gif?){
-         if gif == nil || mSkipMemory  { return  }
+         if gif == nil  { return  }
          let cache = Guiso.get().getMemoryCacheGif()
           cache.add(key, val: gif!,isUpdate: false)
       }
       
     func saveToDiskCache(key:String,image:UIImage?){
         if image == nil { return  }
-          //manage strategys
-          let diskCache = Guiso.get().getDiskCache()
-          if mStrategy == .automatic {
-            if let data = makeImageData(image!, format: mFormat){
-                  diskCache.add(key, data: data,isUpdate: false)
-            }
-          }
-      }
+        let diskCache = Guiso.get().getDiskCache()
+        if let data = makeImageData(image!, format: mFormat){
+              diskCache.add(key, data: data,isUpdate: false)
+        }
+          
+    }
 
     func saveToDiskCache(key:String,gif:Gif?){
         if gif == nil { return  }
-        //manage strategys
-            let diskCache = Guiso.get().getDiskCacheObject()
-            if mStrategy == .automatic {
-                diskCache.add(key, obj: gif!,isUpdate: false)
-            }
+        let diskCache = Guiso.get().getDiskCacheObject()
+        diskCache.add(key, obj: gif!,isUpdate: false)
+            
     }
     
-    func saveToDiskCache(key:String,data:Data){
-     //manage strategys
-         let diskCache = Guiso.get().getDiskCache()
-         if mStrategy == .automatic {
-             diskCache.add(key, data: data,isUpdate: false)
-         }
+    func saveToDiskCache(key:String,data:Data?){
+        if data == nil { return }
+        let diskCache = Guiso.get().getDiskCache()
+        diskCache.add(key, data: data!,isUpdate: false)
+         
      }
     
 

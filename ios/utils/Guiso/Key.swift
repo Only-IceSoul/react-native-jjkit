@@ -7,31 +7,7 @@
 
 import UIKit
 
-public class Key : Hashable{
-    
-    
-    public var hashValue: Int {
-        var hasher = Hasher()
-        self.hash(into: &hasher)
-        return hasher.finalize()
-    }
-    
-    public func hash(into hasher: inout Hasher) {
-        _ = toString()
-        hasher.combine(mSignature)
-         hasher.combine(mWidth)
-         hasher.combine(mHeight)
-         hasher.combine(mScaleType)
-         hasher.combine(mIsGif)
-        hasher.combine(mScaleType)
-        hasher.combine(mFromFile)
-        hasher.combine(ext)
-    }
-    
-    public static func == (lhs: Key, rhs: Key) -> Bool {
-        return lhs.hashValue == rhs.hashValue &&  lhs.toString() == rhs.toString()
-    }
-    
+public class Key {
     
     
     
@@ -56,7 +32,7 @@ public class Key : Hashable{
     }
 
      private var ext = ""
-   public func toString() -> String {
+    public func toString(_ wfr: Bool = false) -> String {
         var exact = mExactFrame ? "t" : "f"
          var e = ""
         if mIsGif {
@@ -86,8 +62,11 @@ public class Key : Hashable{
       
          cleanSignature()
          cleanTransform()
-        return "\(mSignature)_\(mTransform)\(mWidth)x\(mHeight)x\(scale)x\(mFrame)\(exact)\(e)"
+        return wfr ? "\(mSignature)_\(mTransform)\(mWidth)x\(mHeight)x\(scale)\(e)"
+        : "\(mSignature)_\(mTransform)\(mWidth)x\(mHeight)x\(scale)x\(mFrame)\(exact)\(e)"
     }
+    
+  
     
     public func getExtension() -> String {
         return ext.replacingOccurrences(of: ".", with: "")
@@ -114,7 +93,7 @@ public class Key : Hashable{
             mSignature = mSignature.replacingOccurrences(of: "https://www", with: "")
             mSignature = mSignature.replacingOccurrences(of: "http://www", with: "")
            mSignature = mSignature.replacingOccurrences(of: "https://", with: "")
-                     mSignature = mSignature.replacingOccurrences(of: "http://", with: "")
+            mSignature = mSignature.replacingOccurrences(of: "http://", with: "")
          mSignature = mSignature.replacingOccurrences(of: ".mp4", with: "")
          mSignature = mSignature.replacingOccurrences(of: ".mov", with: "")
         mSignature = mSignature.replacingOccurrences(of: ".jpg", with: "")

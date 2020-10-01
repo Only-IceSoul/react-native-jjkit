@@ -11,23 +11,23 @@ import MediaPlayer
 class GuisoLoaderData: LoaderProtocol {
     
     private var mOptions = GuisoOptions()
-    private var mCallback: ((Any?,Guiso.LoadType,String)->Void)?
-    func loadData(model: Any, width: CGFloat, height: CGFloat, options: GuisoOptions, callback: @escaping (Any?, Guiso.LoadType,String) -> Void) {
+    private var mCallback: ((Any?,Guiso.LoadType,String,Guiso.DataSource)->Void)?
+    func loadData(model: Any, width: CGFloat, height: CGFloat, options: GuisoOptions, callback: @escaping (Any?, Guiso.LoadType,String,Guiso.DataSource) -> Void) {
         mOptions = options
         mCallback = callback
         guard let data = model as? Data else {
-             sendResult(nil,.data,"Data: model  is null or not a Data object")
+            sendResult(nil,.data,"Data: model  is null or not a Data object",.remote)
              return
         }
         if options.getAsGif() {
-            sendResult(model,.data,"")
+            sendResult(model,.data,"",.remote)
         }else{
 
             if let img = UIImage(data: data){
-                sendResult(img,.uiimg,"")
+                sendResult(img,.uiimg,"",.remote)
             }else{
                 if let imga =  dataAudio(data){
-                      sendResult(imga,.uiimg,"")
+                    sendResult(imga,.uiimg,"",.remote)
                 }else{
 
                     dataVideo(data)
@@ -38,8 +38,8 @@ class GuisoLoaderData: LoaderProtocol {
         }
     }
     
-    func sendResult(_ obj:Any?,_ type: Guiso.LoadType,_ error:String){
-           mCallback?(obj,type,error)
+    func sendResult(_ obj:Any?,_ type: Guiso.LoadType,_ error:String,_ source:Guiso.DataSource){
+           mCallback?(obj,type,error,source)
            mCallback = nil
        }
     
@@ -58,7 +58,7 @@ class GuisoLoaderData: LoaderProtocol {
         if let path = Guiso.get().writeToCacheFolder(video, name: "guiso_video.mp4"){
             avAssetVideo(AVURLAsset(url: path))
         }else{
-            sendResult(nil, .data,"data: failed parse data, data should be audio video gif or image ")
+            sendResult(nil, .data,"data: failed parse data, data should be audio video gif or image ",.remote)
         }
          
     }
@@ -93,9 +93,9 @@ class GuisoLoaderData: LoaderProtocol {
         generator.generateCGImagesAsynchronously(forTimes: [NSValue(time: timestamp)]) { (time, cg, time2, result, error) in
 
             if cg != nil {
-                self.sendResult(UIImage(cgImage: cg!), .uiimg,"")
+                self.sendResult(UIImage(cgImage: cg!), .uiimg,"",.remote)
             }else{
-                self.sendResult(nil, .uiimg,"data: falied generating image from video")
+                self.sendResult(nil, .uiimg,"data: falied generating image from video",.remote)
             }
         }
     }

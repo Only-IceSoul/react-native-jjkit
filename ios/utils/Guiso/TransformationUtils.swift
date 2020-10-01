@@ -225,7 +225,7 @@ public class TransformationUtils {
                                        bitsPerComponent: 8,
                                        bytesPerRow: 0,
                                        space:  cgImage.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!,
-                                       bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue)
+                                       bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
              else { return nil }
 
 

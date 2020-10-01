@@ -72,7 +72,7 @@ public class GuisoView: UIImageView , ViewTarget {
     public func onLoadFailed(_ error:String) {
         // auto retry?
         //show clickview and let user retry?
-       
+        print("Load failed")
     }
   
     

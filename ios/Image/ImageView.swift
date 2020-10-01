@@ -32,7 +32,8 @@ class ImageView: UIImageView , ViewTarget {
         if data != nil {
             let w = data!["width"] as? Int ?? -1
             let h = data!["height"] as? Int ?? -1
-            let cache = data!["cache"] as? Bool ?? true
+            let skipMemoryCache = data!["skipMemoryCache"] as? Bool ?? false
+            let diskCacheStrategy = data!["diskCacheStrategy"] as? Int ?? 0
             let asGif = data!["asGif"] as? Bool ?? false
             let placeholder = data!["placeholder"] as? String
             let headers = data!["headers"] as? [String:String]
@@ -45,16 +46,16 @@ class ImageView: UIImageView , ViewTarget {
             let reqW = w > 20 ? w : 20
             let reqH = h > 20 ? h : 20
             
-            updateImage(uri,placeholder,headers,priority, cache, asGif, resize, reqW, reqH)
+            updateImage(uri,placeholder,headers,priority, skipMemoryCache,diskCacheStrategy, asGif, resize, reqW, reqH)
            
             
         }
     }
     
-    private func updateImage(_ url:String?,_ placeholder:String?,_ headers:[String:String]?,_ priority:Guiso.Priority,_ cache:Bool,_ asGif:Bool,_ resize:Bool,_ reqW:Int,_ reqH:Int){
+    private func updateImage(_ url:String?,_ placeholder:String?,_ headers:[String:String]?,_ priority:Guiso.Priority,_ cache:Bool,_ diskCacheStrategy: Int,_ asGif:Bool,_ resize:Bool,_ reqW:Int,_ reqH:Int){
         
         Guiso.get().getExecutor().doWork {
-            let options = self.getOptions(asGif: asGif,headers:headers, cache: cache, placeholder: placeholder,priority: priority, resize: resize, reqW: reqW, reqH: reqH)
+            let options = self.getOptions(asGif: asGif,headers:headers, cache: cache,diskCacheStrategy, placeholder: placeholder,priority: priority, resize: resize, reqW: reqW, reqH: reqH)
                 
                 var manager = Guiso.load(model: "")
                 
@@ -88,10 +89,14 @@ class ImageView: UIImageView , ViewTarget {
     }
     
     private func getOptions(asGif:Bool,headers: [String:String]?,cache:Bool,
+                            _ diskCacheStrategy:Int,
                             placeholder:String?,priority:Guiso.Priority,resize:Bool,reqW:Int,reqH:Int) -> GuisoOptions {
+        
+        let ds: Guiso.DiskCacheStrategy = getDiskCacheStrategy(diskCacheStrategy)
         
         var options = GuisoOptions().skipMemoryCache(cache)
             .priority(priority)
+            .diskCacheStrategy(ds)
          
         if headers != nil {
             options = options.header(GuisoHeader(headers!))
@@ -113,6 +118,25 @@ class ImageView: UIImageView , ViewTarget {
         
         return options
         
+    }
+    
+    
+    private func getDiskCacheStrategy(_ strategy:Int) -> Guiso.DiskCacheStrategy{
+        var s:Guiso.DiskCacheStrategy = .automatic
+        switch strategy {
+        case 1:
+            s = .none
+        case 2:
+            s = .all
+        case 3:
+            s = .data
+        case 4:
+            s = .resource
+        default:
+            s = .automatic
+        }
+        
+        return s
     }
     
     

@@ -16,54 +16,35 @@ class GuisoPlaceHolder {
        mName = name
        mImage = nil
        mColor = nil
-     
     }
 
     init(_ image:UIImage) {
       mName = nil
       mImage = image
        mColor = nil
-     
     }
     init(_ color:UIColor) {
       mName = nil
       mImage = nil
        mColor = color
-
     }
+
 
     func load() {
-        if mImage != nil {
-            display(img: mImage!)
-
-        }else if mColor != nil {
-            if let img =  GuisoUtils.imageColor(color: mColor!){
-                display(img: img)
-            }
-        }else{
-            if let img =  UIImage(named: mName ?? ""){
-                display(img: img)
-            }
-        }
-        
-    }
-    
-    private func display(img: UIImage){
-        if(!mIsCancelled){
-          self.mTarget?.onHolder(img)
-        }
+       if mImage != nil {
+           mTarget?.onHolder(mImage)
+       }else if mColor != nil {
+           let img = GuisoUtils.imageColor(color: mColor!)
+           mTarget?.onHolder(img)
+       }else{
+           let img = UIImage(named: mName ?? "")
+             mTarget?.onHolder(img)
+       }
     }
 
-    func setTarget(_ target:ViewTarget?) -> GuisoPlaceHolder{
+    func setTarget(_ target:ViewTarget?){
        mTarget = target
-        return self
     }
     
- 
-    
-    private var mIsCancelled = false
-    func cancel(){
-        mIsCancelled = true
-    }
     
 }

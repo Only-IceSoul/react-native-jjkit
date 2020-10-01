@@ -135,7 +135,7 @@ public class GuisoOptions {
       }
       @discardableResult
       public func diskCacheStrategy(_ strategy: Guiso.DiskCacheStrategy) -> GuisoOptions{
-          mDiskCacheStrategy = strategy == .none ? strategy : .automatic
+          mDiskCacheStrategy = strategy
           return self
       }
     @discardableResult

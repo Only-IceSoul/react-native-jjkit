@@ -20,24 +20,18 @@ class GuisoRequestThumb : Runnable {
     private var mScale : Guiso.ScaleType!
     private var mGifDecoder : GifDecoderProtocol!
     private var mSaver:GuisoSaver!
-    private var mParentPlaceholder: GuisoPlaceHolder?
     init(model:Any,options:GuisoOptions,_ target: ViewTarget?, loader: LoaderProtocol,gifDecoder : GifDecoderProtocol) {
         mOptions = options
         mModel = model
         mGifDecoder = gifDecoder
         mTarget = target
-    
         mLoader = loader
         mScale = mOptions.getScaleType()  == .none ? getScaleTypeFrom(mTarget?.getContentMode() ?? .scaleAspectFit): mOptions.getScaleType()
         let key = makeKey(mOptions.getIsOverride())
         mKey = key.toString()
         mTransformer = GuisoTransform(scale: mScale, l: mOptions.getLanczos())
-        mSaver = GuisoSaver(mOptions.getDiskCacheStrategy(), format: key.getExtension(),skipMemory: mOptions.getSkipMemoryCache() )
+        mSaver = GuisoSaver( format: key.getExtension() )
         if mOptions.getSignature().isEmpty { mKey = "" }
-    }
-    
-    func setParentPlaceholder(_ ph:GuisoPlaceHolder?){
-        mParentPlaceholder = ph
     }
     
     
@@ -46,7 +40,7 @@ class GuisoRequestThumb : Runnable {
         if !updateImageFromCache()  {
             if !updateFromSourceCache(){
                 
-                mLoader.loadData(model: mModel!, width: mOptions.getWidth(), height: mOptions.getHeight(), options: mOptions) { (result, type,error) in
+                mLoader.loadData(model: mModel!, width: mOptions.getWidth(), height: mOptions.getHeight(), options: mOptions) { (result, type,error,dataSource) in
                     if Thread.isMainThread {
                         Guiso.get().getExecutor().doWork {
                             if self.mOptions.getAsGif() {
@@ -248,7 +242,6 @@ class GuisoRequestThumb : Runnable {
     func displayInTarget(_ img:UIImage){
         DispatchQueue.main.async {
             if !self.mIsCancelled {
-                self.mParentPlaceholder?.cancel()
                 self.mTarget?.onThumbReady(img)
             }
         }
@@ -257,13 +250,17 @@ class GuisoRequestThumb : Runnable {
        DispatchQueue.main.async {
         if  !self.mIsCancelled {
             let layer = GifLayer(gif)
-            self.mParentPlaceholder?.cancel()
             self.mTarget?.onThumbReady(layer)
            }
        }
     }
     func onLoadFailed(){
-      //thumb failed
+        DispatchQueue.main.async {
+            if !self.mIsCancelled {
+                self.mOptions.getErrorHolder()?.setTarget(self.mTarget)
+                self.mOptions.getErrorHolder()?.load(true)
+            }
+        }
     }
     
 

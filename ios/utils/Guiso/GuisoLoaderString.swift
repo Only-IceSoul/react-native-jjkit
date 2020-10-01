@@ -16,7 +16,7 @@ class GuisoLoaderString : LoaderProtocol {
     private var mUrl = ""
     private var mOptions : GuisoOptions!
     private var mUrlFile = false
-    private var mCallback: ((Any?,Guiso.LoadType,String)-> Void)?
+    private var mCallback: ((Any?,Guiso.LoadType,String,Guiso.DataSource)-> Void)?
     
     private var mWebType : URLSessionTask?
     private var mWebLoad : URLSessionTask?
@@ -25,10 +25,10 @@ class GuisoLoaderString : LoaderProtocol {
     private var mPha : PHAsset?
     private var mPhaId : PHContentEditingInputRequestID?
   
-    func loadData(model: Any, width: CGFloat, height: CGFloat, options: GuisoOptions,callback:@escaping (Any?,Guiso.LoadType,String)-> Void) {
+    func loadData(model: Any, width: CGFloat, height: CGFloat, options: GuisoOptions,callback:@escaping (Any?,Guiso.LoadType,String,Guiso.DataSource)-> Void) {
         mCallback = callback
         guard let url = model as? String else {
-            sendResult(nil,.data,"model is nil or incorrect ")
+            sendResult(nil,.data,"model is nil or not a string",.remote)
             return
         }
         mOptions = options
@@ -64,7 +64,7 @@ class GuisoLoaderString : LoaderProtocol {
                 assetAudio()
             }else{
                 guard let a = getAsset(identifier: mUrl)
-                else{ callback(nil,.data,"failed get Asset")
+                else{ callback(nil,.data,"failed get asset",.local)
                     return
                 }
                 if a.mediaType == .video {
@@ -88,11 +88,11 @@ class GuisoLoaderString : LoaderProtocol {
     mWebLoad = session.dataTask(with: request) { (data, response, error) in
             if error != nil {
                 print("ImageWorker:error - updateWebImage -> ",error!)
-                self.sendResult(nil,.data,error!.localizedDescription)
+                self.sendResult(nil,.data,error!.localizedDescription,.remote)
                 return
             }
             
-        self.sendResult(data,.data,"")
+        self.sendResult(data,.data,"",.remote)
             
         }
         self.mWebLoad?.priority = getPriorityWeb()
@@ -106,10 +106,10 @@ class GuisoLoaderString : LoaderProtocol {
         guard let url = URL(string: mUrl),
             let data = try? Data(contentsOf: url)
                 else {
-                    self.sendResult(nil,.data,"file url : can't get the file")
+            self.sendResult(nil,.data,"file : can't get the file",.local)
                    return
                }
-        self.sendResult(data,.data,"")
+        self.sendResult(data,.data,"",.local)
     }
     
     //MARk: fetcher Asset
@@ -125,14 +125,15 @@ class GuisoLoaderString : LoaderProtocol {
         mPha = asset
        mPhaId = asset.requestContentEditingInput(with: options) { (value, info) in
             guard let url = value?.fullSizeImageURL else {
-                self.sendResult(nil,.data,"asset: can't get image url")
+                self.sendResult(nil,.data,"asset: can't get image url",.local)
                 return
             }
             do{
                 let imageData = try Data(contentsOf: url)
-                self.sendResult(imageData,.data,"")
+                self.sendResult(imageData,.data,"",.local)
             }catch let e as NSError {
-                self.sendResult(nil,.data,"asset: can't get the file with url \(url)")
+                self.sendResult(nil,.data,"asset: can't get the file with url \(url)",.local)
+              
                 print("GuisoLoaderString - asset:error -> ",e)
             }
             self.mPha = nil
@@ -152,7 +153,7 @@ class GuisoLoaderString : LoaderProtocol {
                     self.avAssetVideoAsync(avasset!)
                     
                 }else{
-                    self.sendResult(nil,.data,"asset: could not get avasset")
+                    self.sendResult(nil,.data,"asset: could not get avasset",.local)
                 }
             self.mPhId = nil
         }
@@ -167,11 +168,11 @@ class GuisoLoaderString : LoaderProtocol {
         let mediaItems = query.items
         guard let media = mediaItems?.first,
            let artwork =  media.artwork else {
-            self.sendResult(nil,.uiimg,"asset: could not get artwork")
+            self.sendResult(nil,.uiimg,"asset: could not get artwork",.local)
             return
           }
         let img = artwork.image(at: CGSize(width: 220, height: 220))
-        self.sendResult(img,.uiimg,"")
+        self.sendResult(img,.uiimg,"",.local)
     }
     
    
@@ -180,7 +181,7 @@ class GuisoLoaderString : LoaderProtocol {
     private func urlVideo(){
         let header = mOptions.getHeader()?.getFields()
         guard let videoUrl = URL(string: mUrl) else {
-            self.sendResult(nil,.uiimg,"url: not correct format ")
+            self.sendResult(nil,.uiimg,"url: not correct format ",.remote)
             return
         }
         let asset = header != nil && !mUrlFile ? AVURLAsset(url: videoUrl, options: ["AVURLAssetHTTPHeaderFieldsKey": header! ] ) : AVURLAsset(url: videoUrl)
@@ -203,10 +204,12 @@ class GuisoLoaderString : LoaderProtocol {
         let timestamp = CMTime(seconds: mOptions.getFrameSecond(), preferredTimescale: 1)
         generator.generateCGImagesAsynchronously(forTimes: [NSValue(time: timestamp)]) { (time, cg, time2, result, error) in
                 
+            let typeSoruce:Guiso.DataSource = self.mUrlFile ? .local : .remote
+            
             if cg != nil {
-                self.sendResult(UIImage(cgImage: cg!), .uiimg,"")
+                self.sendResult(UIImage(cgImage: cg!), .uiimg,"",typeSoruce)
             }else{
-                 self.sendResult(nil, .uiimg,"asset: failed generating image from video")
+                self.sendResult(nil, .uiimg,"asset: failed generating image from video",typeSoruce)
             }
         }
          
@@ -219,14 +222,14 @@ class GuisoLoaderString : LoaderProtocol {
        
        
         guard let audioUrl = URL(string: mUrl) else {
-            self.sendResult(nil,.uiimg,"url: not correct format")
+            self.sendResult(nil,.uiimg,"url: not correct format",.remote)
             return
         }
-    
+        let typeSoruce:Guiso.DataSource = self.mUrlFile ? .local : .remote
         let asset = header != nil && !mUrlFile ? AVURLAsset(url: audioUrl, options: ["AVURLAssetHTTPHeaderFieldsKey": header! ] ) : AVURLAsset(url: audioUrl)
                
         let result = avAssetAudio(asset)
-        self.sendResult(result,.uiimg,"")
+        self.sendResult(result,.uiimg,"",typeSoruce)
     }
     private func avAssetAudio(_ asset:AVAsset) -> UIImage?{
         
@@ -348,8 +351,8 @@ class GuisoLoaderString : LoaderProtocol {
         }
     }
     
-    func sendResult(_ obj:Any?,_ type: Guiso.LoadType,_ error:String){
-        mCallback?(obj,type,error)
+    func sendResult(_ obj:Any?,_ type: Guiso.LoadType,_ error:String,_ source:Guiso.DataSource){
+        mCallback?(obj,type,error,source)
         mCallback = nil
     }
     

@@ -102,6 +102,14 @@ public class Guiso {
          case data,
          uiimg
       }
+    
+    public enum DataSource {
+        case local,
+             remote,
+             memoryCache,
+             dataDiskCache,
+             resourceDiskCache
+    }
       
     
     func writeToCacheFolder(_ data:Data,name:String) -> URL? {

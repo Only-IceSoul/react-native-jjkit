@@ -526,7 +526,12 @@ class PhotoKit : NSObject, RCTBridgeModule {
                 "UNDETERMINED" : 0,
                 "DENIED" : 2,
                 "cover" : 0,
-                "contain" : 1]
+                "contain" : 1,
+                "NONE" : 1,
+                "ALL" : 2,
+                "DATA" : 3,
+                "RESOURCE" : 4,
+                "AUTOMATIC" : 0]
    }
       
        
