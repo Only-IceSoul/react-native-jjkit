@@ -15,6 +15,7 @@ import androidx.core.graphics.drawable.toDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
@@ -56,7 +57,8 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
         if(data != null) {
             val w = try {  data.getInt("width") }catch(e:Exception) {  -1 }
             val h = try { data.getInt("height") }catch(e:Exception) {  -1 }
-            val cache =try { data.getBoolean("cache") }catch(e:Exception) { true }
+            val skipMemoryCache =try { data.getBoolean("skipMemoryCache") }catch(e:Exception) { false }
+            val diskCacheStrategy = try { data.getInt("diskCacheStrategy") }catch(e:Exception) { 0 }
             val uri =  try { data.getString("uri") } catch(e:Exception) { null }
             val asGif = try { data.getBoolean("asGif") }catch(e:Exception) { false }
             val placeholder = try { data.getString("placeholder") }catch(e:Exception) { null }
@@ -68,15 +70,15 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
             val resize = w != -1 && h != -1
             val reqW = if (w > 20) w else 20
             val reqH = if (h > 20) h else 20
-            updateImage(uri,placeholder, cache, headers, priority,asGif,resize,reqW, reqH)
+            updateImage(uri,placeholder, skipMemoryCache,diskCacheStrategy, headers, priority,asGif,resize,reqW, reqH)
 
         }
     }
 
-    private fun updateImage(url:String?, placeholder:String?, cache:Boolean, headers:ReadableMap?, priority: Priority, asGif:Boolean, resize:Boolean, reqW:Int, reqH:Int){
+    private fun updateImage(url:String?, placeholder:String?, cache:Boolean,diskCacheStrategy:Int, headers:ReadableMap?, priority: Priority, asGif:Boolean, resize:Boolean, reqW:Int, reqH:Int){
         val reactContext = WeakReference(context as ReactContext)
         Thread{
-            val options = getOptions(asGif,priority,cache,placeholder,resize,reqW,reqH)
+            val options = getOptions(asGif,priority,cache,diskCacheStrategy,placeholder,resize,reqW,reqH)
 
             Handler(Looper.getMainLooper()).post{
 
@@ -167,10 +169,14 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
     }
 
 
-    private fun getOptions(asGif:Boolean, priority: Priority, cache:Boolean, placeholder: String?, resize:Boolean, reqW:Int, reqH:Int):RequestOptions{
+    private fun getOptions(asGif:Boolean, priority: Priority, cache:Boolean,diskCacheStrategy:Int, placeholder: String?, resize:Boolean, reqW:Int, reqH:Int):RequestOptions{
+
+        val ds = getDiskCacheStrategy(diskCacheStrategy)
+
         var options = RequestOptions()
                 .skipMemoryCache(cache)
                 .priority(priority)
+                .diskCacheStrategy(ds)
 
 
         load(placeholder)?.toDrawable(context.resources)?.let {
@@ -184,6 +190,16 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
         }
 
         return options
+    }
+
+    private fun getDiskCacheStrategy(strategy: Int): DiskCacheStrategy {
+        return when(strategy){
+            1 -> DiskCacheStrategy.NONE
+            2 -> DiskCacheStrategy.ALL
+            3 -> DiskCacheStrategy.DATA
+            4 -> DiskCacheStrategy.RESOURCE
+            else -> DiskCacheStrategy.AUTOMATIC
+        }
     }
 
     private fun load(model: String?) : Bitmap? {
