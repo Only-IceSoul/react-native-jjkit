@@ -32,6 +32,8 @@ import Foundation
     
     
     static func into(_ target: ViewTarget, builder:GuisoRequestBuilder) -> ViewTarget? {
+        
+        target.onHolder(nil)
           builder.getOptions().getPlaceHolder()?.setTarget(target)
           builder.getOptions().getPlaceHolder()?.load()
          

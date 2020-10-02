@@ -192,6 +192,7 @@ class ImageView: UIImageView , ViewTarget {
        
        //error, placeholder, fallback
        public func onHolder(_ image: UIImage?) {
+           removeGif()
            self.image = image
        }
     
