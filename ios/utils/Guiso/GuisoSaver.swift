@@ -6,15 +6,11 @@
 //
 
 import UIKit
-
+import CoreServices
 
 class GuisoSaver {
     
-    private var mFormat = "png"
 
-    init(format:String) {
-        mFormat = format
-    }
     
     func saveToMemoryCache(key:String,image:UIImage?){
           if image == nil { return  }
@@ -31,7 +27,7 @@ class GuisoSaver {
     func saveToDiskCache(key:String,image:UIImage?){
         if image?.cgImage == nil { return  }
         let diskCache = Guiso.get().getDiskCache()
-        if let data = makeImageData(image!, format: mFormat){
+        if let data = makeImageData(image!){
               diskCache.add(key, data: data,isUpdate: false)
         }
         
@@ -54,5 +50,21 @@ class GuisoSaver {
             default:
              return img.jpegData(compressionQuality: 1)
         }
+    }
+    
+    
+    private func makeImageData(_ img:UIImage)-> Data?{
+        let alpha = img.cgImage!.alphaInfo
+            let hasAlpha = alpha == CGImageAlphaInfo.first ||
+                    alpha == CGImageAlphaInfo.last ||
+                    alpha == CGImageAlphaInfo.premultipliedFirst ||
+                alpha == CGImageAlphaInfo.premultipliedFirst
+        
+        if hasAlpha {
+            return img.pngData()
+        }else{
+            return img.jpegData(compressionQuality: 0.9)
+        }
+                    
     }
 }

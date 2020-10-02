@@ -33,18 +33,17 @@ public class Key {
         mTransform = transform
     }
 
-     private var ext = ""
+
     public func toString() -> String {
         var exact = mExactFrame ? "t" : "f"
          var e = ""
         if mIsGif {
-            ext = ".gif"
             e = "GIF"
             exact = "f"
             mFrame = 0
         }else{
-            ext = ".\(self.mSignature.getExtImage())"
-            e = ext
+   
+            e = "IMG"
         }
       
         
@@ -81,10 +80,7 @@ public class Key {
     }
     
   
-    
-    public func getExtension() -> String {
-        return ext.replacingOccurrences(of: ".", with: "")
-    }
+
     
     private func cleanSignature(){
      

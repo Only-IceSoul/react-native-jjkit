@@ -30,7 +30,7 @@ class GuisoPreload : Runnable {
         let key = makeKey()
         mKey = key.toString()
         mTransformer = GuisoTransform(scale: mScale, l: mOptions.getLanczos())
-        mSaver = GuisoSaver(format: key.getExtension())
+        mSaver = GuisoSaver()
 
     }
     

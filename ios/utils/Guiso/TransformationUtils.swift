@@ -319,6 +319,13 @@ public class TransformationUtils {
            return   resizedCGImage
        }
       
+    
+    public static func cleanImage(_ img:UIImage) -> UIImage{
+        let cg = img.cgImage!
+        let result = resizeImage(cgImage: cg, targetWidth: CGFloat(cg.width), targetHeight: CGFloat(cg.height))
+        
+        return result != nil ? UIImage(cgImage: result!) : img
+    }
 
     
     //MARK: Gif

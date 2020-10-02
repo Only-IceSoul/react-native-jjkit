@@ -35,7 +35,7 @@ public class GuisoRequest : Runnable {
         let key = makeKey()
         mKey = key.toString()
         mTransformer = GuisoTransform(scale: mScale, l: mOptions.getLanczos())
-        mSaver = GuisoSaver(format: key.getExtension())
+        mSaver = GuisoSaver()
         
     }
     
@@ -84,6 +84,7 @@ public class GuisoRequest : Runnable {
                 self.onLoadFailed("Data to image ,loader error -> \(error)")
                     return
             }
+        
              saveData(img,dataSource)
             transformDisplayCacheImage(img,dataSource)
             
@@ -149,9 +150,10 @@ public class GuisoRequest : Runnable {
         final  = self.mOptions.getTransformer()?.transformImage(img: img, outWidth: mOptions.getWidth(), outHeight: mOptions.getHeight())
         }
         if final != nil {
-            self.displayInTarget(final!)
-            saveToMemoryCache(final!)
-            saveResource(final!,dataSource,isTransformed)
+            let cleaned = TransformationUtils.cleanImage(final!)
+            self.displayInTarget(cleaned)
+            saveToMemoryCache(cleaned)
+            saveResource(cleaned,dataSource,isTransformed)
         }else{
             self.onLoadFailed("failed transformation")
         }
@@ -193,6 +195,7 @@ public class GuisoRequest : Runnable {
         if mKey.isEmpty { return }
         let st =  mOptions.getDiskCacheStrategy()
         if st == .data && dataSource != .dataDiskCache {
+            
             self.mSaver.saveToDiskCache(key: sourceKey().toString(), image: img)
         }
         if st == .automatic ||  st == .all &&  dataSource == .remote {
@@ -319,10 +322,12 @@ public class GuisoRequest : Runnable {
             
             if diskStrategy != .none {
                   if let data = diskCache.get(mKey) {
+            
                         if let img =  UIImage(data: data) {
-                             displayInTarget(img)
+                           let cleaned = TransformationUtils.cleanImage(img)
+                             displayInTarget(cleaned)
                             if !skipCache {
-                                cache.add(mKey, val: img, isUpdate: false)
+                                cache.add(mKey, val: cleaned, isUpdate: false)
                                 
                             }
                             return true
