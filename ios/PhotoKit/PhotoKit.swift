@@ -57,138 +57,146 @@ class PhotoKit : NSObject, RCTBridgeModule {
            }
        }
     
-    @objc func fetch(_ media:String?, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
+    @objc func fetch(_ query:[String:Any]?, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
         Guiso.get().getExecutor().doWork {
-            var mAlbumList = [[String:Any]]()
-            var mMediaList = [[String:Any]]()
-
-            let albums = self.getAllAlbums()
+            
+            var albumList = [[String:Any]]()
+            var mediaList = [[String:Any]]()
+            
+            let media = query!["query"] as? String ?? "all"
+            let names  = query!["names"] as? [String] ?? [String]()
+            let limit = query!["limit"] as? Int ?? -1
+            let offset = query!["offset"] as? Int ?? -1
+            
+            let albums = names.isEmpty ? self.getAllAlbums() : self.getAlbums(names: names)
+            
+            var justGif = false
+            var allowGif = true
+            
+            let off = offset < 1 ? 0 : offset
+            let li = limit < 1 ? -1 : limit
+           
+            var counter = 0
+            var shouldEnd = false
+            var counterLimit = 0
+            
              if albums.count > 0 {
                  for i in 0...(albums.count-1){
-                     let a = albums[i]
-                  let datas = PhotoKit.getAssets(fromCollection: a)
-                   
-                   if(datas.count > 0){
-                      var ga = [String:Any]()
-                         ga["count"] = datas.count
-                         ga["id"] =  PhotoKit.generateId()
-                         ga["name"] = a.localizedTitle
+                    
+                    let album = albums[i]
+                    var medias = PHFetchResult<PHAsset>()
+                    switch media {
+                    case "image":
+                        medias = PhotoKit.getAssetsImages(fromCollection: album)
+                        break
+                    case "video":
+                        medias = PhotoKit.getAssetsVideos(fromCollection: album)
+                        break
+                    case "gif":
+                        medias = PhotoKit.getAssetsImages(fromCollection: album)
+                        justGif = true
+                        break
+                    case "photo":
+                        allowGif = false
+                        medias = PhotoKit.getAssetsImages(fromCollection: album)
+                        break
+                    case "video_gif":
+                        justGif = true
+                        medias = PhotoKit.getAssets(fromCollection: album)
+                        break
+                    case "video_photo":
+                        medias = PhotoKit.getAssets(fromCollection: album)
+                        allowGif = false
+                        break
+                    default:
+                        medias = PhotoKit.getAssets(fromCollection: album)
+                        break
+                    }
+                    
 
-                         var firstItem = true
-                          let type = media ?? "all"
-                         for index in 0...datas.count-1{
-                           let m = datas.object(at: index)
-                      
-                           var shouldContinue = false
-                       switch type {
-                           case "image":
-                               shouldContinue = m.mediaType != .image
-                               break
-                           case "video":
-                               shouldContinue = m.mediaType != .video
-                               break
-                           case "gif":
-                               if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                  if mt == kUTTypeGIF as String{
-                                      shouldContinue = false
-                                  }else{
-                                     shouldContinue = true
-                                   }
-                                  
-                               }else{
-                                   shouldContinue = true
-                               }
-                               break
-                           case "photo":
-                               shouldContinue = m.mediaType != .image
-                               if !shouldContinue {
-                                   if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                        if mt == kUTTypeGIF as String{
-                                            shouldContinue = true
-                                        }else{
-                                           shouldContinue = false
-                                         }
-                                    
-                                   }else{
-                                     shouldContinue = true
-                                   }
-                               }
-                                break
-                            case "video_gif":
-                                 shouldContinue = m.mediaType != .video
-                                 if shouldContinue {
-                                    if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                          if mt == kUTTypeGIF as String{
-                                              shouldContinue = false
-                                          }else{
-                                             shouldContinue = true
-                                           }
-                                      
-                                    }else{
-                                       shouldContinue = true
-                                    }
-                                 }
-                                break
-                       case "video_photo":
-                            shouldContinue = m.mediaType != .video
-                            if shouldContinue {
-                                if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                     if mt == kUTTypeGIF as String{
-                                         shouldContinue = true
-                                     }else{
-                                        shouldContinue = false
-                                      }
-                                 
-                                }else{
-                                  shouldContinue = true
-                                }
-                            }
-                            break
-                           default:
-                               shouldContinue = false
-                           }
-
-                           if shouldContinue {
-                               continue
-                           }
-                           
-                             let assetResources = PHAssetResource.assetResources(for: m)
-                             let name = assetResources.first?.originalFilename
-                     
-                          var media = [String:Any]()
-                             media["albumId"] = ga["id"]
-                             media["albumName"] = ga["name"]
-                             media["displayName"] = name
-                             media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
-                             media["duration"] = m.duration
-                             media["height"] = m.pixelHeight
-                             media["width"] = m.pixelWidth
-                             media["mediaType"] = m.mediaType == .image ? "image" : "video"
-                              media["uri"] = m.localIdentifier
+                   if(medias.count > 0){
+                    var a = [String:Any]()
+                    var arrM = [[String:Any]]()
+                       a["count"] = 0
+                       a["id"] =  PhotoKit.generateId()
+                       a["name"] = album.localizedTitle
+                    var addThumbnail = true
+                    
+                    for id in 0...medias.count-1 {
+                        let m = medias.object(at: id)
+                        
+                       
+                        if(m.mediaType == .image && justGif && allowGif){
                             if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                if type == kUTTypeGIF as String{
-                                    media["mediaType"] = "gif"
+                                if !(type == kUTTypeGIF as String){
+                                    continue
                                 }
-                                
                             }
-                           if firstItem{
-                               firstItem = false
-                               ga["mediaType"] = media["mediaType"]
-                               ga["uri"] = media["uri"]
-                               mAlbumList.append(ga)
-                           }
-                             
-                           mMediaList.append(media)
-                         }
-                         
-
-                         
-                     }//datas cond > 0
-                 }//for albums
+                        }
+                        if (m.mediaType == .image && !allowGif){
+                            if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                if (type == kUTTypeGIF as String){
+                                    continue
+                                }
+                            }
+                        }
+                        
+                        counter += 1
+                        if counter <= off {
+                            continue
+                        }
+                        
+                        a["count"] = a["count"] as! Int + 1
+                        let assetResources = PHAssetResource.assetResources(for: m)
+                        let name = assetResources.first?.originalFilename
+                        var media = [String:Any]()
+                        media["albumId"] = a["id"]
+                        media["albumName"] = a["name"]
+                        media["displayName"] = name
+                        media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
+                        media["duration"] = m.duration
+                        media["height"] = m.pixelHeight
+                        media["width"] = m.pixelWidth
+                        media["mediaType"] = m.mediaType == .image ? "image" : "video"
+                        media["uri"] = m.localIdentifier
+                        if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
+                            if type == kUTTypeGIF as String{
+                                media["mediaType"] = "gif"
+                            }
+                            
+                        }
+                        arrM.append(media)
+                        
+                        if addThumbnail {
+                            a["mediaType"] = media["mediaType"]
+                            a["uri"] = media["uri"]
+                            addThumbnail = false
+                        }
+                        
+                    
+                        counterLimit += 1
+                        if(li > 0 && counterLimit >= li){
+                            shouldEnd = true
+                        }
+                        
+                        if shouldEnd { break }
+                            
+                    } //for medias
+                        
+                    if(a["count"] as! Int > 0){
+                        mediaList.append(contentsOf: arrM)
+                        albumList.append(a)
+                    }
+                    
+                }//medias cond > 0
+                    
+                    if shouldEnd { break }
+                    
+            }//for albums
                
-            }//albums count filtered
+        }//albums count filtered
              
-            resolve([mAlbumList,mMediaList])
+        resolve([albumList,mediaList])
        
 
         }
@@ -196,164 +204,100 @@ class PhotoKit : NSObject, RCTBridgeModule {
     }
     
 
-    @objc func fetchAlbums(_ names:NSArray?,media:String?, resolve: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock){
-         Guiso.get().getExecutor().doWork {
-             var mAlbumList = [[String:Any]]()
-             var mMediaList = [[String:Any]]()
-          
-          
-          if names == nil {
-              resolve(nil)
-          }else{
-              var arr = [String]()
-              for i in 0...(names!.count - 1){
-                  let s = names!.object(at: i) as? String
-                  if s != nil && !s!.isEmpty{
-                      let rs = s!.folding(options: .diacriticInsensitive, locale: .current)
-              
-                      arr.append(rs)
-                  }
-              }
-              
-              if arr.count < 1 {
-                  resolve(nil)
+
+    
+    @objc func fetchAlbums(_ media:String?,resolve: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock){
+        Guiso.get().getExecutor().doWork {
+            var albumList = [[String:Any]]()
+            let albums = self.getAllAlbums()
+            var justGif = false
+            var allowGif = true
+            if(albums.count > 0){
+                
+                for i in 0...(albums.count-1){
+                    let album = albums[i]
+                    var medias = PHFetchResult<PHAsset>()
+                    switch media {
+                    case "image":
+                        medias = PhotoKit.getAssetsImages(fromCollection: album)
+                        break
+                    case "video":
+                        medias = PhotoKit.getAssetsVideos(fromCollection: album)
+                        break
+                    case "gif":
+                        medias = PhotoKit.getAssetsImages(fromCollection: album)
+                        justGif = true
+                        break
+                    case "photo":
+                        allowGif = false
+                        medias = PhotoKit.getAssetsImages(fromCollection: album)
+                        break
+                    case "video_gif":
+                        justGif = true
+                        medias = PhotoKit.getAssets(fromCollection: album)
+                        break
+                    case "video_photo":
+                        medias = PhotoKit.getAssets(fromCollection: album)
+                        allowGif = false
+                        break
+                    default:
+                        medias = PhotoKit.getAssets(fromCollection: album)
+                        break
+                    }
+                 
                   
-              }else{
-          
-                  let albums = self.getAlbums(names: arr)
-                    if albums.count > 0 {
-                        for i in 0...(albums.count-1){
-                            let a = albums[i]
-                         let datas = PhotoKit.getAssets(fromCollection: a)
-                          
-                          if(datas.count > 0){
-                             var ga = [String:Any]()
-                                ga["count"] = datas.count
-                                ga["id"] =  PhotoKit.generateId()
-                                ga["name"] = a.localizedTitle
-
-                                var firstItem = true
-                                 let type = media ?? "all"
-                                for index in 0...datas.count-1{
-                                  let m = datas.object(at: index)
-                             
-                                  var shouldContinue = false
-                                 
-                      switch type {
-                          case "image":
-                              shouldContinue = m.mediaType != .image
-                              break
-                          case "video":
-                              shouldContinue = m.mediaType != .video
-                              break
-                          case "gif":
-                              if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                 if mt == kUTTypeGIF as String{
-                                     shouldContinue = false
-                                 }else{
-                                    shouldContinue = true
-                                  }
-                                 
-                              }else{
-                                  shouldContinue = true
-                              }
-                              break
-                              case "photo":
-                                  shouldContinue = m.mediaType != .image
-                                  if !shouldContinue {
-                                      if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                           if mt == kUTTypeGIF as String{
-                                               shouldContinue = true
-                                           }else{
-                                              shouldContinue = false
-                                            }
-                                       
-                                      }else{
-                                        shouldContinue = true
-                                      }
-                                  }
-                                break
-                            case "video_gif":
-                                shouldContinue = m.mediaType != .video
-                                if shouldContinue {
-                                   if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                     if mt == kUTTypeGIF as String{
-                                         shouldContinue = false
-                                     }else{
-                                        shouldContinue = true
-                                      }
-                                     
-                                   }else{
-                                      shouldContinue = true
-                                   }
-                                }
-                               break
-                              case "video_photo":
-                                   shouldContinue = m.mediaType != .video
-                                   if shouldContinue {
-                                       if let mt = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                            if mt == kUTTypeGIF as String{
-                                                shouldContinue = true
-                                            }else{
-                                               shouldContinue = false
-                                             }
-                                        
-                                       }else{
-                                         shouldContinue = true
-                                       }
-                                   }
-                                   break
-                                  default:
-                                      shouldContinue = false
-                                  }
-                                  
-                                  
-                                  if shouldContinue {
-                                      continue
-                                  }
-                                  
-                                    let assetResources = PHAssetResource.assetResources(for: m)
-                                    let name = assetResources.first?.originalFilename
+                
+                    if medias.count > 0 {
+                        var a = [String:Any]()
+                           a["count"] = 0
+                           a["id"] =  PhotoKit.generateId()
+                           a["name"] = album.localizedTitle
+                        var addThumbnail = true
+                        for id in 0...medias.count-1 {
+                            let m = medias.object(at: id)
                             
-                                 var media = [String:Any]()
-                                    media["albumId"] = ga["id"]
-                                    media["albumName"] = ga["name"]
-                                    media["displayName"] = name
-                                    media["date"] = Int64((m.modificationDate?.timeIntervalSince1970 ?? Date().timeIntervalSince1970))
-                                    media["duration"] = m.duration
-                                    media["height"] = m.pixelHeight
-                                    media["width"] = m.pixelWidth
-                                    media["mediaType"] = m.mediaType == .image ? "image" : "video"
-                                     media["uri"] = m.localIdentifier
-                                   if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
-                                       if type == kUTTypeGIF as String{
-                                           media["mediaType"] = "gif"
-                                       }
-                                       
-                                   }
-                                  if firstItem{
-                                      firstItem = false
-                                      ga["mediaType"] = media["mediaType"]
-                                      ga["uri"] = media["uri"]
-                                      mAlbumList.append(ga)
-                                  }
-                                    
-                                  mMediaList.append(media)
+                           
+                            if(m.mediaType == .image && justGif && allowGif){
+                                if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                    if !(type == kUTTypeGIF as String){
+                                        continue
+                                    }
                                 }
-                                
+                            }
+                            if (m.mediaType == .image && !allowGif){
+                                if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                    if (type == kUTTypeGIF as String){
+                                        continue
+                                    }
+                                }
+                            }
+                            
+                            a["count"] = a["count"] as! Int + 1
+                            
+                            if addThumbnail {
+                                a["mediaType"] = m.mediaType == .image ? "image" : "video"
+                                    if let type = m.value(forKey: "uniformTypeIdentifier") as? String {
+                                        if type == kUTTypeGIF as String{
+                                            a["mediaType"] = "gif"
+                                        }
 
+                                    }
+                                a["uri"] = m.localIdentifier
+                                addThumbnail = false
+                            }
                                 
-                            }//datas cond > 0
-                        }//for albums
-                      
-                  }//albums count filtered
-                    
-                 resolve([mAlbumList,mMediaList])
-              }//names filtered
+                        } //for medias
+                        if(a["count"] as! Int > 0){
+                            albumList.append(a)
+                        }
+                    }//media count
 
-              } //names
-          }//thread
-          
+                }//for albums
+            }//album count
+            
+            resolve(albumList)
+            
+        }
     }
 
     func getAlbums(names:[String]) -> [PHAssetCollection]{
@@ -364,8 +308,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
              for i in 0...(smartAlbums.count-1){
                  let a = smartAlbums.object(at: i)
                  if let n = a.localizedTitle {
-                     let rs = n.folding(options: .diacriticInsensitive, locale: .current)
-                     if names.contains(rs){
+                     if names.contains(n){
                          result.append(a)
                      }
                  }
@@ -416,16 +359,18 @@ class PhotoKit : NSObject, RCTBridgeModule {
 
         static func getAssets(fromCollection collection: PHAssetCollection) -> PHFetchResult<PHAsset> {
            let options = PHFetchOptions()
-           options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+           options.sortDescriptors = [NSSortDescriptor(key: "modificationDate", ascending: false)]
            options.predicate = NSPredicate(format: "mediaType == %d || mediaType == %d",
            PHAssetMediaType.image.rawValue,
            PHAssetMediaType.video.rawValue)
            return PHAsset.fetchAssets(in: collection, options: options)
        }
+    
+   
        
-        static func getAssetsPhotos(fromCollection collection: PHAssetCollection) -> PHFetchResult<PHAsset> {
+        static func getAssetsImages(fromCollection collection: PHAssetCollection) -> PHFetchResult<PHAsset> {
              let options = PHFetchOptions()
-             options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+             options.sortDescriptors = [NSSortDescriptor(key: "modificationDate", ascending: false)]
              options.predicate = NSPredicate(format: "mediaType == %d",
              PHAssetMediaType.image.rawValue)
              return PHAsset.fetchAssets(in: collection, options: options)
@@ -433,7 +378,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
        
         static func getAssetsVideos(fromCollection collection: PHAssetCollection) -> PHFetchResult<PHAsset> {
            let options = PHFetchOptions()
-           options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+           options.sortDescriptors = [NSSortDescriptor(key: "modificationDate", ascending: false)]
            options.predicate = NSPredicate(format: "mediaType == %d",
            PHAssetMediaType.video.rawValue)
            return PHAsset.fetchAssets(in: collection, options: options)
@@ -461,7 +406,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
           var width = data?["width"] as? Int ?? 500
           var height = data?["height"] as? Int ?? 500
           let format = data?["format"] as? Int ?? 0
-          let quality = data?["quality"] as? CGFloat ?? 1
+        let quality = data?["quality"] as? CGFloat ?? 1
 
         width = width < 20 ? 20 : width
         height = height < 20 ? 20 : height

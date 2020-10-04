@@ -55,6 +55,8 @@ import Foundation
         }else{
             builder.getOptions().getFallbackHolder()?.setTarget(target)
             builder.getOptions().getFallbackHolder()?.load()
+            target.onLoadFailed("model is nil")
+            
         }
           return tracker
       }
