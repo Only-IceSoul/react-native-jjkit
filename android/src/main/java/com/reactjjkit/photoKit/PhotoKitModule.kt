@@ -171,8 +171,8 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val albumsNames: ArrayList<String> = ArrayList()
-                val l = if (limit < 1) -1 else limit
-                val off =  if (offset < 1) -1 else offset
+                val l = if (limit < 0) -1 else limit
+                val off =  if (offset < 0) -1 else offset
 
                 val whereArgs = mutableListOf<String>()
                 var where = ""
@@ -445,10 +445,11 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
             )
 
         val orderBy = "${MediaStore.Images.Media.DATE_ADDED} DESC"
-        val l = if(limit > 0) " LIMIT $limit ${if(offset > 0) "OFFSET $offset" else ""}" else ""
+        val l = " LIMIT $limit"
+        val off = " OFFSET $offset"
 
         val videoCursor =
-                ctx?.contentResolver?.query(videoQueryUri, mediaProjection, select, selectArgs, orderBy+l)
+                ctx?.contentResolver?.query(videoQueryUri, mediaProjection, select, selectArgs, orderBy+l+off)
 
         if (videoCursor != null && videoCursor.count > 0) {
             if (videoCursor.moveToFirst()) {
@@ -525,11 +526,11 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
         )
 
         val orderBy = "${MediaStore.Images.Media.DATE_ADDED} DESC"
-        val l = if(limit > 0) " LIMIT $limit ${if(offset > 0) "OFFSET $offset" else ""}" else ""
-
+        val l = " LIMIT $limit"
+        val off = " OFFSET $offset"
 
         val imagesCursor =
-                ctx?.contentResolver?.query(imagesQueryUri, mediaProjection, select, selectArgs, orderBy+l)
+                ctx?.contentResolver?.query(imagesQueryUri, mediaProjection, select, selectArgs, orderBy+l+off)
 
         if (imagesCursor != null && imagesCursor.count > 0) {
             if (imagesCursor.moveToFirst()) {
