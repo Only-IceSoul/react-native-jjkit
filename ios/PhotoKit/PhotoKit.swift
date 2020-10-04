@@ -74,13 +74,13 @@ class PhotoKit : NSObject, RCTBridgeModule {
             var allowGif = true
             
             let off = offset < 1 ? 0 : offset
-            let li = limit < 1 ? -1 : limit
+            let li = limit < 0 ? -1 : limit
            
             var counter = 0
             var shouldEnd = false
             var counterLimit = 0
             
-             if albums.count > 0 {
+             if albums.count > 0 && limit != 0{
                  for i in 0...(albums.count-1){
                     
                     let album = albums[i]

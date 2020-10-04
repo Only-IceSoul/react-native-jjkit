@@ -28,9 +28,9 @@ import { PhotoKit } from 'react-native-jjkit'
 
 
     //pagination
-     //limit : Constrains the maximum number of rows returned , default value -1,0,undefined ( all rows )
+     //limit : Constrains the maximum number of rows returned , default value -1 
     const limit = 100
-    // offset: the number of rows to skip , default value -1,0,undefined ( not skip )
+    // offset: the number of rows to skip , default value -1
     const offet = 50 
 
     const query = {
@@ -40,6 +40,11 @@ import { PhotoKit } from 'react-native-jjkit'
        offset: offset, 
 
     }
+
+    /*ORDER BY:
+      android -> date added DESC
+      ios -> modification Date DESC
+    */
 
     //fetches albums and medias
     PhotoKit.fetch(query).then(res => {
