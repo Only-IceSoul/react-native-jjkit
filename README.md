@@ -36,9 +36,12 @@ ios : 9.0+
 ## Change log
 
 
-**1.8.6**
+**1.9.0**
 
-- [Image](./readmes/image.md) diskCacheStrategy and skipMemoryCache
+- [PhotoKit](./readmes/photokit.md) 
+     - added pagination
+     - fetch method changed
+     - fetchalbums method only fetches albums
 
 
 

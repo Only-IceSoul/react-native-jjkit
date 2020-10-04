@@ -403,8 +403,8 @@ class PhotoKit : NSObject, RCTBridgeModule {
     @objc func requestImage(_ data:[String:Any]?, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
         
         let identifier = data?["uri"] as? String
-          var width = data?["width"] as? Int ?? 500
-          var height = data?["height"] as? Int ?? 500
+          var width = data?["width"] as? Int ?? 600
+          var height = data?["height"] as? Int ?? 600
           let format = data?["format"] as? Int ?? 0
         let quality = data?["quality"] as? CGFloat ?? 1
 

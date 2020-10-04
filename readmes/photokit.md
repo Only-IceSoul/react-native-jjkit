@@ -21,19 +21,36 @@ import { PhotoKit } from 'react-native-jjkit'
     PhotoKit.video_photo // video and photo
     PhotoKit.all  // image and video
 
-    PhotoKit.fetch(mediaQuery).then(res => {
+    // default value null , empty,undefined (all albums)
+    var names = ["Pictures","Camera roll","WhatsApp","Whats App","whats app images"] 
+
+    var names = ["Pictures"] // one Album
+
+
+    //pagination
+     //limit : Constrains the maximum number of rows returned , default value -1,0,undefined ( all rows )
+    const limit = 100
+    // offset: the number of rows to skip , default value -1,0,undefined ( not skip )
+    const offet = 50 
+
+    const query = {
+       query: mediaQuery,
+       names: names,
+       limit: limit ,
+       offset: offset, 
+
+    }
+
+    //fetches albums and medias
+    PhotoKit.fetch(query).then(res => {
       console.log("albums: ",res[0])
       console.log("Images/Videos: ",res[1])
     })
    
 
-    var names = ["Pictures","Camera roll","WhatsApp","Whats App","whats app images"]
-    var oneAlbum = ["Pictures"]
-  
-
-    PhotoKit.fetchAlbums(names,mediaQuery).then(res => {
-        console.log("albums: ",res[0])
-        console.log("Images/Videos: ",res[1])
+   //only fetches albums
+    PhotoKit.fetchAlbums(mediaQuery).then(res => {
+        console.log("albums: ",res)
     })
    
 
@@ -69,7 +86,7 @@ Preview: Use [Image](image.md)
 | width |  The width of the image/video in pixels. | Number | 
 
 
-## Get Data
+## Get Bytes
 
 byte array encoded to base64 String
 

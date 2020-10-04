@@ -120,11 +120,11 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
 
     @ReactMethod
     fun requestImage(data:ReadableMap?,promise: Promise){
-        val identifier = data?.getString("uri")
-        val width = data?.getInt("width") ?: 500
-        val height = data?.getInt("height") ?: 500
-        val quality = data?.getDouble("quality") ?: 1.0
-        val format = data?.getInt("format") ?: 0
+        val identifier = try { data!!.getString("uri") } catch (e:Exception){ null}
+        val width = try { data!!.getInt("width") } catch (e:Exception){  600 }
+        val height =  try { data!!.getInt("height") } catch (e:Exception){  600 }
+        val quality =  try { data!!.getDouble("quality") } catch (e:Exception){ 1.0}
+        val format =  try { data!!.getInt("format") } catch (e:Exception){ 0 }
 
         if(identifier!= null && identifier.isNotEmpty()){
             val options = RequestOptions().fitCenter().frame(0L).override(width,height)
@@ -159,52 +159,83 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
 
 
     @ReactMethod
-    fun fetch(media:String?, promise: Promise)  {
+    fun fetch(query:ReadableMap?, promise: Promise)  {
         Thread {
             try{
+                val media = try {  query!!.getString("query") }catch(e: java.lang.Exception) {  "all" }
+                val names =  try {  query!!.getArray("names") }catch(e: java.lang.Exception) {  null }
+                val limit = try {   query!!.getInt("limit") }catch(e: java.lang.Exception) {  -1 }
+                val offset = try {   query!!.getInt("offset") }catch(e: java.lang.Exception) {  -1 }
+
+
                 val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
                 val albumsNames: ArrayList<String> = ArrayList()
+                val l = if (limit < 1) -1 else limit
+                val off =  if (offset < 1) -1 else offset
+
+                val whereArgs = mutableListOf<String>()
+                var where = ""
+                if(names != null){
+                    for (i in 0 until names.size()){
+                        val s = names.getString(i)
+                        if(!s.isNullOrEmpty()) {
+                            whereArgs.add(s)
+                        }
+                    }
+                }
+                if (whereArgs.size > 1){
+                    whereArgs.forEachIndexed { index, _ ->
+                        where += if (index != whereArgs.size - 1)
+                            "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ? OR "
+                        else
+                            "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ?"
+                    }
+                }else if (whereArgs.size > 0){
+                    where = "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ?"
+                }
+
+                val wFilterImage = if(where.isNotEmpty()) "($where) AND ${MediaStore.Images.Media.MIME_TYPE} != ?"  else "${MediaStore.Images.Media.MIME_TYPE} != ?"
+                val wVideo = if(where.isNotEmpty()) where else null
+                val argsVideo = if(whereArgs.isNotEmpty()) whereArgs.toTypedArray() else null
+                val wImage = if(where.isNotEmpty()) where else null
+                val argsImage = if(whereArgs.isNotEmpty()) whereArgs.toTypedArray() else null
 
                 when(media){
                     "image" -> {
-                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,null, null)
+
+                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,wImage, argsImage,l,off)
                     }
                     "video" -> {
-                        getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
+                        getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,wVideo,argsVideo,l,off)
                     }
                     "photo" ->{
                         val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
-                        val select = "${MediaStore.Images.Media.MIME_TYPE} != ?"
-                        val arr = arrayOf(mimeType)
-                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arr)
+                        whereArgs.add(mimeType)
+                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,wFilterImage,whereArgs.toTypedArray(),l,off)
                     }
                     "gif"->{
                         val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
-                        val select = "${MediaStore.Images.Media.MIME_TYPE} = ?"
-                        val arr = arrayOf(mimeType)
-                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arr)
+                        whereArgs.add(mimeType)
+                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,wFilterImage,whereArgs.toTypedArray(),l,off)
                     }
                     "video_gif"->{
                         val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
-                        val select = "${MediaStore.Images.Media.MIME_TYPE} = ?"
-                        val arr = arrayOf(mimeType)
-                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arr)
-                        getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
+                        whereArgs.add(mimeType)
+                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,wFilterImage,whereArgs.toTypedArray(),l,off)
+                        getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,wVideo,argsVideo,l,off)
                     }
                     "video_photo" ->{
                         val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
-                        val select = "${MediaStore.Images.Media.MIME_TYPE} != ?"
-                        val arr = arrayOf(mimeType)
-                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select,arr)
-                        getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
+                        whereArgs.add(mimeType)
+                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,wFilterImage,whereArgs.toTypedArray(),l,off)
+                        getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,wVideo,argsVideo,l,off)
                     }
                     else -> {
-                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
-                        getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,null,null)
+                        getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,wImage,argsImage,l,off)
+                        getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,wVideo,argsVideo,l,off)
                     }
                 }
-
 
                 val resultAlbum = Arguments.createArray()
                 val resultMedia = Arguments.createArray()
@@ -217,12 +248,14 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 val result = Arguments.createArray()
                 result.pushArray(resultAlbum)
                 result.pushArray(resultMedia)
+
+
                 Handler(Looper.getMainLooper()).post {
                     promise.resolve(result)
                 }
 
             }catch ( e: Exception){
-                Log.e("PhotoKit", "fetchPhotos:error $e")
+                Log.e("PhotoKit", "fetch:error $e")
                 Handler(Looper.getMainLooper()).post {
                     promise.reject(e)
                 }
@@ -231,114 +264,178 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
             Thread.currentThread().interrupt()
         }.start()
     }
+
     @ReactMethod
-    fun fetchAlbums(names:ReadableArray?, media: String?,promise: Promise)  {
-        if(names == null || names.size() < 1) {
-            promise.resolve(null)
-            return
-        }
-            Thread {
-                try{
-                    var select = ""
-                    val selectArgs = mutableListOf<String>()
-
-                    for (i in 0 until names.size()){
-                        val s = names.getString(i)
-                        if(!s.isNullOrEmpty()) {
-                            selectArgs.add(s)
-                        }
+    fun fetchAlbums(media:String?,promise:Promise){
+        Thread{
+            try{
+                val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
+                val albumsNames: ArrayList<String> = ArrayList()
+                val currentAlbums: ArrayList<String> = ArrayList()
+                when(media){
+                    "image" -> {
+                        getAlbumNames(reactContext,albumsNames,null,null)
+                        getAlbumsMap(reactContext,galleryAlbums,albumsNames,currentAlbums,null,null)
                     }
-
-                    if (selectArgs.size > 1){
-                        selectArgs.forEachIndexed { index, _ ->
-                            select += if (index != selectArgs.size - 1)
-                                "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ? OR "
-                            else
-                                "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ?"
-                        }
-                    }else if (selectArgs.size > 0){
-                        select = "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ?"
+                    "video" -> {
+                        getAlbumNames(reactContext,albumsNames,null,null,true)
+                        getAlbumsMap(reactContext,galleryAlbums,albumsNames,currentAlbums,null,null,true)
                     }
+                    "photo" ->{
+                        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
+                        val select = "${MediaStore.Images.Media.MIME_TYPE} != ?"
+                        val arr = arrayOf(mimeType)
+                        getAlbumNames(reactContext,albumsNames,select,arr)
+                        getAlbumsMap(reactContext,galleryAlbums,albumsNames,currentAlbums,select,arr)
+                    }
+                    "gif"->{
+                        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
+                        val select = "${MediaStore.Images.Media.MIME_TYPE} = ?"
+                        val arr = arrayOf(mimeType)
+                        getAlbumNames(reactContext,albumsNames,select,arr)
+                        getAlbumsMap(reactContext,galleryAlbums,albumsNames,currentAlbums,select,arr)
+                    }
+                    "video_gif"->{
+                        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
+                        val select = "${MediaStore.Images.Media.MIME_TYPE} = ?"
+                        val arr = arrayOf(mimeType)
+                        getAlbumNames(reactContext,albumsNames,select,arr)
+                        getAlbumNames(reactContext,albumsNames,select,arr,true)
 
-                    if (select.isEmpty()) {
-                        promise.resolve(null)
-                    }else{
-                        val galleryAlbums: ArrayList<MutableMap<String,Any>> = ArrayList()
-                        val galleryMedia: ArrayList<MutableMap<String,Any>> = ArrayList()
-                        val albumsNames: ArrayList<String> = ArrayList()
-                        val sArgs = selectArgs.toTypedArray()
-                        when (media) {
-                            "image" -> {
-                                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select, sArgs)
-                            }
-                            "video" -> {
-                                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
-                            }
-                            "gif" ->{
-                                val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
-                                val selectMod = "($select) AND ${MediaStore.Images.Media.MIME_TYPE} = ?"
-                                selectArgs.add(mimeType)
-                                val arr = selectArgs.toTypedArray()
-                                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
-                            }
-                            "photo" -> {
-                                val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
-                                val selectMod = "($select) AND ${MediaStore.Images.Media.MIME_TYPE} != ?"
-                                selectArgs.add(mimeType)
-                                val arr = selectArgs.toTypedArray()
-                                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
-                            }
-                            "video_gif"->{
-                                val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
-                                val selectMod = "($select) AND ${MediaStore.Images.Media.MIME_TYPE} = ?"
-                                selectArgs.add(mimeType)
-                                val arr = selectArgs.toTypedArray()
-                                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
-                                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
-                            }
-                            "video_photo" ->{
-                                val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
-                                val selectMod = "($select) AND ${MediaStore.Images.Media.MIME_TYPE} != ?"
-                                selectArgs.add(mimeType)
-                                val arr = selectArgs.toTypedArray()
-                                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,selectMod, arr)
-                                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
-                            }
-                            else -> {
-                                getGalleryImages(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
-                                getGalleryVideos(reactContext,galleryAlbums,galleryMedia,albumsNames,select,sArgs)
-                            }
-                         }
+                        getAlbumsMap(reactContext,galleryAlbums,albumsNames,currentAlbums,select,arr)
+                        getAlbumsMap(reactContext,galleryAlbums,albumsNames,currentAlbums,select,arr,true)
+                    }
+                    "video_photo" ->{
+                        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif") ?: "image/gif"
+                        val select = "${MediaStore.Images.Media.MIME_TYPE} != ?"
+                        val arr = arrayOf(mimeType)
+                        getAlbumNames(reactContext,albumsNames,select,arr)
+                        getAlbumNames(reactContext,albumsNames,select,arr,true)
 
-                            val resultAlbum = Arguments.createArray()
-                            val resultMedia = Arguments.createArray()
-                            for (a in galleryAlbums){
-                                resultAlbum.pushMap(Arguments.makeNativeMap(a))
-                            }
-                            for (m in galleryMedia){
-                                resultMedia.pushMap(Arguments.makeNativeMap(m))
-                            }
-                            val result = Arguments.createArray()
-                            result.pushArray(resultAlbum)
-                            result.pushArray(resultMedia)
-                            Handler(Looper.getMainLooper()).post {
-                                promise.resolve(result)
-                            }
-                        }
-                }catch ( e: Exception){
-                    Log.e("PhotoKit", "fetchAlbums:error $e")
-                    Handler(Looper.getMainLooper()).post {
-                        promise.reject(e)
+                        getAlbumsMap(reactContext,galleryAlbums,albumsNames,currentAlbums,select,arr)
+                        getAlbumsMap(reactContext,galleryAlbums,albumsNames,currentAlbums,select,arr,true)
+                    }
+                    else -> {
+                        getAlbumNames(reactContext,albumsNames,null,null)
+                        getAlbumNames(reactContext,albumsNames,null,null,true)
+
+                        getAlbumsMap(reactContext,galleryAlbums,albumsNames,currentAlbums,null,null)
+                        getAlbumsMap(reactContext,galleryAlbums,albumsNames,currentAlbums,null,null,true)
                     }
                 }
-                Thread.currentThread().interrupt()
-            }.start()
+                val resultAlbum = Arguments.createArray()
+                for (a in galleryAlbums){
+                    resultAlbum.pushMap(Arguments.makeNativeMap(a))
+                }
+
+                Handler(Looper.getMainLooper()).post {
+                    promise.resolve(resultAlbum)
+                }
+            }catch ( e: Exception){
+                Log.e("PhotoKit", "fetchAlbumNames:error $e")
+                Handler(Looper.getMainLooper()).post {
+                    promise.reject(e)
+                }
+            }
+            Thread.currentThread().interrupt()
+        }.start()
+
+    }
+
+    private fun getAlbumNames(ctx: Context?,albumsNames: ArrayList<String>, select:String?, selectArgs:Array<String>?, video:Boolean=false){
+        val imagesQueryUri = if(video) MediaStore.Video.Media.EXTERNAL_CONTENT_URI else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val mediaProjection = arrayOf(
+                "DISTINCT ${MediaStore.Video.Media.BUCKET_DISPLAY_NAME}"
+        )
+        val cursor =
+                ctx?.contentResolver?.query(imagesQueryUri, mediaProjection, select, selectArgs, null)
+
+        if (cursor != null && cursor.count > 0) {
+            if (cursor.moveToFirst()) {
+
+                val dataColumn =
+                        cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+                do {
+                    val name = cursor.getString(dataColumn)
+                    if(!albumsNames.contains(name)) {
+                        albumsNames.add(name)
+                    }
+                } while (cursor.moveToNext())
+                cursor.close()
+            } else{
+                Log.e("PhotoKit", "getAlbumNames:error Cursor is  empty")
+                cursor.close()
+            }
+        } else {
+            Log.e("PhotoKit", "getAlbumNames:error Cursor is null or empty")
+            cursor?.close()
+        }
+    }
+
+    private fun getAlbumsMap(ctx: Context?, galleryAlbums: ArrayList<MutableMap<String,Any>>,albumsNames: ArrayList<String>,currentAlbums:ArrayList<String>, select:String?, selectArgs:Array<String>?, video:Boolean=false){
+        val queryUri = if(video) MediaStore.Video.Media.EXTERNAL_CONTENT_URI else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val projection = if(video) arrayOf(
+                MediaStore.Video.Media._ID,
+                MediaStore.Video.Media.BUCKET_DISPLAY_NAME,
+                MediaStore.Video.Media.DATE_ADDED
+        ) else arrayOf(
+                MediaStore.Images.Media._ID,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+                MediaStore.Images.Media.DATE_ADDED,
+                MediaStore.Images.Media.MIME_TYPE
+        )
+        val orderBy = "${MediaStore.Images.Media.DATE_ADDED} DESC"
+
+
+
+        albumsNames.forEach {
+
+            val whereMod = if (select != null) "($select) AND ${MediaStore.Images.Media.BUCKET_DISPLAY_NAME} = ?" else "${MediaStore.Images.Media.BUCKET_DISPLAY_NAME} = ?"
+            val argsMod = if (selectArgs != null) arrayOf(*selectArgs, it) else arrayOf(it)
+            val cursor =
+                    ctx?.contentResolver?.query(queryUri, projection, whereMod, argsMod, orderBy)
+            if (cursor != null && cursor.count > 0) {
+                if (cursor.moveToFirst()) {
+                    val idColumn = cursor.getColumnIndex(MediaStore.Images.Media._ID)
+
+                    val id = cursor.getString(idColumn)
+                    val uri = Uri.withAppendedPath(queryUri, id)
+                    val type = if (video) "" else cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.MIME_TYPE))
+                    if(!currentAlbums.contains(it)) {
+                        val album = mutableMapOf<String, Any>()
+                        album["id"] = generateId()
+                        album["name"] = it
+                        album["uri"] = uri.toString()
+                        album["mediaType"] = if (video) "video" else if (type.contains("image/gif")) "gif" else "image"
+                        album["count"] = cursor.count
+
+                        galleryAlbums.add(album)
+                        currentAlbums.add(it)
+                    }else{
+                        galleryAlbums.forEachIndexed { index, item ->
+                            if(item["name"] as String == it){
+                                item["count"] = item["count"] as Int + cursor.count
+                            }
+                        }
+                    }
+                    cursor.close()
+                } else {
+                    Log.e("PhotoKit", "getAlbumsNamesMap:error Cursor is  empty")
+                    cursor.close()
+                }
+            } else {
+                Log.e("PhotoKit", "getAlbumsNamesMap:error Cursor is null or empty")
+                cursor?.close()
+            }
+
+        }
+
 
     }
 
     private fun getGalleryVideos(ctx: Context?,
                                  galleryAlbums: ArrayList<MutableMap<String,Any>>, galleryMedia:ArrayList<MutableMap<String,Any>>,
-                                 albumsNames: ArrayList<String>,select:String?,selectArgs:Array<String>?){
+                                 albumsNames: ArrayList<String>,select:String?,selectArgs:Array<String>?,limit:Int,offset:Int){
         val videoQueryUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
             val mediaProjection = arrayOf(
                     MediaStore.Video.Media._ID,
@@ -346,8 +443,12 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                     MediaStore.Video.Media.DATE_ADDED,
                     MediaStore.Video.Media.DISPLAY_NAME
             )
+
+        val orderBy = "${MediaStore.Images.Media.DATE_ADDED} DESC"
+        val l = if(limit > 0) " LIMIT $limit ${if(offset > 0) "OFFSET $offset" else ""}" else ""
+
         val videoCursor =
-                ctx?.contentResolver?.query(videoQueryUri, mediaProjection, select, selectArgs, null)
+                ctx?.contentResolver?.query(videoQueryUri, mediaProjection, select, selectArgs, orderBy+l)
 
         if (videoCursor != null && videoCursor.count > 0) {
             if (videoCursor.moveToFirst()) {
@@ -368,9 +469,10 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                     val media = mutableMapOf<String,Any>()
                     val uri = Uri.withAppendedPath(videoQueryUri, id)
                     val metadata = getVideoMetadata(ctx,uri)
+
                     media["albumName"] = data
                     media["displayName"] = nameWithFormat
-                    media["date"] = dateAdded
+                    media["date"] = dateAdded.toLong()
                     media["duration"] = metadata[2]
                     media["height"] = metadata[1]
                     media["width"] = metadata[0]
@@ -400,13 +502,19 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                     }
                 } while (videoCursor.moveToNext())
                 videoCursor.close()
-            }else Log.e("PhotoKit", "getGalleryImages:error Cursor is  empty")
-        } else Log.e("PhotoKit", "getGalleryVideos:error Cursor is null or empty")
+            }else {
+                Log.e("PhotoKit", "getGalleryImages:error Cursor is  empty")
+                videoCursor.close()
+            }
+        } else {
+            Log.e("PhotoKit", "getGalleryVideos:error Cursor is null or empty")
+            videoCursor?.close()
+        }
     }
 
     private fun getGalleryImages(ctx: Context?,
                                  galleryAlbums: ArrayList<MutableMap<String,Any>>, galleryMedia:ArrayList<MutableMap<String,Any>>,
-                                 albumsNames: ArrayList<String>, select:String?, selectArgs:Array<String>?){
+                                 albumsNames: ArrayList<String>, select:String?, selectArgs:Array<String>?,limit:Int,offset:Int){
         val imagesQueryUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val mediaProjection = arrayOf(
                 MediaStore.Images.Media._ID,
@@ -415,8 +523,13 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 MediaStore.Images.Media.DISPLAY_NAME,
                 MediaStore.Images.Media.MIME_TYPE
         )
+
+        val orderBy = "${MediaStore.Images.Media.DATE_ADDED} DESC"
+        val l = if(limit > 0) " LIMIT $limit ${if(offset > 0) "OFFSET $offset" else ""}" else ""
+
+
         val imagesCursor =
-                ctx?.contentResolver?.query(imagesQueryUri, mediaProjection, select, selectArgs, null)
+                ctx?.contentResolver?.query(imagesQueryUri, mediaProjection, select, selectArgs, orderBy+l)
 
         if (imagesCursor != null && imagesCursor.count > 0) {
             if (imagesCursor.moveToFirst()) {
@@ -442,7 +555,7 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                     val metadata = getPhotoMetadata(ctx,uri)
                     media["albumName"] = data
                     media["displayName"] = nameWithFormat
-                    media["date"] = dateAdded
+                    media["date"] = dateAdded.toLong()
                     media["duration"] = 0
                     media["height"] = metadata[1]
                     media["width"] = metadata[0]
@@ -473,8 +586,14 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                     }
                 } while (imagesCursor.moveToNext())
                 imagesCursor.close()
-            } else Log.e("PhotoKit", "getGalleryImages:error Cursor is  empty")
-        } else Log.e("PhotoKit", "getGalleryImages:error Cursor is null or empty")
+            } else {
+                Log.e("PhotoKit", "getGalleryImages:error Cursor is  empty")
+                imagesCursor.close()
+            }
+        } else {
+            Log.e("PhotoKit", "getGalleryImages:error Cursor is null or empty")
+            imagesCursor?.close()
+        }
 
     }
 
@@ -485,16 +604,22 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
     }
 
     private fun getVideoMetadata(ctx: Context,uri:Uri): DoubleArray {
-        val retriever =  MediaMetadataRetriever()
-        retriever.setDataSource(ctx, uri)
-        val height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
-        val width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
-        val time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-        retriever.release()
+        return try{
+            val retriever =  MediaMetadataRetriever()
+            retriever.setDataSource(ctx, uri)
+            val height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT) ?: "0"
+            val width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH) ?: "0"
+            val time =  retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION) ?: "0"
+            retriever.release()
+            val duration = time.toDouble() / 1000
+            //milliSeg  1000 = 1 seg
+            doubleArrayOf(width.toDouble(),height.toDouble(),duration)
+        }catch (e:Exception){
+            doubleArrayOf(0.0,0.0,0.0)
+        }
 
-        val duration = time.toDouble() / 1000
-        //milliSeg  1000 = 1 seg
-        return doubleArrayOf(width.toDouble(),height.toDouble(),duration)
+
+
     }
 
     private fun getPhotoMetadata(ctx: Context,uri:Uri): IntArray {

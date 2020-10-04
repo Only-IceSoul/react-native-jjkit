@@ -1,5 +1,18 @@
 # Change Log
 
+**1.9.0**
+
+- [PhotoKit](./readmes/photokit.md) 
+     - added pagination
+     - fetch method changed
+     - fetchalbums method only fetches albums
+
+**1.8.7 to 1.8.9**
+
+- [PhotoKit](./readmes/image.md) fixed bug
+- [Image](./readmes/image.md) fixed bugss
+
+
 **1.8.6**
 
 - [Image](./readmes/image.md) diskCacheStrategy and skipMemoryCache
