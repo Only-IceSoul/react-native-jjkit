@@ -1,7 +1,7 @@
 {
   "name": "react-native-jjkit",
   "title": "React Native JJkit",
-  "version": "1.9.2",
+  "version": "1.9.3",
   "description": "Kit of native modules for react native ",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,9 @@
     "resize image",
     "resize",
     "react",
-    "native"
+    "native",
+    "fast",
+    "load"
   ],
   "author": {
     "name": "Juan J LF",

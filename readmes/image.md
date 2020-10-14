@@ -2,7 +2,7 @@
 
 An ImageView for url.
 
-Image is a wrapper around [Guiso](https://github.com/Only-IceSoul/ios-Guiso) (iOS) and [Glide](https://github.com/bumptech/glide) (Android).
+Image is a wrapper around [Guiso](https://github.com/Only-IceSoul/Guiso) (iOS) and [Glide](https://github.com/bumptech/glide) (Android).
 
 ## **Freatures**
 

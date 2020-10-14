@@ -38,7 +38,12 @@ class ImageViewManager : SimpleViewManager<JJImageView>() {
             else -> view.scaleType = ImageView.ScaleType.CENTER_CROP
         }
     }
- 
+
+    override fun onDropViewInstance(view: JJImageView) {
+        super.onDropViewInstance(view)
+        Glide.with(view).clear(view)
+    }
+
 
     override fun getExportedCustomBubblingEventTypeConstants(): MutableMap<String, Any> {
         return MapBuilder.builder<String,Any>()

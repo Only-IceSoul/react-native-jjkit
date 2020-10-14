@@ -9,6 +9,8 @@ import com.facebook.react.uimanager.ReactShadowNode
 import com.facebook.react.uimanager.ViewManager
 import com.reactjjkit.cropper.CropperModule
 import com.reactjjkit.image.ImageViewManager
+import com.reactjjkit.imageListView.ImageListViewManager
+import com.reactjjkit.imageListView.ImageListViewModule
 import com.reactjjkit.viewManagers.CircleProgressViewManager
 import com.reactjjkit.viewManagers.ClipRectViewManager
 import com.reactjjkit.modules.ToastModule
@@ -22,7 +24,8 @@ class JJKitPackage : ReactPackage {
         return mutableListOf(
              ToastModule(reactContext),
              PhotoKitModule(reactContext),
-                CropperModule(reactContext)
+                CropperModule(reactContext),
+                ImageListViewModule(reactContext)
         )
     }
 
@@ -31,7 +34,8 @@ class JJKitPackage : ReactPackage {
                 CircleProgressViewManager(),
                  ClipRectViewManager() ,
                 BadgeViewManager(),
-                ImageViewManager()
+                ImageViewManager(),
+                ImageListViewManager()
         ) as MutableList<ViewManager<View, ReactShadowNode<*>>>
     }
 }

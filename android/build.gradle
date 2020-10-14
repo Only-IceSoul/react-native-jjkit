@@ -82,6 +82,7 @@ repositories {
     }
     google()
     jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -94,7 +95,8 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-
+    implementation 'com.github.Only-IceSoul:JJLayoutUtils:1.5'
+    implementation 'com.github.Only-IceSoul:JJUtils:1.6.3'
 }
 
 def configureReactNativePom(def pom) {
