@@ -9,6 +9,7 @@ import Foundation
 
 public protocol  Runnable {
     
+    func setTask(_ t:DispatchWorkItem)
     func run()
     
 }

@@ -14,14 +14,15 @@ public class GifLayer : CALayer {
 
     private var gifDrawable: Gif!
      private var contentMode : UIView.ContentMode = .scaleAspectFit
+  
     var pixelWidth = 0
-       var pixelHeight = 0
+    var pixelHeight = 0
+    
      public init(_ gif:Gif){
         super.init()
+        pixelWidth = gif.frames.first?.width ?? 0
+        pixelHeight = gif.frames.first?.height ?? 0
             self.gifDrawable = gif
-        let f = gif.frames.first
-              pixelWidth = f?.width ?? 0
-              pixelHeight = f?.height ?? 0
 
      }
      required init?(coder: NSCoder) {

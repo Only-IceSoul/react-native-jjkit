@@ -21,8 +21,7 @@ class GuisoUtils {
         UIGraphicsEndImageContext()
         return newImage
     }
-    
-    static func getData(asset:PHAsset,_ completion: @escaping (Data?)->Void){
+     static func getData(asset:PHAsset,_ completion: @escaping (Data?)->Void){
            let options = PHContentEditingInputRequestOptions()
            options.canHandleAdjustmentData = {(adjustmeta: PHAdjustmentData) -> Bool in
                        return true
@@ -100,6 +99,5 @@ class GuisoUtils {
             }
        
      }
+    
 }
-
-

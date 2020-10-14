@@ -20,6 +20,10 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.swift_version = '4.2'
   s.dependency "React"
+
+  s.resource_bundles = {
+    'jjkitbundle' => ['ios/**/*.xcassets']
+  }
   # ...
   # s.dependency "..."
 end

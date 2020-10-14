@@ -33,6 +33,10 @@ class GuisoPreload : Runnable {
         mSaver = GuisoSaver()
 
     }
+    private var mTask: DispatchWorkItem?
+    public func setTask(_ t:DispatchWorkItem){
+        mTask = t
+    }
     
 
     func run(){
@@ -260,5 +264,7 @@ class GuisoPreload : Runnable {
     func cancel(){
         removePreloadFromList()
         mLoader.cancel()
+        mTask?.cancel()
+        mTask = nil
     }
 }

@@ -7,3 +7,4 @@
 #import <UIKit/UIKit.h>
 #import "React/RCTShadowView.h"
 #include "YGMacros.h"
+#import <React/RCTUIManager.h>

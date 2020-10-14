@@ -8,6 +8,7 @@
 
 import UIKit
 import MobileCoreServices
+import ImageIO
 
 class LRUDiskCache {
     
@@ -19,13 +20,13 @@ class LRUDiskCache {
     private var mPriority: LinkedList<String> = LinkedList<String>()
     private var mKey2node: [String: LinkedList<String>.LinkedListNode<String>] = [:]
     init(_ folder: String, maxSize:Double) {
-
+//        let cacheFolder = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
         let document = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         mDirectory = document.appendingPathComponent(folder)
         createDirectory(mDirectory.path)
         mMaxSize = maxSize
         mCurrentSize = UserDefaults.standard.double(forKey: mKeySize)
-        
+     
     }
     
     func getDirectory() -> URL {
@@ -63,7 +64,12 @@ class LRUDiskCache {
           return Double(bytes) / 1048576
     }
     
-    
+//    func addCGImage(_ key:String,img:UIImage){
+//        let uri = mDirectory.appendingPathComponent(key)
+//        let imgre = CGImageDestinationCreateWithURL(uri as CFURL, kUTTypePNG, 1, nil)
+//        CGImageDestinationAddImage(imgre!,img.cgImage!,nil)
+//        CGImageDestinationFinalize(imgre!)
+//    }
     
     @discardableResult
     func add(_ key:String, data : Data,isUpdate: Bool = true) -> Bool {

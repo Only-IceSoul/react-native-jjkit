@@ -11,14 +11,11 @@ import Foundation
 public class GuisoHeader {
     
     private var mFields = [String:String]()
-        
     
     init(_ headers:[String:String]) {
-       mFields = headers
+        mFields = headers
     }
-    
-    init() {}
-    
+        
     public func addHeader(key:String,value:String) -> GuisoHeader{
         mFields[key] = value
         return self

@@ -33,16 +33,18 @@ import Foundation
     
     static func into(_ target: ViewTarget, builder:GuisoRequestBuilder) -> ViewTarget? {
         
+    
+        target.getRequest()?.cancel()
         target.onHolder(nil)
+        
           builder.getOptions().getPlaceHolder()?.setTarget(target)
           builder.getOptions().getPlaceHolder()?.load()
          
-        let tracker = target
-        tracker.getRequest()?.cancel()
+      
         if let model = builder.getModel() {
             let request = GuisoRequest(model:model,builder.getPrimarySignature(),options: builder.getOptions(),target,loader:builder.getLoader(),gifDecoder: builder.getGifDecoder())
             let p = getPriority( builder.getOptions().getPriority())
-            tracker.setRequest(request)
+            target.setRequest(request)
             
             if let t = builder.getOptions().getThumbnail() , builder.getOptions().getThumbnail()?.getModel() != nil {
                 let thumb = GuisoRequestThumb(model: t.getModel()!,t.getPrimarySignature(), options: t.getOptions(), target, loader: t.getLoader(), gifDecoder: t.getGifDecoder())
@@ -56,9 +58,8 @@ import Foundation
             builder.getOptions().getFallbackHolder()?.setTarget(target)
             builder.getOptions().getFallbackHolder()?.load()
             target.onLoadFailed("model is nil")
-            
         }
-          return tracker
+          return target
       }
       
 

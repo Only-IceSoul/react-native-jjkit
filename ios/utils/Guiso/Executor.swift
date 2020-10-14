@@ -20,6 +20,7 @@ public class Executor {
     public func doWork(_ item : Runnable,priority: DispatchQoS,flags: DispatchWorkItemFlags)
     -> DispatchWorkItem {
         let work = DispatchWorkItem(qos: priority, flags: flags, block: item.run)
+        item.setTask(work)
         mQueue.async(execute: work)
         return work
     }

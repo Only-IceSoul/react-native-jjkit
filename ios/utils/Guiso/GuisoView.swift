@@ -33,6 +33,7 @@ public class GuisoView: UIImageView , ViewTarget {
     
     //error, placeholder, fallback
     public func onHolder(_ image: UIImage?) {
+        removeGif()
         self.image = image
     }
  

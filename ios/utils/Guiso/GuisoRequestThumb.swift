@@ -35,6 +35,10 @@ class GuisoRequestThumb : Runnable {
         mSaver = GuisoSaver()
        
     }
+    private var mTask: DispatchWorkItem?
+    public func setTask(_ t:DispatchWorkItem){
+        mTask = t
+    }
     
     
     func run(){
@@ -279,5 +283,7 @@ class GuisoRequestThumb : Runnable {
     func cancel(){
         mIsCancelled = true
         mLoader.cancel()
+        mTask?.cancel()
+        mTask = nil
     }
 }

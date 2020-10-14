@@ -13,6 +13,18 @@
 		D01D1CAC244A5A8900E0C8D1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CAB244A5A8900E0C8D1 /* BadgeView.swift */; };
 		D01D1CBC244A623F00E0C8D1 /* extension_AttrString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */; };
 		D021B2C12456754C0085F417 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021B2C02456754C0085F417 /* ImageView.swift */; };
+		D03AA8D225377FFC00B8AAB5 /* ImageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8C825377FFB00B8AAB5 /* ImageListView.swift */; };
+		D03AA8D325377FFC00B8AAB5 /* ImageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8C925377FFB00B8AAB5 /* ImageList.swift */; };
+		D03AA8D425377FFC00B8AAB5 /* ImageListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8CA25377FFB00B8AAB5 /* ImageListView.m */; };
+		D03AA8D525377FFC00B8AAB5 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8CB25377FFC00B8AAB5 /* ProgressView.swift */; };
+		D03AA8D625377FFC00B8AAB5 /* CellPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8CC25377FFC00B8AAB5 /* CellPhoto.swift */; };
+		D03AA8D725377FFC00B8AAB5 /* MediaCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8CD25377FFC00B8AAB5 /* MediaCollectionView.swift */; };
+		D03AA8D825377FFC00B8AAB5 /* SelectableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8CE25377FFC00B8AAB5 /* SelectableProtocol.swift */; };
+		D03AA8D925377FFC00B8AAB5 /* CellVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8CF25377FFC00B8AAB5 /* CellVideo.swift */; };
+		D03AA8DA25377FFC00B8AAB5 /* ProgressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8D025377FFC00B8AAB5 /* ProgressCell.swift */; };
+		D03AA8DB25377FFC00B8AAB5 /* SelectableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8D125377FFC00B8AAB5 /* SelectableView.swift */; };
+		D03AA8DF2537802500B8AAB5 /* JJMargin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8DD2537802500B8AAB5 /* JJMargin.swift */; };
+		D03AA8E02537802500B8AAB5 /* JJLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8DE2537802500B8AAB5 /* JJLayout.swift */; };
 		D087E1FD24588AD9001C8C7E /* PhotoKit.m in Sources */ = {isa = PBXBuildFile; fileRef = D087E1FB24588AD8001C8C7E /* PhotoKit.m */; };
 		D087E1FE24588AD9001C8C7E /* PhotoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D087E1FC24588AD9001C8C7E /* PhotoKit.swift */; };
 		D0AE8AE7247AE3FF00F860AE /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AE1247AE3FE00F860AE /* ColorMap.swift */; };
@@ -99,6 +111,19 @@
 		D01D1CAB244A5A8900E0C8D1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_AttrString.swift; sourceTree = "<group>"; };
 		D021B2C02456754C0085F417 /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		D03AA8C825377FFB00B8AAB5 /* ImageListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageListView.swift; sourceTree = "<group>"; };
+		D03AA8C925377FFB00B8AAB5 /* ImageList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageList.swift; sourceTree = "<group>"; };
+		D03AA8CA25377FFB00B8AAB5 /* ImageListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageListView.m; sourceTree = "<group>"; };
+		D03AA8CB25377FFC00B8AAB5 /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		D03AA8CC25377FFC00B8AAB5 /* CellPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellPhoto.swift; sourceTree = "<group>"; };
+		D03AA8CD25377FFC00B8AAB5 /* MediaCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaCollectionView.swift; sourceTree = "<group>"; };
+		D03AA8CE25377FFC00B8AAB5 /* SelectableProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableProtocol.swift; sourceTree = "<group>"; };
+		D03AA8CF25377FFC00B8AAB5 /* CellVideo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellVideo.swift; sourceTree = "<group>"; };
+		D03AA8D025377FFC00B8AAB5 /* ProgressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressCell.swift; sourceTree = "<group>"; };
+		D03AA8D125377FFC00B8AAB5 /* SelectableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableView.swift; sourceTree = "<group>"; };
+		D03AA8DD2537802500B8AAB5 /* JJMargin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JJMargin.swift; sourceTree = "<group>"; };
+		D03AA8DE2537802500B8AAB5 /* JJLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JJLayout.swift; sourceTree = "<group>"; };
+		D03AA8E22537817400B8AAB5 /* JJKitAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = JJKitAssets.xcassets; sourceTree = "<group>"; };
 		D087E1FB24588AD8001C8C7E /* PhotoKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoKit.m; sourceTree = "<group>"; };
 		D087E1FC24588AD9001C8C7E /* PhotoKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoKit.swift; sourceTree = "<group>"; };
 		D0AE8AE1247AE3FE00F860AE /* ColorMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorMap.swift; sourceTree = "<group>"; };
@@ -187,6 +212,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				D03AA8E22537817400B8AAB5 /* JJKitAssets.xcassets */,
+				D03AA8C725377FE800B8AAB5 /* ImageListView */,
 				D0E116DC24623AC9009FF69C /* Cropper */,
 				D040C034244E787E00103477 /* Image */,
 				D040C033244E787400103477 /* PhotoKit */,
@@ -210,6 +237,23 @@
 				D01D1CA4244A5A6C00E0C8D1 /* Badge.swift */,
 			);
 			path = Badge;
+			sourceTree = "<group>";
+		};
+		D03AA8C725377FE800B8AAB5 /* ImageListView */ = {
+			isa = PBXGroup;
+			children = (
+				D03AA8CC25377FFC00B8AAB5 /* CellPhoto.swift */,
+				D03AA8CF25377FFC00B8AAB5 /* CellVideo.swift */,
+				D03AA8C925377FFB00B8AAB5 /* ImageList.swift */,
+				D03AA8CA25377FFB00B8AAB5 /* ImageListView.m */,
+				D03AA8C825377FFB00B8AAB5 /* ImageListView.swift */,
+				D03AA8CD25377FFC00B8AAB5 /* MediaCollectionView.swift */,
+				D03AA8D025377FFC00B8AAB5 /* ProgressCell.swift */,
+				D03AA8CB25377FFC00B8AAB5 /* ProgressView.swift */,
+				D03AA8CE25377FFC00B8AAB5 /* SelectableProtocol.swift */,
+				D03AA8D125377FFC00B8AAB5 /* SelectableView.swift */,
+			);
+			path = ImageListView;
 			sourceTree = "<group>";
 		};
 		D040C033244E787400103477 /* PhotoKit */ = {
@@ -336,6 +380,8 @@
 				D0AE8AE0247AE3DE00F860AE /* Guiso */,
 				D0F98D662443DAC6001CF3DA /* JJLabel.swift */,
 				D0F98D682443DAC6001CF3DA /* JJLabelUI.swift */,
+				D03AA8DE2537802500B8AAB5 /* JJLayout.swift */,
+				D03AA8DD2537802500B8AAB5 /* JJMargin.swift */,
 				D0F98D652443DAC6001CF3DA /* JJScreen.swift */,
 			);
 			path = utils;
@@ -402,6 +448,7 @@
 				D0AE8B00247AE41600F860AE /* GuisoRequestBuilder.swift in Sources */,
 				D0AE8AEF247AE40700F860AE /* Runnable.swift in Sources */,
 				D0AE8B0B247AE41600F860AE /* GuisoTransform.swift in Sources */,
+				D03AA8DA25377FFC00B8AAB5 /* ProgressCell.swift in Sources */,
 				D0AE8AEA247AE3FF00F860AE /* LRUCacheGif.swift in Sources */,
 				D0AE8AEC247AE3FF00F860AE /* LRUDiskCacheObject.swift in Sources */,
 				D0AE8B08247AE41600F860AE /* GuisoRequest.swift in Sources */,
@@ -413,6 +460,7 @@
 				D0AE8B03247AE41600F860AE /* Guiso.swift in Sources */,
 				D0AE8B28247AE43700F860AE /* TransformProtocol.swift in Sources */,
 				D0AE8AE9247AE3FF00F860AE /* LRUCache.swift in Sources */,
+				D03AA8D925377FFC00B8AAB5 /* CellVideo.swift in Sources */,
 				D0AE8B26247AE43700F860AE /* ViewTarget.swift in Sources */,
 				D0AE8B06247AE41600F860AE /* GuisoPreload.swift in Sources */,
 				D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */,
@@ -421,10 +469,12 @@
 				D0F98D602443DA71001CF3DA /* Toast.swift in Sources */,
 				D0BED1E5243AE49800881A99 /* LayerClip.swift in Sources */,
 				D0E116E124623ADB009FF69C /* CropHelper.swift in Sources */,
+				D03AA8D325377FFC00B8AAB5 /* ImageList.swift in Sources */,
 				D0AE8B1B247AE42600F860AE /* GuisoLoaderString.swift in Sources */,
 				D0BED1DD243AE49100881A99 /* CircleProgressView.swift in Sources */,
 				D0BED1EC243AE4A100881A99 /* extension_UIBezierPath.swift in Sources */,
 				D01D1CA5244A5A6C00E0C8D1 /* Badge.swift in Sources */,
+				D03AA8D725377FFC00B8AAB5 /* MediaCollectionView.swift in Sources */,
 				D0AE8AF0247AE40700F860AE /* Executor.swift in Sources */,
 				D0AE8B20247AE43000F860AE /* GIf.swift in Sources */,
 				D0AE8B0A247AE41600F860AE /* GuisoPlaceHolder.swift in Sources */,
@@ -433,9 +483,11 @@
 				D0F98D702443DAD8001CF3DA /* extension_UIView.swift in Sources */,
 				D021B2C12456754C0085F417 /* ImageView.swift in Sources */,
 				D01D1CA8244A5A7800E0C8D1 /* Badge.m in Sources */,
+				D03AA8D425377FFC00B8AAB5 /* ImageListView.m in Sources */,
 				D0AE8B17247AE41F00F860AE /* GuisoView.swift in Sources */,
 				D0AE8AEB247AE3FF00F860AE /* LRUDiskCache.swift in Sources */,
 				D01D1CAA244A5A8200E0C8D1 /* BadgeShadowView.swift in Sources */,
+				D03AA8D225377FFC00B8AAB5 /* ImageListView.swift in Sources */,
 				D01D1CBC244A623F00E0C8D1 /* extension_AttrString.swift in Sources */,
 				D087E1FD24588AD9001C8C7E /* PhotoKit.m in Sources */,
 				D0BED1E3243AE49800881A99 /* ClipRectView.swift in Sources */,
@@ -453,9 +505,13 @@
 				D0AE8B09247AE41600F860AE /* GuisoErrorHolder.swift in Sources */,
 				D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */,
 				D0AE8B16247AE41F00F860AE /* GuisoUtils.swift in Sources */,
+				D03AA8D625377FFC00B8AAB5 /* CellPhoto.swift in Sources */,
+				D03AA8D525377FFC00B8AAB5 /* ProgressView.swift in Sources */,
 				D0AE8B14247AE41F00F860AE /* extension_URL.swift in Sources */,
+				D03AA8DB25377FFC00B8AAB5 /* SelectableView.swift in Sources */,
 				D087E1FE24588AD9001C8C7E /* PhotoKit.swift in Sources */,
 				D0F98D6A2443DAC6001CF3DA /* JJLabel.swift in Sources */,
+				D03AA8E02537802500B8AAB5 /* JJLayout.swift in Sources */,
 				D0F98D622443DA79001CF3DA /* Toast.m in Sources */,
 				D0E116E024623ADB009FF69C /* Cropper.swift in Sources */,
 				D0E116E224623ADB009FF69C /* Cropper.m in Sources */,
@@ -464,7 +520,9 @@
 				D0BED1E6243AE49800881A99 /* ClipRect.swift in Sources */,
 				D0AE8B27247AE43700F860AE /* GifDecoderProtocol.swift in Sources */,
 				D0AE8AE8247AE3FF00F860AE /* LinkedList.swift in Sources */,
+				D03AA8DF2537802500B8AAB5 /* JJMargin.swift in Sources */,
 				D0AE8B01247AE41600F860AE /* GuisoOptions.swift in Sources */,
+				D03AA8D825377FFC00B8AAB5 /* SelectableProtocol.swift in Sources */,
 				D0AE8AE7247AE3FF00F860AE /* ColorMap.swift in Sources */,
 				D0AE8B15247AE41F00F860AE /* extension_String.swift in Sources */,
 			);
