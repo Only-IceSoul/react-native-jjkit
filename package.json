@@ -1,7 +1,7 @@
 {
   "name": "react-native-jjkit",
   "title": "React Native JJkit",
-  "version": "1.9.3",
+  "version": "1.9.4",
   "description": "Kit of native modules for react native ",
   "main": "index.js",
   "scripts": {
@@ -30,7 +30,11 @@
     "react",
     "native",
     "fast",
-    "load"
+    "load",
+    "recycler",
+    "recyclerview",
+    "ImageListView",
+    "recyclerlistview"
   ],
   "author": {
     "name": "Juan J LF",

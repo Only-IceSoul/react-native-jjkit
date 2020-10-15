@@ -13,11 +13,7 @@ import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.uimanager.events.RCTEventEmitter
-import com.jjlf.jjkit_layoututils.JJLayout
-import com.jjlf.jjkit_layoututils.JJMargin
-import com.jjlf.jjkit_utils.extension.weak
-import com.jjlf.jjkit_utils.recylcerView.JJItemDecorationMargin
-import com.reactjjkit.layoutUtils.JJScreen
+import com.reactjjkit.layoutUtils.*
 
 import java.lang.ref.WeakReference
 import kotlin.Exception
@@ -115,7 +111,7 @@ class ImageListView(context: Context): ConstraintLayout(context),MediaAdapter.On
         val t  = try {  data!!.getMap("margin")!!.getInt("top") }catch(e: Exception) {  0 }
         val r  = try {  data!!.getMap("margin")!!.getInt("right") }catch(e: Exception) {  0 }
         val b  = try {  data!!.getMap("margin")!!.getInt("bottom") }catch(e: Exception) {  0 }
-        JJLayout
+
         mMargin = JJMargin(
                 JJScreen.dp(l.toFloat()).toInt(),
                 JJScreen.dp(t.toFloat()).toInt(),

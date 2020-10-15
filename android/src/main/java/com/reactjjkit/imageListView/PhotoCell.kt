@@ -15,10 +15,10 @@ import android.view.ViewOutlineProvider
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.jjlf.jjkit_layoututils.JJLayout
-import com.jjlf.jjkit_layoututils.JJScreen
-import com.jjlf.jjkit_utils.drawables.JJColorDrawable
 import com.reactjjkit.R
+import com.reactjjkit.layoutUtils.JJColorDrawable
+import com.reactjjkit.layoutUtils.JJLayout
+import com.reactjjkit.layoutUtils.JJScreen
 
 @SuppressLint("ViewConstructor")
 class PhotoCell(context: Context, colorAccent : Int, iconPreviewGravity: Int) : ConstraintLayout(context),SelectableView {

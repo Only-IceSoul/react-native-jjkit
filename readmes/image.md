@@ -85,8 +85,6 @@ Image that is shown while a request is in progress. When a request completes suc
 The width to be used in the resize, -1 ignore resize.  
  Default value -> -1 
 
-Scales the image uniformly (maintaining the image's aspect ratio) so that one of the dimensions of the image will be equal to the given dimension and the other will be less than the given dimension.
-
 ---
 
 ### `source.height?: number`
@@ -94,7 +92,15 @@ Scales the image uniformly (maintaining the image's aspect ratio) so that one of
 The height to be used in the resize, -1 ignore resize.  
  Default value -> -1 
 
-Scales the image uniformly (maintaining the image's aspect ratio) so that one of the dimensions of the image will be equal to the given dimension and the other will be less than the given dimension.
+---
+
+### `source.resizeMode?: number`
+
+Determines how to resize the image:
+
+cover(1): Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions (width and height) of the image will be equal to or larger than the corresponding dimension of the view (minus padding).
+
+contain(0,Default): Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions (width and height) of the image will be equal to or less than the corresponding dimension of the view (minus padding).
 
 ---
 
@@ -124,11 +130,10 @@ PhotoKit.RESOURCE (4)
 
  Controls how the image should be displayed.
 
- Default value -> 1 (contain)
+ Default value -> 0
 
-Constants:  
-PhotoKit.cover (0)   
-PhotoKit.contain (1)   
+cover (1)   
+contain (0)   
 
 ---
 

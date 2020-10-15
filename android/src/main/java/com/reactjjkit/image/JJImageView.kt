@@ -57,6 +57,7 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
         if(data != null) {
             val w = try {  data.getInt("width") }catch(e:Exception) {  -1 }
             val h = try { data.getInt("height") }catch(e:Exception) {  -1 }
+            val mode = try { data.getInt("resizeMode") }catch(e:Exception) {  0 }
             val skipMemoryCache =try { data.getBoolean("skipMemoryCache") }catch(e:Exception) { false }
             val diskCacheStrategy = try { data.getInt("diskCacheStrategy") }catch(e:Exception) { 0 }
             val uri =  try { data.getString("uri") } catch(e:Exception) { null }
@@ -70,15 +71,16 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
             val resize = w != -1 && h != -1
             val reqW = if (w > 20) w else 20
             val reqH = if (h > 20) h else 20
-            updateImage(uri,placeholder, skipMemoryCache,diskCacheStrategy, headers, priority,asGif,resize,reqW, reqH)
+            updateImage(uri,placeholder, skipMemoryCache,diskCacheStrategy, headers, priority,asGif,resize,reqW, reqH,mode)
 
         }
     }
 
-    private fun updateImage(url:String?, placeholder:String?, cache:Boolean,diskCacheStrategy:Int, headers:ReadableMap?, priority: Priority, asGif:Boolean, resize:Boolean, reqW:Int, reqH:Int){
+    private fun updateImage(url:String?, placeholder:String?, cache:Boolean,diskCacheStrategy:Int, headers:ReadableMap?,
+                            priority: Priority, asGif:Boolean, resize:Boolean, reqW:Int, reqH:Int,resizeMode:Int){
         val reactContext = WeakReference(context as ReactContext)
         Thread{
-            val options = getOptions(asGif,priority,cache,diskCacheStrategy,placeholder,resize,reqW,reqH)
+            val options = getOptions(asGif,priority,cache,diskCacheStrategy,placeholder,resize,reqW,reqH,resizeMode)
 
             Handler(Looper.getMainLooper()).post{
 
@@ -169,7 +171,8 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
     }
 
 
-    private fun getOptions(asGif:Boolean, priority: Priority, cache:Boolean,diskCacheStrategy:Int, placeholder: String?, resize:Boolean, reqW:Int, reqH:Int):RequestOptions{
+    private fun getOptions(asGif:Boolean, priority: Priority, cache:Boolean,diskCacheStrategy:Int, placeholder: String?,
+                           resize:Boolean, reqW:Int, reqH:Int,mode:Int):RequestOptions{
 
         val ds = getDiskCacheStrategy(diskCacheStrategy)
 
@@ -186,7 +189,7 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
             options = options.frame(0L)
         }
         if(resize){
-            options = options.fitCenter().override(reqW,reqH)
+            options = if(mode == 1) options.centerCrop().override(reqW,reqH) else options.fitCenter().override(reqW,reqH)
         }
 
         return options

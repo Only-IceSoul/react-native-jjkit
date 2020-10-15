@@ -1,15 +1,13 @@
-package com.reactjjkit.extensions
+package com.reactjjkit.layoutUtils
 
 import android.graphics.Matrix
 import android.graphics.Point
 import android.graphics.RectF
 import androidx.annotation.FloatRange
 import androidx.core.graphics.transform
-import com.reactjjkit.layoutUtils.JJPadding
 
 
 fun RectF.translation(x: Float, y:Float,ma:Matrix){
-    ma.reset()
     ma.postTranslate(x,y)
     transform(ma)
 }
@@ -17,12 +15,10 @@ fun RectF.scale(
     @FloatRange(from = 0.0, to = 1000.0) scaleX: Float,
     @FloatRange(from = 0.0, to = 1000.0) scaleY: Float, ma: Matrix
 ) {
-    ma.reset()
     ma.postScale(scaleX,scaleY,centerX(),centerY())
      transform(ma)
 }
 fun RectF.flipMirror(vertical:Boolean, horizontal:Boolean,ma: Matrix){
-    ma.reset()
     when {
         vertical && horizontal -> ma.postScale(-1f, -1f, centerX(), centerY())
         vertical -> ma.postScale(1f, -1f, centerX(), centerY())

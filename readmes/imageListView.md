@@ -23,8 +23,8 @@ Data source
 ---
 ### `source.data?: Array:Object`
 
-require uri   e.g. `'https://facebook.github.io/react/img/logo_og.png'`.  
-require mediaType[image,video,gif](Default: image) : string
+require field uri   e.g. `'https://facebook.github.io/react/img/logo_og.png'`.  
+optional field mediaType[image,video,gif](Default: image) : string
 
 ---
 

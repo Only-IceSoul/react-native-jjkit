@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewOutlineProvider
 import androidx.core.graphics.toRect
 import com.reactjjkit.extensions.translation
+import com.reactjjkit.layoutUtils.translation
 
 class JJOutlineClip : ViewOutlineProvider() {
 

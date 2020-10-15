@@ -37,12 +37,9 @@ ios : 9.0+
 ## Change log
 
 
-**1.9.0**
+**1.9.4**
 
-- [PhotoKit](./readmes/photokit.md) 
-     - added pagination
-     - fetch method changed
-     - fetchalbums method only fetches albums
+- [Image](./readmes/image.md) added resizeMode
 
 
 

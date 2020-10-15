@@ -31,11 +31,11 @@ class ImageViewManager : SimpleViewManager<JJImageView>() {
         view.setSrc(data)
     }
 
-    @ReactProp(name = "scaleType",defaultInt = 1)
+    @ReactProp(name = "scaleType",defaultInt = 0)
     fun scaleType(view: JJImageView, scaleType: Int) {
         when(scaleType){
-            1 -> view.scaleType = ImageView.ScaleType.FIT_CENTER
-            else -> view.scaleType = ImageView.ScaleType.CENTER_CROP
+            1 -> view.scaleType = ImageView.ScaleType.CENTER_CROP
+            else -> view.scaleType = ImageView.ScaleType.FIT_CENTER
         }
     }
 

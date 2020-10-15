@@ -18,10 +18,10 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import com.jjlf.jjkit_layoututils.JJLayout
-import com.jjlf.jjkit_layoututils.JJScreen
-import com.jjlf.jjkit_utils.drawables.JJColorDrawable
 import com.reactjjkit.R
+import com.reactjjkit.layoutUtils.JJColorDrawable
+import com.reactjjkit.layoutUtils.JJLayout
+import com.reactjjkit.layoutUtils.JJScreen
 import kotlin.math.min
 
 @SuppressLint("ViewConstructor")

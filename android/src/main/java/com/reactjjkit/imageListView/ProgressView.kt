@@ -7,7 +7,8 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.jjlf.jjkit_layoututils.JJLayout
+import com.reactjjkit.layoutUtils.JJLayout
+
 
 @SuppressLint("ViewConstructor")
 class ProgressView(context: Context, sizeProgress:Float) : ConstraintLayout(context) {

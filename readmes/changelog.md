@@ -1,46 +1,50 @@
 # Change Log
 
+**1.9.3**
+
+- [ImageListView](imageListView.md)  added
+
 **1.9.0**
 
-- [PhotoKit](./readmes/photokit.md) 
+- [PhotoKit](photokit.md) 
      - added pagination
      - fetch method changed
      - fetchalbums method only fetches albums
 
 **1.8.7 to 1.8.9**
 
-- [PhotoKit](./readmes/image.md) fixed bug
-- [Image](./readmes/image.md) fixed bugss
+- [PhotoKit](image.md) fixed bug
+- [Image](image.md) fixed bugss
 
 
 **1.8.6**
 
-- [Image](./readmes/image.md) diskCacheStrategy and skipMemoryCache
+- [Image](image.md) diskCacheStrategy and skipMemoryCache
 
 **1.8.1 to 1.8.5**
 
-- [Image](./readmes/image.md) fixed bug
+- [Image](image.md) fixed bug
 
 
 
 **1.8.0**
 
-- [Image](./readmes/image.md) priority and headers
+- [Image](image.md) priority and headers
 
 
 **1.7.9**
 
-- [Image](./readmes/image.md) source object changes
+- [Image](image.md) source object changes
 
 
 
 **1.7.8**
 
-- [Image](./readmes/image.md) placeholder and listener
+- [Image](image.md) placeholder and listener
 
 **1.7.7**
 
-- [Cropper](./readmes/cropper.md) Pretty
+- [Cropper](cropper.md) Pretty
 
 
 
