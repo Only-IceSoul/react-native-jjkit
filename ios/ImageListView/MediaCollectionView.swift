@@ -309,10 +309,11 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
  
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize{
-     
+        let h =  self.mMargin.left + self.mMargin.right
+        let v = self.mMargin.top + self.mMargin.bottom
         let size = mOrientation == HORIZONTAL ?
-            CGSize(width: CGFloat(mSizeCell), height: collectionView.bounds.height /  CGFloat(mSpanCount))
-        :CGSize(width: collectionView.bounds.width / CGFloat(mSpanCount), height: CGFloat(mSizeCell))
+            CGSize(width: CGFloat(mSizeCell) + h, height: collectionView.bounds.height /  CGFloat(mSpanCount))
+        :CGSize(width: collectionView.bounds.width / CGFloat(mSpanCount), height: CGFloat(mSizeCell) + v)
         
         return size
     
