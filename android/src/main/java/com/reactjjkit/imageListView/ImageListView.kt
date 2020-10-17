@@ -107,10 +107,10 @@ class ImageListView(context: Context): ConstraintLayout(context),MediaAdapter.On
             JJScreen.width() / 3
         }
         mBackgroundColor = try { data!!.getString("backgroundColor")!! }catch(e: Exception) {  "#cccccc" }
-        val l  = try {  data!!.getMap("margin")!!.getDouble("left") }catch(e: Exception) {  0 }
-        val t  = try {  data!!.getMap("margin")!!.getDouble("top") }catch(e: Exception) {  0 }
-        val r  = try {  data!!.getMap("margin")!!.getDouble("right") }catch(e: Exception) {  0 }
-        val b  = try {  data!!.getMap("margin")!!.getDouble("bottom") }catch(e: Exception) {  0 }
+        val l  = try {  data!!.getMap("margin")!!.getDouble("left") }catch(e: Exception) {  0.0 }
+        val t  = try {  data!!.getMap("margin")!!.getDouble("top") }catch(e: Exception) {  0.0 }
+        val r  = try {  data!!.getMap("margin")!!.getDouble("right") }catch(e: Exception) {  0.0 }
+        val b  = try {  data!!.getMap("margin")!!.getDouble("bottom") }catch(e: Exception) {  0.0 }
 
         mMargin = JJMargin(
                 JJScreen.dp(l.toFloat()).toInt(),
