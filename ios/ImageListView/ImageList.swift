@@ -34,7 +34,7 @@ class ImageList : UIView, MediaCollectionListener{
         
         
         mMediaCollection.setSpanCount(options?["spanCount"] as? Int ?? 3)
-            .setOrientation(options?["orientation"] as? Int ?? 1)
+            .setOrientation(options?["orientation"] as? String ?? MediaCollectionView.VERTICAL)
             .isSelectable(mIsSelectable)
             .setSelectableColor(UIColor.parseColor(options?["selectableColor"] as? String ?? "#262626")!)
             .isVideoIconVisible(options?["videoIconVisible"] as? Bool ?? true)
@@ -46,7 +46,7 @@ class ImageList : UIView, MediaCollectionListener{
             .setThreshold(options?["threshold"] as? Int ?? 2)
         //resize
         
-        mMediaCollection.setResizeOptions(resize?["width"] as? Int ?? 300, h: resize?["height"] as? Int ?? 300, rm: resize?["mode"] as? Int ?? 1)
+        mMediaCollection.setResizeOptions(resize?["width"] as? Int ?? 300, h: resize?["height"] as? Int ?? 300, rm: resize?["mode"] as? String ?? MediaCollectionView.RESIZE_MODE_COVER)
         
         //cell
         
@@ -59,7 +59,7 @@ class ImageList : UIView, MediaCollectionListener{
         m.right = margin["right"] as? CGFloat ?? 0
         
         mMediaCollection.setCellOptions(cell?["size"] as? Int ?? Int(JJScreen.width / 3), bgColor: UIColor.parseColor(cell?["backgroundColor"] as? String ?? "#cccccc")!)
-            .setScaleType(cell?["scaleType"] as? Int ?? 1)
+            .setScaleType(cell?["scaleType"] as? String ?? MediaCollectionView.SCALE_TYPE_COVER)
             .setMargin(m)
         
         mMediaCollection.newData(list)

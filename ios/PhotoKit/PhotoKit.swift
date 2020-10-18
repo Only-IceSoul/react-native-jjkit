@@ -60,6 +60,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
     @objc func fetch(_ query:[String:Any]?, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
         Guiso.get().getExecutor().doWork {
             
+          
             var albumList = [[String:Any]]()
             var mediaList = [[String:Any]]()
             
@@ -197,7 +198,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
         }//albums count filtered
              
         resolve([albumList,mediaList])
-       
+            
 
         }
 
@@ -400,12 +401,17 @@ class PhotoKit : NSObject, RCTBridgeModule {
          }else {DispatchQueue.main.async {  resolve(nil) } }
      }
  
+    private let RESIZE_MODE_CONTAIN = "contain"
+    private let RESIZE_MODE_COVER = "cover"
+    private let COMPRESS_FORMAT_JPEG = "jpeg"
+    private let COMPRESS_FORMAT_PNG = "png"
     @objc func requestImage(_ data:[String:Any]?, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
         
         let identifier = data?["uri"] as? String
-          var width = data?["width"] as? Int ?? 600
-          var height = data?["height"] as? Int ?? 600
-          let format = data?["format"] as? Int ?? 0
+        var width = data?["width"] as? Int ?? 600
+        var height = data?["height"] as? Int ?? 600
+        let format = data?["format"] as? String ?? COMPRESS_FORMAT_JPEG
+        let resizeMode = data?["resizeMode"] as? String ?? RESIZE_MODE_CONTAIN
         let quality = data?["quality"] as? CGFloat ?? 1
 
         width = width < 20 ? 20 : width
@@ -418,35 +424,45 @@ class PhotoKit : NSObject, RCTBridgeModule {
                 if asset.mediaType == .video {
                     GuisoUtils.getVideoThumbnail(asset, second: 1, exact: false) { (img, error) in
                         if img != nil{
-                            if let image = TransformationUtils.fitCenter(image: img!, width: CGFloat(width), height: CGFloat(height),lanczos: false){
+                        
+                            if let image = resizeMode == self.RESIZE_MODE_COVER ? TransformationUtils.centerCrop(image: img!, width: CGFloat(width), height: CGFloat(height),lanczos: false) : TransformationUtils.fitCenter(image: img!, width: CGFloat(width), height: CGFloat(height),lanczos: false){
                             
-                                let data = format == 0 ? image.jpegData(compressionQuality: quality)
-                                : image.pngData()
-                                    DispatchQueue.main.async {  resolve(data?.base64EncodedString()) }
-                            }else {DispatchQueue.main.async {  resolve(nil) }}
+                                if let data = format == self.COMPRESS_FORMAT_PNG ?
+                                    image.pngData() :image.jpegData(compressionQuality: quality) {
+                                    DispatchQueue.main.async {
+                                        resolve(data.base64EncodedString())
+                                    }
+                                }else{
+                                    DispatchQueue.main.async {  rejecter("requestImage","got nil in compression", nil) }
+                                }
+                            }else {DispatchQueue.main.async {  rejecter("requestImage","got nil in transformation", nil) }}
                         }else{
-                             DispatchQueue.main.async {  resolve(nil) }
+                            DispatchQueue.main.async {  rejecter("requestImage","got nil", nil) }
                         }
                     }
                 }else{
-                    GuisoUtils.getImage(asset: asset, size: CGSize(width: width, height: height), contentMode: .aspectFit) { (image) in
+                    GuisoUtils.getImage(asset: asset, size: CGSize(width: width, height: height), contentMode: resizeMode == self.RESIZE_MODE_COVER ? .aspectFill : .aspectFit) { (image) in
                         if image != nil {
-                            let data = format == 0 ? image!.jpegData(compressionQuality: quality)
-                                : image!.pngData()
-                            DispatchQueue.main.async {
-                                resolve(data?.base64EncodedString())
+                            if let data = format == self.COMPRESS_FORMAT_PNG ?
+                                image!.pngData() :image!.jpegData(compressionQuality: quality) {
+                                DispatchQueue.main.async {
+                                    resolve(data.base64EncodedString())
+                                }
+                            }else{
+                                DispatchQueue.main.async {  rejecter("requestImage","got nil in compression", nil) }
                             }
+                            
                         }else {
-                            DispatchQueue.main.async {  resolve(nil) }
+                            DispatchQueue.main.async {  rejecter("requestImage","got nil", nil) }
                         }
                         
                     }
                 }
                 
-               }else {  DispatchQueue.main.async {  resolve(nil) } }
+               }else {  DispatchQueue.main.async {  rejecter("requestImage","got nil asset", nil) } }
            }
            
-        }else {  DispatchQueue.main.async {  resolve(nil) } }
+        }else {  DispatchQueue.main.async { rejecter("requestImage","got nil uri or empty", nil) } }
       
     }
 
@@ -465,18 +481,9 @@ class PhotoKit : NSObject, RCTBridgeModule {
        "all":"all",
        "gif":"gif",
        "photo":"photo",
-               "jpeg":0,
-               "png":1,
                "AUTHORIZED" : 1,
                 "UNDETERMINED" : 0,
-                "DENIED" : 2,
-                "cover" : 1,
-                "contain" : 0,
-                "NONE" : 1,
-                "ALL" : 2,
-                "DATA" : 3,
-                "RESOURCE" : 4,
-                "AUTOMATIC" : 0]
+                "DENIED" : 2]
    }
       
        

@@ -9,6 +9,19 @@ import UIKit
 
 @objc(ImageView)
 class ImageView: UIImageView , ViewTarget {
+    
+    private let RESIZE_MODE_CONTAIN = "contain"
+    private let RESIZE_MODE_COVER = "cover"
+    private let SCALE_TYPE_CONTAIN = "contain"
+    private let SCALE_TYPE_COVER = "cover"
+    private let PRIORITY_LOW = "low"
+    private let PRIORITY_NORMAL = "normal"
+    private let PRIORITY_HIGH = "high"
+    private let DISK_CACHE_STRATEGY_ALL = "all"
+    private let DISK_CACHE_STRATEGY_NONE = "none"
+    private let DISK_CACHE_STRATEGY_AUTOMATIC = "automatic"
+    private let DISK_CACHE_STRATEGY_DATA = "data"
+    private let DISK_CACHE_STRATEGY_RESOURCE = "resource"
    
     
     @objc var onLoadStart : RCTDirectEventBlock?
@@ -16,9 +29,9 @@ class ImageView: UIImageView , ViewTarget {
     @objc var onLoadSuccess : RCTDirectEventBlock?
     @objc var onLoadEnd : RCTDirectEventBlock?
     
-    @objc func setScaleType(_ scaleType:Int){
+    @objc func setScaleType(_ scaleType:String){
         switch scaleType {
-        case 1:
+        case SCALE_TYPE_COVER:
             contentMode = .scaleAspectFill
         default:
             contentMode = .scaleAspectFit
@@ -32,16 +45,16 @@ class ImageView: UIImageView , ViewTarget {
         if data != nil {
             let w = data!["width"] as? Int ?? -1
             let h = data!["height"] as? Int ?? -1
-            let mode = data!["resizeMode"] as? Int  ?? 0
+            let mode = data!["resizeMode"] as? String  ?? RESIZE_MODE_CONTAIN
             let skipMemoryCache = data!["skipMemoryCache"] as? Bool ?? false
-            let diskCacheStrategy = data!["diskCacheStrategy"] as? Int ?? 0
+            let diskCacheStrategy = data!["diskCacheStrategy"] as? String ?? DISK_CACHE_STRATEGY_AUTOMATIC
             let asGif = data!["asGif"] as? Bool ?? false
             let placeholder = data!["placeholder"] as? String
             let headers = data!["headers"] as? [String:String]
-            let prio = data!["priority"] as? Int ?? 5
+            let prio = data!["priority"] as? String ?? PRIORITY_NORMAL
             let uri = data!["uri"] as? String
     
-            let priority :Guiso.Priority = prio <= 0 ? .low : (prio > 0 && prio < 6) ? .normal : .high
+            let priority :Guiso.Priority = prio == PRIORITY_LOW ? .low : prio == PRIORITY_HIGH ? .high: .normal
             
             let resize = w != 1 && h != -1
             let reqW = w > 20 ? w : 20
@@ -53,7 +66,7 @@ class ImageView: UIImageView , ViewTarget {
         }
     }
     
-    private func updateImage(_ url:String?,_ placeholder:String?,_ headers:[String:String]?,_ priority:Guiso.Priority,_ cache:Bool,_ diskCacheStrategy: Int,_ asGif:Bool,_ resize:Bool,_ reqW:Int,_ reqH:Int,_ resizeMode:Int){
+    private func updateImage(_ url:String?,_ placeholder:String?,_ headers:[String:String]?,_ priority:Guiso.Priority,_ cache:Bool,_ diskCacheStrategy: String,_ asGif:Bool,_ resize:Bool,_ reqW:Int,_ reqH:Int,_ resizeMode:String){
         
         Guiso.get().getExecutor().doWork {
             let options = self.getOptions(asGif: asGif,headers:headers, cache: cache,diskCacheStrategy, placeholder: placeholder,priority: priority, resize: resize, reqW: reqW, reqH: reqH,resizeMode)
@@ -90,8 +103,8 @@ class ImageView: UIImageView , ViewTarget {
     }
     
     private func getOptions(asGif:Bool,headers: [String:String]?,cache:Bool,
-                            _ diskCacheStrategy:Int,
-                            placeholder:String?,priority:Guiso.Priority,resize:Bool,reqW:Int,reqH:Int,_ mode:Int) -> GuisoOptions {
+                            _ diskCacheStrategy:String,
+                            placeholder:String?,priority:Guiso.Priority,resize:Bool,reqW:Int,reqH:Int,_ mode:String) -> GuisoOptions {
         
         let ds: Guiso.DiskCacheStrategy = getDiskCacheStrategy(diskCacheStrategy)
         
@@ -114,7 +127,7 @@ class ImageView: UIImageView , ViewTarget {
         }
         
         if(resize){
-            options = mode == 1 ? options.centerCrop().override(reqW,reqH)
+            options = mode == RESIZE_MODE_COVER ? options.centerCrop().override(reqW,reqH)
                 : options.fitCenter().override(reqW,reqH)
         }
         
@@ -123,16 +136,16 @@ class ImageView: UIImageView , ViewTarget {
     }
     
     
-    private func getDiskCacheStrategy(_ strategy:Int) -> Guiso.DiskCacheStrategy{
+    private func getDiskCacheStrategy(_ strategy:String) -> Guiso.DiskCacheStrategy{
         var s:Guiso.DiskCacheStrategy = .automatic
         switch strategy {
-        case 1:
+        case DISK_CACHE_STRATEGY_NONE:
             s = .none
-        case 2:
+        case DISK_CACHE_STRATEGY_ALL:
             s = .all
-        case 3:
+        case DISK_CACHE_STRATEGY_DATA:
             s = .data
-        case 4:
+        case DISK_CACHE_STRATEGY_RESOURCE:
             s = .resource
         default:
             s = .automatic

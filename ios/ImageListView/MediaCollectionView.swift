@@ -10,6 +10,16 @@ import UIKit
 import Photos
 
 class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,UICollectionViewDelegate {
+    
+    //constants
+    
+    static let VERTICAL = "vertical"
+    static let HORIZONTAL = "horizontal"
+    static let RESIZE_MODE_COVER = "cover"
+    static let RESIZE_MODE_CONTAIN = "contain"
+    static let SCALE_TYPE_COVER = "cover"
+    static let SCALE_TYPE_CONTAIN = "contain"
+    
   
     weak var parenController : UIViewController?
     
@@ -59,9 +69,9 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
         return self
     }
     
-    private var mScaleType = 0
+    private var mScaleType = MediaCollectionView.SCALE_TYPE_COVER
     @discardableResult
-    func setScaleType(_ sc:Int)->MediaCollectionView{
+    func setScaleType(_ sc:String)->MediaCollectionView{
         mScaleType = sc
         return self
     }
@@ -132,19 +142,19 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
         return self
     }
     
-    private var mOrientation = 1
+    private var mOrientation = VERTICAL
     @discardableResult
-    func setOrientation(_ o:Int)-> MediaCollectionView{
+    func setOrientation(_ o:String)-> MediaCollectionView{
         mOrientation = o
-        mLayoutManager.scrollDirection = o == 0 ? .horizontal : .vertical
+        mLayoutManager.scrollDirection = o == MediaCollectionView.HORIZONTAL ? .horizontal : .vertical
         return self
     }
     
     private var mWidth = 300
     private var mHeight = 300
-    private var mResizeMode = 1
+    private var mResizeMode = MediaCollectionView.RESIZE_MODE_COVER
     @discardableResult
-    func setResizeOptions(_ w:Int,h:Int,rm:Int)-> MediaCollectionView{
+    func setResizeOptions(_ w:Int,h:Int,rm:String)-> MediaCollectionView{
         mWidth = w
         mHeight = h
         mResizeMode = rm
@@ -228,7 +238,7 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
         var g = ((item?["mediaType"] as? String) == "gif" && mAllowGif ) ? Guiso.load(model: item?["uri"] as? String).asGif() : Guiso.load(model: item?["uri"] as? String)
         
         if(mWidth > 0 && mHeight > 0 ){
-            g = mResizeMode == 1 ? g.centerCrop().override(mWidth, mHeight) : g.fitCenter().override(mWidth, mHeight)
+            g = mResizeMode == MediaCollectionView.RESIZE_MODE_CONTAIN ? g.fitCenter().override(mWidth, mHeight) : g.centerCrop().override(mWidth, mHeight)
         }
         
         g = g.frame(0)
@@ -249,7 +259,7 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
                 .clDisposeView()
             
             cell.getImageView().backgroundColor = self.mBackgroundColorCell
-            cell.getImageView().contentMode = self.mScaleType == 1 ? .scaleAspectFill : .scaleAspectFit
+            cell.getImageView().contentMode = self.mScaleType == MediaCollectionView.SCALE_TYPE_CONTAIN ? .scaleAspectFit : .scaleAspectFill
             g.into(cell.getImageView())
             
            
@@ -267,7 +277,7 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
                 .clDisposeView()
             
             cell.getImageView().backgroundColor = self.mBackgroundColorCell
-            cell.getImageView().contentMode = self.mScaleType == 1 ? .scaleAspectFill : .scaleAspectFit
+            cell.getImageView().contentMode = self.mScaleType == MediaCollectionView.SCALE_TYPE_CONTAIN ? .scaleAspectFit : .scaleAspectFill
             
          
             //duration - iconvideo
@@ -311,7 +321,7 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize{
         let h =  self.mMargin.left + self.mMargin.right
         let v = self.mMargin.top + self.mMargin.bottom
-        let size = mOrientation == HORIZONTAL ?
+        let size = mOrientation == MediaCollectionView.HORIZONTAL ?
             CGSize(width: CGFloat(mSizeCell) + h, height: collectionView.bounds.height /  CGFloat(mSpanCount))
         :CGSize(width: collectionView.bounds.width / CGFloat(mSpanCount), height: CGFloat(mSizeCell) + v)
         
@@ -334,7 +344,7 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
     //footer
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize{
         
-        return mOrientation == HORIZONTAL ?   .init(width: mShowProgressView ? mProgressSize : 0, height: collectionView.bounds.height ) :
+        return mOrientation == MediaCollectionView.HORIZONTAL ?   .init(width: mShowProgressView ? mProgressSize : 0, height: collectionView.bounds.height ) :
             .init(width: collectionView.bounds.width, height: mShowProgressView ? mProgressSize : 0)
    }
     
