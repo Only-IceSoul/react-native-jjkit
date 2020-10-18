@@ -19,6 +19,20 @@ import java.lang.ref.WeakReference
 
 
 class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listener: OnMediaItemClicked) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+
+    companion object{
+        const val TYPE_GIF = "gif"
+        const val TYPE_IMAGE = "image"
+        const val TYPE_VIDEO = "video"
+        const val TYPE_PROGRESS = "progress"
+        const val RESIZE_MODE_CONTAIN = "contain"
+        const val RESIZE_MODE_COVER = "cover"
+        const val VERTICAL = "vertical"
+        const val HORIZONTAL = "horizontal"
+        const val SCALE_TYPE_CONTAIN = "contain"
+        const val SCALE_TYPE_COVER = "cover"
+    }
+
     private var mItems = list
     private var mListenerClick : WeakReference<OnMediaItemClicked> = WeakReference(listener)
 
@@ -35,7 +49,7 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
     private var mShowProgressView = false
     private var mBackgroundColorView = Color.WHITE
 
-    private var mScaleType = 0
+    private var mScaleType = SCALE_TYPE_CONTAIN
 
     private var mSizeProgress = 60f
     fun setProgressSize(dp: Int) : MediaAdapter {
@@ -93,7 +107,7 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
         return this
     }
 
-    fun setOrientation(orientation: Int): MediaAdapter{
+    fun setOrientation(orientation: String): MediaAdapter{
         mOrientation = orientation
         return this
     }
@@ -103,14 +117,14 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
 
     private var mWidth = 300
     private var mHeight = 300
-    private var mResizeMode = 1
+    private var mResizeMode = RESIZE_MODE_CONTAIN
     private var mAllowGif = false
-    private var mOrientation = RecyclerView.VERTICAL
+    private var mOrientation = VERTICAL
     private var mSize = 0
 
 
 
-    fun setResizeOptions(w:Int, h:Int, rm : Int): MediaAdapter{
+    fun setResizeOptions(w:Int, h:Int, rm : String): MediaAdapter{
         mWidth = w
         mHeight = h
         mResizeMode = rm
@@ -118,7 +132,7 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
     }
 
 
-    fun setCellOptions(size:Int, bgColor:Int,st:Int): MediaAdapter{
+    fun setCellOptions(size:Int, bgColor:Int,st:String): MediaAdapter{
         mSize = size
         mBackgroundColorView = bgColor
         mScaleType = st
@@ -127,10 +141,11 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
 
 
     override fun getItemViewType(position: Int): Int {
-        return when(try{ (mItems[position]!!["mediaType"] as String )} catch (e:Exception) {"image"}){
-            "image" -> 0
-            "video" -> 1
-            "progress"-> 2
+        return when(try{ (mItems[position]!!["mediaType"] as String )} catch (e:Exception) {TYPE_IMAGE}){
+           TYPE_IMAGE -> 0
+            TYPE_GIF -> 0
+            TYPE_VIDEO -> 1
+            TYPE_PROGRESS -> 2
             else -> 3
         }
     }
@@ -144,7 +159,7 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
             else -> View(parent.context)
         }
 
-        v.layoutParams = if(mOrientation == RecyclerView.VERTICAL)  ViewGroup.LayoutParams(
+        v.layoutParams = if(mOrientation == VERTICAL)  ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 mSize
         ) else  ViewGroup.LayoutParams(
@@ -165,7 +180,7 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
             }
             is ProgressView ->{
                 val size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,mSizeProgress,parent.context.resources.displayMetrics).toInt()
-                v.layoutParams = if(mOrientation == RecyclerView.VERTICAL)  ViewGroup.LayoutParams(
+                v.layoutParams = if(mOrientation == VERTICAL)  ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         size
                 ) else  ViewGroup.LayoutParams(
@@ -198,20 +213,20 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
                 i["isSelected"] = false
             }
             if(!i.containsKey("mediaType")){
-                i["mediaType"] = "image"
+                i["mediaType"] = TYPE_IMAGE
             }
             if(!i.containsKey("isEnabled")){
                 i["isEnabled"] = true
             }
 
             var g  = if(i["mediaType"] as String == "gif" && mAllowGif) Glide.with(holder.itemView).asGif() else Glide.with(holder.itemView).asBitmap()
-            if(mWidth > 0 && mHeight > 0) g = if(mResizeMode == 1) g.centerCrop().override(mWidth,mHeight) else g.fitCenter().override(mWidth,mHeight)
-            g = g.frame(0L)
+            if(mWidth > 0 && mHeight > 0 && !mAllowGif) g = if(mResizeMode == RESIZE_MODE_COVER) g.centerCrop().override(mWidth,mHeight) else g.fitCenter().override(mWidth,mHeight)
+            if(!mAllowGif) g = g.frame(0L)
 
 
             if(holder is ViewHolderPhoto) {
                 val view = holder.view
-                view.getImageView().scaleType = if(mScaleType == 1) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
+                view.getImageView().scaleType = if(mScaleType == SCALE_TYPE_COVER) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
                 view.setBackgroundColor(mBackgroundColorView)
 
                 g.load(i["uri"] as? String).into(view.getImageView())
@@ -233,7 +248,7 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
             if (holder is ViewHolderVideo){
                 val view = holder.view
                 view.setBackgroundColor(mBackgroundColorView)
-                view.getImageView().scaleType = if(mScaleType == 1) ImageView.ScaleType.FIT_CENTER else ImageView.ScaleType.CENTER_CROP
+                view.getImageView().scaleType = if(mScaleType == SCALE_TYPE_COVER) ImageView.ScaleType.FIT_CENTER else ImageView.ScaleType.CENTER_CROP
 
                 g.load(i["uri"] as? String).into(view.getImageView())
 
@@ -266,7 +281,7 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
     fun newData(list: ArrayList<HashMap<String,Any?>?>?){
         val l = list ?: arrayListOf()
         if(mShowProgressView && l.isNotEmpty()){
-            val m = mapOf<String,Any>("mediaType" to "progress")
+            val m = mapOf<String,Any>("mediaType" to TYPE_PROGRESS)
             l.add(HashMap(m))
         }
         mItems = l
@@ -279,7 +294,7 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
             removeProgress()
             if(!list.isNullOrEmpty()) {
                 if(mShowProgressView){
-                    val m = mapOf<String,Any>("mediaType" to "progress")
+                    val m = mapOf<String,Any>("mediaType" to TYPE_PROGRESS)
                     list.add(HashMap(m))
                 }
                 val posStart = mItems.size
@@ -294,7 +309,7 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
         val position = mItems.size - 1
         val i = mItems[position]
         if(position >= 0 && i != null) {
-            if ((i["mediaType"] as? String ?: "") == "progress") {
+            if ((i["mediaType"] as? String ?: "") == TYPE_PROGRESS) {
                 mItems.removeAt(position)
                 notifyItemRemoved(position)
             }

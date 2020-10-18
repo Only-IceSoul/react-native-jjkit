@@ -12,12 +12,6 @@ class ImageListView extends React.Component {
     
    refImg = null
 
-   static VERTICAL = 1
-   static HORIZONTAL = 0
-
-   static CONTAIN = 0
-   static COVER = 1
-
   
    getSelectedItems(){
         return new Promise((resolve, reject) => {

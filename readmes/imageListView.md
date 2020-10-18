@@ -34,7 +34,7 @@ optional field mediaType[image,video,gif](Default: image) : string
 | Name | description | type | default |
 | --- | --- | --- | --- |
 | spanCount | Sets the number of spans to be laid out.| number | 3 |
-| orientation | Sets the orientation of the layout. v:1 h:0 | number | 1 |
+| orientation | Sets the orientation of the layout. ("vertical","horizontal") | string | "vertical" |
 | selectable | Elements are selectable | boolean | false |
 | selectableColor | Set a color , hex6 hex8 | string | "#262626" |
 | threshold | Selection limit | number | 2 |
@@ -53,7 +53,7 @@ optional field mediaType[image,video,gif](Default: image) : string
 | --- | --- | --- | --- |
 | width | The width to be used in the resize, -1 ignore  | number | 300 |
 | height | The height to be used in the resize, -1 ignore  | number | 300 |
-| mode | Determines how to resize the image [contain(0),cover(1)] | number | 1 |
+| mode | Determines how to resize the image [contain,cover] | string | "cover" |
 
 
 ---
@@ -65,7 +65,7 @@ optional field mediaType[image,video,gif](Default: image) : string
 | --- | --- | --- | --- |
 | size | Sets the size| number | android(window.width / 3) - ios(view.size / 3) |
 | backgroundColor |  hex 6, hex8 | string | "#cccccc" |
-| scaleType | Controls how the image should be displayed [contain(0),cover(1)] | number | 1 |
+| scaleType | Controls how the image should be displayed [contain,cover] | string | "cover" |
 | margin | Sets the margin | object | { left: 0,top: 0,right:0,bottom: 0} |
 
 ---

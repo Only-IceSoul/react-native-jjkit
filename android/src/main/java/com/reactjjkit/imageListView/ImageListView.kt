@@ -38,11 +38,15 @@ class ImageListView(context: Context): ConstraintLayout(context),MediaAdapter.On
         resize(try{ data?.getMap("resize") } catch (e:Exception){ null})
         cell(try{data?.getMap("cell") } catch (e:Exception){ null})
         mAdapter.newData( (list as? ArrayList<HashMap<String,Any?>?>) )
-        mRecyclerView.scrollToPosition(0)
+
+        mRecyclerView.post {
+            mRecyclerView.scrollToPosition(0)
+        }
+
     }
 
 
-    private var mOrientation  = RecyclerView.VERTICAL
+    private var mOrientation  =  MediaAdapter.VERTICAL
     private var mSpanCount = 3
     private var mThreshold = 2
     private var mIsSelectable = false
@@ -55,7 +59,7 @@ class ImageListView(context: Context): ConstraintLayout(context),MediaAdapter.On
     private var mProgressColor = "#262626"
     private fun options(data: ReadableMap?){
         mSpanCount = try { data!!.getInt("spanCount") }catch(e: Exception) {  3 } //
-        mOrientation = try { data!!.getInt("orientation") }catch(e: Exception) {  RecyclerView.VERTICAL }
+        mOrientation = try { data!!.getString("orientation")!! }catch(e: Exception) {  MediaAdapter.VERTICAL }
         mIsSelectable = try { data!!.getBoolean("selectable") }catch(e: Exception) {  false } //
         mThreshold = try { data!!.getInt("threshold") }catch(e: Exception) {  2 } //
         mSelectableColor = try { data!!.getString("selectableColor")!! }catch(e: Exception) {  "#262626" }//
@@ -68,7 +72,7 @@ class ImageListView(context: Context): ConstraintLayout(context),MediaAdapter.On
 
         val g =  (mRecyclerView.layoutManager as GridLayoutManager)
         g.spanCount = mSpanCount
-        g.orientation = mOrientation
+        g.orientation = if(mOrientation == MediaAdapter.HORIZONTAL ) RecyclerView.HORIZONTAL else RecyclerView.VERTICAL
         mAdapter.isSelectable(mIsSelectable)
                 .setSelectableColor(Color.parseColor(mSelectableColor))
                 .setProgressColor(Color.parseColor(mProgressColor))
@@ -83,11 +87,11 @@ class ImageListView(context: Context): ConstraintLayout(context),MediaAdapter.On
 
     private var mWidth = 300
     private var mHeight = 300
-    private var mResizeMode = 0
+    private var mResizeMode = MediaAdapter.RESIZE_MODE_COVER
     private fun resize(data:ReadableMap?){
         mWidth = try {  data!!.getInt("width") }catch(e: Exception) {  300 }
         mHeight = try { data!!.getInt("height") }catch(e: Exception) {  300 }
-        mResizeMode = try {  data!!.getInt("mode") }catch(e: Exception) {  1 }
+        mResizeMode = try {  data!!.getString("mode")!! }catch(e: Exception) {  MediaAdapter.RESIZE_MODE_COVER }
 
         mAdapter.setResizeOptions(mWidth,mHeight,mResizeMode)
     }
@@ -98,7 +102,7 @@ class ImageListView(context: Context): ConstraintLayout(context),MediaAdapter.On
     private var mSize = JJScreen.width() / 3
     private var mBackgroundColor = "#cccccc"
     private var mMargin = JJMargin.all(2)
-    private var mScaleType = 0 //cover
+    private var mScaleType = MediaAdapter.SCALE_TYPE_COVER //cover
 
     private fun cell(data: ReadableMap?){
         var newSize = true
@@ -118,7 +122,7 @@ class ImageListView(context: Context): ConstraintLayout(context),MediaAdapter.On
                 JJScreen.dp(r.toFloat()).toInt(),
                 JJScreen.dp(b.toFloat()).toInt()
         )
-        mScaleType = try {  data!!.getInt("scaleType") }catch(e: Exception) {  1 }
+        mScaleType = try {  data!!.getString("scaleType")!! }catch(e: Exception) {  MediaAdapter.SCALE_TYPE_COVER }
         mAdapter.setCellOptions(if(newSize) JJScreen.dp(mSize.toFloat()).toInt() else mSize,Color.parseColor(mBackgroundColor),mScaleType)
         mMarginDecoration.setMargin(mMargin)
 
@@ -139,7 +143,10 @@ class ImageListView(context: Context): ConstraintLayout(context),MediaAdapter.On
         val list = arr?.toArrayList() as? ArrayList<HashMap<String,Any?>?>
         val position =  mAdapter.itemCount - if(mProgressVisible) 2 else 1
          mAdapter.addItems(list)
-        mRecyclerView.requestLayout()
+        mRecyclerView.post {
+            mRecyclerView.requestLayout()
+        }
+
     }
 
 
@@ -157,7 +164,7 @@ class ImageListView(context: Context): ConstraintLayout(context),MediaAdapter.On
                 .clFillParent()
                 .clDisposeView()
 
-        val grid = GridLayoutManager(context,mSpanCount,mOrientation,false)
+        val grid = GridLayoutManager(context,mSpanCount,RecyclerView.VERTICAL,false)
         grid.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 val t = weak.get()?.mAdapter?.getItemViewType(position) ?: 3

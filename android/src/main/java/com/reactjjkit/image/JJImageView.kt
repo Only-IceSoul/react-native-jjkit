@@ -41,6 +41,18 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
         const val EVENT_ON_LOAD_END = "onLoadEnd"
         const val EVENT_ON_LOAD_ERROR = "onLoadError"
         const val EVENT_ON_LOAD_SUCCESS = "onLoadSuccess"
+        const val RESIZE_MODE_CONTAIN = "contain"
+        const val RESIZE_MODE_COVER = "cover"
+        const val SCALE_TYPE_CONTAIN = "contain"
+        const val SCALE_TYPE_COVER = "cover"
+        const val DISK_CACHE_STRATEGY_AUTOMATIC = "automatic"
+        const val DISK_CACHE_STRATEGY_NONE = "none"
+        const val DISK_CACHE_STRATEGY_ALL = "all"
+        const val DISK_CACHE_STRATEGY_DATA = "data"
+        const val DISK_CACHE_STRATEGY_RESOURCE = "resource"
+        const val PRIORITY_LOW = "low"
+        const val PRIORITY_NORMAL = "normal"
+        const val PRIORITY_HIGH = "high"
     }
 
     init {
@@ -57,15 +69,15 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
         if(data != null) {
             val w = try {  data.getInt("width") }catch(e:Exception) {  -1 }
             val h = try { data.getInt("height") }catch(e:Exception) {  -1 }
-            val mode = try { data.getInt("resizeMode") }catch(e:Exception) {  0 }
+            val mode = try { data.getString("resizeMode")!! }catch(e:Exception) {  RESIZE_MODE_CONTAIN }
             val skipMemoryCache =try { data.getBoolean("skipMemoryCache") }catch(e:Exception) { false }
-            val diskCacheStrategy = try { data.getInt("diskCacheStrategy") }catch(e:Exception) { 0 }
+            val diskCacheStrategy = try { data.getString("diskCacheStrategy")!! }catch(e:Exception) { DISK_CACHE_STRATEGY_AUTOMATIC }
             val uri =  try { data.getString("uri") } catch(e:Exception) { null }
             val asGif = try { data.getBoolean("asGif") }catch(e:Exception) { false }
             val placeholder = try { data.getString("placeholder") }catch(e:Exception) { null }
             val headers =  try { data.getMap("headers") } catch(e:Exception) { null }
-            val prior =  try { data.getInt("priority") } catch(e:Exception) { 5 }
-            val priority = if(prior <= 0) Priority.LOW else if(prior in 1..5) Priority.NORMAL else Priority.HIGH
+            val prior =  try { data.getString("priority")!! } catch(e:Exception) { PRIORITY_NORMAL }
+            val priority = if(prior == PRIORITY_LOW) Priority.LOW else if(prior == PRIORITY_HIGH) Priority.HIGH else Priority.NORMAL
 
 
             val resize = w != -1 && h != -1
@@ -76,8 +88,8 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
         }
     }
 
-    private fun updateImage(url:String?, placeholder:String?, cache:Boolean,diskCacheStrategy:Int, headers:ReadableMap?,
-                            priority: Priority, asGif:Boolean, resize:Boolean, reqW:Int, reqH:Int,resizeMode:Int){
+    private fun updateImage(url:String?, placeholder:String?, cache:Boolean,diskCacheStrategy:String, headers:ReadableMap?,
+                            priority: Priority, asGif:Boolean, resize:Boolean, reqW:Int, reqH:Int,resizeMode:String){
         val reactContext = WeakReference(context as ReactContext)
         Thread{
             val options = getOptions(asGif,priority,cache,diskCacheStrategy,placeholder,resize,reqW,reqH,resizeMode)
@@ -171,8 +183,8 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
     }
 
 
-    private fun getOptions(asGif:Boolean, priority: Priority, cache:Boolean,diskCacheStrategy:Int, placeholder: String?,
-                           resize:Boolean, reqW:Int, reqH:Int,mode:Int):RequestOptions{
+    private fun getOptions(asGif:Boolean, priority: Priority, cache:Boolean,diskCacheStrategy:String, placeholder: String?,
+                           resize:Boolean, reqW:Int, reqH:Int,mode:String):RequestOptions{
 
         val ds = getDiskCacheStrategy(diskCacheStrategy)
 
@@ -188,19 +200,19 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
         if(!asGif){
             options = options.frame(0L)
         }
-        if(resize){
-            options = if(mode == 1) options.centerCrop().override(reqW,reqH) else options.fitCenter().override(reqW,reqH)
+        if(resize && !asGif){
+            options = if(mode == RESIZE_MODE_COVER) options.centerCrop().override(reqW,reqH) else options.fitCenter().override(reqW,reqH)
         }
 
         return options
     }
 
-    private fun getDiskCacheStrategy(strategy: Int): DiskCacheStrategy {
+    private fun getDiskCacheStrategy(strategy: String): DiskCacheStrategy {
         return when(strategy){
-            1 -> DiskCacheStrategy.NONE
-            2 -> DiskCacheStrategy.ALL
-            3 -> DiskCacheStrategy.DATA
-            4 -> DiskCacheStrategy.RESOURCE
+            DISK_CACHE_STRATEGY_NONE -> DiskCacheStrategy.NONE
+            DISK_CACHE_STRATEGY_ALL -> DiskCacheStrategy.ALL
+            DISK_CACHE_STRATEGY_DATA -> DiskCacheStrategy.DATA
+            DISK_CACHE_STRATEGY_RESOURCE -> DiskCacheStrategy.RESOURCE
             else -> DiskCacheStrategy.AUTOMATIC
         }
     }

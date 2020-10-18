@@ -60,11 +60,11 @@ Headers to load the image with. e.g. { Authorization: 'someAuthToken' }.
 
 ---
 
-### `source.priority?: number`
+### `source.priority?: string`
 
-Low Priority --> 0  
-Normal Priority (Default)  -> 5  
-High Priority  --> 10
+low
+normal -> Default
+high
 
 Priorities for completing loads. If more than one load is queued at a time, the load with the higher priority will end first. Priorities are considered best effort, there are no guarantees about the order in which loads will start or finish.
 
@@ -94,13 +94,13 @@ The height to be used in the resize, -1 ignore resize.
 
 ---
 
-### `source.resizeMode?: number`
+### `source.resizeMode?: string`
 
 Determines how to resize the image:
 
-cover(1): Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions (width and height) of the image will be equal to or larger than the corresponding dimension of the view (minus padding).
+cover: Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions (width and height) of the image will be equal to or larger than the corresponding dimension of the view (minus padding).
 
-contain(0,Default): Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions (width and height) of the image will be equal to or less than the corresponding dimension of the view (minus padding).
+contain(Default): Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions (width and height) of the image will be equal to or less than the corresponding dimension of the view (minus padding).
 
 ---
 
@@ -113,27 +113,26 @@ contain(0,Default): Scale the image uniformly (maintain the image's aspect ratio
 
 ---
 
-### `source.diskCacheStrategy?: number`
+### `source.diskCacheStrategy?: string`
 
- Default value -> 0 (Automatic)
+ Default value -> "automatic"
 
-Constants:  
-PhotoKit.AUTOMATIC (0)   
-PhotoKit.NONE (1)   
-PhotoKit.ALL (2)   
-PhotoKit.DATA (3)  
-PhotoKit.RESOURCE (4) 
+automatic 
+none
+all
+data
+resource
 
 ---
 
-### `scaleType?: number`
+### `scaleType?: string`
 
  Controls how the image should be displayed.
 
- Default value -> 0
+ Default value -> "contain"
 
-cover (1)   
-contain (0)   
+cover   
+contain   
 
 ---
 

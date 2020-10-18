@@ -13,13 +13,13 @@ You can use PhotoKit [Permission](./photokitPermission.md)
 import { PhotoKit } from 'react-native-jjkit'
                                                      
     var mediaQuery = 
-    PhotoKit.gif  
-    PhotoKit.photo   
-    PhotoKit.image  // gif and photo
-    PhotoKit.video  // video
-    PhotoKit.video_gif // video and gif
-    PhotoKit.video_photo // video and photo
-    PhotoKit.all  // image and video
+    "gif"  
+    "photo"   
+    "image"  // gif and photo
+    "video"  // video
+    "video_gif" // video and gif
+    "video_photo" // video and photo
+    "all"  // image and video
 
     // default value null , empty,undefined (all albums)
     var names = ["Pictures","Camera roll","WhatsApp","Whats App","whats app images"] 
@@ -115,10 +115,11 @@ import { PhotoKit } from 'react-native-jjkit'
 
 let request = {
     uri: media.uri,
-    width: 1280,  //fitcenter
-    height: 1280,  // fitcenter
+    width: 1280,  
+    height: 1280,  
     quality : 0.8, //0.0 to 1  just jpeg
-    format : PhotoKit.jpeg  // or png
+    resizeMode: 'contain',  //contain or cover
+    format : 'jpeg'  // jpeg or png
 }
 
 PhotoKit.requestImage(request)
