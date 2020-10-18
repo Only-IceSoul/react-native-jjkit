@@ -34,12 +34,16 @@ import React from 'react'
     type ImageError = {
         error?:string | null
     }
+    type ImageSuccess = {
+        width?:number,
+        height?:number
+    }
     type ImageEventError = {
         nativeEvent?:ImageError | null,
     }
 
     type ImageEventSuccess = {
-
+        nativeEvent?:ImageSuccess | null,
     }
 
     export interface ImageProps {

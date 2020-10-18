@@ -1,5 +1,11 @@
 # Change Log
 
+**1.9.9**
+
+- [Image](./readmes/image.md) changed
+- [PhotoKit](./readmes/photokit.md) changed and optimized
+- [ImageListView](./readmes/imageListView.md) changed
+
 **1.9.3**
 
 - [ImageListView](imageListView.md)  added

@@ -37,10 +37,11 @@ ios : 9.0+
 ## Change log
 
 
-**1.9.4**
+**1.9.9**
 
-- [Image](./readmes/image.md) added resizeMode
-
+- [Image](./readmes/image.md) changed
+- [PhotoKit](./readmes/photokit.md) changed and optimized
+- [ImageListView](./readmes/imageListView.md) changed
 
 
 See [full change log.](./readmes/changelog.md)

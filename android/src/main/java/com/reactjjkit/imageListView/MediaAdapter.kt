@@ -220,13 +220,13 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
             }
 
             var g  = if(i["mediaType"] as String == "gif" && mAllowGif) Glide.with(holder.itemView).asGif() else Glide.with(holder.itemView).asBitmap()
-            if(mWidth > 0 && mHeight > 0 && !mAllowGif) g = if(mResizeMode == RESIZE_MODE_COVER) g.centerCrop().override(mWidth,mHeight) else g.fitCenter().override(mWidth,mHeight)
+            if(mWidth > 0 && mHeight > 0 && !mAllowGif) g = if(mResizeMode == RESIZE_MODE_CONTAIN) g.fitCenter().override(mWidth,mHeight) else g.centerCrop().override(mWidth,mHeight)
             if(!mAllowGif) g = g.frame(0L)
 
 
             if(holder is ViewHolderPhoto) {
                 val view = holder.view
-                view.getImageView().scaleType = if(mScaleType == SCALE_TYPE_COVER) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
+                view.getImageView().scaleType = if(mScaleType == SCALE_TYPE_CONTAIN) ImageView.ScaleType.FIT_CENTER else ImageView.ScaleType.CENTER_CROP
                 view.setBackgroundColor(mBackgroundColorView)
 
                 g.load(i["uri"] as? String).into(view.getImageView())
@@ -248,7 +248,7 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
             if (holder is ViewHolderVideo){
                 val view = holder.view
                 view.setBackgroundColor(mBackgroundColorView)
-                view.getImageView().scaleType = if(mScaleType == SCALE_TYPE_COVER) ImageView.ScaleType.FIT_CENTER else ImageView.ScaleType.CENTER_CROP
+                view.getImageView().scaleType = if(mScaleType == SCALE_TYPE_CONTAIN) ImageView.ScaleType.FIT_CENTER else ImageView.ScaleType.CENTER_CROP
 
                 g.load(i["uri"] as? String).into(view.getImageView())
 
