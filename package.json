@@ -1,7 +1,7 @@
 {
   "name": "react-native-jjkit",
   "title": "React Native JJkit",
-  "version": "1.9.9",
+  "version": "2.0.0",
   "description": "Kit of native modules for react native ",
   "main": "index.js",
   "scripts": {
