@@ -197,7 +197,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
                
         }//albums count filtered
              
-        resolve([albumList,mediaList])
+            resolve(["albums": albumList,"media":mediaList])
             
 
         }
