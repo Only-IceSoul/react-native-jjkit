@@ -62,9 +62,9 @@ Headers to load the image with. e.g. { Authorization: 'someAuthToken' }.
 
 ### `source.priority?: string`
 
-low
-normal -> Default
-high
+low  
+normal -> Default  
+high  
 
 Priorities for completing loads. If more than one load is queued at a time, the load with the higher priority will end first. Priorities are considered best effort, there are no guarantees about the order in which loads will start or finish.
 
@@ -117,11 +117,11 @@ contain(Default): Scale the image uniformly (maintain the image's aspect ratio) 
 
  Default value -> "automatic"
 
-automatic 
-none
-all
-data
-resource
+automatic   
+none  
+all  
+data  
+resource  
 
 ---
 

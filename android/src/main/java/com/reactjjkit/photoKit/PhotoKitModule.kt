@@ -280,9 +280,9 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
                 for (m in galleryMedia){
                     resultMedia.pushMap(Arguments.makeNativeMap(m))
                 }
-                val result = Arguments.createArray()
-                result.pushArray(resultAlbum)
-                result.pushArray(resultMedia)
+                val result = Arguments.createMap()
+                result.putArray("albums",resultAlbum)
+                result.putArray("media",resultMedia)
 
 
                 Handler(Looper.getMainLooper()).post {
