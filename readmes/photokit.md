@@ -48,8 +48,8 @@ import { PhotoKit } from 'react-native-jjkit'
 
     //fetches albums and medias
     PhotoKit.fetch(query).then(res => {
-      console.log("albums: ",res[0])
-      console.log("Images/Videos: ",res[1])
+      console.log("albums: ",res.albums)
+      console.log("Images/Videos: ",res.media)
     })
    
 
