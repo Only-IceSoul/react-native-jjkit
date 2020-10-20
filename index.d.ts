@@ -139,12 +139,16 @@ type ImageListViewOptions = {
     spanCount?: number | null,
     orientation?: Orientation,
     selectable?:boolean | null,
-    threshold?: number | null,
     selectableColor?:string| null,
+    selectableIconSize?:number| null,
+    threshold?: number | null,
     videoIconVisible?:boolean | null,
-    durationIconVisible?:boolean | null,
+    videoIconSize?:number | null,
+    durationVisible?:boolean | null,
+    durationTextSize?:number | null,
     progressVisible?:boolean | null,
     progressSize?: number | null,
+    progressCellSize?:number | null,
     progressColor?:string| null,
     allowGif?:boolean | null
 }

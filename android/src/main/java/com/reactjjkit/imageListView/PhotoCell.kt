@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Outline
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
@@ -21,17 +20,19 @@ import com.reactjjkit.layoutUtils.JJLayout
 import com.reactjjkit.layoutUtils.JJScreen
 
 @SuppressLint("ViewConstructor")
-class PhotoCell(context: Context, colorAccent : Int, iconPreviewGravity: Int) : ConstraintLayout(context),SelectableView {
+class PhotoCell(context: Context, colorAccent : Int,
+selectableIconSize: Int = JJScreen.dp(11f).toInt() ) : ConstraintLayout(context),SelectableView {
 
 
     private val mColorAccent = colorAccent
     private val mImageView = AppCompatImageView(context)
+    private val mImageSelectionContainer = ConstraintLayout(context)
     private val mImageSelection = AppCompatImageView(context)
 
 
     private val mBgRing = JJColorDrawable().setShape(1)
         .setFillColor(Color.parseColor("#40FFFFFF"))
-        .setStroke(JJScreen.responsiveSize(5,4,3,2).toFloat(),Color.WHITE)
+        .setStroke(selectableIconSize*0.1f,Color.WHITE)
 
     private var mPosition = 0
 
@@ -52,32 +53,36 @@ class PhotoCell(context: Context, colorAccent : Int, iconPreviewGravity: Int) : 
             }
         }
 
+        mImageSelectionContainer.id = generateId()
         mImageSelection.id = generateId()
         mImageView.id = generateId()
         addView(mImageView)
-        addView(mImageSelection)
+        mImageSelectionContainer.addView(mImageSelection)
+        addView(mImageSelectionContainer)
 
 
         mImageView.scaleType = ImageView.ScaleType.CENTER_CROP
 
-        mImageSelection.background = mBgRing
+        mImageSelectionContainer.background = mBgRing
         mImageSelection.scaleType = ImageView.ScaleType.FIT_CENTER
-        val padImgSelect = JJScreen.pointW(20)
-        mImageSelection.setPaddingRelative(padImgSelect,padImgSelect,padImgSelect,padImgSelect)
 
 
-        val sizeIcon = JJScreen.pointW(80)
 
-
+        val sizeSelectImage = (selectableIconSize*0.48f).toInt()
         JJLayout.clSetView(mImageView)
-            .clFillParent()
-            .clDisposeView()
-            .clSetView(mImageSelection)
-            .clTopToTopParent(JJScreen.pointW(20))
-            .clEndToEndParent(JJScreen.pointW(20))
-            .clHeight(sizeIcon).clWidth(sizeIcon)
+                .clFillParent()
+                .clDisposeView()
 
-            .clDisposeView()
+                .clSetView(mImageSelectionContainer)
+                .clTopToTopParent(JJScreen.pointW(20))
+                .clEndToEndParent(JJScreen.pointW(20))
+                .clHeight(selectableIconSize).clWidth(selectableIconSize)
+
+                .clSetView(mImageSelection)
+                .clHeight(sizeSelectImage)
+                .clWidth(sizeSelectImage)
+                .clCenterInParent()
+                .clDisposeView()
 
     }
 
@@ -89,7 +94,7 @@ class PhotoCell(context: Context, colorAccent : Int, iconPreviewGravity: Int) : 
 
 
     fun isIconSelectionVisible(boolean: Boolean) : PhotoCell {
-        mImageSelection.visibility = if(boolean) View.VISIBLE else View.GONE
+        mImageSelectionContainer.visibility = if(boolean) View.VISIBLE else View.GONE
         return this
     }
 

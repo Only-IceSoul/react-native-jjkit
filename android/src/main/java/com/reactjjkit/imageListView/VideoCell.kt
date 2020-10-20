@@ -25,13 +25,16 @@ import com.reactjjkit.layoutUtils.JJScreen
 import kotlin.math.min
 
 @SuppressLint("ViewConstructor")
-class VideoCell(context: Context, colorAccent: Int,gravityDuration: Int = Gravity.END or Gravity.BOTTOM,gravityIconVideo :Int = Gravity.START or Gravity.BOTTOM,
-                gravityIconPreview : Int = Gravity.END or Gravity.BOTTOM
+class VideoCell(context: Context, colorAccent: Int,
+                selectableIconSize: Int = JJScreen.dp(11f).toInt(),
+                    videoIconSize:Int = JJScreen.dp(14f).toInt(),
+                durationTextSize:Float =  11f
                 ) : ConstraintLayout(context),SelectableView {
 
 
     private val mColorAccent = colorAccent
     private val mImageView = AppCompatImageView(context)
+    private val mImageSelectionContainer = ConstraintLayout(context)
     private val mImageSelection = AppCompatImageView(context)
     private val mTextDuration = AppCompatTextView(context)
     private val mImageVideoIcon = AppCompatImageView(context)
@@ -39,9 +42,9 @@ class VideoCell(context: Context, colorAccent: Int,gravityDuration: Int = Gravit
 
     private val mBgRing = JJColorDrawable().setShape(1)
         .setFillColor(Color.parseColor("#40FFFFFF"))
-        .setStroke(JJScreen.responsiveSize(5,4,3,2).toFloat(),Color.WHITE)
+        .setStroke(selectableIconSize*0.1f,Color.WHITE)
 
-
+    private val mVideoIconSize = videoIconSize
     init {
         val colorState = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_pressed) ,intArrayOf(-android.R.attr.state_pressed)), intArrayOf(Color.BLACK,Color.BLACK))
         val bg = GradientDrawable()
@@ -58,20 +61,21 @@ class VideoCell(context: Context, colorAccent: Int,gravityDuration: Int = Gravit
                 outline?.setRoundRect(0,0,view!!.width,view.height,0f)
             }
         }
-
+        mImageSelectionContainer.id = generateId()
         mImageVideoIcon.id = generateId()
         mImageSelection.id = generateId()
         mImageView.id = generateId()
         mTextDuration.id = generateId()
 
         addView(mImageView)
-        addView(mImageSelection)
+        mImageSelectionContainer.addView(mImageSelection)
+        addView(mImageSelectionContainer)
         addView(mTextDuration)
         addView(mImageVideoIcon)
 
 
         mTextDuration.typeface = Typeface.SANS_SERIF
-        mTextDuration.textSize = JJScreen.responsiveTextSize(13,12,11,10,9).toFloat()
+        mTextDuration.textSize = durationTextSize
         mTextDuration.setTextColor(Color.WHITE)
         mTextDuration.text = "00:00"
         mTextDuration.setBackgroundColor(Color.parseColor("#80262626"))
@@ -88,40 +92,42 @@ class VideoCell(context: Context, colorAccent: Int,gravityDuration: Int = Gravit
 
         mImageView.scaleType = ImageView.ScaleType.CENTER_CROP
 
-        mImageSelection.background = mBgRing
+        mImageSelectionContainer.background = mBgRing
         mImageSelection.scaleType = ImageView.ScaleType.FIT_CENTER
-        val padImgSelect = JJScreen.pointW(20)
-        mImageSelection.setPaddingRelative(padImgSelect,padImgSelect,padImgSelect,padImgSelect)
+
 
 
         mImageVideoIcon.setImageResource(R.drawable.ic_video)
 
 
-        val sizeIcon = JJScreen.pointW(80)
         val margin = JJScreen.pointW(20)
-
-        val sizeVideoIcon = JJScreen.pointW(50)
+        val sizeSelectImage = (selectableIconSize*0.48f).toInt()
 
         JJLayout.clSetView(mImageView)
-            .clFillParent()
+                .clFillParent()
 
-            .clSetView(mImageSelection)
-            .clTopToTopParent(margin)
-            .clEndToEndParent(margin)
-            .clHeight(sizeIcon).clWidth(sizeIcon)
+                .clSetView(mImageSelectionContainer)
+                .clTopToTopParent(margin)
+                .clEndToEndParent(margin)
+                .clHeight(selectableIconSize)
+                .clWidth(selectableIconSize)
 
-            .clSetView(mImageVideoIcon)
-            .clHeight(sizeVideoIcon).clWidth(sizeVideoIcon)
+                .clSetView(mImageSelection)
+                .clHeight(sizeSelectImage).clWidth(sizeSelectImage)
+                .clCenterInParent()
 
-            .clDisposeView()
+                .clSetView(mImageVideoIcon)
+                .clHeight(mVideoIconSize).clWidth(mVideoIconSize)
+
+                .clDisposeView()
 
         JJLayout.clSetView(mTextDuration)
             .clHeight(ConstraintSet.WRAP_CONTENT)
             .clWidth(ConstraintSet.WRAP_CONTENT)
             .clDisposeView()
 
-        applyGravityToDuration(gravityDuration)
-        applyGravityToIconVideo(gravityIconVideo)
+        applyGravityToDuration( Gravity.END or Gravity.BOTTOM)
+        applyGravityToIconVideo(Gravity.START or Gravity.BOTTOM)
 
 
     }
@@ -134,102 +140,8 @@ class VideoCell(context: Context, colorAccent: Int,gravityDuration: Int = Gravit
 
 
 
-    private fun applyGravityToIconVideo(gravity:Int){
-        val margin = JJScreen.pointW(20)
-        when(gravity) {
-            Gravity.END or Gravity.BOTTOM-> {
-                JJLayout.clSetView(mImageVideoIcon)
-                    .clBottomToBottomParent(margin)
-                    .clEndToEndParent(margin)
-                    .clDisposeView()
-            }
-            Gravity.RIGHT or Gravity.BOTTOM-> {
-                JJLayout.clSetView(mImageVideoIcon)
-                    .clBottomToBottomParent(margin)
-                    .clEndToEndParent(margin)
-                    .clDisposeView()
-            }
-
-            Gravity.START or Gravity.BOTTOM -> {
-                JJLayout.clSetView(mImageVideoIcon)
-                    .clBottomToBottomParent(margin)
-                    .clStartToStarParent(margin)
-                    .clDisposeView()
-            }
-
-            Gravity.LEFT or Gravity.BOTTOM -> {
-                JJLayout.clSetView(mImageVideoIcon)
-                    .clBottomToBottomParent(margin)
-                    .clStartToStarParent(margin)
-                    .clDisposeView()
-            }
-
-            Gravity.LEFT or Gravity.TOP -> {
-                JJLayout.clSetView(mImageVideoIcon)
-                    .clTopToTopParent(margin)
-                    .clStartToStarParent(margin)
-                    .clDisposeView()
-            }
-
-            Gravity.START or Gravity.TOP -> {
-                JJLayout.clSetView(mImageVideoIcon)
-                    .clTopToTopParent(margin)
-                    .clStartToStarParent(margin)
-                    .clDisposeView()
-            }
-        }
-
-    }
-
-    private fun applyGravityToDuration(gravity:Int){
-        val margin = JJScreen.pointW(20)
-        when(gravity) {
-            Gravity.END or Gravity.BOTTOM-> {
-                JJLayout.clSetView(mTextDuration)
-                    .clBottomToBottomParent(margin)
-                    .clEndToEndParent(margin)
-                    .clDisposeView()
-            }
-            Gravity.RIGHT or Gravity.BOTTOM-> {
-                JJLayout.clSetView(mTextDuration)
-                    .clBottomToBottomParent(margin)
-                    .clEndToEndParent(margin)
-                    .clDisposeView()
-            }
-
-            Gravity.START or Gravity.BOTTOM -> {
-                JJLayout.clSetView(mTextDuration)
-                    .clBottomToBottomParent(margin)
-                    .clStartToStarParent(margin)
-                    .clDisposeView()
-            }
-
-            Gravity.LEFT or Gravity.BOTTOM -> {
-                JJLayout.clSetView(mTextDuration)
-                    .clBottomToBottomParent(margin)
-                    .clStartToStarParent(margin)
-                    .clDisposeView()
-            }
-
-            Gravity.LEFT or Gravity.TOP -> {
-                JJLayout.clSetView(mTextDuration)
-                    .clTopToTopParent(margin)
-                    .clStartToStarParent(margin)
-                    .clDisposeView()
-            }
-
-            Gravity.START or Gravity.TOP -> {
-                JJLayout.clSetView(mTextDuration)
-                    .clTopToTopParent(margin)
-                    .clStartToStarParent(margin)
-                    .clDisposeView()
-            }
-        }
-
-    }
-
     fun isIconSelectionVisible(boolean: Boolean) : VideoCell {
-        mImageSelection.visibility = if(boolean) View.VISIBLE else View.GONE
+        mImageSelectionContainer.visibility = if(boolean) View.VISIBLE else View.GONE
         return this
     }
 
@@ -313,5 +225,98 @@ class VideoCell(context: Context, colorAccent: Int,gravityDuration: Int = Gravit
 
     }
 
+
+    private fun applyGravityToIconVideo(gravity:Int){
+        val margin = JJScreen.pointW(20)
+        when(gravity) {
+            Gravity.END or Gravity.BOTTOM-> {
+                JJLayout.clSetView(mImageVideoIcon)
+                        .clBottomToBottomParent(margin)
+                        .clEndToEndParent(margin)
+                        .clDisposeView()
+            }
+            Gravity.RIGHT or Gravity.BOTTOM-> {
+                JJLayout.clSetView(mImageVideoIcon)
+                        .clBottomToBottomParent(margin)
+                        .clEndToEndParent(margin)
+                        .clDisposeView()
+            }
+
+            Gravity.START or Gravity.BOTTOM -> {
+                JJLayout.clSetView(mImageVideoIcon)
+                        .clBottomToBottomParent(margin)
+                        .clStartToStarParent(margin)
+                        .clDisposeView()
+            }
+
+            Gravity.LEFT or Gravity.BOTTOM -> {
+                JJLayout.clSetView(mImageVideoIcon)
+                        .clBottomToBottomParent(margin)
+                        .clStartToStarParent(margin)
+                        .clDisposeView()
+            }
+
+            Gravity.LEFT or Gravity.TOP -> {
+                JJLayout.clSetView(mImageVideoIcon)
+                        .clTopToTopParent(margin)
+                        .clStartToStarParent(margin)
+                        .clDisposeView()
+            }
+
+            Gravity.START or Gravity.TOP -> {
+                JJLayout.clSetView(mImageVideoIcon)
+                        .clTopToTopParent(margin)
+                        .clStartToStarParent(margin)
+                        .clDisposeView()
+            }
+        }
+
+    }
+    private fun applyGravityToDuration(gravity:Int){
+        val margin = JJScreen.pointW(20)
+        when(gravity) {
+            Gravity.END or Gravity.BOTTOM-> {
+                JJLayout.clSetView(mTextDuration)
+                        .clBottomToBottomParent(margin)
+                        .clEndToEndParent(margin)
+                        .clDisposeView()
+            }
+            Gravity.RIGHT or Gravity.BOTTOM-> {
+                JJLayout.clSetView(mTextDuration)
+                        .clBottomToBottomParent(margin)
+                        .clEndToEndParent(margin)
+                        .clDisposeView()
+            }
+
+            Gravity.START or Gravity.BOTTOM -> {
+                JJLayout.clSetView(mTextDuration)
+                        .clBottomToBottomParent(margin)
+                        .clStartToStarParent(margin)
+                        .clDisposeView()
+            }
+
+            Gravity.LEFT or Gravity.BOTTOM -> {
+                JJLayout.clSetView(mTextDuration)
+                        .clBottomToBottomParent(margin)
+                        .clStartToStarParent(margin)
+                        .clDisposeView()
+            }
+
+            Gravity.LEFT or Gravity.TOP -> {
+                JJLayout.clSetView(mTextDuration)
+                        .clTopToTopParent(margin)
+                        .clStartToStarParent(margin)
+                        .clDisposeView()
+            }
+
+            Gravity.START or Gravity.TOP -> {
+                JJLayout.clSetView(mTextDuration)
+                        .clTopToTopParent(margin)
+                        .clStartToStarParent(margin)
+                        .clDisposeView()
+            }
+        }
+
+    }
 
 }

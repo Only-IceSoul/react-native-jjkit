@@ -5,13 +5,13 @@ package com.reactjjkit.imageListView
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.reactjjkit.layoutUtils.JJScreen
 import java.lang.Exception
 
 
@@ -44,18 +44,42 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
 
     private var mVideoDurationGravity = Gravity.END or Gravity.BOTTOM
     private var mVideoIconGravity = Gravity.START or Gravity.BOTTOM
-    private var mPreviewGravity = Gravity.START or Gravity.TOP
+
 
     private var mShowProgressView = false
     private var mBackgroundColorView = Color.WHITE
 
     private var mScaleType = SCALE_TYPE_CONTAIN
 
-    private var mSizeProgress = 60f
-    fun setProgressSize(dp: Int) : MediaAdapter {
-        mSizeProgress = dp.toFloat()
+    private var mProgressSize = JJScreen.dp(60f).toInt()
+    fun setProgressSize(pixel: Int) : MediaAdapter {
+        mProgressSize = pixel
         return this
     }
+
+    private var mProgressCellSize = JJScreen.dp(60f).toInt()
+    fun setProgressCellSize(pixel: Int) : MediaAdapter {
+        mProgressCellSize = pixel
+        return this
+    }
+
+    private var mDurationTextSize = 11f
+    fun setDurationTextSize(sp: Float) : MediaAdapter {
+        mDurationTextSize = sp
+        return this
+    }
+    private var mVideoIconSize = JJScreen.dp(14f).toInt()
+    fun setVideoIconSize(pixel: Int) : MediaAdapter {
+        mVideoIconSize = pixel
+        return this
+    }
+
+    private var mSelectableIconSize = JJScreen.dp(11f).toInt()
+    fun setSelectableIconSize(pixel: Int) : MediaAdapter {
+        mSelectableIconSize = pixel
+        return this
+    }
+
     fun isProgressVisible(boolean: Boolean) : MediaAdapter {
         mShowProgressView = boolean
         return this
@@ -78,10 +102,6 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
 
     fun setVideoDurationGravity(gravity: Int) : MediaAdapter {
         mVideoDurationGravity = gravity
-        return this
-    }
-    fun setIconPreviewGravity(gravity: Int) : MediaAdapter {
-        mPreviewGravity = gravity
         return this
     }
 
@@ -153,9 +173,9 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         val v : View = when(viewType) {
-             0 -> PhotoCell(parent.context,mSelectableColor,mPreviewGravity)
-             2 -> ProgressView(parent.context,mSizeProgress)
-             1 -> VideoCell(parent.context,mSelectableColor,mVideoDurationGravity,mVideoIconGravity,mPreviewGravity)
+             0 -> PhotoCell(parent.context,mSelectableColor,mSelectableIconSize)
+             2 -> ProgressView(parent.context,mProgressSize)
+             1 -> VideoCell(parent.context,mSelectableColor,mSelectableIconSize,mVideoIconSize,mDurationTextSize)
             else -> View(parent.context)
         }
 
@@ -179,12 +199,11 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
                 ViewHolderVideo(v)
             }
             is ProgressView ->{
-                val size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,mSizeProgress,parent.context.resources.displayMetrics).toInt()
                 v.layoutParams = if(mOrientation == VERTICAL)  ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
-                        size
+                        mProgressCellSize
                 ) else  ViewGroup.LayoutParams(
-                        size,
+                        mProgressCellSize,
                         ViewGroup.LayoutParams.MATCH_PARENT
                 )
                 ProgressHolder(v)
@@ -267,6 +286,7 @@ class MediaAdapter(list: ArrayList<HashMap<String,Any?>?> = ArrayList(), listene
 
                 view.isSelected(i["isSelected"] as? Boolean ?: false)
                 view.setTextDuration(( (i["duration"] as? Double ?: 0.0) * 1000).toLong() )
+
 
             }
             if(holder is ProgressHolder){

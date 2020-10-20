@@ -11,20 +11,18 @@ import com.reactjjkit.layoutUtils.JJLayout
 
 
 @SuppressLint("ViewConstructor")
-class ProgressView(context: Context, sizeProgress:Float) : ConstraintLayout(context) {
+class ProgressView(context: Context, sizeProgress:Int) : ConstraintLayout(context) {
 
     private  val mProgressView = ProgressBar(context)
 
     init {
-        val size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,sizeProgress * 0.8f,context.resources.displayMetrics).toInt()
         mProgressView.id = View.generateViewId()
         addView(mProgressView)
         JJLayout.clSetView(mProgressView)
                 .clCenterInParent()
-                .clWidth(size)
-                .clHeight(size)
+                .clWidth(sizeProgress)
+                .clHeight(sizeProgress)
                 .clDisposeView()
-
     }
 
 
