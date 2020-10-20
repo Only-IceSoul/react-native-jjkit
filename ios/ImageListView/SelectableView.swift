@@ -28,7 +28,7 @@ class SelectableView: UIView{
     
         clipsToBounds = true
         layer.borderColor = UIColor.white.cgColor
-        layer.borderWidth = 1.5
+        
         backgroundColor = UIColor.parseColor("#40FFFFFF")
         addSubview(mImageView)
         mImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -48,8 +48,9 @@ class SelectableView: UIView{
         didSet{
             let m = min(bounds.width, bounds.height)
            let r =  m / 2
+            layer.borderWidth = m * 0.1
             layer.cornerRadius = r
-            let margin = m * 0.25
+            let margin = m * 0.26
             mTopAnchor?.constant = margin
             mBottomAnchor?.constant = -margin
             mLeadingAnchor?.constant = margin

@@ -33,7 +33,7 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
     private var mItems = [[String:Any?]?]()
     
     private var mShowProgressView = false
-    private var mProgressSize:CGFloat = 60
+
     private var mProgressColor = UIColor.parseColor("#262626")
     private var mSelectableColor = UIColor.parseColor("#262626")
  
@@ -93,6 +93,34 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
         return self
     }
     
+    private var mDurationTextSize:CGFloat = 11
+    @discardableResult
+    func setDurationTextSize(_ size:CGFloat)-> MediaCollectionView{
+        mDurationTextSize = size
+        return self
+    }
+    
+    private var mVideoIconSize:CGFloat = 14
+    @discardableResult
+    func setVideoIconSize(_ size:CGFloat)-> MediaCollectionView{
+        mVideoIconSize = size
+        return self
+    }
+    
+    private var mProgressCellSize:CGFloat = 60
+    @discardableResult
+    func setProgressCellSize(_ size:CGFloat)-> MediaCollectionView{
+        mProgressCellSize = size
+        return self
+    }
+    
+    private var mSelectableIconSize:CGFloat = 11
+    @discardableResult
+    func setSelectableIconSize(_ size:CGFloat)-> MediaCollectionView{
+        mSelectableIconSize = size
+        return self
+    }
+    
     @discardableResult
     func setSelectableColor(_ color:UIColor)-> MediaCollectionView{
         mSelectableColor = color
@@ -104,7 +132,7 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
         mOnItemClickedListener = listener
         return self
     }
-    
+    private var mProgressSize:CGFloat = 60
     @discardableResult
     func setProgressSize(_ size:CGFloat)-> MediaCollectionView{
         mProgressSize = size
@@ -254,6 +282,7 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
             cell.isSelected((item?["isSelected"] as? Bool) ?? false)
             cell.setColorAccent(self.mSelectableColor)
             cell.isSelectableIconVisible(mIsSelectable)
+                .setSelectableIconSize(size: mSelectableIconSize)
             JJLayout().clSetView(view: cell.getImageView())
                 .clMargins(m: self.mMargin)
                 .clDisposeView()
@@ -272,6 +301,7 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
             cell.isSelected((item?["isSelected"] as? Bool) ?? false)
             cell.setColorAccent(self.mSelectableColor)
             cell.isSelectableIconVisible(mIsSelectable)
+                .setSelectableIconSize(size: mSelectableIconSize)
             JJLayout().clSetView(view: cell.getImageView())
                 .clMargins(m: self.mMargin)
                 .clDisposeView()
@@ -282,7 +312,10 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
          
             //duration - iconvideo
             cell.setDuration(Int64((item?["duration"] as? Double ?? 0) * 1000.0))
-                .isVideoIconVisible(item?["videoIconVisible"] as? Bool ?? true)
+                .setVideoIconVisible(mIsVideoIconVisible)
+                .setDurationVisible(mIsDurationIconVisible)
+                .setDurationTextSize(mDurationTextSize)
+                .setVideoIconSize(mVideoIconSize)
             g.into(cell.getImageView())
             
             return cell
@@ -344,8 +377,8 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
     //footer
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize{
         
-        return mOrientation == MediaCollectionView.HORIZONTAL ?   .init(width: mShowProgressView ? mProgressSize : 0, height: collectionView.bounds.height ) :
-            .init(width: collectionView.bounds.width, height: mShowProgressView ? mProgressSize : 0)
+        return mOrientation == MediaCollectionView.HORIZONTAL ?   .init(width: mShowProgressView ? mProgressCellSize : 0, height: collectionView.bounds.height ) :
+            .init(width: collectionView.bounds.width, height: mShowProgressView ? mProgressCellSize : 0)
    }
     
     /// If you don't provide this, headers and footers for UICollectionViewControllers will be drawn above the scroll bar.
@@ -362,6 +395,7 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
         let f = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier:cellIdFooter, for: indexPath) as! ProgressCell
         
         f.setColor(mProgressColor!)
+        f.setProgressSize(size: mProgressSize)
         
         return f
     }

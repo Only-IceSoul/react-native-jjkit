@@ -26,7 +26,7 @@ class ProgressView: UIView {
         self.layer.addSublayer(circleLayer)
         circleLayer.fillColor = UIColor.clear.cgColor
         circleLayer.strokeColor = UIColor.systemPurple.cgColor
-        circleLayer.lineWidth = 4.5
+        circleLayer.lineWidth = 4
         setupAnimations()
     }
     
@@ -42,7 +42,9 @@ class ProgressView: UIView {
     
     
     private func setupPath(bounds: CGRect){
-        let r = min(bounds.width, bounds.height) / 2
+        let mi = min(bounds.width, bounds.height)
+        circleLayer.lineWidth = mi * 0.09
+        let r = ( (mi * 0.8 ) / 2) - circleLayer.lineWidth  / 2
         let circle = UIBezierPath(arcCenter: bounds.center, radius: r, startAngle: -.pi/3, endAngle: .pi*1.5, clockwise: true)
         circleLayer.path = circle.cgPath
     }

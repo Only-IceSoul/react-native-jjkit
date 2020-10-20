@@ -77,11 +77,48 @@ class CellVideo: UICollectionViewCell,SelectableProtocol {
     }
     
     @discardableResult
-    func isVideoIconVisible(_ vis:Bool) -> CellVideo{
+    func setVideoIconVisible(_ vis:Bool) -> CellVideo{
         mImageVideoIcon.isHidden = !vis
         return self
     }
     
+    @discardableResult
+    func setDurationVisible(_ vis:Bool) -> CellVideo{
+        mContainerLabel.isHidden = !vis
+        return self
+    }
+    
+    @discardableResult
+    func setDurationTextSize(_ size:CGFloat) -> CellVideo{
+        mLabelDuration.font = mLabelDuration.font.withSize(size)
+        return self
+    }
+    
+    private var mSelectableIconWidth :NSLayoutConstraint?
+    private var mSelectableIconHeight :NSLayoutConstraint?
+    @discardableResult
+    func setSelectableIconSize(size: CGFloat)->CellVideo{
+        mSelectableIconWidth?.isActive = false
+        mSelectableIconHeight?.isActive = false
+        mSelectableIconWidth = mImageSelectable.widthAnchor.constraint(equalToConstant: size)
+        mSelectableIconHeight = mImageSelectable.heightAnchor.constraint(equalToConstant: size)
+        mSelectableIconWidth?.isActive = true
+        mSelectableIconHeight?.isActive = true
+        return self
+    }
+    
+    private var mVideoIconWidth : NSLayoutConstraint?
+    private var mVideoIconHeight : NSLayoutConstraint?
+    @discardableResult
+    func setVideoIconSize(_ size:CGFloat) -> CellVideo{
+        mVideoIconWidth?.isActive = false
+        mVideoIconHeight?.isActive = false
+        mVideoIconHeight = mImageVideoIcon.heightAnchor.constraint(equalToConstant: size)
+        mVideoIconWidth = mImageVideoIcon.widthAnchor.constraint(equalToConstant: size)
+        mVideoIconWidth?.isActive = true
+        mVideoIconHeight?.isActive = true
+        return self
+    }
     
     private func millisSegToTimeString(_ time:Int64) -> String {
         var seconds = 0
@@ -142,14 +179,17 @@ class CellVideo: UICollectionViewCell,SelectableProtocol {
         
         mImageSelectable.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
         mImageSelectable.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        mImageSelectable.widthAnchor.constraint(equalToConstant: JJScreen.point(p: 20)).isActive = true
-        mImageSelectable.heightAnchor.constraint(equalToConstant: JJScreen.point(p: 20)).isActive = true
+    
+        mSelectableIconWidth =  mImageSelectable.widthAnchor.constraint(equalToConstant: 11)
+        mSelectableIconWidth?.isActive = true
+        mSelectableIconHeight = mImageSelectable.heightAnchor.constraint(equalToConstant: 11)
+        mSelectableIconHeight?.isActive = true
         
         
         //duration
         
         mLabelDuration.text = "00:00"
-        mLabelDuration.font = mLabelDuration.font.withSize(12)
+        mLabelDuration.font = mLabelDuration.font.withSize(11)
         mLabelDuration.textColor = UIColor.white
         mContainerLabel.clipsToBounds = true
         mContainerLabel.backgroundColor = UIColor.parseColor("#80262626")
@@ -169,8 +209,11 @@ class CellVideo: UICollectionViewCell,SelectableProtocol {
         mImageVideoIcon.translatesAutoresizingMaskIntoConstraints = false
         mImageVideoIcon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5).isActive = true
         mImageVideoIcon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
-        mImageVideoIcon.widthAnchor.constraint(equalToConstant: 15).isActive = true
-        mImageVideoIcon.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        mVideoIconWidth =  mImageVideoIcon.widthAnchor.constraint(equalToConstant: 14)
+        mVideoIconWidth?.isActive = true
+        mVideoIconHeight =  mImageVideoIcon.heightAnchor.constraint(equalToConstant: 14)
+        mVideoIconHeight?.isActive = true
+        
         mImageVideoIcon.contentMode = .scaleAspectFit
         let frameworkBundle = Bundle(for: CellVideo.self)
         let bundleURL = frameworkBundle.url(forResource: "jjkitbundle", withExtension: "bundle")

@@ -11,18 +11,14 @@ class ProgressCell : UICollectionViewCell{
         
     let progress = ProgressView()
     
-    override var bounds: CGRect{
-        didSet{
-            let m = min(bounds.width,bounds.height)
-            let size = m * 0.6
-            mWidthAnchor?.isActive = false
-            mHeightAnchor?.isActive = false
-            mWidthAnchor =  progress.widthAnchor.constraint(equalToConstant: size )
-            mHeightAnchor = progress.heightAnchor.constraint(equalToConstant:size)
-            mWidthAnchor?.isActive = true
-            mHeightAnchor?.isActive = true
-          
-        }
+  
+    func setProgressSize(size:CGFloat){
+        mWidthAnchor?.isActive = false
+        mHeightAnchor?.isActive = false
+        mWidthAnchor =  progress.widthAnchor.constraint(equalToConstant: size )
+        mHeightAnchor = progress.heightAnchor.constraint(equalToConstant:size)
+        mWidthAnchor?.isActive = true
+        mHeightAnchor?.isActive = true
     }
     
     func setColor(_ color:UIColor){
@@ -38,7 +34,10 @@ class ProgressCell : UICollectionViewCell{
         progress.translatesAutoresizingMaskIntoConstraints = false
         progress.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         progress.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        
+        mWidthAnchor =  progress.widthAnchor.constraint(equalToConstant: 60 )
+        mHeightAnchor = progress.heightAnchor.constraint(equalToConstant:60)
+        mWidthAnchor?.isActive = true
+        mHeightAnchor?.isActive = true
         
     }
     

@@ -10,8 +10,8 @@ import UIKit
 
 
 class CellPhoto: UICollectionViewCell,SelectableProtocol {
+  
    
-    
     
     
     private var mImageView = GuisoView()
@@ -67,6 +67,7 @@ class CellPhoto: UICollectionViewCell,SelectableProtocol {
     
     func isSelected(_ bool: Bool) {
         mImageSelectable.isSelected(bool)
+      
     }
 
   
@@ -76,6 +77,19 @@ class CellPhoto: UICollectionViewCell,SelectableProtocol {
         mBottomAnchor?.constant = CGFloat(t)
         mLeadingAnchor?.constant = CGFloat(t)
         mTrailingAnchor?.constant = CGFloat(t)
+        return self
+    }
+    
+    private var mSelectableIconWidth :NSLayoutConstraint?
+    private var mSelectableIconHeight :NSLayoutConstraint?
+    @discardableResult
+    func setSelectableIconSize(size: CGFloat)->CellPhoto{
+        mSelectableIconWidth?.isActive = false
+        mSelectableIconHeight?.isActive = false
+        mSelectableIconWidth = mImageSelectable.widthAnchor.constraint(equalToConstant: size)
+        mSelectableIconHeight = mImageSelectable.heightAnchor.constraint(equalToConstant: size)
+        mSelectableIconWidth?.isActive = true
+        mSelectableIconHeight?.isActive = true
         return self
     }
     
@@ -102,8 +116,11 @@ class CellPhoto: UICollectionViewCell,SelectableProtocol {
         
         mImageSelectable.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
         mImageSelectable.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        mImageSelectable.widthAnchor.constraint(equalToConstant: JJScreen.point(p: 20)).isActive = true
-        mImageSelectable.heightAnchor.constraint(equalToConstant: JJScreen.point(p: 20)).isActive = true
+        
+        mSelectableIconWidth =  mImageSelectable.widthAnchor.constraint(equalToConstant: 11)
+        mSelectableIconWidth?.isActive = true
+        mSelectableIconHeight = mImageSelectable.heightAnchor.constraint(equalToConstant: 11)
+        mSelectableIconHeight?.isActive = true
         
     }
     

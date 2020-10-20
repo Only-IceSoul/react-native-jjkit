@@ -44,6 +44,13 @@ class ImageList : UIView, MediaCollectionListener{
             .setProgressColor(UIColor.parseColor(options?["progressColor"] as? String ?? "#262626")!)
             .setAllowGif(options?["allowGif"] as? Bool ?? false)
             .setThreshold(options?["threshold"] as? Int ?? 2)
+        
+        
+            .setDurationTextSize(options?["durationTextSize"] as? CGFloat ?? 11)
+            .setVideoIconSize(options?["videoIconSize"] as? CGFloat ?? 14)
+            .setProgressCellSize(options?["progressCellSize"] as? CGFloat ?? 60)
+            .setSelectableIconSize(options?["selectableIconSize"] as? CGFloat ?? 12)
+        
         //resize
         
         mMediaCollection.setResizeOptions(resize?["width"] as? Int ?? 300, h: resize?["height"] as? Int ?? 300, rm: resize?["mode"] as? String ?? MediaCollectionView.RESIZE_MODE_COVER)
