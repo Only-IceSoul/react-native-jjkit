@@ -37,7 +37,7 @@ ios : 9.0+
 ## Change log
 
 
-**1.9.9**
+**2.0.0**
 
 - [Image](./readmes/image.md) changed
 - [PhotoKit](./readmes/photokit.md) changed and optimized

@@ -36,13 +36,17 @@ optional field mediaType[image,video,gif](Default: image) : string
 | spanCount | Sets the number of spans to be laid out.| number | 3 |
 | orientation | Sets the orientation of the layout. ("vertical","horizontal") | string | "vertical" |
 | selectable | Elements are selectable | boolean | false |
+| selectableIconSize | Sets the size | number | 11 |
 | selectableColor | Set a color , hex6 hex8 | string | "#262626" |
 | threshold | Selection limit | number | 2 |
 | progressVisible | if you want to render a progressView as footer. Helpful in showing a loader while doing incremental loads | boolean | false |
 | progressSize | Sets the size | number | 60 |
+| progressCellSize | Sets the container size | number | 60 |
 | progressColor |  Set a color for the stroke  | string | "#262626" |
 | videoIconVisible | show the video icon  | boolean | true |
-| durationIconVisible | show the video duration (Requires field duration) | boolean | true |
+| videoIconSize | sets the size  | number | 14 |
+| durationVisible | show the video duration (Requires field duration) | boolean | true |
+| durationTextSize | sets the text size | number | 11 |
 | allowGif | if the image you load is an animated GIF, Image will display a animated gif  | boolean | false |
 ---
 
