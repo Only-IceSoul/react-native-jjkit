@@ -108,7 +108,7 @@ let cropRect = Rect.centerRect(100,100,cw,ch)
  let base64 = "base64,QEQWEQWeqwesd/asdmlmlzz"
  let staticUri = `static;${image.uri}`
 
-        let dataForCrop = {
+        let data = {
             image : staticUri,
             rect: imageRect,
             crop: cropRect,
