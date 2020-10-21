@@ -74,20 +74,6 @@ class PhotoKitModule(context: ReactApplicationContext) : ReactContextBaseJavaMod
         return "PhotoKit"
     }
 
-    override fun getConstants(): MutableMap<String, Any> {
-        return mutableMapOf(
-                "image" to "image",
-                "video" to "video",
-                "video_photo" to "video_photo",
-                "video_gif" to "video_gif",
-                "gif" to "gif",
-                "photo" to "photo",
-                "all" to "all",
-                "AUTHORIZED" to 1,
-                "UNDETERMINED" to 0,
-                "DENIED" to 2
-              )
-    }
 
   @ReactMethod
     fun clearMemoryCache(promise:Promise){

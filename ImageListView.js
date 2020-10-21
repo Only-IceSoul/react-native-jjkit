@@ -7,7 +7,7 @@ const module =  NativeModules.ImageListView
 
 
 
-class ImageListView extends React.Component {
+class ImageListView extends React.PureComponent {
 
     
    refImg = null

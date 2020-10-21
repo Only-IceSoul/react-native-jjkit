@@ -8,6 +8,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ReactShadowNode
 import com.facebook.react.uimanager.ViewManager
 import com.reactjjkit.cropper.CropperModule
+import com.reactjjkit.image.ImageModule
 import com.reactjjkit.image.ImageViewManager
 import com.reactjjkit.imageListView.ImageListViewManager
 import com.reactjjkit.imageListView.ImageListViewModule
@@ -25,7 +26,8 @@ class JJKitPackage : ReactPackage {
              ToastModule(reactContext),
              PhotoKitModule(reactContext),
                 CropperModule(reactContext),
-                ImageListViewModule(reactContext)
+                ImageListViewModule(reactContext),
+                ImageModule(reactContext)
         )
     }
 

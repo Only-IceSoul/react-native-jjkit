@@ -172,3 +172,14 @@ Called when the image finishes loading, whether it was successful or an error.
     PhotoKit.clearMemoryCache()
 
 ```
+
+## **Request Image**
+
+```javascript
+  import { PhotoKit } from 'react-native-jjkit'
+
+    PhotoKit.requestImageByRef(imageRef).then( string64 => {
+      console.log("result ",string64)
+    })
+
+```

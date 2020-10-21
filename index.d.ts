@@ -1,6 +1,6 @@
 import { ImageStyle, StyleProp, ViewStyle } from 'react-native'
 
-import React from 'react'
+import React, { Ref } from 'react'
 
 
 
@@ -112,13 +112,6 @@ type PhotoKitResult ={
 
 export class PhotoKit { 
 
-    static gif: string
-    static image: string
-    static photo: string
-    static video: string
-    static video_photo: string
-    static video_gif: string
-    static all: string
 
     static AUTHORIZED:number
     static UNDETERMINED:number
@@ -130,8 +123,8 @@ export class PhotoKit {
     static isPermissionGranted():Promise<boolean>
     static requestPermission():Promise<number>
     static clearMemoryCache():Promise<boolean>
-
     static fetchAlbums(query:string): Promise<Album[]>
+    static requestImageByRef(ref:Image | null,format?:CompressFormat,quality?:number): Promise<string>
 }
 
 
