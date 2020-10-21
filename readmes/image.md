@@ -177,8 +177,11 @@ Called when the image finishes loading, whether it was successful or an error.
 
 ```javascript
   import { PhotoKit } from 'react-native-jjkit'
+  
+  let compressFormat = "jpeg" | "png"
+  let quality = 0.9 // 0 to 1
 
-    PhotoKit.requestImageByRef(imageRef).then( string64 => {
+    PhotoKit.requestImageByRef(imageRef,compressFormat,quality).then( string64 => {
       console.log("result ",string64)
     })
 
