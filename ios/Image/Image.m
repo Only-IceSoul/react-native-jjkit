@@ -23,4 +23,7 @@ RCT_EXPORT_VIEW_PROPERTY(onLoadError, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onLoadSuccess, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onLoadEnd, RCTDirectEventBlock)
 
+RCT_EXTERN_METHOD(requestImageByTag:(nonnull NSNumber)tag format:(NSString)format quality:(CGFloat)quality resolve:(RCTPromiseResolveBlock)resolve
+rejecter:(RCTPromiseRejectBlock)reject)
+
 @end
