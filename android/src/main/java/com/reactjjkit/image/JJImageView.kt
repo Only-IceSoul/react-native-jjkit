@@ -91,93 +91,90 @@ class JJImageView(context: Context) : AppCompatImageView(context) {
     private fun updateImage(url:String?, placeholder:String?, cache:Boolean,diskCacheStrategy:String, headers:ReadableMap?,
                             priority: Priority, asGif:Boolean, resize:Boolean, reqW:Int, reqH:Int,resizeMode:String){
         val reactContext = WeakReference(context as ReactContext)
-        Thread{
-            val options = getOptions(asGif,priority,cache,diskCacheStrategy,placeholder,resize,reqW,reqH,resizeMode)
 
-            Handler(Looper.getMainLooper()).post{
+        val options = getOptions(asGif,priority,cache,diskCacheStrategy,placeholder,resize,reqW,reqH,resizeMode)
 
-                var manager  = if(asGif){
-                    Glide.with(context).asGif()
-                            .listener(object: RequestListener<GifDrawable> {
-                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
-                                    val mapFailed =  Arguments.createMap()
-                                    mapFailed.putString("error",e?.message)
-                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_ERROR, mapFailed)
-                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
-                                    return false
-                                }
-
-                                override fun onResourceReady(resource: GifDrawable?, model: Any?, target: Target<GifDrawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                                    val mapSuccess =  Arguments.createMap()
-                                    mapSuccess.putInt("width",resource?.intrinsicWidth ?: 0)
-                                    mapSuccess.putInt("height",resource?.intrinsicHeight ?: 0)
-                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_SUCCESS, mapSuccess)
-                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
-                                    return false
-                                }
-                            })
-                } else {
-                    Glide.with(context)
-                            .asBitmap()
-                            .listener(object: RequestListener<Bitmap> {
-                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
-                                    val mapFailed =  Arguments.createMap()
-                                    mapFailed.putString("error",e?.message)
-                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_ERROR,mapFailed)
-                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
-                                    return false
-                                }
-
-                                override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                                    val mapSuccess =  Arguments.createMap()
-                                    mapSuccess.putInt("width",resource?.width ?: 0)
-                                    mapSuccess.putInt("height",resource?.height ?: 0)
-                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_SUCCESS,mapSuccess)
-                                    reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
-                                    return false
-                                }
-                            })
-                }
-                when {
-                    url?.contains("base64,") == true -> {
-                        val s = url.split(",")[1]
-                        val bytes = android.util.Base64.decode(s,android.util.Base64.DEFAULT)
-                        manager = manager.load(bytes)
+        var manager  = if(asGif){
+        Glide.with(context).asGif()
+                .listener(object: RequestListener<GifDrawable> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
+                        val mapFailed =  Arguments.createMap()
+                        mapFailed.putString("error",e?.message)
+                        reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_ERROR, mapFailed)
+                        reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
+                        return false
                     }
-                    url?.contains("static;") == true -> {
-                        val s = url.split("c;")[1]
-                        manager = if(s.contains("http")) {
-                            manager.load(s)
-                        }else{
-                            val id = context.resources.getIdentifier(s,"drawable", context.packageName)
-                            manager.load(id)
+
+                    override fun onResourceReady(resource: GifDrawable?, model: Any?, target: Target<GifDrawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                        val mapSuccess =  Arguments.createMap()
+                        mapSuccess.putInt("width",resource?.intrinsicWidth ?: 0)
+                        mapSuccess.putInt("height",resource?.intrinsicHeight ?: 0)
+                        reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_SUCCESS, mapSuccess)
+                        reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
+                        return false
+                    }
+                })
+        } else {
+            Glide.with(context)
+                    .asBitmap()
+                    .listener(object: RequestListener<Bitmap> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                            val mapFailed =  Arguments.createMap()
+                            mapFailed.putString("error",e?.message)
+                            reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_ERROR,mapFailed)
+                            reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
+                            return false
                         }
-                    }
-                    else -> {
-                       
-                        manager = if(headers != null){
-                            val iterator = headers.keySetIterator()
-                            val h = LazyHeaders.Builder()
-                            while (iterator.hasNextKey()){
-                                val key = iterator.nextKey()
-                                val value = headers.getString(key) ?: ""
-                                h.addHeader(key,value)
-                            }
-                            manager.load(GlideUrl(url,h.build()))
-                        }else{
-                            manager.load(url)
+
+                        override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            val mapSuccess =  Arguments.createMap()
+                            mapSuccess.putInt("width",resource?.width ?: 0)
+                            mapSuccess.putInt("height",resource?.height ?: 0)
+                            reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_SUCCESS,mapSuccess)
+                            reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_END, Arguments.createMap())
+                            return false
                         }
-                    }
-                }
-
-
-                reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_START, Arguments.createMap())
-                manager.apply(options)
-                        .into(this)
+                    })
+        }
+        when {
+            url?.contains("base64,") == true -> {
+                val s = url.split(",")[1]
+                val bytes = android.util.Base64.decode(s,android.util.Base64.DEFAULT)
+                manager = manager.load(bytes)
             }
+            url?.contains("static;") == true -> {
+                val s = url.split("c;")[1]
+                manager = if(s.contains("http")) {
+                    manager.load(s)
+                }else{
+                    val id = context.resources.getIdentifier(s,"drawable", context.packageName)
+                    manager.load(id)
+                }
+            }
+            else -> {
 
-            Thread.currentThread().interrupt()
-        }.start()
+                manager = if(headers != null){
+                    val iterator = headers.keySetIterator()
+                    val h = LazyHeaders.Builder()
+                    while (iterator.hasNextKey()){
+                        val key = iterator.nextKey()
+                        val value = headers.getString(key) ?: ""
+                        h.addHeader(key,value)
+                    }
+                    manager.load(GlideUrl(url,h.build()))
+                }else{
+                    manager.load(url)
+                }
+            }
+        }
+
+
+        reactContext.get()?.getJSModule(RCTEventEmitter::class.java)?.receiveEvent(id, EVENT_ON_LOAD_START, Arguments.createMap())
+        manager.apply(options)
+                .into(this)
+
+
+
 
 
     }

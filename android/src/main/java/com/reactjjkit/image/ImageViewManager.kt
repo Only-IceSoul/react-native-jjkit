@@ -40,8 +40,8 @@ class ImageViewManager : SimpleViewManager<JJImageView>() {
     }
 
     override fun onDropViewInstance(view: JJImageView) {
-        super.onDropViewInstance(view)
         Glide.with(view).clear(view)
+        super.onDropViewInstance(view)
     }
 
 
