@@ -13,7 +13,6 @@ public class Guiso {
     private var mMemoryCache = LRUCache<UIImage>(30)
     private var mExecutor = Executor("Guiso")
     private var mDiskCache = LRUDiskCache("Guiso", maxSize: 100)
-    private var mDiskCacheObject = LRUDiskCacheObject("Guiso", maxSize: 100)
     private var mMemoryCacheGif = LRUCacheGif(13)
     private var mLock = NSLock()
     private init() {}
@@ -51,7 +50,6 @@ public class Guiso {
     public func cleanDiskCache(){
         mExecutor.doWork {
             self.mDiskCache.clean()
-            self.mDiskCacheObject.clean()
         }
     }
     
@@ -61,9 +59,7 @@ public class Guiso {
     func getMemoryCacheGif() -> LRUCacheGif {
         return mMemoryCacheGif
     }
-    func getDiskCacheObject() -> LRUDiskCacheObject {
-        return mDiskCacheObject
-    }
+  
     
     func getDiskCache() -> LRUDiskCache {
         return mDiskCache
@@ -85,6 +81,12 @@ public class Guiso {
         audio
     }
     
+    public enum AnimatedType {
+        case gif,
+        webp
+    }
+    
+    
     public enum ScaleType {
         case fitCenter,
         centerCrop,
@@ -101,7 +103,7 @@ public class Guiso {
     public enum LoadType {
          case data,
          uiimg,
-         gif
+         animatedImg
       }
     
     public enum DataSource {

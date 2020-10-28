@@ -16,18 +16,18 @@ public class Key {
     private var mWidth:Int = -1
     private var mHeight:Int = -1
     private var mScaleType: Guiso.ScaleType!
-    private var mIsGif = false
+    private var mIsAnimImg = false
     private var mFromFile : Bool!
     private var mFrame : Int = 0
     private var mExactFrame = false
     private var mTransform = ""
-    public init(signature: String,extra:String, width:CGFloat, height: CGFloat,scaleType: Guiso.ScaleType, frame:Double,exactFrame: Bool , isGif: Bool,transform:String) {
+    public init(signature: String,extra:String, width:CGFloat, height: CGFloat,scaleType: Guiso.ScaleType, frame:Double,exactFrame: Bool , isAnim: Bool,transform:String) {
         mSignature = signature
         mExtra = extra
         mWidth = Int(width)
         mHeight = Int(height)
         mScaleType = scaleType
-        mIsGif = isGif
+        mIsAnimImg = isAnim
         mFrame = Int(frame)
         mExactFrame = exactFrame
         mTransform = transform
@@ -37,8 +37,8 @@ public class Key {
     public func toString() -> String {
         var exact = mExactFrame ? "t" : "f"
          var e = ""
-        if mIsGif {
-            e = "GIF"
+        if mIsAnimImg {
+            e = "ANIM"
             exact = "f"
             mFrame = 0
         }else{

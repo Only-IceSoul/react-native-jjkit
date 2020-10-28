@@ -12,7 +12,7 @@ public class GuisoHeader {
     
     private var mFields = [String:String]()
     
-    init(_ headers:[String:String]) {
+    public init(_ headers:[String:String]){
         mFields = headers
     }
         

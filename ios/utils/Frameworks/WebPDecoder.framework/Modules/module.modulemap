@@ -1,0 +1,6 @@
+framework module WebPDecoder {
+    umbrella header "WebPDecoder.h"
+
+    export *
+    module * { export * }
+}

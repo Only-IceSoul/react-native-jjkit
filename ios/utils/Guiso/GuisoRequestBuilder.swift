@@ -15,7 +15,7 @@ public class GuisoRequestBuilder {
     private var mModel: Any?
     private var mPrimarySignature = ""
  
-    private var mGifDecoder : GifDecoderProtocol = GuisoGifDecoder()
+    private var mAnimatedImageDecoder : AnimatedImageDecoderProtocol = GuisoGifDecoder()
      init(model:Any?) {
            mModel = model
            mLoader = GuisoLoaderString()
@@ -35,11 +35,12 @@ public class GuisoRequestBuilder {
          mLoader = loader
     }
 
-    public func gifDecoder(_ decoder:GifDecoderProtocol) -> GuisoRequestBuilder{
-           mGifDecoder = decoder
+    public func AnimatedImageDecoder(_ decoder:AnimatedImageDecoderProtocol) -> GuisoRequestBuilder{
+           mAnimatedImageDecoder = decoder
            return self
     }
-
+    
+    
     public func header(_ header:GuisoHeader) -> GuisoRequestBuilder{
         mOptions.header(header)
         return self
@@ -67,7 +68,10 @@ public class GuisoRequestBuilder {
         mOptions.error(name)
        return self
     }
-
+    public func error(_ request:GuisoRequestBuilder) -> GuisoRequestBuilder {
+        mOptions.error(request)
+       return self
+    }
     public func error(_ image:UIImage) -> GuisoRequestBuilder {
       mOptions.error(image)
       return self
@@ -89,8 +93,17 @@ public class GuisoRequestBuilder {
         mOptions.fallback(color)
         return self
     }
-    public func asGif() -> GuisoRequestBuilder {
-        mOptions.asGif()
+    public func asAnimatedImage(_ type:Guiso.AnimatedType) -> GuisoRequestBuilder {
+        switch type {
+        case .gif:
+            mAnimatedImageDecoder = GuisoGifDecoder()
+            break
+        case .webp:
+            mAnimatedImageDecoder = GuisoWebPDecoder()
+            break
+            
+        }
+        mOptions.asAnimatedImage(type)
         return self
     }
     public func fitCenter() -> GuisoRequestBuilder {
@@ -144,7 +157,7 @@ public class GuisoRequestBuilder {
     
     @discardableResult
     public func preload() -> Bool {
-        return GuisoRequestManager.preload(mModel,mPrimarySignature, loader: mLoader, gifd: mGifDecoder, options: mOptions)
+        return GuisoRequestManager.preload(mModel,mPrimarySignature, loader: mLoader, animtedImgDecoder: mAnimatedImageDecoder, options: mOptions)
     }
     
     public func diskCacheStrategy(_ strategy: Guiso.DiskCacheStrategy) -> GuisoRequestBuilder{
@@ -155,8 +168,8 @@ public class GuisoRequestBuilder {
     func getLoader() -> LoaderProtocol {
         return mLoader
     }
-    func getGifDecoder() -> GifDecoderProtocol {
-        return mGifDecoder
+    func getAnimatedImageDecoder() -> AnimatedImageDecoderProtocol {
+        return mAnimatedImageDecoder
     }
     func getModel() -> Any? {
         return mModel
@@ -169,6 +182,15 @@ public class GuisoRequestBuilder {
    
     func apply(_ options:GuisoOptions) -> GuisoRequestBuilder{
         mOptions = options
+        switch mOptions.getAnimatedType() {
+        case .gif:
+            mAnimatedImageDecoder = GuisoGifDecoder()
+            break
+        case .webp:
+            mAnimatedImageDecoder = GuisoWebPDecoder()
+            break
+            
+        }
         return self
     }
  

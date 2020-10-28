@@ -10,7 +10,6 @@ import UIKit
 class GuisoPlaceHolder {
     private var mName:String?
     private var mImage:UIImage?
-    private var mTarget: ViewTarget?
     private var mColor: UIColor?
     init(_ name:String) {
        mName = name
@@ -30,21 +29,18 @@ class GuisoPlaceHolder {
     }
 
 
-    func load() {
+    func load(_ target: ViewTarget?) {
        if mImage != nil {
-           mTarget?.onHolder(mImage)
+            target?.onHolder(mImage)
        }else if mColor != nil {
            let img = GuisoUtils.imageColor(color: mColor!)
-           mTarget?.onHolder(img)
+            target?.onHolder(img)
        }else{
            let img = UIImage(named: mName ?? "")
-             mTarget?.onHolder(img)
+            target?.onHolder(img)
        }
     }
 
-    func setTarget(_ target:ViewTarget?){
-       mTarget = target
-    }
     
     
 }

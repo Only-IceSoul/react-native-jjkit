@@ -18,14 +18,14 @@ class GuisoLoaderString : LoaderProtocol {
     private var mUrlFile = false
     private var mCallback: ((Any?,Guiso.LoadType,String,Guiso.DataSource)-> Void)?
     
-    private var mWebType : URLSessionTask?
+    private var mWebTask : URLSessionTask?
     private var mWebLoad : URLSessionTask?
     private var mGenerator: AVAssetImageGenerator?
     private var mPhId : PHImageRequestID?
     private var mPha : PHAsset?
     private var mPhaId : PHContentEditingInputRequestID?
   
-    func loadData(model: Any, width: CGFloat, height: CGFloat, options: GuisoOptions,callback:@escaping (Any?,Guiso.LoadType,String,Guiso.DataSource)-> Void) {
+    func loadData(model: Any?, width: CGFloat, height: CGFloat, options: GuisoOptions,callback:@escaping (Any?,Guiso.LoadType,String,Guiso.DataSource)-> Void) {
         mCallback = callback
         guard let url = model as? String else {
             sendResult(nil,.data,"model is nil or not a string",.remote)
@@ -45,7 +45,7 @@ class GuisoLoaderString : LoaderProtocol {
                 default:
                     self.web()
                 }
-                self.mWebType = nil
+                self.mWebTask = nil
             }
         }else if isFile() {
             mUrlFile = true
@@ -87,12 +87,16 @@ class GuisoLoaderString : LoaderProtocol {
         let request = getRequestWeb(mOptions.getHeader()?.getFields())
     mWebLoad = session.dataTask(with: request) { (data, response, error) in
             if error != nil {
-                print("ImageWorker:error - updateWebImage -> ",error!)
                 self.sendResult(nil,.data,error!.localizedDescription,.remote)
                 return
             }
             
-        self.sendResult(data,.data,"",.remote)
+        if data != nil{
+            self.sendResult(data,.data,"",.remote)
+        }else{
+            self.sendResult(data,.data,"got response nil",.remote)
+        }
+             
             
         }
         self.mWebLoad?.priority = getPriorityWeb()
@@ -267,10 +271,9 @@ class GuisoLoaderString : LoaderProtocol {
         var result = Guiso.MediaType.image
         var request = URLRequest(url: URL(string: mUrl)!)
         request.httpMethod = "HEAD"
-        self.mWebType = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        self.mWebTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil {
                 completion(result)
-                print("Guis - UrlWeb Mediatype:error -> ",error!)
             }else {
                 guard let httpResponse = response as? HTTPURLResponse,
                      let ct = httpResponse.allHeaderFields["Content-Type"] as? String
@@ -289,8 +292,8 @@ class GuisoLoaderString : LoaderProtocol {
                 completion(result)
             }
         }
-        self.mWebType?.priority = getPriorityWeb()
-        self.mWebType?.resume()
+        self.mWebTask?.priority = getPriorityWeb()
+        self.mWebTask?.resume()
 
     }
     
@@ -358,13 +361,13 @@ class GuisoLoaderString : LoaderProtocol {
     
     //MARK: Tracker
     func cancel() {
-        mWebType?.cancel()
+        mWebTask?.cancel()
         mWebLoad?.cancel()
         mGenerator?.cancelAllCGImageGeneration()
         if mPhaId != nil { mPha?.cancelContentEditingInputRequest(mPhaId!)}
         if mPhId  != nil { PHImageManager.default().cancelImageRequest(mPhId!) }
         
-        mWebType = nil
+        mWebTask = nil
         mWebLoad = nil
         mGenerator = nil
         mPhId = nil

@@ -16,6 +16,7 @@ import Foundation
     static func registryPreLoad(_ key:String){
         if key.isEmpty { return }
         preloads.append(key)
+            
     }
     
     static func removePreload(_ key:String){
@@ -37,36 +38,48 @@ import Foundation
         target.getRequest()?.cancel()
         target.onHolder(nil)
         
-          builder.getOptions().getPlaceHolder()?.setTarget(target)
-          builder.getOptions().getPlaceHolder()?.load()
+        builder.getOptions().getPlaceHolder()?.load(target)
          
-      
-        if let model = builder.getModel() {
-            let request = GuisoRequest(model:model,builder.getPrimarySignature(),options: builder.getOptions(),target,loader:builder.getLoader(),gifDecoder: builder.getGifDecoder())
-            let p = getPriority( builder.getOptions().getPriority())
-            target.setRequest(request)
-            
-            if let t = builder.getOptions().getThumbnail() , builder.getOptions().getThumbnail()?.getModel() != nil {
-                let thumb = GuisoRequestThumb(model: t.getModel()!,t.getPrimarySignature(), options: t.getOptions(), target, loader: t.getLoader(), gifDecoder: t.getGifDecoder())
-                request.setThumb(thumb)
-                Guiso.get().getExecutor().doWork(thumb,priority: p , flags: .enforceQoS )
+        if builder.getModel() == nil {
+            if let fb = builder.getOptions().getFallbackHolder() {
+                fb.load(target)
+            }else{
+                builder.getOptions().getErrorHolder()?.load(target)
             }
-
-            Guiso.get().getExecutor().doWork(request,priority: p , flags: .enforceQoS )
-          
-        }else{
-            builder.getOptions().getFallbackHolder()?.setTarget(target)
-            builder.getOptions().getFallbackHolder()?.load()
-            target.onLoadFailed("model is nil")
+           
+            target.onLoadFailed("mainRequest: model is nil")
+         }
+      
+       
+        let mainRequest = GuisoRequest(model:builder.getModel(),builder.getPrimarySignature(),options: builder.getOptions(),target,loader:builder.getLoader(),animImgDecoder: builder.getAnimatedImageDecoder())
+        
+            let priority = getPriority( builder.getOptions().getPriority() )
+           
+            
+            if let tb = builder.getOptions().getThumbnail() , builder.getOptions().getThumbnail()?.getModel() != nil {
+                
+                let thumbRequest = GuisoRequestThumb(model: tb.getModel()!,tb.getPrimarySignature(), options: tb.getOptions(), target, loader: tb.getLoader(), animImgDecoder: tb.getAnimatedImageDecoder())
+                
+                mainRequest.setThumb(thumbRequest)
+                
+                Guiso.get().getExecutor().doWork(thumbRequest,priority: priority , flags: .enforceQoS )
+            }
+        target.setRequest(mainRequest)
+        if builder.getModel() != nil{
+            Guiso.get().getExecutor().doWork(mainRequest,priority: priority , flags: .enforceQoS )
         }
+           
+
           return target
-      }
+    }
       
 
-    static func preload(_ model:Any?,_ primarySignature:String,loader:LoaderProtocol,gifd: GifDecoderProtocol,options: GuisoOptions) -> Bool{
+    static func preload(_ model:Any?,_ primarySignature:String,loader:LoaderProtocol,animtedImgDecoder: AnimatedImageDecoderProtocol,options: GuisoOptions) -> Bool{
         if model != nil {
-            let work = GuisoPreload(model: model!,primarySignature, options: options, loader: loader, gifDecoder: gifd)
+            let work = GuisoPreload(model: model!,primarySignature, options: options, loader: loader, animImgDecoder: animtedImgDecoder)
+            
             Guiso.get().getExecutor().doWork(work,priority: .background , flags: .enforceQoS )
+            
             return true
         }
         return false

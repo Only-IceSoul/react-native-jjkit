@@ -27,43 +27,48 @@
 		D03AA8E02537802500B8AAB5 /* JJLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8DE2537802500B8AAB5 /* JJLayout.swift */; };
 		D087E1FD24588AD9001C8C7E /* PhotoKit.m in Sources */ = {isa = PBXBuildFile; fileRef = D087E1FB24588AD8001C8C7E /* PhotoKit.m */; };
 		D087E1FE24588AD9001C8C7E /* PhotoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D087E1FC24588AD9001C8C7E /* PhotoKit.swift */; };
-		D0AE8AE7247AE3FF00F860AE /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AE1247AE3FE00F860AE /* ColorMap.swift */; };
-		D0AE8AE8247AE3FF00F860AE /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AE2247AE3FE00F860AE /* LinkedList.swift */; };
-		D0AE8AE9247AE3FF00F860AE /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AE3247AE3FE00F860AE /* LRUCache.swift */; };
-		D0AE8AEA247AE3FF00F860AE /* LRUCacheGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AE4247AE3FE00F860AE /* LRUCacheGif.swift */; };
-		D0AE8AEB247AE3FF00F860AE /* LRUDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AE5247AE3FE00F860AE /* LRUDiskCache.swift */; };
-		D0AE8AEC247AE3FF00F860AE /* LRUDiskCacheObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AE6247AE3FE00F860AE /* LRUDiskCacheObject.swift */; };
-		D0AE8AEF247AE40700F860AE /* Runnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AED247AE40700F860AE /* Runnable.swift */; };
-		D0AE8AF0247AE40700F860AE /* Executor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AEE247AE40700F860AE /* Executor.swift */; };
-		D0AE8AFF247AE41600F860AE /* GuisoRequestThumb.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AF1247AE41500F860AE /* GuisoRequestThumb.swift */; };
-		D0AE8B00247AE41600F860AE /* GuisoRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AF2247AE41500F860AE /* GuisoRequestBuilder.swift */; };
-		D0AE8B01247AE41600F860AE /* GuisoOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AF3247AE41500F860AE /* GuisoOptions.swift */; };
-		D0AE8B02247AE41600F860AE /* GuisoSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AF4247AE41500F860AE /* GuisoSaver.swift */; };
-		D0AE8B03247AE41600F860AE /* Guiso.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AF5247AE41500F860AE /* Guiso.swift */; };
-		D0AE8B04247AE41600F860AE /* GuisoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AF6247AE41500F860AE /* GuisoHeader.swift */; };
-		D0AE8B05247AE41600F860AE /* GuisoRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AF7247AE41500F860AE /* GuisoRequestManager.swift */; };
-		D0AE8B06247AE41600F860AE /* GuisoPreload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AF8247AE41500F860AE /* GuisoPreload.swift */; };
-		D0AE8B07247AE41600F860AE /* GuisoGifDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AF9247AE41500F860AE /* GuisoGifDecoder.swift */; };
-		D0AE8B08247AE41600F860AE /* GuisoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AFA247AE41500F860AE /* GuisoRequest.swift */; };
-		D0AE8B09247AE41600F860AE /* GuisoErrorHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AFB247AE41500F860AE /* GuisoErrorHolder.swift */; };
-		D0AE8B0A247AE41600F860AE /* GuisoPlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AFC247AE41600F860AE /* GuisoPlaceHolder.swift */; };
-		D0AE8B0B247AE41600F860AE /* GuisoTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AFD247AE41600F860AE /* GuisoTransform.swift */; };
-		D0AE8B0C247AE41600F860AE /* GuisoFallbackHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8AFE247AE41600F860AE /* GuisoFallbackHolder.swift */; };
-		D0AE8B13247AE41F00F860AE /* GifLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B0D247AE41E00F860AE /* GifLayer.swift */; };
-		D0AE8B14247AE41F00F860AE /* extension_URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B0E247AE41E00F860AE /* extension_URL.swift */; };
-		D0AE8B15247AE41F00F860AE /* extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B0F247AE41E00F860AE /* extension_String.swift */; };
-		D0AE8B16247AE41F00F860AE /* GuisoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B10247AE41E00F860AE /* GuisoUtils.swift */; };
-		D0AE8B17247AE41F00F860AE /* GuisoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B11247AE41F00F860AE /* GuisoView.swift */; };
-		D0AE8B18247AE41F00F860AE /* TransformationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B12247AE41F00F860AE /* TransformationUtils.swift */; };
-		D0AE8B1B247AE42600F860AE /* GuisoLoaderString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B19247AE42600F860AE /* GuisoLoaderString.swift */; };
-		D0AE8B1C247AE42600F860AE /* GuisoLoaderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B1A247AE42600F860AE /* GuisoLoaderData.swift */; };
-		D0AE8B1F247AE43000F860AE /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B1D247AE43000F860AE /* Key.swift */; };
-		D0AE8B20247AE43000F860AE /* GIf.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B1E247AE43000F860AE /* GIf.swift */; };
-		D0AE8B26247AE43700F860AE /* ViewTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B21247AE43600F860AE /* ViewTarget.swift */; };
-		D0AE8B27247AE43700F860AE /* GifDecoderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B22247AE43600F860AE /* GifDecoderProtocol.swift */; };
-		D0AE8B28247AE43700F860AE /* TransformProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B23247AE43600F860AE /* TransformProtocol.swift */; };
-		D0AE8B29247AE43700F860AE /* SimpleTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B24247AE43700F860AE /* SimpleTarget.swift */; };
-		D0AE8B2A247AE43700F860AE /* LoaderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE8B25247AE43700F860AE /* LoaderProtocol.swift */; };
+		D0A3F97325491E1100395F3D /* GuisoRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F94D25491E0F00395F3D /* GuisoRequestManager.swift */; };
+		D0A3F97425491E1100395F3D /* LRUDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F94E25491E0F00395F3D /* LRUDiskCache.swift */; };
+		D0A3F97525491E1100395F3D /* GuisoLoaderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F94F25491E0F00395F3D /* GuisoLoaderData.swift */; };
+		D0A3F97625491E1100395F3D /* GuisoTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95025491E0F00395F3D /* GuisoTransform.swift */; };
+		D0A3F97725491E1100395F3D /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95125491E0F00395F3D /* LinkedList.swift */; };
+		D0A3F97825491E1100395F3D /* GuisoOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95225491E0F00395F3D /* GuisoOptions.swift */; };
+		D0A3F97925491E1100395F3D /* extension_URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95325491E1000395F3D /* extension_URL.swift */; };
+		D0A3F97A25491E1100395F3D /* GuisoFallbackHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95425491E1000395F3D /* GuisoFallbackHolder.swift */; };
+		D0A3F97B25491E1100395F3D /* LoaderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95525491E1000395F3D /* LoaderProtocol.swift */; };
+		D0A3F97C25491E1100395F3D /* Executor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95625491E1000395F3D /* Executor.swift */; };
+		D0A3F97D25491E1100395F3D /* TransformationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95725491E1000395F3D /* TransformationUtils.swift */; };
+		D0A3F97E25491E1100395F3D /* Runnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95825491E1000395F3D /* Runnable.swift */; };
+		D0A3F97F25491E1100395F3D /* ViewTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95925491E1000395F3D /* ViewTarget.swift */; };
+		D0A3F98025491E1100395F3D /* GuisoRequestThumb.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95A25491E1000395F3D /* GuisoRequestThumb.swift */; };
+		D0A3F98125491E1100395F3D /* GuisoPlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95B25491E1000395F3D /* GuisoPlaceHolder.swift */; };
+		D0A3F98225491E1100395F3D /* GuisoGifDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95C25491E1000395F3D /* GuisoGifDecoder.swift */; };
+		D0A3F98325491E1100395F3D /* GuisoSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95D25491E1000395F3D /* GuisoSaver.swift */; };
+		D0A3F98425491E1100395F3D /* GuisoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95E25491E1000395F3D /* GuisoRequest.swift */; };
+		D0A3F98525491E1100395F3D /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F95F25491E1000395F3D /* ColorMap.swift */; };
+		D0A3F98625491E1100395F3D /* SimpleTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96025491E1000395F3D /* SimpleTarget.swift */; };
+		D0A3F98725491E1100395F3D /* GuisoLoaderString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96125491E1000395F3D /* GuisoLoaderString.swift */; };
+		D0A3F98825491E1100395F3D /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96225491E1000395F3D /* AnimatedImage.swift */; };
+		D0A3F98925491E1100395F3D /* GuisoRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96325491E1000395F3D /* GuisoRequestBuilder.swift */; };
+		D0A3F98A25491E1100395F3D /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96425491E1000395F3D /* LRUCache.swift */; };
+		D0A3F98B25491E1100395F3D /* GuisoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96525491E1000395F3D /* GuisoHeader.swift */; };
+		D0A3F98C25491E1100395F3D /* LRUCacheGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96625491E1100395F3D /* LRUCacheGif.swift */; };
+		D0A3F98D25491E1100395F3D /* AnimatedImageDecoderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96725491E1100395F3D /* AnimatedImageDecoderProtocol.swift */; };
+		D0A3F98E25491E1100395F3D /* GuisoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96825491E1100395F3D /* GuisoView.swift */; };
+		D0A3F98F25491E1100395F3D /* Guiso.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96925491E1100395F3D /* Guiso.swift */; };
+		D0A3F99025491E1100395F3D /* GuisoPreload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96A25491E1100395F3D /* GuisoPreload.swift */; };
+		D0A3F99125491E1100395F3D /* GuisoErrorHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96B25491E1100395F3D /* GuisoErrorHolder.swift */; };
+		D0A3F99225491E1100395F3D /* GuisoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96C25491E1100395F3D /* GuisoUtils.swift */; };
+		D0A3F99325491E1100395F3D /* AnimatedLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96D25491E1100395F3D /* AnimatedLayer.swift */; };
+		D0A3F99425491E1100395F3D /* TransformProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96E25491E1100395F3D /* TransformProtocol.swift */; };
+		D0A3F99525491E1100395F3D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F96F25491E1100395F3D /* File.swift */; };
+		D0A3F99625491E1100395F3D /* GuisoWebpDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F97025491E1100395F3D /* GuisoWebpDecoder.swift */; };
+		D0A3F99725491E1100395F3D /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F97125491E1100395F3D /* Key.swift */; };
+		D0A3F99825491E1100395F3D /* extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F97225491E1100395F3D /* extension_String.swift */; };
+		D0A3F99F25491E4400395F3D /* WebPMux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A3F99B25491E4400395F3D /* WebPMux.framework */; };
+		D0A3F9A025491E4400395F3D /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A3F99C25491E4400395F3D /* WebP.framework */; };
+		D0A3F9A125491E4400395F3D /* WebPDecoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A3F99D25491E4400395F3D /* WebPDecoder.framework */; };
+		D0A3F9A225491E4400395F3D /* WebPDemux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A3F99E25491E4400395F3D /* WebPDemux.framework */; };
 		D0AFDFDE244F8C0D00377C58 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AFDFDB244F8C0D00377C58 /* Image.m */; };
 		D0AFDFDF244F8C0D00377C58 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AFDFDC244F8C0D00377C58 /* Image.swift */; };
 		D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D5243AE49100881A99 /* CircleProgress.swift */; };
@@ -126,43 +131,48 @@
 		D03AA8E22537817400B8AAB5 /* JJKitAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = JJKitAssets.xcassets; sourceTree = "<group>"; };
 		D087E1FB24588AD8001C8C7E /* PhotoKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoKit.m; sourceTree = "<group>"; };
 		D087E1FC24588AD9001C8C7E /* PhotoKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoKit.swift; sourceTree = "<group>"; };
-		D0AE8AE1247AE3FE00F860AE /* ColorMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorMap.swift; sourceTree = "<group>"; };
-		D0AE8AE2247AE3FE00F860AE /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
-		D0AE8AE3247AE3FE00F860AE /* LRUCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
-		D0AE8AE4247AE3FE00F860AE /* LRUCacheGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCacheGif.swift; sourceTree = "<group>"; };
-		D0AE8AE5247AE3FE00F860AE /* LRUDiskCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUDiskCache.swift; sourceTree = "<group>"; };
-		D0AE8AE6247AE3FE00F860AE /* LRUDiskCacheObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUDiskCacheObject.swift; sourceTree = "<group>"; };
-		D0AE8AED247AE40700F860AE /* Runnable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Runnable.swift; sourceTree = "<group>"; };
-		D0AE8AEE247AE40700F860AE /* Executor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Executor.swift; sourceTree = "<group>"; };
-		D0AE8AF1247AE41500F860AE /* GuisoRequestThumb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequestThumb.swift; sourceTree = "<group>"; };
-		D0AE8AF2247AE41500F860AE /* GuisoRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequestBuilder.swift; sourceTree = "<group>"; };
-		D0AE8AF3247AE41500F860AE /* GuisoOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoOptions.swift; sourceTree = "<group>"; };
-		D0AE8AF4247AE41500F860AE /* GuisoSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoSaver.swift; sourceTree = "<group>"; };
-		D0AE8AF5247AE41500F860AE /* Guiso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guiso.swift; sourceTree = "<group>"; };
-		D0AE8AF6247AE41500F860AE /* GuisoHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoHeader.swift; sourceTree = "<group>"; };
-		D0AE8AF7247AE41500F860AE /* GuisoRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequestManager.swift; sourceTree = "<group>"; };
-		D0AE8AF8247AE41500F860AE /* GuisoPreload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoPreload.swift; sourceTree = "<group>"; };
-		D0AE8AF9247AE41500F860AE /* GuisoGifDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoGifDecoder.swift; sourceTree = "<group>"; };
-		D0AE8AFA247AE41500F860AE /* GuisoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequest.swift; sourceTree = "<group>"; };
-		D0AE8AFB247AE41500F860AE /* GuisoErrorHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoErrorHolder.swift; sourceTree = "<group>"; };
-		D0AE8AFC247AE41600F860AE /* GuisoPlaceHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoPlaceHolder.swift; sourceTree = "<group>"; };
-		D0AE8AFD247AE41600F860AE /* GuisoTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoTransform.swift; sourceTree = "<group>"; };
-		D0AE8AFE247AE41600F860AE /* GuisoFallbackHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoFallbackHolder.swift; sourceTree = "<group>"; };
-		D0AE8B0D247AE41E00F860AE /* GifLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifLayer.swift; sourceTree = "<group>"; };
-		D0AE8B0E247AE41E00F860AE /* extension_URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_URL.swift; sourceTree = "<group>"; };
-		D0AE8B0F247AE41E00F860AE /* extension_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_String.swift; sourceTree = "<group>"; };
-		D0AE8B10247AE41E00F860AE /* GuisoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoUtils.swift; sourceTree = "<group>"; };
-		D0AE8B11247AE41F00F860AE /* GuisoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoView.swift; sourceTree = "<group>"; };
-		D0AE8B12247AE41F00F860AE /* TransformationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformationUtils.swift; sourceTree = "<group>"; };
-		D0AE8B19247AE42600F860AE /* GuisoLoaderString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoLoaderString.swift; sourceTree = "<group>"; };
-		D0AE8B1A247AE42600F860AE /* GuisoLoaderData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoLoaderData.swift; sourceTree = "<group>"; };
-		D0AE8B1D247AE43000F860AE /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
-		D0AE8B1E247AE43000F860AE /* GIf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIf.swift; sourceTree = "<group>"; };
-		D0AE8B21247AE43600F860AE /* ViewTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewTarget.swift; sourceTree = "<group>"; };
-		D0AE8B22247AE43600F860AE /* GifDecoderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifDecoderProtocol.swift; sourceTree = "<group>"; };
-		D0AE8B23247AE43600F860AE /* TransformProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformProtocol.swift; sourceTree = "<group>"; };
-		D0AE8B24247AE43700F860AE /* SimpleTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTarget.swift; sourceTree = "<group>"; };
-		D0AE8B25247AE43700F860AE /* LoaderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoaderProtocol.swift; sourceTree = "<group>"; };
+		D0A3F94D25491E0F00395F3D /* GuisoRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequestManager.swift; sourceTree = "<group>"; };
+		D0A3F94E25491E0F00395F3D /* LRUDiskCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUDiskCache.swift; sourceTree = "<group>"; };
+		D0A3F94F25491E0F00395F3D /* GuisoLoaderData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoLoaderData.swift; sourceTree = "<group>"; };
+		D0A3F95025491E0F00395F3D /* GuisoTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoTransform.swift; sourceTree = "<group>"; };
+		D0A3F95125491E0F00395F3D /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
+		D0A3F95225491E0F00395F3D /* GuisoOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoOptions.swift; sourceTree = "<group>"; };
+		D0A3F95325491E1000395F3D /* extension_URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_URL.swift; sourceTree = "<group>"; };
+		D0A3F95425491E1000395F3D /* GuisoFallbackHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoFallbackHolder.swift; sourceTree = "<group>"; };
+		D0A3F95525491E1000395F3D /* LoaderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoaderProtocol.swift; sourceTree = "<group>"; };
+		D0A3F95625491E1000395F3D /* Executor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Executor.swift; sourceTree = "<group>"; };
+		D0A3F95725491E1000395F3D /* TransformationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformationUtils.swift; sourceTree = "<group>"; };
+		D0A3F95825491E1000395F3D /* Runnable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Runnable.swift; sourceTree = "<group>"; };
+		D0A3F95925491E1000395F3D /* ViewTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewTarget.swift; sourceTree = "<group>"; };
+		D0A3F95A25491E1000395F3D /* GuisoRequestThumb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequestThumb.swift; sourceTree = "<group>"; };
+		D0A3F95B25491E1000395F3D /* GuisoPlaceHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoPlaceHolder.swift; sourceTree = "<group>"; };
+		D0A3F95C25491E1000395F3D /* GuisoGifDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoGifDecoder.swift; sourceTree = "<group>"; };
+		D0A3F95D25491E1000395F3D /* GuisoSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoSaver.swift; sourceTree = "<group>"; };
+		D0A3F95E25491E1000395F3D /* GuisoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequest.swift; sourceTree = "<group>"; };
+		D0A3F95F25491E1000395F3D /* ColorMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorMap.swift; sourceTree = "<group>"; };
+		D0A3F96025491E1000395F3D /* SimpleTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTarget.swift; sourceTree = "<group>"; };
+		D0A3F96125491E1000395F3D /* GuisoLoaderString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoLoaderString.swift; sourceTree = "<group>"; };
+		D0A3F96225491E1000395F3D /* AnimatedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedImage.swift; sourceTree = "<group>"; };
+		D0A3F96325491E1000395F3D /* GuisoRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequestBuilder.swift; sourceTree = "<group>"; };
+		D0A3F96425491E1000395F3D /* LRUCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
+		D0A3F96525491E1000395F3D /* GuisoHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoHeader.swift; sourceTree = "<group>"; };
+		D0A3F96625491E1100395F3D /* LRUCacheGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCacheGif.swift; sourceTree = "<group>"; };
+		D0A3F96725491E1100395F3D /* AnimatedImageDecoderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedImageDecoderProtocol.swift; sourceTree = "<group>"; };
+		D0A3F96825491E1100395F3D /* GuisoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoView.swift; sourceTree = "<group>"; };
+		D0A3F96925491E1100395F3D /* Guiso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guiso.swift; sourceTree = "<group>"; };
+		D0A3F96A25491E1100395F3D /* GuisoPreload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoPreload.swift; sourceTree = "<group>"; };
+		D0A3F96B25491E1100395F3D /* GuisoErrorHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoErrorHolder.swift; sourceTree = "<group>"; };
+		D0A3F96C25491E1100395F3D /* GuisoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoUtils.swift; sourceTree = "<group>"; };
+		D0A3F96D25491E1100395F3D /* AnimatedLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedLayer.swift; sourceTree = "<group>"; };
+		D0A3F96E25491E1100395F3D /* TransformProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformProtocol.swift; sourceTree = "<group>"; };
+		D0A3F96F25491E1100395F3D /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		D0A3F97025491E1100395F3D /* GuisoWebpDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoWebpDecoder.swift; sourceTree = "<group>"; };
+		D0A3F97125491E1100395F3D /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		D0A3F97225491E1100395F3D /* extension_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_String.swift; sourceTree = "<group>"; };
+		D0A3F99B25491E4400395F3D /* WebPMux.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebPMux.framework; sourceTree = "<group>"; };
+		D0A3F99C25491E4400395F3D /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebP.framework; sourceTree = "<group>"; };
+		D0A3F99D25491E4400395F3D /* WebPDecoder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebPDecoder.framework; sourceTree = "<group>"; };
+		D0A3F99E25491E4400395F3D /* WebPDemux.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebPDemux.framework; sourceTree = "<group>"; };
 		D0AFDFDB244F8C0D00377C58 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
 		D0AFDFDC244F8C0D00377C58 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		D0BED1D5243AE49100881A99 /* CircleProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleProgress.swift; sourceTree = "<group>"; };
@@ -195,6 +205,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0A3F9A225491E4400395F3D /* WebPDemux.framework in Frameworks */,
+				D0A3F9A125491E4400395F3D /* WebPDecoder.framework in Frameworks */,
+				D0A3F9A025491E4400395F3D /* WebP.framework in Frameworks */,
+				D0A3F99F25491E4400395F3D /* WebPMux.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,46 +289,58 @@
 			path = Image;
 			sourceTree = "<group>";
 		};
+		D0A3F99A25491E4400395F3D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D0A3F99B25491E4400395F3D /* WebPMux.framework */,
+				D0A3F99C25491E4400395F3D /* WebP.framework */,
+				D0A3F99D25491E4400395F3D /* WebPDecoder.framework */,
+				D0A3F99E25491E4400395F3D /* WebPDemux.framework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
 		D0AE8AE0247AE3DE00F860AE /* Guiso */ = {
 			isa = PBXGroup;
 			children = (
-				D0AE8B0F247AE41E00F860AE /* extension_String.swift */,
-				D0AE8B0E247AE41E00F860AE /* extension_URL.swift */,
-				D0AE8B0D247AE41E00F860AE /* GifLayer.swift */,
-				D0AE8B10247AE41E00F860AE /* GuisoUtils.swift */,
-				D0AE8B1A247AE42600F860AE /* GuisoLoaderData.swift */,
-				D0AE8B1E247AE43000F860AE /* GIf.swift */,
-				D0AE8B1D247AE43000F860AE /* Key.swift */,
-				D0AE8B19247AE42600F860AE /* GuisoLoaderString.swift */,
-				D0AE8B22247AE43600F860AE /* GifDecoderProtocol.swift */,
-				D0AE8B25247AE43700F860AE /* LoaderProtocol.swift */,
-				D0AE8B24247AE43700F860AE /* SimpleTarget.swift */,
-				D0AE8B23247AE43600F860AE /* TransformProtocol.swift */,
-				D0AE8B21247AE43600F860AE /* ViewTarget.swift */,
-				D0AE8B11247AE41F00F860AE /* GuisoView.swift */,
-				D0AE8B12247AE41F00F860AE /* TransformationUtils.swift */,
-				D0AE8AF5247AE41500F860AE /* Guiso.swift */,
-				D0AE8AFB247AE41500F860AE /* GuisoErrorHolder.swift */,
-				D0AE8AFE247AE41600F860AE /* GuisoFallbackHolder.swift */,
-				D0AE8AF9247AE41500F860AE /* GuisoGifDecoder.swift */,
-				D0AE8AF6247AE41500F860AE /* GuisoHeader.swift */,
-				D0AE8AF3247AE41500F860AE /* GuisoOptions.swift */,
-				D0AE8AFC247AE41600F860AE /* GuisoPlaceHolder.swift */,
-				D0AE8AF8247AE41500F860AE /* GuisoPreload.swift */,
-				D0AE8AFA247AE41500F860AE /* GuisoRequest.swift */,
-				D0AE8AF2247AE41500F860AE /* GuisoRequestBuilder.swift */,
-				D0AE8AF7247AE41500F860AE /* GuisoRequestManager.swift */,
-				D0AE8AF1247AE41500F860AE /* GuisoRequestThumb.swift */,
-				D0AE8AF4247AE41500F860AE /* GuisoSaver.swift */,
-				D0AE8AFD247AE41600F860AE /* GuisoTransform.swift */,
-				D0AE8AEE247AE40700F860AE /* Executor.swift */,
-				D0AE8AED247AE40700F860AE /* Runnable.swift */,
-				D0AE8AE1247AE3FE00F860AE /* ColorMap.swift */,
-				D0AE8AE2247AE3FE00F860AE /* LinkedList.swift */,
-				D0AE8AE3247AE3FE00F860AE /* LRUCache.swift */,
-				D0AE8AE4247AE3FE00F860AE /* LRUCacheGif.swift */,
-				D0AE8AE5247AE3FE00F860AE /* LRUDiskCache.swift */,
-				D0AE8AE6247AE3FE00F860AE /* LRUDiskCacheObject.swift */,
+				D0A3F96225491E1000395F3D /* AnimatedImage.swift */,
+				D0A3F96725491E1100395F3D /* AnimatedImageDecoderProtocol.swift */,
+				D0A3F96D25491E1100395F3D /* AnimatedLayer.swift */,
+				D0A3F95F25491E1000395F3D /* ColorMap.swift */,
+				D0A3F95625491E1000395F3D /* Executor.swift */,
+				D0A3F97225491E1100395F3D /* extension_String.swift */,
+				D0A3F95325491E1000395F3D /* extension_URL.swift */,
+				D0A3F96F25491E1100395F3D /* File.swift */,
+				D0A3F96925491E1100395F3D /* Guiso.swift */,
+				D0A3F96B25491E1100395F3D /* GuisoErrorHolder.swift */,
+				D0A3F95425491E1000395F3D /* GuisoFallbackHolder.swift */,
+				D0A3F95C25491E1000395F3D /* GuisoGifDecoder.swift */,
+				D0A3F96525491E1000395F3D /* GuisoHeader.swift */,
+				D0A3F94F25491E0F00395F3D /* GuisoLoaderData.swift */,
+				D0A3F96125491E1000395F3D /* GuisoLoaderString.swift */,
+				D0A3F95225491E0F00395F3D /* GuisoOptions.swift */,
+				D0A3F95B25491E1000395F3D /* GuisoPlaceHolder.swift */,
+				D0A3F96A25491E1100395F3D /* GuisoPreload.swift */,
+				D0A3F95E25491E1000395F3D /* GuisoRequest.swift */,
+				D0A3F96325491E1000395F3D /* GuisoRequestBuilder.swift */,
+				D0A3F94D25491E0F00395F3D /* GuisoRequestManager.swift */,
+				D0A3F95A25491E1000395F3D /* GuisoRequestThumb.swift */,
+				D0A3F95D25491E1000395F3D /* GuisoSaver.swift */,
+				D0A3F95025491E0F00395F3D /* GuisoTransform.swift */,
+				D0A3F96C25491E1100395F3D /* GuisoUtils.swift */,
+				D0A3F96825491E1100395F3D /* GuisoView.swift */,
+				D0A3F97025491E1100395F3D /* GuisoWebpDecoder.swift */,
+				D0A3F97125491E1100395F3D /* Key.swift */,
+				D0A3F95125491E0F00395F3D /* LinkedList.swift */,
+				D0A3F95525491E1000395F3D /* LoaderProtocol.swift */,
+				D0A3F96425491E1000395F3D /* LRUCache.swift */,
+				D0A3F96625491E1100395F3D /* LRUCacheGif.swift */,
+				D0A3F94E25491E0F00395F3D /* LRUDiskCache.swift */,
+				D0A3F95825491E1000395F3D /* Runnable.swift */,
+				D0A3F96025491E1000395F3D /* SimpleTarget.swift */,
+				D0A3F95725491E1000395F3D /* TransformationUtils.swift */,
+				D0A3F96E25491E1100395F3D /* TransformProtocol.swift */,
+				D0A3F95925491E1000395F3D /* ViewTarget.swift */,
 			);
 			path = Guiso;
 			sourceTree = "<group>";
@@ -377,6 +403,7 @@
 		D0F98D742443E385001CF3DA /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				D0A3F99A25491E4400395F3D /* Frameworks */,
 				D0AE8AE0247AE3DE00F860AE /* Guiso */,
 				D0F98D662443DAC6001CF3DA /* JJLabel.swift */,
 				D0F98D682443DAC6001CF3DA /* JJLabelUI.swift */,
@@ -444,87 +471,88 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0A3F98725491E1100395F3D /* GuisoLoaderString.swift in Sources */,
 				D0BED1E4243AE49800881A99 /* ClipRectView.m in Sources */,
-				D0AE8B00247AE41600F860AE /* GuisoRequestBuilder.swift in Sources */,
-				D0AE8AEF247AE40700F860AE /* Runnable.swift in Sources */,
-				D0AE8B0B247AE41600F860AE /* GuisoTransform.swift in Sources */,
+				D0A3F98825491E1100395F3D /* AnimatedImage.swift in Sources */,
 				D03AA8DA25377FFC00B8AAB5 /* ProgressCell.swift in Sources */,
-				D0AE8AEA247AE3FF00F860AE /* LRUCacheGif.swift in Sources */,
-				D0AE8AEC247AE3FF00F860AE /* LRUDiskCacheObject.swift in Sources */,
-				D0AE8B08247AE41600F860AE /* GuisoRequest.swift in Sources */,
 				D0AFDFDF244F8C0D00377C58 /* Image.swift in Sources */,
-				D0AE8B18247AE41F00F860AE /* TransformationUtils.swift in Sources */,
+				D0A3F98F25491E1100395F3D /* Guiso.swift in Sources */,
 				D0BED1ED243AE4A100881A99 /* extension_UIColor.swift in Sources */,
 				D0F98D692443DAC6001CF3DA /* JJScreen.swift in Sources */,
-				D0AE8AFF247AE41600F860AE /* GuisoRequestThumb.swift in Sources */,
-				D0AE8B03247AE41600F860AE /* Guiso.swift in Sources */,
-				D0AE8B28247AE43700F860AE /* TransformProtocol.swift in Sources */,
-				D0AE8AE9247AE3FF00F860AE /* LRUCache.swift in Sources */,
 				D03AA8D925377FFC00B8AAB5 /* CellVideo.swift in Sources */,
-				D0AE8B26247AE43700F860AE /* ViewTarget.swift in Sources */,
-				D0AE8B06247AE41600F860AE /* GuisoPreload.swift in Sources */,
 				D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */,
-				D0AE8B07247AE41600F860AE /* GuisoGifDecoder.swift in Sources */,
 				D0F98D6C2443DAC6001CF3DA /* JJLabelUI.swift in Sources */,
+				D0A3F99725491E1100395F3D /* Key.swift in Sources */,
+				D0A3F99025491E1100395F3D /* GuisoPreload.swift in Sources */,
+				D0A3F98125491E1100395F3D /* GuisoPlaceHolder.swift in Sources */,
+				D0A3F98925491E1100395F3D /* GuisoRequestBuilder.swift in Sources */,
 				D0F98D602443DA71001CF3DA /* Toast.swift in Sources */,
 				D0BED1E5243AE49800881A99 /* LayerClip.swift in Sources */,
+				D0A3F97C25491E1100395F3D /* Executor.swift in Sources */,
 				D0E116E124623ADB009FF69C /* CropHelper.swift in Sources */,
+				D0A3F97925491E1100395F3D /* extension_URL.swift in Sources */,
 				D03AA8D325377FFC00B8AAB5 /* ImageList.swift in Sources */,
-				D0AE8B1B247AE42600F860AE /* GuisoLoaderString.swift in Sources */,
+				D0A3F97F25491E1100395F3D /* ViewTarget.swift in Sources */,
+				D0A3F97825491E1100395F3D /* GuisoOptions.swift in Sources */,
+				D0A3F98A25491E1100395F3D /* LRUCache.swift in Sources */,
 				D0BED1DD243AE49100881A99 /* CircleProgressView.swift in Sources */,
+				D0A3F97B25491E1100395F3D /* LoaderProtocol.swift in Sources */,
 				D0BED1EC243AE4A100881A99 /* extension_UIBezierPath.swift in Sources */,
 				D01D1CA5244A5A6C00E0C8D1 /* Badge.swift in Sources */,
 				D03AA8D725377FFC00B8AAB5 /* MediaCollectionView.swift in Sources */,
-				D0AE8AF0247AE40700F860AE /* Executor.swift in Sources */,
-				D0AE8B20247AE43000F860AE /* GIf.swift in Sources */,
-				D0AE8B0A247AE41600F860AE /* GuisoPlaceHolder.swift in Sources */,
-				D0AE8B13247AE41F00F860AE /* GifLayer.swift in Sources */,
-				D0AE8B02247AE41600F860AE /* GuisoSaver.swift in Sources */,
 				D0F98D702443DAD8001CF3DA /* extension_UIView.swift in Sources */,
 				D021B2C12456754C0085F417 /* ImageView.swift in Sources */,
 				D01D1CA8244A5A7800E0C8D1 /* Badge.m in Sources */,
+				D0A3F97D25491E1100395F3D /* TransformationUtils.swift in Sources */,
+				D0A3F97525491E1100395F3D /* GuisoLoaderData.swift in Sources */,
 				D03AA8D425377FFC00B8AAB5 /* ImageListView.m in Sources */,
-				D0AE8B17247AE41F00F860AE /* GuisoView.swift in Sources */,
-				D0AE8AEB247AE3FF00F860AE /* LRUDiskCache.swift in Sources */,
 				D01D1CAA244A5A8200E0C8D1 /* BadgeShadowView.swift in Sources */,
 				D03AA8D225377FFC00B8AAB5 /* ImageListView.swift in Sources */,
+				D0A3F98325491E1100395F3D /* GuisoSaver.swift in Sources */,
+				D0A3F99525491E1100395F3D /* File.swift in Sources */,
 				D01D1CBC244A623F00E0C8D1 /* extension_AttrString.swift in Sources */,
 				D087E1FD24588AD9001C8C7E /* PhotoKit.m in Sources */,
 				D0BED1E3243AE49800881A99 /* ClipRectView.swift in Sources */,
 				D01D1CAC244A5A8900E0C8D1 /* BadgeView.swift in Sources */,
-				D0AE8B05247AE41600F860AE /* GuisoRequestManager.swift in Sources */,
-				D0AE8B04247AE41600F860AE /* GuisoHeader.swift in Sources */,
 				D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */,
 				D0BED1DC243AE49100881A99 /* LayerCircleProgress.swift in Sources */,
-				D0AE8B2A247AE43700F860AE /* LoaderProtocol.swift in Sources */,
-				D0AE8B29247AE43700F860AE /* SimpleTarget.swift in Sources */,
+				D0A3F99625491E1100395F3D /* GuisoWebpDecoder.swift in Sources */,
 				D0AFDFDE244F8C0D00377C58 /* Image.m in Sources */,
 				D0F98D6B2443DAC6001CF3DA /* ToastManager.swift in Sources */,
-				D0AE8B0C247AE41600F860AE /* GuisoFallbackHolder.swift in Sources */,
-				D0AE8B1C247AE42600F860AE /* GuisoLoaderData.swift in Sources */,
-				D0AE8B09247AE41600F860AE /* GuisoErrorHolder.swift in Sources */,
+				D0A3F99825491E1100395F3D /* extension_String.swift in Sources */,
+				D0A3F97A25491E1100395F3D /* GuisoFallbackHolder.swift in Sources */,
 				D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */,
-				D0AE8B16247AE41F00F860AE /* GuisoUtils.swift in Sources */,
+				D0A3F98C25491E1100395F3D /* LRUCacheGif.swift in Sources */,
 				D03AA8D625377FFC00B8AAB5 /* CellPhoto.swift in Sources */,
 				D03AA8D525377FFC00B8AAB5 /* ProgressView.swift in Sources */,
-				D0AE8B14247AE41F00F860AE /* extension_URL.swift in Sources */,
+				D0A3F97625491E1100395F3D /* GuisoTransform.swift in Sources */,
+				D0A3F97425491E1100395F3D /* LRUDiskCache.swift in Sources */,
 				D03AA8DB25377FFC00B8AAB5 /* SelectableView.swift in Sources */,
+				D0A3F99325491E1100395F3D /* AnimatedLayer.swift in Sources */,
 				D087E1FE24588AD9001C8C7E /* PhotoKit.swift in Sources */,
+				D0A3F98425491E1100395F3D /* GuisoRequest.swift in Sources */,
+				D0A3F99225491E1100395F3D /* GuisoUtils.swift in Sources */,
 				D0F98D6A2443DAC6001CF3DA /* JJLabel.swift in Sources */,
+				D0A3F98B25491E1100395F3D /* GuisoHeader.swift in Sources */,
+				D0A3F98225491E1100395F3D /* GuisoGifDecoder.swift in Sources */,
 				D03AA8E02537802500B8AAB5 /* JJLayout.swift in Sources */,
 				D0F98D622443DA79001CF3DA /* Toast.m in Sources */,
+				D0A3F99125491E1100395F3D /* GuisoErrorHolder.swift in Sources */,
+				D0A3F98025491E1100395F3D /* GuisoRequestThumb.swift in Sources */,
+				D0A3F97725491E1100395F3D /* LinkedList.swift in Sources */,
+				D0A3F98E25491E1100395F3D /* GuisoView.swift in Sources */,
+				D0A3F97E25491E1100395F3D /* Runnable.swift in Sources */,
 				D0E116E024623ADB009FF69C /* Cropper.swift in Sources */,
+				D0A3F99425491E1100395F3D /* TransformProtocol.swift in Sources */,
 				D0E116E224623ADB009FF69C /* Cropper.m in Sources */,
-				D0AE8B1F247AE43000F860AE /* Key.swift in Sources */,
+				D0A3F97325491E1100395F3D /* GuisoRequestManager.swift in Sources */,
 				D0BED1DB243AE49100881A99 /* CircleProgressView.m in Sources */,
 				D0BED1E6243AE49800881A99 /* ClipRect.swift in Sources */,
-				D0AE8B27247AE43700F860AE /* GifDecoderProtocol.swift in Sources */,
-				D0AE8AE8247AE3FF00F860AE /* LinkedList.swift in Sources */,
 				D03AA8DF2537802500B8AAB5 /* JJMargin.swift in Sources */,
-				D0AE8B01247AE41600F860AE /* GuisoOptions.swift in Sources */,
 				D03AA8D825377FFC00B8AAB5 /* SelectableProtocol.swift in Sources */,
-				D0AE8AE7247AE3FF00F860AE /* ColorMap.swift in Sources */,
-				D0AE8B15247AE41F00F860AE /* extension_String.swift in Sources */,
+				D0A3F98625491E1100395F3D /* SimpleTarget.swift in Sources */,
+				D0A3F98D25491E1100395F3D /* AnimatedImageDecoderProtocol.swift in Sources */,
+				D0A3F98525491E1100395F3D /* ColorMap.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,7 +602,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -618,7 +646,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 4.2;
@@ -629,6 +657,10 @@
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/utils/Frameworks",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -645,6 +677,10 @@
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/utils/Frameworks",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,

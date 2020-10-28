@@ -5,7 +5,7 @@
 //  Created by Juan J LF on 10/9/20.
 //
 
-import Foundation
+import UIKit
 
 @objc(ImageList)
 class ImageList : UIView, MediaCollectionListener{

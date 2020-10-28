@@ -123,7 +123,7 @@ class ImageView: UIImageView , ViewTarget {
         if(!asGif){
             options = options.frame(1)
         }else{
-            options = options.asGif()
+            options = options.asAnimatedImage(.gif)
         }
         
         if(resize){
@@ -212,14 +212,14 @@ class ImageView: UIImageView , ViewTarget {
        }
     
        
-       private var mGif: GifLayer?
+       private var mGif: AnimatedLayer?
        override public var bounds: CGRect{
            didSet{
                mGif?.onBoundsChange(bounds)
            }
        }
        
-       public func onResourceReady(_ gif: GifLayer) {
+       public func onResourceReady(_ gif: AnimatedLayer) {
            image = nil
            removeGif()
            addGif(gif)
@@ -243,7 +243,7 @@ class ImageView: UIImageView , ViewTarget {
            
        }
        
-       public func onThumbReady(_ gif: GifLayer) {
+       public func onThumbReady(_ gif: AnimatedLayer) {
            image = nil
            removeGif()
            addGif(gif)
@@ -285,7 +285,7 @@ class ImageView: UIImageView , ViewTarget {
            mGif = nil
        }
        
-       private func addGif(_ gif:GifLayer){
+       private func addGif(_ gif:AnimatedLayer){
            mGif = gif
            mGif?.setContentMode(self.contentMode)
            layer.addSublayer(mGif!)

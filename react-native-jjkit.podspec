@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.license      = "Apache License 2.0"
   # s.license    = { :type => "MIT", :file => "FILE_LICENSE" }
   s.authors      = { "Juan J LF" => "justinjlf21@gmail.com" }
-  s.platforms    = { :ios => "9.0" }
+  s.platforms    = { :ios => "10.0" }
   s.source       = { :git => "https://github.com/github_account/react-native-jjkit.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,swift}"
@@ -24,7 +24,11 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
     'jjkitbundle' => ['ios/**/*.xcassets']
   }
-  # ...
-  # s.dependency "..."
+
+  s.vendored_frameworks = 'ios/utils/Frameworks/*.framework'
+
+  s.pod_target_xcconfig = { 'ARCHS'  => '$(ARCHS_STANDARD)' ,
+  'ONLY_ACTIVE_ARCH' => 'YES'}
+  s.user_target_xcconfig = { 'ARCHS'  => '$(ARCHS_STANDARD)', 'ONLY_ACTIVE_ARCH' => 'YES'}
 end
 

@@ -12,14 +12,14 @@ class GuisoLoaderData: LoaderProtocol {
     
     private var mOptions = GuisoOptions()
     private var mCallback: ((Any?,Guiso.LoadType,String,Guiso.DataSource)->Void)?
-    func loadData(model: Any, width: CGFloat, height: CGFloat, options: GuisoOptions, callback: @escaping (Any?, Guiso.LoadType,String,Guiso.DataSource) -> Void) {
+    func loadData(model: Any?, width: CGFloat, height: CGFloat, options: GuisoOptions, callback: @escaping (Any?, Guiso.LoadType,String,Guiso.DataSource) -> Void) {
         mOptions = options
         mCallback = callback
         guard let data = model as? Data else {
             sendResult(nil,.data,"Data: model  is null or not a Data object",.remote)
              return
         }
-        if options.getAsGif() {
+        if options.getAsAnimatedImage() {
             sendResult(model,.data,"",.remote)
         }else{
 

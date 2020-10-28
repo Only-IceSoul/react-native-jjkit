@@ -3,7 +3,7 @@
 Kit of native modules
 
 android: api 21+  
-ios : 9.0+
+ios : 10.0+
 
 ## Usage
 

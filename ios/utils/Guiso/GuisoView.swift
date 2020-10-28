@@ -38,14 +38,14 @@ public class GuisoView: UIImageView , ViewTarget {
     }
  
     
-    private var mGif: GifLayer?
+    private var mGif: AnimatedLayer?
     override public var bounds: CGRect{
         didSet{
             mGif?.onBoundsChange(bounds)
         }
     }
     
-    public func onResourceReady(_ gif: GifLayer) {
+    public func onResourceReady(_ gif: AnimatedLayer) {
         image = nil
         removeGif()
         addGif(gif)
@@ -63,7 +63,7 @@ public class GuisoView: UIImageView , ViewTarget {
         
     }
     
-    public func onThumbReady(_ gif: GifLayer) {
+    public func onThumbReady(_ gif: AnimatedLayer) {
         image = nil
         removeGif()
         addGif(gif)
@@ -73,7 +73,7 @@ public class GuisoView: UIImageView , ViewTarget {
     public func onLoadFailed(_ error:String) {
         // auto retry?
         //show clickview and let user retry?
-        print("Load failed")
+        print("Load failed ",error )
     }
   
     
@@ -104,7 +104,7 @@ public class GuisoView: UIImageView , ViewTarget {
         mGif = nil
     }
     
-    private func addGif(_ gif:GifLayer){
+    private func addGif(_ gif:AnimatedLayer){
         mGif = gif
         mGif?.setContentMode(self.contentMode)
         layer.addSublayer(mGif!)

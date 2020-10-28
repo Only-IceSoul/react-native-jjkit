@@ -1,0 +1,6 @@
+framework module WebP {
+    umbrella header "WebP.h"
+
+    export *
+    module * { export * }
+}

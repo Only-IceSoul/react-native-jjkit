@@ -10,7 +10,7 @@ import UIKit
 public protocol SimpleTarget {
     
     func onLoadStarted()
-    func onResourceReady(_ gif:GifLayer)
+    func onResourceReady(_ gif:AnimatedLayer)
     func onResourceReady(_ img:UIImage)
     func onLoadFailed()
     func isComplete()

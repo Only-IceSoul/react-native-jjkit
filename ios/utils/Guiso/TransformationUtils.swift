@@ -330,7 +330,7 @@ public class TransformationUtils {
     
     //MARK: Gif
     
-   public static func cleanGif(_ gif:Gif) -> Gif {
+   public static func cleanGif(_ gif:AnimatedImage) -> AnimatedImage {
                
         var framesResult = [CGImage]()
 
@@ -346,7 +346,7 @@ public class TransformationUtils {
           
         }
     
-        let result = Gif()
+        let result = AnimatedImage()
         result.frames =  framesResult
         result.duration = gif.duration
         result.loopCount = gif.loopCount

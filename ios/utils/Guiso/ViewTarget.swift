@@ -12,10 +12,10 @@ public protocol ViewTarget {
     
     func setRequest(_ tag:GuisoRequest?)
     func getRequest() -> GuisoRequest?
-    func onResourceReady(_ gif:GifLayer)
+    func onResourceReady(_ gif:AnimatedLayer)
     func onResourceReady(_ img:UIImage)
     func onThumbReady(_ img: UIImage?)
-    func onThumbReady(_ gif: GifLayer)
+    func onThumbReady(_ gif: AnimatedLayer)
     func onLoadFailed(_ error:String)
     func getContentMode() -> UIView.ContentMode
     func onHolder(_ image:UIImage?)

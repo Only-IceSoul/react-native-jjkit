@@ -15,7 +15,8 @@ public class GuisoOptions {
       private var mOverrideH:CGFloat = -1
       private var mFrameSecond : Double = 0
       private var mSkipMemoryCache = false
-      private var mAsGif = false
+      private var mAsAnimatedImage = false
+    private var mAnimatedType = Guiso.AnimatedType.gif
       private var mIsOverride = false
       private var mLanczos5 = false
       private var mExactFrame = false
@@ -41,8 +42,9 @@ public class GuisoOptions {
       }
     
       @discardableResult
-      public func asGif() -> GuisoOptions {
-          mAsGif = true
+    public func asAnimatedImage(_ type:Guiso.AnimatedType) -> GuisoOptions {
+          mAsAnimatedImage = true
+         mAnimatedType = type
           return self
       }
     @discardableResult
@@ -92,6 +94,12 @@ public class GuisoOptions {
     @discardableResult
        public func error(_ error:String) -> GuisoOptions {
          mErrorHolder = GuisoErrorHolder(error)
+          return self
+       }
+    
+    @discardableResult
+       public func error(_ errorRequest:GuisoRequestBuilder) -> GuisoOptions {
+         mErrorHolder = GuisoErrorHolder(errorRequest)
           return self
        }
     
@@ -179,9 +187,12 @@ public class GuisoOptions {
       public func getHeight() -> CGFloat{
           return mOverrideH
       }
-      public func getAsGif() -> Bool {
-          return mAsGif
+      public func getAsAnimatedImage() -> Bool {
+          return mAsAnimatedImage
       }
+    public func getAnimatedType() -> Guiso.AnimatedType {
+        return mAnimatedType
+    }
     public func getTransformerSignature() -> String {
         return mSignatureTransformer
     }
