@@ -10,10 +10,10 @@ import Photos
 public class Guiso {
     
     static private var instance : Guiso?
-    private var mMemoryCache = GuisoCache(30)
+    private var mMemoryCache = GuisoCache(100)
     private var mExecutor = Executor("Guiso")
-    private var mDiskCache = GuisoDiskCache("Guiso", maxSize: 100)
-    private var mMemoryCacheGif = GuisoCacheGif(13)
+    private var mDiskCache = GuisoDiskCache("Guiso", maxSize: 200)
+    private var mMemoryCacheGif = GuisoCacheGif(50)
     private var mLock = NSLock()
     private init() {}
     
