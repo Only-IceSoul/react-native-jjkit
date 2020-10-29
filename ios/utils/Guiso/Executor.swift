@@ -44,6 +44,12 @@ public class Executor {
         mQueue.async(execute: work)
     }
     
+    public func doWorkBarrier(_ block: @escaping ()->Void){
+        let work = DispatchWorkItem(qos: .default, flags: .barrier, block: block)
+        
+        mQueue.async(execute: work)
+    }
+    
     public func doTask(_ item:Runnable) -> DispatchWorkItem{
         let task = DispatchWorkItem(qos: .userInitiated, flags: .inheritQoS, block: item.run)
         mQueue.async(execute: task)

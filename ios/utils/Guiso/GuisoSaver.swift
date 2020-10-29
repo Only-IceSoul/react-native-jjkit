@@ -15,12 +15,14 @@ class GuisoSaver {
     func saveToMemoryCache(key:String,image:UIImage?){
           if image == nil { return  }
            let cache = Guiso.get().getMemoryCache()
+          cache.evictWithBarrier(true)
            cache.add(key, val: image!,isUpdate: false)
       }
       
     func saveToMemoryCache(key: String,gif:AnimatedImage?){
          if gif == nil  { return  }
          let cache = Guiso.get().getMemoryCacheGif()
+        cache.evictWithBarrier(true)
           cache.add(key, val: gif!,isUpdate: false)
       }
       

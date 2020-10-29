@@ -306,7 +306,11 @@ public class GuisoRequest : Runnable {
                         let drawable = TransformationUtils.cleanGif(gif)
                         displayInTarget(drawable)
                         if !skipCache {
-                            cacheGif.add(mKey, val: drawable,isUpdate: false)
+                            Guiso.get().getExecutor().doWorkBarrier {
+                                cacheGif.evictWithBarrier(false)
+                                cacheGif.add(self.mKey, val: drawable,isUpdate: false)
+                            }
+                            
                             
                         }
                         return true
@@ -335,7 +339,11 @@ public class GuisoRequest : Runnable {
                         if let img =  UIImage(data: data) {
                              displayInTarget(img)
                             if !skipCache {
-                                cache.add(mKey, val: img, isUpdate: false)
+                                Guiso.get().getExecutor().doWorkBarrier {
+                                    cache.evictWithBarrier(false)
+                                    cache.add(self.mKey, val: img, isUpdate: false)
+                                }
+                              
                                 
                             }
                             return true

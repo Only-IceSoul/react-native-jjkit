@@ -1,5 +1,5 @@
 
-#import <WebPMux/types.h>
-#import <WebPMux/mux.h>
-#import <WebPMux/mux_types.h>
+#import <WebPMux/WebPMuxMux_types.h>
+#import <WebPMux/WebPMuxMux.h>
+#import <WebPMux/WebPMuxTypes.h>
 

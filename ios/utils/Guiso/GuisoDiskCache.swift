@@ -10,17 +10,18 @@ import UIKit
 import MobileCoreServices
 import ImageIO
 
-class LRUDiskCache {
+class GuisoDiskCache {
     
     private var  mKeySize = "GuisoDiskCacheSize"
 
     private var mDirectory : URL!
-    private var mLock = NSLock()
+    private var mLock = pthread_rwlock_t()
     private var mMaxSize: Int = 0
-    private var mLockExpired = NSLock()
+   
  
 
     init(_ folder: String, maxSize:Int,cleanInBg:Bool = false) {
+        pthread_rwlock_init(&mLock, nil)
 //        let cacheFolder = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
         let document = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         mDirectory = document.appendingPathComponent(folder)
@@ -39,6 +40,9 @@ class LRUDiskCache {
         
         
   
+    }
+    deinit {
+        pthread_rwlock_destroy(&mLock)
     }
     
     func getDirectory() -> URL {
@@ -61,7 +65,7 @@ class LRUDiskCache {
     
     
     func get(_ key:String) -> Data? {
-        mLock.lock() ; defer { mLock.unlock() }
+        pthread_rwlock_rdlock(&mLock); defer { pthread_rwlock_unlock(&mLock) }
         if key.isEmpty { return nil }
         if !createDirectory(mDirectory.path) { return nil }
         let fileUrl = mDirectory.appendingPathComponent(key)
@@ -71,7 +75,7 @@ class LRUDiskCache {
     }
     
     func getClassObj(_ key:String) -> AnyObject? {
-        mLock.lock() ; defer { mLock.unlock() }
+        pthread_rwlock_rdlock(&mLock); defer { pthread_rwlock_unlock(&mLock) }
         if key.isEmpty { return nil }
         if !createDirectory(mDirectory.path) { return nil }
         let fileUrl = mDirectory.appendingPathComponent(key)
@@ -81,12 +85,6 @@ class LRUDiskCache {
     }
  
   
-//    func addCGImage(_ key:String,img:UIImage){
-//        let uri = mDirectory.appendingPathComponent(key)
-//        let imgre = CGImageDestinationCreateWithURL(uri as CFURL, kUTTypePNG, 1, nil)
-//        CGImageDestinationAddImage(imgre!,img.cgImage!,nil)
-//        CGImageDestinationFinalize(imgre!)
-//    }
     
     @discardableResult
     func add(_ key:String, data : Data,isUpdate: Bool = false) -> Bool {
@@ -99,7 +97,7 @@ class LRUDiskCache {
     }
     
     private func addItem(_ key:String,_ obj:Any,_ isUpdate:Bool,isClassObj:Bool) -> Bool{
-        objc_sync_enter(mLock) ; defer { objc_sync_exit(mLock) }
+        pthread_rwlock_wrlock(&mLock); defer { pthread_rwlock_unlock(&mLock) }
         if key.isEmpty { return false }
          if !createDirectory(mDirectory.path) { return false }
         let fileUrl = mDirectory.appendingPathComponent(key)
@@ -160,7 +158,7 @@ class LRUDiskCache {
     private func addObject(url: URL,object:Any) -> Bool{
         if !FileManager.default.fileExists(atPath: url.path) {
             do {
-                 let data =  NSKeyedArchiver.archivedData(withRootObject: object) 
+                 let data =  NSKeyedArchiver.archivedData(withRootObject: object)
                 try data.write(to: url)
                 return true
             } catch {
@@ -211,7 +209,7 @@ class LRUDiskCache {
    
     
     func clean(){
-        objc_sync_enter(mLock) ; defer { objc_sync_exit(mLock) }
+        pthread_rwlock_wrlock(&mLock); defer { pthread_rwlock_unlock(&mLock) }
         do {
             let fileManager = FileManager.default
             if fileManager.fileExists(atPath: mDirectory.path) {
@@ -231,9 +229,7 @@ class LRUDiskCache {
         return Double(bytes) / 1048576.0
     }
     
-    private func mbToBytes(mb:Double)->Int{
-        return Int(mb * 1048576.0)
-    }
+  
 
     open func getSizeObject(data: Data?) -> Double {
           let bytes  = data?.count ?? 0
@@ -242,7 +238,7 @@ class LRUDiskCache {
     
     private var mIsDeletingCancelled = false
     private func deleteExpiredData(){
-        objc_sync_enter(mLockExpired) ; defer { objc_sync_exit(mLockExpired) }
+        pthread_rwlock_wrlock(&mLock); defer { pthread_rwlock_unlock(&mLock) }
         
         if mIsDeletingCancelled { return }
         let resourceKeys = [URLResourceKey.fileAllocatedSizeKey,URLResourceKey.contentModificationDateKey]
@@ -279,7 +275,7 @@ class LRUDiskCache {
                     currentSize -= it.allocateSize!
                 }
                 
-                if currentSize <= mMaxSize * 70 / 100{
+                if currentSize <= (mMaxSize * 70) / 100{
                     break
                 }
                 if mIsDeletingCancelled { break }
@@ -367,7 +363,7 @@ class LRUDiskCache {
                     currentSize -= it.allocateSize!
                 }
                 
-                if currentSize <= mMaxSize * 70 / 100{
+                if currentSize <= (mMaxSize * 70) / 100{
                     break
                 }
            

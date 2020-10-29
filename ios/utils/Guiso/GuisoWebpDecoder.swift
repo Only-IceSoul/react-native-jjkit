@@ -93,6 +93,7 @@ public class GuisoWebPDecoder : AnimatedImageDecoderProtocol {
                 if (duration <= 0.01) {duration = 0.1}
                 gif.delays.append(duration)
                 if let img = decodeImage(iter: &iter){
+                    gif.bytesCount += img.bytesPerRow * img.height
                     gif.frames.append(img)
                 }else{
                     return nil

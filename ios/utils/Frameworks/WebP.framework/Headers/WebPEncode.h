@@ -14,7 +14,7 @@
 #ifndef WEBP_WEBP_ENCODE_H_
 #define WEBP_WEBP_ENCODE_H_
 
-#include "./types.h"
+#include "./WebPTypes.h"
 
 #ifdef __cplusplus
 extern "C" {

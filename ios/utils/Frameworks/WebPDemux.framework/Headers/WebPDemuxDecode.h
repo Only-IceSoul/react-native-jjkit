@@ -14,7 +14,7 @@
 #ifndef WEBP_WEBP_DECODE_H_
 #define WEBP_WEBP_DECODE_H_
 
-#include "./types.h"
+#include "./WebPDemuxTypes.h"
 #include <sys/xattr.h>
 #ifdef __cplusplus
 extern "C" {

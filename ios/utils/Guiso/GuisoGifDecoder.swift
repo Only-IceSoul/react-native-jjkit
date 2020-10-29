@@ -45,6 +45,8 @@ class GuisoGifDecoder: AnimatedImageDecoderProtocol {
         var images = [CGImage]()
         for i in 0..<count {
            if let image = CGImageSourceCreateImageAtIndex(source, i, nil) {
+            let size = image.bytesPerRow * image.height
+            gif?.bytesCount += size
              images.append(image)
            }
            

@@ -1,4 +1,4 @@
 
-#import <WebP/decode.h>
-#import <WebP/types.h>
-#import <WebP/encode.h>
+#import <WebP/WebPDecode.h>
+#import <WebP/WebPTypes.h>
+#import <WebP/WebPEncode.h>

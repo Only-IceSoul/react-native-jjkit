@@ -1,6 +1,6 @@
 
-#import <WebPDemux/decode.h>
-#import <WebPDemux/types.h>
-#import <WebPDemux/demux.h>
-#import <WebPDemux/mux_types.h>
+#import <WebPDemux/WebPDemuxDecode.h>
+#import <WebPDemux/WebPDemuxTypes.h>
+#import <WebPDemux/WebPDemuxDemux.h>
+#import <WebPDemux/WebPDemuxMux_types.h>
 
