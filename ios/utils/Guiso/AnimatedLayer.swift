@@ -15,10 +15,14 @@ public class AnimatedLayer : CALayer {
     private var mDrawable: AnimatedImage!
      private var contentMode : UIView.ContentMode = .scaleAspectFit
   
+    var pixelWidth = 0
+    var pixelHeight = 0
      public init(_ gif:AnimatedImage){
         super.init()
             self.mDrawable = gif
         if mDrawable.frames.count > 0 {
+            pixelWidth =  mDrawable.frames[0].width
+            pixelHeight =  mDrawable.frames[0].height
             self.needsDisplay()
         }
 
