@@ -8,8 +8,15 @@
 import UIKit
 
 
-class GuisoErrorHolder {
+class GuisoErrorHolder : Equatable {
    
+    static func == (lhs: GuisoErrorHolder, rhs: GuisoErrorHolder) -> Bool {
+        return lhs.mName == rhs.mName
+            && (lhs.mImage == nil && rhs.mImage == nil)
+            && lhs.mColor == rhs.mColor
+            && (lhs.mBuilder == nil && rhs.mBuilder == nil)
+    }
+    
     private var mName:String?
     private var mImage:UIImage?
     private var mTarget: ViewTarget?
@@ -74,7 +81,7 @@ class GuisoErrorHolder {
             let priority = GuisoRequestManager.getPriority( builder.getOptions().getPriority() )
                
                 
-                if let tb = builder.getOptions().getThumbnail() , builder.getOptions().getThumbnail()?.getModel() != nil {
+                if let tb = builder.getThumb() , builder.getThumb()?.getModel() != nil {
                     
                     let thumbRequest = GuisoRequestThumb(model: tb.getModel()!,tb.getPrimarySignature(), options: tb.getOptions(), target, loader: tb.getLoader(), animImgDecoder: tb.getAnimatedImageDecoder())
                     

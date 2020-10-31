@@ -16,6 +16,8 @@ public class GuisoRequestBuilder {
     private var mPrimarySignature = ""
  
     private var mAnimatedImageDecoder : AnimatedImageDecoderProtocol = GuisoGifDecoder()
+    
+    private var mThumb : GuisoRequestBuilder?
      init(model:Any?) {
            mModel = model
            mLoader = GuisoLoaderString()
@@ -146,7 +148,7 @@ public class GuisoRequestBuilder {
         return self
     }
     public func thumbnail(_ t: GuisoRequestBuilder) -> GuisoRequestBuilder{
-        mOptions.thumbnail(t)
+        mThumb = t
         return self
     }
     @discardableResult
@@ -155,9 +157,14 @@ public class GuisoRequestBuilder {
         return GuisoRequestManager.into(target, builder: self)
     }
     
-    @discardableResult
-    public func preload() -> Bool {
-        return GuisoRequestManager.preload(mModel,mPrimarySignature, loader: mLoader, animtedImgDecoder: mAnimatedImageDecoder, options: mOptions)
+    public func getThumb() -> GuisoRequestBuilder?{
+        return mThumb
+    }
+    
+  
+    public func preload() -> GuisoPreload {
+   
+        return GuisoPreload(model: mModel,mPrimarySignature, options: mOptions, loader: mLoader, animImgDecoder: mAnimatedImageDecoder)
     }
     
     public func diskCacheStrategy(_ strategy: Guiso.DiskCacheStrategy) -> GuisoRequestBuilder{

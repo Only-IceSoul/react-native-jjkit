@@ -58,7 +58,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
        }
     
     @objc func fetch(_ query:[String:Any]?, resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
-        Guiso.get().getExecutor().doWork {
+        DispatchQueue.global(qos: .userInitiated).async {
             
           
             var albumList = [[String:Any]]()
@@ -208,7 +208,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
 
     
     @objc func fetchAlbums(_ media:String?,resolve: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock){
-        Guiso.get().getExecutor().doWork {
+        DispatchQueue.global(qos: .userInitiated).async {
             var albumList = [[String:Any]]()
             let albums = self.getAllAlbums()
             var justGif = false
@@ -389,7 +389,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
 
     @objc func requestRaw(_ identifier:String?,resolve:@escaping RCTPromiseResolveBlock, rejecter:@escaping RCTPromiseRejectBlock){
          if identifier != nil && !identifier!.isEmpty{
-            Guiso.get().getExecutor().doWork {
+            DispatchQueue.global(qos: .userInitiated).async {
                 if let asset = self.resolveAsset(identifier!){
                     GuisoUtils.getData(asset: asset) { (data) in
                         DispatchQueue.main.async { resolve(data?.base64EncodedString()) }
@@ -419,7 +419,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
          
         if identifier != nil && !identifier!.isEmpty{
 
-           Guiso.get().getExecutor().doWork {
+            DispatchQueue.global(qos: .userInitiated).async {
                if let asset = self.resolveAsset(identifier!){
                 if asset.mediaType == .video {
                     GuisoUtils.getVideoThumbnail(asset, second: 1, exact: false) { (img, error) in

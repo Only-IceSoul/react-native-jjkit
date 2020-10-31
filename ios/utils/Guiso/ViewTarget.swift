@@ -8,7 +8,7 @@
 import UIKit
 
 
-public protocol ViewTarget {
+public protocol ViewTarget: AnyObject {
     
     func setRequest(_ tag:GuisoRequest?)
     func getRequest() -> GuisoRequest?

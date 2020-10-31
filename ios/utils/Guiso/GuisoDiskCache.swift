@@ -18,6 +18,7 @@ class GuisoDiskCache {
     private var mLock = pthread_rwlock_t()
     private var mMaxSize: Int = 0
    
+    private var mKeyGenerator = KeyGenerator()
  
 
     init(_ folder: String, maxSize:Int,cleanInBg:Bool = false) {
@@ -64,21 +65,22 @@ class GuisoDiskCache {
     }
     
     
-    func get(_ key:String) -> Data? {
+    func get(_ key:Key) -> Data? {
         pthread_rwlock_rdlock(&mLock); defer { pthread_rwlock_unlock(&mLock) }
-        if key.isEmpty { return nil }
+        
         if !createDirectory(mDirectory.path) { return nil }
-        let fileUrl = mDirectory.appendingPathComponent(key)
+        guard let strKey = mKeyGenerator.getKeyString(key: key) else { return nil }
+        let fileUrl = mDirectory.appendingPathComponent(strKey)
         let data = getData(url: fileUrl)
 
         return data
     }
     
-    func getClassObj(_ key:String) -> AnyObject? {
+    func getClassObj(_ key:Key) -> AnyObject? {
         pthread_rwlock_rdlock(&mLock); defer { pthread_rwlock_unlock(&mLock) }
-        if key.isEmpty { return nil }
         if !createDirectory(mDirectory.path) { return nil }
-        let fileUrl = mDirectory.appendingPathComponent(key)
+        guard let strKey = mKeyGenerator.getKeyString(key: key) else { return nil }
+        let fileUrl = mDirectory.appendingPathComponent(strKey)
         let obj = getObject(url: fileUrl)
        
         return obj
@@ -87,20 +89,20 @@ class GuisoDiskCache {
   
     
     @discardableResult
-    func add(_ key:String, data : Data,isUpdate: Bool = false) -> Bool {
+    func add(_ key:Key, data : Data,isUpdate: Bool = false) -> Bool {
         return addItem(key,data,isUpdate,isClassObj: false)
     }
     
     @discardableResult
-    func add(_ key:String, classObj : AnyObject,isUpdate: Bool = false) -> Bool {
+    func add(_ key:Key, classObj : AnyObject,isUpdate: Bool = false) -> Bool {
         return addItem(key,classObj,isUpdate,isClassObj: true)
     }
     
-    private func addItem(_ key:String,_ obj:Any,_ isUpdate:Bool,isClassObj:Bool) -> Bool{
+    private func addItem(_ key:Key,_ obj:Any,_ isUpdate:Bool,isClassObj:Bool) -> Bool{
         pthread_rwlock_wrlock(&mLock); defer { pthread_rwlock_unlock(&mLock) }
-        if key.isEmpty { return false }
          if !createDirectory(mDirectory.path) { return false }
-        let fileUrl = mDirectory.appendingPathComponent(key)
+        guard let strKey = mKeyGenerator.getKeyString(key: key) else { return false }
+        let fileUrl = mDirectory.appendingPathComponent(strKey)
         var needAdd = false
         let item = getData(url: fileUrl)
 

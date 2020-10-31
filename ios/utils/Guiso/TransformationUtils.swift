@@ -424,9 +424,20 @@ public class TransformationUtils {
     static func getRect(cgImage:CGImage,width:CGFloat,height:CGFloat,_ scaleType: UIView.ContentMode) -> CGRect{
         switch scaleType {
         case .scaleAspectFill:
-            return rectCenterCrop(cgImage: cgImage, width: width, height: height)
+            return rectCenterCrop(cw: CGFloat(cgImage.width),ch:CGFloat(cgImage.height), width: width, height: height)
         case .scaleAspectFit:
-            return rectFitCenter(cgImage: cgImage, width: width, height: height)
+            return rectFitCenter(cw: CGFloat(cgImage.width),ch:CGFloat(cgImage.height), width: width, height: height)
+        default:
+            return CGRect(x: 0, y: 0, width: width, height: height)
+        }
+    }
+    
+    static func getRect(cw:CGFloat,ch:CGFloat,width:CGFloat,height:CGFloat,_ scaleType: UIView.ContentMode) -> CGRect{
+        switch scaleType {
+        case .scaleAspectFill:
+            return rectCenterCrop(cw: cw,ch:ch, width: width, height: height)
+        case .scaleAspectFit:
+            return rectFitCenter(cw: cw,ch:ch, width: width, height: height)
         default:
             return CGRect(x: 0, y: 0, width: width, height: height)
         }
@@ -435,10 +446,10 @@ public class TransformationUtils {
     static func getRect(image:UIImage,width:CGFloat,height:CGFloat,_ scaleType: UIView.ContentMode) -> CGRect{
              switch scaleType {
              case .scaleAspectFill:
-                 return rectCenterCrop(image: image, width: width, height: height)
+                return rectCenterCrop(cw: image.size.width,ch:image.size.height, width: width, height: height)
              case .scaleAspectFit:
              
-                 return rectFitCenter(image: image, width: width, height: height)
+                 return rectFitCenter(cw: image.size.width,ch:image.size.height, width: width, height: height)
              default:
                    
                  return CGRect(x: 0, y: 0, width: width, height: height)
@@ -447,11 +458,11 @@ public class TransformationUtils {
        
 
        
-     
+   
        
-       static func rectFitCenter(image: UIImage,width: CGFloat,height:CGFloat) -> CGRect {
-           let inWidth = image.size.width
-           let inHeight = image.size.height
+    static func rectFitCenter(cw: CGFloat,ch:CGFloat,width: CGFloat,height:CGFloat) -> CGRect {
+           let inWidth = cw
+           let inHeight = ch
            
            if(inWidth == width && inHeight == height){
                return CGRect(x: 0, y: 0, width: width, height: height)
@@ -477,9 +488,9 @@ public class TransformationUtils {
            
        }
        
-       static func rectCenterCrop(image:UIImage,width:CGFloat,height:CGFloat) -> CGRect {
-           let inWidth = image.size.width
-           let inHeight = image.size.height
+       static func rectCenterCrop(cw: CGFloat,ch:CGFloat,width:CGFloat,height:CGFloat) -> CGRect {
+           let inWidth = cw
+           let inHeight = ch
            
            if(inWidth == width && inHeight == height){
              return CGRect(x: 0, y: 0, width: width, height: height)
@@ -503,54 +514,5 @@ public class TransformationUtils {
           return  CGRect(x: dx, y: dy, width: scaleW, height: scaleH)
        }
        
-       static func rectFitCenter(cgImage: CGImage,width: CGFloat,height:CGFloat) -> CGRect {
-           let inWidth = CGFloat(cgImage.width)
-           let inHeight = CGFloat(cgImage.height)
-           if(inWidth == width && inHeight == height){
-               return CGRect(x: 0, y: 0, width: width, height: height)
-           }
-           
-           let widthPercentage = width / inWidth
-           let heightPercentage = height / inHeight
-           let minPercentage = min(widthPercentage, heightPercentage)
-           let targetWidth = round(minPercentage * inWidth)
-           let targetHeight = round(minPercentage * inHeight)
-           if(width == targetWidth && height == targetHeight){
-              return CGRect(x: 0, y: 0, width: width, height: height)
-           }
-           
-           let dx = (width - targetWidth) / 2
-           let dy = (height - targetHeight) / 2
-        
-       
-           return CGRect(x: dx, y: dy, width: targetWidth, height: targetHeight)
-           
-       }
-       
-       static func rectCenterCrop(cgImage:CGImage,width:CGFloat,height:CGFloat) -> CGRect {
-           let inWidth = CGFloat(cgImage.width)
-           let inHeight = CGFloat(cgImage.height)
-           
-           if(inWidth == width && inHeight == height){
-             return CGRect(x: 0, y: 0, width: width, height: height)
-           }
-                
-           var dx:CGFloat = 0
-           var dy:CGFloat = 0
-           var scale:CGFloat = 1
-
-           if inWidth * height > width * inHeight {
-              scale = height / inHeight
-              dx = (width - inWidth * scale) * 0.5
-              dy = 0
-           }else{
-              scale = width / inWidth
-              dy = (height - inHeight * scale) * 0.5
-              dx = 0
-           }
-           let scaleW = scale * inWidth
-           let scaleH = scale * inHeight
-          return  CGRect(x: dx, y: dy, width: scaleW, height: scaleH)
-       }
        
 }

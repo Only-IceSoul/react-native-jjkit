@@ -7,8 +7,14 @@
 
 import UIKit
 
-class GuisoFallbackHolder {
+class GuisoFallbackHolder : Equatable {
    
+    static func == (lhs: GuisoFallbackHolder, rhs: GuisoFallbackHolder) -> Bool {
+        return lhs.mName == rhs.mName
+            && (lhs.mImage == nil && rhs.mImage == nil)
+            && lhs.mColor == rhs.mColor
+    }
+    
     private var mName:String?
     private var mImage:UIImage?
     private var mColor: UIColor?

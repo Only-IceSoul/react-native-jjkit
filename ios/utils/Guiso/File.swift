@@ -8,21 +8,21 @@
 import Foundation
 
 
-struct File {
+public struct File {
     
-    init() {
+    public init() {
         
     }
     
-    init(url:URL,modificationDate:Date,allocateSize:Int) {
+    public init(url:URL,modificationDate:Date,allocateSize:Int) {
         self.url = url
         self.modificationDate = modificationDate
         self.allocateSize = allocateSize
     }
     
-    var url : URL?
-    var modificationDate: Date?
-    var allocateSize: Int?
+    public var url : URL?
+    public var modificationDate: Date?
+    public var allocateSize: Int?
     
     
 }

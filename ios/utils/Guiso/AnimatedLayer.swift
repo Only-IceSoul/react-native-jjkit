@@ -15,14 +15,16 @@ public class AnimatedLayer : CALayer {
     private var mDrawable: AnimatedImage!
      private var contentMode : UIView.ContentMode = .scaleAspectFit
   
-    var pixelWidth = 0
-    var pixelHeight = 0
      public init(_ gif:AnimatedImage){
         super.init()
             self.mDrawable = gif
         if mDrawable.frames.count > 0 {
-            pixelWidth =  mDrawable.frames[0].width
-            pixelHeight =  mDrawable.frames[0].height
+            let frame =  mDrawable.frames[0]
+            if mDrawable.canvasHeight == 0 || mDrawable.canvasWidth == 0 {
+                mDrawable.canvasHeight = frame.height
+                mDrawable.canvasWidth = frame.width
+            }
+            
             self.needsDisplay()
         }
 
@@ -35,6 +37,13 @@ public class AnimatedLayer : CALayer {
          self.contentMode = mode
      }
      
+    public func getWidth() -> Int {
+        return mDrawable.canvasWidth
+    }
+    
+    public func getHeight() -> Int {
+        return mDrawable.canvasHeight
+    }
     
      private var mCurrentAnimator : CADisplayLink?
      private var mIsAnimating = false
@@ -98,7 +107,7 @@ public class AnimatedLayer : CALayer {
      
      private var mMainRect = CGRect.zero
      private func invalidateFrame(_ bounds:CGRect){
-         let rect = TransformationUtils.getRect(cgImage: mDrawable.frames[0], width: bounds.width, height: bounds.height, self.contentMode)
+        let rect = TransformationUtils.getRect(cw:CGFloat(mDrawable.canvasWidth),ch:CGFloat(mDrawable.canvasHeight), width: bounds.width, height: bounds.height, self.contentMode)
          super.frame = CGRect(x: 0, y: 0, width: rect.width, height: rect.height)
         super.position.x = bounds.midX
          super.position.y = bounds.midY

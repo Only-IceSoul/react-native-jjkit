@@ -80,6 +80,8 @@ public class GuisoWebPDecoder : AnimatedImageDecoderProtocol {
         }
         gif.loopCount = loopCount
        
+        gif.canvasHeight = height
+        gif.canvasWidth = width
         
     
         var iter = WebPIterator()

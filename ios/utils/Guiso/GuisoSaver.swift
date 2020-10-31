@@ -12,21 +12,19 @@ class GuisoSaver {
     
 
     
-    func saveToMemoryCache(key:String,image:UIImage?){
+    static func saveToMemoryCache(key:Key,image:UIImage?){
           if image == nil { return  }
            let cache = Guiso.get().getMemoryCache()
-          cache.evictWithBarrier(true)
-           cache.add(key, val: image!,isUpdate: false)
+        cache.add(key, val: image!)
       }
       
-    func saveToMemoryCache(key: String,gif:AnimatedImage?){
+    static func saveToMemoryCache(key: Key,gif:AnimatedImage?){
          if gif == nil  { return  }
          let cache = Guiso.get().getMemoryCacheGif()
-        cache.evictWithBarrier(true)
-          cache.add(key, val: gif!,isUpdate: false)
+        cache.add(key, val: gif!)
       }
       
-    func saveToDiskCache(key:String,image:UIImage?){
+    static func saveToDiskCache(key:Key,image:UIImage?){
         if image?.cgImage == nil { return  }
         let diskCache = Guiso.get().getDiskCache()
         if let data = makeImageData(image!){
@@ -35,7 +33,7 @@ class GuisoSaver {
         
     }
 
-    func saveToDiskCache(key:String,gif:AnimatedImage?){
+    static func saveToDiskCache(key:Key,gif:AnimatedImage?){
         if gif == nil { return  }
         let diskCache = Guiso.get().getDiskCache()
         diskCache.add(key, classObj: gif!,isUpdate: false)
@@ -45,7 +43,7 @@ class GuisoSaver {
   
     
 
-    private func makeImageData(_ img:UIImage, format: String) -> Data? {
+    private static func makeImageData(_ img:UIImage, format: String) -> Data? {
         switch format {
             case "PNG","png":
               return img.pngData()
@@ -55,7 +53,7 @@ class GuisoSaver {
     }
     
     
-    private func makeImageData(_ img:UIImage)-> Data?{
+    private static func makeImageData(_ img:UIImage)-> Data?{
         let alpha = img.cgImage!.alphaInfo
             let hasAlpha = alpha == CGImageAlphaInfo.first ||
                     alpha == CGImageAlphaInfo.last ||

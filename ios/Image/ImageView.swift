@@ -223,8 +223,8 @@ class ImageView: UIImageView , ViewTarget {
            image = nil
            removeGif()
            addGif(gif)
-        onLoadSuccess?(["width": gif.pixelWidth,
-                            "height": gif.pixelHeight])
+        onLoadSuccess?(["width": gif.getWidth(),
+                            "height": gif.getHeight()])
         onLoadEnd?([String:Any]())
        }
        

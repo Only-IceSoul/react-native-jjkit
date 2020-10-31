@@ -8,7 +8,34 @@
 import UIKit
 
 
-public class GuisoOptions {
+public class GuisoOptions : Equatable {
+    
+    public static func == (lhs: GuisoOptions, rhs: GuisoOptions) -> Bool {
+        return lhs.getScaleType() == rhs.getScaleType()
+            && lhs.getLanczos() == rhs.getLanczos()
+            && lhs.getPlaceHolder() == rhs.getPlaceHolder()
+            && lhs.getFallbackHolder() == rhs.getFallbackHolder()
+            && lhs.getErrorHolder() == rhs.getErrorHolder()
+            && lhs.getWidth() == rhs.getWidth()
+            && lhs.getHeight() == rhs.getHeight()
+            && lhs.getIsOverride() == rhs.getIsOverride()
+            && lhs.getAnimatedType() == rhs.getAnimatedType()
+            && lhs.getAsAnimatedImage() == rhs.getAsAnimatedImage()
+            && lhs.getPriority() == rhs.getPriority()
+            && lhs.getSignature() == rhs.getSignature()
+            && lhs.getScaleType() == rhs.getScaleType()
+            && lhs.getExactFrame() == rhs.getExactFrame()
+            && lhs.getSkipMemoryCache() == rhs.getSkipMemoryCache()
+            && lhs.getDiskCacheStrategy() == rhs.getDiskCacheStrategy()
+            && lhs.getFrameSecond() == rhs.getFrameSecond()
+            && lhs.getTransformerSignature() == rhs.getTransformerSignature()
+            && lhs.mHeader == rhs.mHeader
+        
+    }
+    
+    public init() {
+            
+    }
   
       private var mScaleType = Guiso.ScaleType.none
       private var mOverrideW:CGFloat = -1
@@ -29,7 +56,7 @@ public class GuisoOptions {
      private var mTransform : TransformProtocol?
      private var mSignatureTransformer = ""
        private var mPriority = Guiso.Priority.low
-    private var mThumb : GuisoRequestBuilder?
+
     @discardableResult
     public func header(_ header:GuisoHeader) -> GuisoOptions{
         mHeader = header
@@ -151,15 +178,7 @@ public class GuisoOptions {
             mPriority = priority
             return self
     }
-    @discardableResult
-    public func thumbnail(_ thumb: GuisoRequestBuilder) -> GuisoOptions{
-            mThumb = thumb
-            return self
-    }
-    
-    func getThumbnail() -> GuisoRequestBuilder?{
-        return mThumb
-    }
+   
 
       public func getSignature() -> String {
           return mSignature

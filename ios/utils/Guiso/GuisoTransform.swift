@@ -8,35 +8,30 @@
 import UIKit
 
 
-class GuisoTransform: TransformProtocol {
+class GuisoTransform {
     
-    private var mLanczos = false
-    private var mScale = Guiso.ScaleType.fitCenter
-    init(scale:Guiso.ScaleType,l: Bool) {
-        mLanczos = l
-        mScale = scale
-    }
+  
     
 
-    func transformGif(cg: CGImage, outWidth: CGFloat, outHeight: CGFloat) -> CGImage? {
+    static func transformGif(cg: CGImage, outWidth: CGFloat, outHeight: CGFloat,scale:Guiso.ScaleType,l: Bool) -> CGImage? {
         
         let resized = outWidth != -1 && outHeight != -1
-        return resized ? makeTransform(cg:cg,w:outWidth,h:outHeight) : cg
+        return resized ? makeTransform(cg:cg,w:outWidth,h:outHeight,scale: scale,l:l) : cg
         
     }
     
-    func transformImage(img: UIImage, outWidth: CGFloat, outHeight: CGFloat) -> UIImage? {
+    static func transformImage(img: UIImage, outWidth: CGFloat, outHeight: CGFloat,scale:Guiso.ScaleType,l: Bool) -> UIImage? {
         let resized = outWidth != -1 && outHeight != -1
-        return resized ? makeTransform(img:img,w:outWidth,h:outHeight) : img
+        return resized ? makeTransform(img:img,w:outWidth,h:outHeight,scale: scale,l:l) : img
     }
     
     
-    private func makeTransform(cg:CGImage,w: CGFloat,h:CGFloat) -> CGImage? {
-        return mScale == .centerCrop ? TransformationUtils.centerCrop(cgImage: cg, width: w, height: h,lanczos:mLanczos) : TransformationUtils.fitCenter(cgImage: cg, width: w, height: h,lanczos:mLanczos)
+    private static func makeTransform(cg:CGImage,w: CGFloat,h:CGFloat,scale:Guiso.ScaleType,l: Bool) -> CGImage? {
+        return scale == .centerCrop ? TransformationUtils.centerCrop(cgImage: cg, width: w, height: h,lanczos:l) : TransformationUtils.fitCenter(cgImage: cg, width: w, height: h,lanczos:l)
     }
     
-    private func makeTransform(img:UIImage,w: CGFloat,h:CGFloat) -> UIImage? {
-        return mScale == .centerCrop ? TransformationUtils.centerCrop(image: img, width: w, height: h,lanczos:mLanczos) : TransformationUtils.fitCenter(image: img, width: w, height: h,lanczos: mLanczos)
+    private static func makeTransform(img:UIImage,w: CGFloat,h:CGFloat,scale:Guiso.ScaleType,l: Bool) -> UIImage? {
+        return scale == .centerCrop ? TransformationUtils.centerCrop(image: img, width: w, height: h,lanczos:l) : TransformationUtils.fitCenter(image: img, width: w, height: h,lanczos: l)
     }
     
     

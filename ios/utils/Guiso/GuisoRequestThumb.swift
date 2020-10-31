@@ -7,20 +7,22 @@
 
 import UIKit
 
-public class GuisoRequestThumb : Runnable {
+public class GuisoRequestThumb: Runnable,Equatable,Request {
+ 
+
     
 
     private var mModel: Any?
     private var mLoader : LoaderProtocol!
-    private var mTarget : ViewTarget?
-    private var mKey : String = ""
+    private weak var mTarget : ViewTarget?
+    private var mKey : Key!
     private var mOptions : GuisoOptions!
-    private var mTransformer: GuisoTransform!
     private var mScale : Guiso.ScaleType!
     private var mAnimImgDecoder : AnimatedImageDecoderProtocol!
-    private var mSaver:GuisoSaver!
     private var mPrimarySignature = ""
+
     init(model:Any?,_ primarySignature:String,options:GuisoOptions,_ target: ViewTarget?, loader: LoaderProtocol,animImgDecoder : AnimatedImageDecoderProtocol) {
+        pthread_rwlock_init(&mLock, nil)
         mOptions = options
         mPrimarySignature = primarySignature
         mModel = model
@@ -29,11 +31,13 @@ public class GuisoRequestThumb : Runnable {
         mTarget = target
         mLoader = loader
         mScale = mOptions.getScaleType()  == .none ? getScaleTypeFrom(mTarget?.getContentMode() ?? .scaleAspectFit) : mOptions.getScaleType()
-        let key = makeKey()
-        mKey = key.toString()
-        mTransformer = GuisoTransform(scale: mScale, l: mOptions.getLanczos())
-        mSaver = GuisoSaver()
+    
+        mKey = makeKey()
         
+    }
+    
+    deinit {
+        pthread_rwlock_destroy(&mLock)
     }
     
     private var mTask: DispatchWorkItem?
@@ -41,24 +45,60 @@ public class GuisoRequestThumb : Runnable {
         mTask = t
     }
     
-    func getKey() -> String{
-        return mKey
-    }
 
-    
-    
+
+ 
     public func run(){
-    if !updateImageFromCache()  {
         
-        mLoader.loadData(model: mModel!, width: mOptions.getWidth(), height: mOptions.getHeight(), options: mOptions) { (result, type,error,dataSource) in
-            if Thread.isMainThread {
+        
+        //diskcache
+        if mOptions.getAsAnimatedImage() {
+            if let res = loadFromDiskAnim() {
+                onResourceReady(res, .resourceDiskCache)
+                if !mOptions.getSkipMemoryCache() {
+                    Guiso.get().getMemoryCacheGif().add(mKey, val: res)
+                }
+                return
+            }
+        }else{
+            if let res = loadFromDiskImg() {
+                onResourceReady(res, .resourceDiskCache)
+                if !mOptions.getSkipMemoryCache() {
+                    Guiso.get().getMemoryCache().add(mKey, val: res)
+                }
+                return
+            }
+        }
+        
+        if isCancelled { return  }
+        
+        //source
+        if mOptions.getAsAnimatedImage() {
+            if let res = loadFromDiskAnimSource() {
+                self.handleAnimImg(res, type: .animatedImg,"",.dataDiskCache)
+                return
+            }
+        }else{
+            if let res = loadFromDiskImgSource() {
+                self.handleImage(res,type:.uiimg,"",.dataDiskCache)
+                return
+            }
+        }
+
+        if isCancelled { return  }
+        //fetcher
+        mLoader.loadData(model: mModel, width: mOptions.getWidth(), height: mOptions.getHeight(), options: mOptions) { (result, type,error,dataSource) in
+            
+            if self.isCancelled { return  }
+            
+            if Thread.isMainThread  {
                 Guiso.get().getExecutor().doWork {
                     if self.mOptions.getAsAnimatedImage() {
                         self.handleAnimImg(result, type: type,error,dataSource)
                     }else{
                         self.handleImage(result,type:type,error,dataSource)
                     }
-                }
+                 }
             }else{
                 if self.mOptions.getAsAnimatedImage() {
                    self.handleAnimImg(result, type: type,error,dataSource)
@@ -69,7 +109,7 @@ public class GuisoRequestThumb : Runnable {
           
         }
         
-    } //cache
+
 
         
     }
@@ -78,28 +118,29 @@ public class GuisoRequestThumb : Runnable {
            
             guard let data = result as? Data
                 else {
-                self.onLoadFailed("Data to image ,loader error -> \(error)")
+                self.onLoadFailedError("Data to image ,loader error -> \(error)")
                     return
             }
            
             guard let img = UIImage(data: data) else {
-                self.onLoadFailed("Data to image ,loader error -> maybe its not a static image")
+                self.onLoadFailedError("Data to image ,loader error -> maybe its not a static image")
                 return
                 
             }
             
-            
+             if isCancelled { return  }
              saveData(img,dataSource)
-            transformDisplayCacheImage(img,dataSource)
+             transformDisplayCacheImage(img,dataSource)
             
         }
     
         if type == .uiimg{
             guard let img = result as? UIImage
                else {
-                  self.onLoadFailed("UIImage result cast ,loader error -> \(error)")
+                  self.onLoadFailedError("UIImage result cast ,loader error -> \(error)")
                    return
             }
+            if isCancelled { return  }
             saveData(img,dataSource)
             transformDisplayCacheImage(img,dataSource)
         }
@@ -110,36 +151,39 @@ public class GuisoRequestThumb : Runnable {
         if type == .data {
           guard let data = result as? Data
            else {
-            self.onLoadFailed("decoding gif, loader error -> \(error)")
+            self.onLoadFailedError("decoding gif, loader error -> \(error)")
               return
           }
             guard let gif = self.mAnimImgDecoder.decode(data:data) else{
-                self.onLoadFailed("decoding gif, loader error -> bad request, maybe its not a animated image")
+                self.onLoadFailedError("decoding gif, loader error -> bad request, maybe its not a animated image")
                 return
             }
+            if isCancelled { return  }
              saveData(gif,dataSource)
-             transformDisplayCacheGif(gif,dataSource)
+             transformDisplayCacheAnim(gif,dataSource)
         
         }
         if type == .uiimg {
             guard let img = result as? UIImage
               else{
-                self.onLoadFailed("getting gift from uiimage, loader error -> \(error)")
+                self.onLoadFailedError("getting gift from uiimage, loader error -> \(error)")
                   return
             }
-            
-            self.displayInTarget(img)
-            saveResource(img,dataSource,false)
+            if isCancelled { return  }
+            saveData(img,dataSource)
+            onResourceReady(img, dataSource)
+           
             
         }
         if type == .animatedImg {
             guard let gif = result as? AnimatedImage
             else {
-              self.onLoadFailed("error: casting any to gif")
+              self.onLoadFailedError("error: casting any to gif")
                 return
             }
+            if isCancelled { return  }
             saveData(gif,dataSource)
-            transformDisplayCacheGif(gif,dataSource)
+            transformDisplayCacheAnim(gif,dataSource)
         }
         
     }
@@ -151,29 +195,30 @@ public class GuisoRequestThumb : Runnable {
         var final: UIImage? = img
         if self.mOptions.getIsOverride() {
             isTransformed = true
-        final = self.mTransformer.transformImage(img: img, outWidth: mOptions.getWidth(), outHeight: mOptions.getHeight())
+        final = GuisoTransform.transformImage(img: img, outWidth: mOptions.getWidth(), outHeight: mOptions.getHeight(),scale:mOptions.getScaleType()  == .none ? .fitCenter : mOptions.getScaleType(),l: mOptions.getLanczos())
         }
         if self.mOptions.getTransformer() != nil {
             isTransformed = true
         final  = self.mOptions.getTransformer()?.transformImage(img: img, outWidth: mOptions.getWidth(), outHeight: mOptions.getHeight())
         }
+        if isCancelled { return  }
         if final != nil {
-            self.displayInTarget(final!)
+            onResourceReady(final,dataSource)
             saveToMemoryCache(final!)
             saveResource(final!,dataSource,isTransformed)
         }else{
-            self.onLoadFailed("failed transformation")
+            self.onLoadFailedError("failed transformation")
         }
     }
 
-    func transformDisplayCacheGif(_ gifObj:AnimatedImage,_ dataSource:Guiso.DataSource){
+    func transformDisplayCacheAnim(_ gifObj:AnimatedImage,_ dataSource:Guiso.DataSource){
         let gif = gifObj
         var isTransformed = false
         if self.mOptions.getIsOverride() {
             isTransformed = true
             var images = [CGImage]()
             gif.frames.forEach { (cg) in
-             let i = self.mTransformer.transformGif(cg: cg, outWidth: self.mOptions.getWidth(), outHeight: self.mOptions.getHeight())
+             let i = GuisoTransform.transformGif(cg: cg, outWidth: self.mOptions.getWidth(), outHeight: self.mOptions.getHeight(),scale:mOptions.getScaleType()  == .none ? .fitCenter : mOptions.getScaleType(),l: mOptions.getLanczos())
                 if i != nil { images.append(i!) }
             }
             gif.frames = images
@@ -188,9 +233,9 @@ public class GuisoRequestThumb : Runnable {
             }
             gif.frames = images
         }
-
+        if isCancelled { return  }
         let drawable = TransformationUtils.cleanGif(gif)
-        self.displayInTarget(drawable)
+        onResourceReady(drawable,dataSource)
         saveToMemoryCache(gif)
         saveResource(drawable,dataSource,isTransformed)
         
@@ -199,69 +244,70 @@ public class GuisoRequestThumb : Runnable {
    
     
     private func saveData(_ img:UIImage,_ dataSource:Guiso.DataSource){
-        if mKey.isEmpty { return }
+        if mKey.isValidSignature() == false { return }
         let st =  mOptions.getDiskCacheStrategy()
         if st == .data && dataSource != .dataDiskCache {
             
-            self.mSaver.saveToDiskCache(key: sourceKey().toString(), image: img)
+            GuisoSaver.saveToDiskCache(key: sourceKey(), image: img)
         }
         if st == .automatic ||  st == .all &&  dataSource == .remote {
-           self.mSaver.saveToDiskCache(key: sourceKey().toString(), image: img)
+            GuisoSaver.saveToDiskCache(key: sourceKey(), image: img)
             
         }
         
     }
     private func saveData(_ gif:AnimatedImage,_ dataSource:Guiso.DataSource){
-        if mKey.isEmpty { return }
+        if mKey.isValidSignature() == false { return }
         let st =  mOptions.getDiskCacheStrategy()
         if st == .data && dataSource != .dataDiskCache {
-            self.mSaver.saveToDiskCache(key: sourceKey().toString(),gif: gif)
+            GuisoSaver.saveToDiskCache(key: sourceKey(),gif: gif)
         }
         if st == .automatic ||  st == .all &&  dataSource == .remote {
-            self.mSaver.saveToDiskCache(key: sourceKey().toString(),gif: gif)
+            GuisoSaver.saveToDiskCache(key: sourceKey(),gif: gif)
         }
     }
     
     private func saveResource(_ img:UIImage,_ dataSource:Guiso.DataSource,_ isTransformed:Bool){
-        if mKey.isEmpty { return }
+        if mKey.isValidSignature() == false { return }
        let st =  mOptions.getDiskCacheStrategy()
         
         if st == .resource || st == .all && dataSource != .memoryCache
             && dataSource != .resourceDiskCache {
-           self.mSaver.saveToDiskCache(key: mKey, image: img)
+            GuisoSaver.saveToDiskCache(key: mKey, image: img)
            
        }
         if st == .automatic && isTransformed {
-            self.mSaver.saveToDiskCache(key: mKey, image: img)
+            GuisoSaver.saveToDiskCache(key: mKey, image: img)
         }
        
     }
     private func saveResource(_ gif:AnimatedImage,_ dataSource:Guiso.DataSource,_ isTransformed:Bool){
-        if mKey.isEmpty { return }
+        if mKey.isValidSignature() == false { return }
        let st =  mOptions.getDiskCacheStrategy()
         if st == .resource || st == .all && dataSource != .memoryCache
         && dataSource != .resourceDiskCache {
-           self.mSaver.saveToDiskCache(key: mKey,gif: gif)
+            GuisoSaver.saveToDiskCache(key: mKey,gif: gif)
        }
         if st == .automatic && isTransformed {
-            self.mSaver.saveToDiskCache(key: mKey,gif: gif)
+            GuisoSaver.saveToDiskCache(key: mKey,gif: gif)
         }
     }
     
     private func saveToMemoryCache(_ img:UIImage){
+        if mKey.isValidSignature() == false { return }
         let sm = mOptions.getSkipMemoryCache()
-        if !sm { self.mSaver.saveToMemoryCache(key: mKey, image: img)}
+        if !sm { GuisoSaver.saveToMemoryCache(key: mKey, image: img)}
     }
     
     private func saveToMemoryCache(_ gif:AnimatedImage){
+        if mKey.isValidSignature() == false { return }
         let sm = mOptions.getSkipMemoryCache()
-        if !sm { self.mSaver.saveToMemoryCache(key: mKey, gif:gif) }
+        if !sm { GuisoSaver.saveToMemoryCache(key: mKey, gif:gif) }
     }
+    
    
     
-    func checkIfNeedIgnore() -> Bool {
-        return mTarget?.getRequest()?.getKey() == mKey && !mKey.isEmpty
-    }
+    
     
     func makeKey() -> Key {
         let key = mOptions.getIsOverride() ? Key(signature:mPrimarySignature ,extra:mOptions.getSignature(), width: mOptions.getWidth(), height: mOptions.getHeight(), scaleType: mScale, frame: mOptions.getFrameSecond()   ,exactFrame:mOptions.getExactFrame(), isAnim:mOptions.getAsAnimatedImage(), transform: mOptions.getTransformerSignature()) :
@@ -278,124 +324,261 @@ public class GuisoRequestThumb : Runnable {
         return scale == UIView.ContentMode.scaleAspectFill ? .centerCrop : .fitCenter
     }
     
-    //should update disk cache if convertion to gif or image fail?
-    func updateImageFromCache() -> Bool {
-        let cache = Guiso.get().getMemoryCache()
-        let cacheGif = Guiso.get().getMemoryCacheGif()
-        let diskCache = Guiso.get().getDiskCache()
 
-        
-        let diskStrategy = mOptions.getDiskCacheStrategy()
-        let skipCache = mOptions.getSkipMemoryCache()
-        let keyD = sourceKey().toString()
 
-        if mOptions.getAsAnimatedImage(){
-            if !skipCache {
-                if let gifDrawable =  cacheGif.get(mKey) {
-                    displayInTarget(gifDrawable)
-                     return true
-                }
-            }
-            if diskStrategy != .none {
-                if let obj = diskCache.getClassObj(mKey) {
-                    if let gif = obj as? AnimatedImage{
-                        displayInTarget(gif)
-                        if !skipCache {
-                            cacheGif.add(mKey, val: gif,isUpdate: false)
-                            
-                        }
-                        return true
-                    }
-                }
-                
-                if let obj = diskCache.getClassObj(keyD) {
-                    if let gif = obj as? AnimatedImage{
-                        handleAnimImg(gif, type: .animatedImg, "",.dataDiskCache)
-                        return true
-                    }
-                }
-            }
-          
-                 
-        }else{
-            
-            if !skipCache ,let img =  cache.get(mKey)  {
-                   displayInTarget(img)
-                    return true
-            }
-            
-            if diskStrategy != .none {
-                  if let data = diskCache.get(mKey) {
-            
-                        if let img =  UIImage(data: data) {
-                             displayInTarget(img)
-                            if !skipCache {
-                                cache.add(mKey, val: img, isUpdate: false)
-                                
-                            }
-                            return true
-                        }
-                  }
-                
-                if let data = diskCache.get(keyD) {
-                    if let img =  UIImage(data: data) {
-                        handleImage(img, type: .uiimg, "",.dataDiskCache)
-                        return true
-                    }
-                }
-            }
-            
-            
-            
-
-        }
-
-        return false
-    }
+    var isCancelled = false
     
-    func displayInTarget(_ img:UIImage){
-        DispatchQueue.main.async {
-            if !self.mIsCancelled {
-             
-                 self.mTarget?.onThumbReady(img)
-            }
-           
-        }
-    }
-    func displayInTarget(_ gif: AnimatedImage){
-        DispatchQueue.main.async {
-            if !self.mIsCancelled {
-             
-                let layer = AnimatedLayer(gif)
-                self.mTarget?.onThumbReady(layer)
-            }
-        }
-    }
-    func onLoadFailed(_ msg:String){
-    
-        DispatchQueue.main.async {
-            print("load failed thumb : \(msg)")
-            if !self.mIsCancelled {
-                self.mOptions.getErrorHolder()?.load(self.mTarget)
-               
-            }
-            
-        }
-    }
-    
-    public func pause(){
-        mLoader.pause()
-    }
-    
-    public func resume(){
-         mLoader.resume()
-    }
-    
-    private var mIsCancelled = false
-    public func cancel(){
-        mIsCancelled = true
+    private func cancel(){
+        isCancelled = true
         mLoader.cancel()
         mTask?.cancel()
         mTask = nil
+    }
+    
+    
+    private var resourceImg :UIImage?
+    private var resourceAnimImg: AnimatedImage?
+    
+    public func clear(){
+        if status == .cleared {  return  }
+        cancel()
+        
+        resourceImg = nil
+        resourceAnimImg = nil
+        status = .cleared
+    }
+    
+ 
+    
+    public func begin(){
+        pthread_rwlock_wrlock(&mLock); defer { pthread_rwlock_unlock(&mLock) }
+        if mModel == nil {
+            mOptions.getFallbackHolder()?.load(mTarget)
+            onLoadFailedFallback("Model is nil")
+            return
+        }
+        
+        if status == .running {
+            return
+        }
+        
+        if status == .complete {
+            if mOptions.getAsAnimatedImage() {
+                onResourceReady(resourceAnimImg,Guiso.DataSource.memoryCache)
+            }else{
+                onResourceReady(resourceImg,Guiso.DataSource.memoryCache)
+            }
+            return
+        }
+        
+        mOptions.getPlaceHolder()?.load(mTarget)
+        
+        load()
+        
+        
+        
+        
+        
+    
+    }
+    
+    func load(){
+        status = .running
+        
+        if isCancelled { return  }
+        //from memory
+        if mOptions.getAsAnimatedImage() {
+            if let res = loadFromMemoryAnim() {
+                onResourceReady(res, .memoryCache)
+                return
+            }
+        }else{
+            if let res = loadFromMemoryImg() {
+                onResourceReady(res, .memoryCache)
+                return
+            }
+        }
+        
+        if isCancelled { return  }
+        mTask = Guiso.get().getExecutor().doWork(self, priority: .userInitiated, flags: .enforceQoS)
+        
+        
+    }
+    
+   
+    
+    func loadFromDiskImgSource() -> UIImage?{
+        let diskCache = Guiso.get().getDiskCache()
+        let diskStrategy = mOptions.getDiskCacheStrategy()
+        let keyD = sourceKey()
+        if diskStrategy != .none{
+            if let data = diskCache.get(keyD) {
+                if let img =  UIImage(data: data) {
+                    return img
+                }
+            }
+        }
+    
+        return nil
+    }
+    
+    func loadFromDiskAnimSource() -> AnimatedImage?{
+        let diskCache = Guiso.get().getDiskCache()
+        let diskStrategy = mOptions.getDiskCacheStrategy()
+        let keyD = sourceKey()
+        if diskStrategy != .none {
+            if let obj = diskCache.getClassObj(keyD) {
+                if let drawable = obj as? AnimatedImage{
+                    return drawable
+                }
+            }
+            
+        }
+        return nil
+    }
+    
+    func loadFromDiskImg() -> UIImage?{
+        let diskCache = Guiso.get().getDiskCache()
+        let diskStrategy = mOptions.getDiskCacheStrategy()
+        if diskStrategy != .none {
+              if let data = diskCache.get(mKey) {
+                    if let img =  UIImage(data: data) {
+                        return img
+                    }
+              }
+        }
+        return nil
+    }
+    
+    func loadFromDiskAnim() -> AnimatedImage?{
+        let diskCache = Guiso.get().getDiskCache()
+        let diskStrategy = mOptions.getDiskCacheStrategy()
+        if diskStrategy != .none {
+            if let obj = diskCache.getClassObj(mKey) {
+                if let gif = obj as? AnimatedImage{
+                    let drawable = TransformationUtils.cleanGif(gif)
+                    return drawable
+                }
+            }
+        }
+        return nil
+    }
+    
+    func loadFromMemoryImg() -> UIImage?{
+        let cache = Guiso.get().getMemoryCache()
+        let skipCache = mOptions.getSkipMemoryCache()
+        
+        if !skipCache ,let img =  cache.get(mKey)  {
+                return img
+        }
+        return nil
+    }
+    
+    func loadFromMemoryAnim() -> AnimatedImage?{
+        let cache = Guiso.get().getMemoryCacheGif()
+        let skipCache = mOptions.getSkipMemoryCache()
+        if !skipCache {
+            if let animImg =  cache.get(mKey) {
+                 return animImg
+            }
+        }
+        return nil
+    }
+    
+    func onResourceReady(_ res:UIImage?,_ dataSource:Guiso.DataSource){
+        if res == nil {
+            onLoadFailedError("expected recieve a object uiimage but instead got nil, datasource: \(dataSource)")
+            return
+        }
+        status = .complete
+        if mTarget == nil {
+            resourceImg = nil
+            resourceAnimImg = nil
+            return
+        }
+        
+        resourceImg = res
+        resourceAnimImg = nil
+        
+        if !self.isCancelled {
+            DispatchQueue.main.async {
+                self.mTarget?.onResourceReady(res!)
+                self.mTask = nil
+            }
+        }
+    }
+    func onResourceReady(_ res:AnimatedImage?,_ dataSource:Guiso.DataSource){
+        if res == nil {
+            onLoadFailedError("expected recieve a object animatedImage but instead got nil, datasource: \(dataSource)")
+            return
+        }
+        status = .complete
+        if mTarget == nil {
+            resourceImg = nil
+            resourceAnimImg = nil
+            return
+        }
+        
+        resourceAnimImg = res
+        resourceImg = nil
+        
+        if !self.isCancelled {
+            DispatchQueue.main.async {
+                
+                let layer = AnimatedLayer(res!)
+                self.mTarget?.onResourceReady(layer)
+                self.mTask = nil
+            }
+        }
+        
+    }
+    
+    func onLoadFailedError(_ msg:String){
+        status = .failed
+        if !self.isCancelled {
+            self.mTask = nil
+        }
+    }
+    func onLoadFailedFallback(_ msg:String){
+        status = .failed
+        if !self.isCancelled {
+            self.mTask = nil
+      
+        }
+    }
+    
+    
+    
+    private var status: Status = .pending
+    private var mLock = pthread_rwlock_t()
+    
+    public func isComplete() -> Bool {
+        pthread_rwlock_rdlock(&mLock); defer { pthread_rwlock_unlock(&mLock) }
+        return status == .complete
+    }
+    public func isRunning() -> Bool {
+        pthread_rwlock_rdlock(&mLock); defer { pthread_rwlock_unlock(&mLock) }
+        return status == .running || status == .waitingSize
+    }
+    public func isCleared() -> Bool {
+        pthread_rwlock_rdlock(&mLock); defer { pthread_rwlock_unlock(&mLock) }
+        return status == .cleared
+    }
+    enum Status {
+        case complete, //finished loading media successfully
+             running, // in the process of fetching media
+             pending, // created but not yet running
+             waitingSize,
+            
+             failed, // failed to load media, may be restarted
+             cleared
+    }
+    
+    
+    public static func == (lhs: GuisoRequestThumb, rhs: GuisoRequestThumb) -> Bool {
+       return lhs.mKey == rhs.mKey
+        && lhs.mOptions == rhs.mOptions
+       
+    
     }
 }

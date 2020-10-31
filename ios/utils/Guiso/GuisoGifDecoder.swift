@@ -7,14 +7,16 @@
 
 import UIKit
 
-class GuisoGifDecoder: AnimatedImageDecoderProtocol {
+public class GuisoGifDecoder: AnimatedImageDecoderProtocol {
+    
+    public init(){}
 
-    func getFirstFrame(data:Data) -> CGImage?{
+   public func getFirstFrame(data:Data) -> CGImage?{
         
         return nil
     }
     
-     func decode(data:Data) -> AnimatedImage? {
+    public func decode(data:Data) -> AnimatedImage? {
         let gif:AnimatedImage? = AnimatedImage()
      
         guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
@@ -36,6 +38,21 @@ class GuisoGifDecoder: AnimatedImageDecoderProtocol {
           CFDictionaryGetValue(gifProperties,
               Unmanaged.passUnretained(kCGImagePropertyGIFLoopCount).toOpaque()),
           to: AnyObject.self)
+        
+        if #available(iOS 13.0, *) {
+            let cw: AnyObject? = unsafeBitCast(
+                CFDictionaryGetValue(gifProperties,
+                                     Unmanaged.passUnretained(kCGImagePropertyGIFCanvasPixelWidth).toOpaque()),
+                to: AnyObject.self)
+            
+            let ch: AnyObject? = unsafeBitCast(
+                CFDictionaryGetValue(gifProperties,
+                                     Unmanaged.passUnretained(kCGImagePropertyGIFCanvasPixelHeight).toOpaque()),
+                to: AnyObject.self)
+            
+            gif?.canvasHeight = (ch as? NSNumber)?.intValue ?? 0
+            gif?.canvasWidth = (cw as? NSNumber)?.intValue ?? 0
+        }
 
          gif?.loopCount = 0
          if let num = loopCount as? NSNumber {

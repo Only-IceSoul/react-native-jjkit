@@ -13,7 +13,7 @@ public class Executor {
     private var mQueue : DispatchQueue!
     
     public init(_ label:String){
-        mQueue = DispatchQueue(label: label, qos: .default, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
+        mQueue = DispatchQueue(label: label, qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
     }
 
     @discardableResult

@@ -24,13 +24,7 @@ class CellPhoto: UICollectionViewCell,SelectableProtocol {
       
     }
   
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        mImageView.getRequest()?.cancel()
-        mImageView.onHolder(nil)
-    }
-    
+  
     @discardableResult
     func setBackgroundColor(_ color:UIColor) -> CellPhoto{
         mImageView.backgroundColor = color

@@ -9,8 +9,11 @@ import UIKit
 import MediaPlayer
 import Photos
 
-class GuisoLoaderString : LoaderProtocol {
+public class GuisoLoaderString : LoaderProtocol {
     
+    public init() {
+        
+    }
     
 
     private var mUrl = ""
@@ -25,7 +28,7 @@ class GuisoLoaderString : LoaderProtocol {
     private var mPha : PHAsset?
     private var mPhaId : PHContentEditingInputRequestID?
   
-    func loadData(model: Any?, width: CGFloat, height: CGFloat, options: GuisoOptions,callback:@escaping (Any?,Guiso.LoadType,String,Guiso.DataSource)-> Void) {
+    public func loadData(model: Any?, width: CGFloat, height: CGFloat, options: GuisoOptions,callback:@escaping (Any?,Guiso.LoadType,String,Guiso.DataSource)-> Void) {
         mCallback = callback
         guard let url = model as? String else {
             sendResult(nil,.data,"model is nil or not a string",.remote)
@@ -360,24 +363,44 @@ class GuisoLoaderString : LoaderProtocol {
     }
     
     //MARK: Tracker
-    func cancel() {
-        mWebTask?.cancel()
-        mWebLoad?.cancel()
-        mGenerator?.cancelAllCGImageGeneration()
-        if mPhaId != nil { mPha?.cancelContentEditingInputRequest(mPhaId!)}
-        if mPhId  != nil { PHImageManager.default().cancelImageRequest(mPhId!) }
+    public func cancel() {
         
-        mWebTask = nil
-        mWebLoad = nil
-        mGenerator = nil
-        mPhId = nil
-        mPha = nil
-        mPhaId = nil
-        mCallback = nil
+        if mWebTask != nil {
+            mWebTask?.cancel()
+            mWebTask = nil
+        }
+        
+        
+        if mWebLoad != nil {
+            mWebLoad?.cancel()
+            mWebLoad = nil
+        }
+      
+        if mGenerator != nil {
+            mGenerator?.cancelAllCGImageGeneration()
+            mGenerator = nil
+        }
+        
     
+
+        if mPhaId != nil && mPha != nil {
+            mPha?.cancelContentEditingInputRequest(mPhaId!)
+            mPha = nil
+            mPhaId = nil
+        }
+        if mPhId  != nil {
+            PHImageManager.default().cancelImageRequest(mPhId!)
+            mPhId = nil
+        }
+        
+        if mCallback != nil {
+            mCallback = nil
+        }
+      
+        
     }
     
-    func pause() {
+    public func pause() {
         if mWebLoad != nil {
            let state = mWebLoad!.state
            if  state == URLSessionTask.State.running  && state != .completed && state != .canceling {
@@ -387,7 +410,7 @@ class GuisoLoaderString : LoaderProtocol {
         
     }
     
-    func resume() {
+    public func resume() {
         if mWebLoad != nil {
             let state = mWebLoad!.state
             if  state == URLSessionTask.State.suspended  && state != .completed && state != .canceling {

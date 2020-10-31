@@ -8,7 +8,7 @@
 import UIKit
 
 
-class GuisoCache : LRUCache<UIImage> {
+class GuisoCache : LRUCache<Key,UIImage> {
     
     
     

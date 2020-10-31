@@ -6,8 +6,35 @@
 //
 
 import UIKit
+import CommonCrypto
 
-public class Key {
+public struct Key: Hashable {
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(mSignature)
+        hasher.combine(mExtra)
+        hasher.combine(mFrame)
+        hasher.combine(mWidth)
+        hasher.combine(mHeight)
+        hasher.combine(mScaleType)
+        hasher.combine(mTransform)
+        hasher.combine(mIsAnimImg)
+        hasher.combine(mExactFrame)
+    }
+    
+    
+    public static func == (lhs: Key, rhs: Key) -> Bool {
+        return lhs.mSignature == rhs.mSignature
+        && lhs.mExtra == rhs.mExtra
+            && lhs.mFrame == rhs.mFrame
+            && lhs.mWidth == rhs.mWidth
+            && lhs.mHeight == rhs.mHeight
+            && lhs.mScaleType == rhs.mScaleType
+            && lhs.mTransform == rhs.mTransform
+            && lhs.mIsAnimImg == rhs.mIsAnimImg
+            && lhs.mExactFrame == rhs.mExactFrame
+    }
+    
     
     
     
@@ -17,7 +44,6 @@ public class Key {
     private var mHeight:Int = -1
     private var mScaleType: Guiso.ScaleType!
     private var mIsAnimImg = false
-    private var mFromFile : Bool!
     private var mFrame : Int = 0
     private var mExactFrame = false
     private var mTransform = ""
@@ -33,100 +59,32 @@ public class Key {
         mTransform = transform
     }
 
-
-    public func toString() -> String {
-        var exact = mExactFrame ? "t" : "f"
-         var e = ""
-        if mIsAnimImg {
-            e = "ANIM"
-            exact = "f"
-            mFrame = 0
-        }else{
-   
-            e = "IMG"
-        }
-      
-        
-        var scale = "error"
-        switch mScaleType {
-        case .centerCrop:
-            scale = "cc"
-            break
-        case .fitCenter :
-            scale = "fc"
-            break
-        default:
-            scale = ""
-        }
-        
-       
-        if mSignature.isEmpty && mExtra.isEmpty { return ""}
-      
-        cleanSignature()
-        cleanTransform()
-        cleanExtra()
-        
-        var result = mSignature
-        if !mExtra.isEmpty { result.append("_\(mExtra)")}
-        if !mTransform.isEmpty { result.append("_\(mTransform)")}
-        result.append("_\(mWidth)x\(mHeight)")
-        if !scale.isEmpty { result.append("x\(scale)")}
-       
-        result.append("x\(mFrame)\(exact)")
-        
-        result.append(e)
-        
-        return result
-    }
-    
-  
-
-    
-    private func cleanSignature(){
+    public func isValidSignature() -> Bool {
      
-        if mSignature.contains("ipod"){
-            ipod()
+        return !"\(mSignature)\(mExtra)".isEmpty
+        
+    }
+    
+      func toString() -> String{
+        return "\(mSignature)\(mExtra)\(mWidth)\(mHeight)\(mScaleType.rawValue)\(mFrame)\(mExactFrame)\(mTransform)\(mIsAnimImg)"
+    }
+
+    public func digestKey() -> Data? {
+        guard let data = toString().data(using: .utf8)
+        else{  return nil }
+    
+        var hash = [UInt8](repeating: 0,  count: Int(CC_SHA256_DIGEST_LENGTH))
+        var failed = false
+        data.withUnsafeBytes { (ptr)  in
+            if let ptrAddress = ptr.baseAddress, ptr.count > 0 {
+                _ = CC_SHA256(ptrAddress, CC_LONG(data.count), &hash)
+            }else{
+                failed = true
+            }
         }
+        return failed ? nil : Data(bytes: hash, count:  Int(CC_SHA256_DIGEST_LENGTH))
         
-        all()
-        
-        
-    
-    }
-    
-    
-    private func ipod(){
-       mSignature = mSignature.substring(from: 32)
-    }
-    
-    private func all(){
-            mSignature = mSignature.replacingOccurrences(of: "https://www", with: "")
-            mSignature = mSignature.replacingOccurrences(of: "http://www", with: "")
-           mSignature = mSignature.replacingOccurrences(of: "https://", with: "")
-            mSignature = mSignature.replacingOccurrences(of: "http://", with: "")
-         mSignature = mSignature.replacingOccurrences(of: ".mp4", with: "")
-         mSignature = mSignature.replacingOccurrences(of: ".mov", with: "")
-        mSignature = mSignature.replacingOccurrences(of: ".jpg", with: "")
-        mSignature = mSignature.replacingOccurrences(of: ".jpeg", with: "")
-        mSignature = mSignature.replacingOccurrences(of: ".png", with: "")
-         mSignature = mSignature.replacingOccurrences(of: ".mp3", with: "")
-          mSignature = mSignature.replacingOccurrences(of: ".com/", with: "")
-        mSignature = mSignature.replacingOccurrences(of: "file://", with: "")
-             mSignature = mSignature.replacingOccurrences(of: " ", with: "_")
-             mSignature = mSignature.replacingOccurrences(of: "/", with: "1")
-            mSignature = mSignature.replacingOccurrences(of: ":", with: "y")
-    }
-    
-    private func cleanTransform(){
-        mTransform = mTransform.replacingOccurrences(of: " ", with: "_")
-        mTransform = mTransform.replacingOccurrences(of: "/", with: "2")
-        mTransform = mTransform.replacingOccurrences(of: ":", with: "z")
-    }
-    
-    private func cleanExtra(){
-        mExtra = mExtra.replacingOccurrences(of: " ", with: "_")
-        mExtra = mExtra.replacingOccurrences(of: "/", with: "2")
-        mExtra = mExtra.replacingOccurrences(of: ":", with: "z")
     }
     
 }
+

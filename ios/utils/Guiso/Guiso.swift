@@ -10,9 +10,9 @@ import Photos
 public class Guiso {
     
     static private var instance : Guiso?
-    private var mMemoryCache = GuisoCache(100)
+    private var mMemoryCache = GuisoCache(200)
     private var mExecutor = Executor("Guiso")
-    private var mDiskCache = GuisoDiskCache("Guiso", maxSize: 200)
+    private var mDiskCache = GuisoDiskCache("Guiso", maxSize: 250)
     private var mMemoryCacheGif = GuisoCacheGif(50)
     private var mLock = NSLock()
     private init() {}
@@ -47,13 +47,18 @@ public class Guiso {
         mMemoryCacheGif.clear()
     }
     
+    public func clear(target:ViewTarget?){
+        if target == nil { return }
+        GuisoRequestManager.clear(target: target!)
+    }
+    
     public func cleanDiskCache(){
         mExecutor.doWork {
             self.mDiskCache.clean()
         }
     }
     
-    func getMemoryCache() -> LRUCache<UIImage> {
+    func getMemoryCache() -> GuisoCache {
         return mMemoryCache
     }
     func getMemoryCacheGif() -> GuisoCacheGif {
@@ -81,33 +86,33 @@ public class Guiso {
         audio
     }
     
-    public enum AnimatedType {
-        case gif,
+    public enum AnimatedType :Int  {
+        case gif = 0,
         webp
     }
     
     
-    public enum ScaleType {
-        case fitCenter,
+    public enum ScaleType:Int {
+        case fitCenter = 0,
         centerCrop,
         none
     }
    
-    public enum Priority {
-        case background,
+    public enum Priority :Int {
+        case background = 0,
         low,
         normal,
         high
     }
     
-    public enum LoadType {
-         case data,
+    public enum LoadType  :Int {
+         case data = 0,
          uiimg,
          animatedImg
       }
     
-    public enum DataSource {
-        case local,
+    public enum DataSource  :Int {
+        case local = 0,
              remote,
              memoryCache,
              dataDiskCache,

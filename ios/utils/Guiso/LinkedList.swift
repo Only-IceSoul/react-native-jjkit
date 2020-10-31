@@ -7,19 +7,21 @@
 
 import Foundation
 
-public final class LinkedList<T> {
+public final class LinkedList<U,T> {
 
-    public class LinkedListNode<T> {
+    public class LinkedListNode<U,T> {
+        var key: U
         var value: T
         var next: LinkedListNode?
         weak var previous: LinkedListNode?
 
-        public init(value: T) {
+        public init(key:U,value: T) {
             self.value = value
+            self.key = key
         }
     }
 
-    public typealias Node = LinkedListNode<T>
+    public typealias Node = LinkedListNode<U,T>
 
     fileprivate var head: Node?
 
@@ -77,13 +79,13 @@ public final class LinkedList<T> {
         return node!.value
     }
 
-    public func append(_ value: T) {
-        let newNode = Node(value: value)
+    public func append(key:U,_ value: T) {
+        let newNode = Node(key: key, value: value)
         self.append(newNode)
     }
 
     public func append(_ node: Node) {
-        let newNode = LinkedListNode(value: node.value)
+        let newNode = LinkedListNode(key: node.key, value: node.value)
         if let lastNode = last {
             newNode.previous = lastNode
             lastNode.next = newNode
@@ -95,7 +97,7 @@ public final class LinkedList<T> {
     public func append(_ list: LinkedList) {
         var nodeToCopy = list.head
         while let node = nodeToCopy {
-            self.append(node.value)
+            self.append(key:node.key,node.value)
             nodeToCopy = node.next
         }
     }
@@ -116,14 +118,14 @@ public final class LinkedList<T> {
         return (prev, next)
     }
 
-    public func insert(_ value: T, atIndex index: Int) {
-        let newNode = Node(value: value)
+    public func insert(key:U,_ value: T, atIndex index: Int) {
+        let newNode = Node(key:key,value: value)
         self.insert(newNode, atIndex: index)
     }
 
     public func insert(_ node: Node, atIndex index: Int) {
         let (prev, next) = nodesBeforeAndAfter(index: index)
-        let newNode = LinkedListNode(value: node.value)
+        let newNode = LinkedListNode(key: node.key, value: node.value)
         newNode.previous = prev
         newNode.next = next
         prev?.next = newNode
@@ -140,7 +142,7 @@ public final class LinkedList<T> {
         var nodeToCopy = list.head
         var newNode: Node?
         while let node = nodeToCopy {
-            newNode = Node(value: node.value)
+            newNode = Node(key: node.key, value: node.value)
             newNode?.previous = prev
             if let previous = prev {
                 previous.next = newNode
@@ -211,22 +213,22 @@ extension LinkedList {
 }
 
 extension LinkedList {
-    public func map<U>(transform: (T) -> U) -> LinkedList<U> {
-        let result = LinkedList<U>()
+    public func map<Z>(transform: (T) -> Z) -> LinkedList<U,Z> {
+        let result = LinkedList<U,Z>()
         var node = head
         while node != nil {
-            result.append(transform(node!.value))
+            result.append(key:node!.key,transform(node!.value))
             node = node!.next
         }
         return result
     }
 
-    public func filter(predicate: (T) -> Bool) -> LinkedList<T> {
-        let result = LinkedList<T>()
+    public func filter(predicate: (T) -> Bool) -> LinkedList<U,T> {
+        let result = LinkedList<U,T>()
         var node = head
         while node != nil {
             if predicate(node!.value) {
-                result.append(node!.value)
+                result.append(key:node!.key,node!.value)
             }
             node = node!.next
         }
@@ -234,22 +236,4 @@ extension LinkedList {
     }
 }
 
-extension LinkedList {
-    convenience init(array: Array<T>) {
-        self.init()
 
-        for element in array {
-            self.append(element)
-        }
-    }
-}
-
-extension LinkedList: ExpressibleByArrayLiteral {
-  public convenience init(arrayLiteral elements: T...) {
-    self.init()
-
-    for element in elements {
-      self.append(element)
-    }
-  }
-}

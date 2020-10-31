@@ -11,7 +11,7 @@ public class GuisoView: UIImageView , ViewTarget {
    
     
     
-    init(){
+    public init(){
         super.init(frame: .zero)
         clipsToBounds = true
     }

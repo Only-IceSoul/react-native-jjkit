@@ -9,7 +9,7 @@
 import Foundation
 
 
- class GuisoCacheGif : LRUCache<AnimatedImage> {
+ class GuisoCacheGif : LRUCache<Key,AnimatedImage> {
     
     
     override func getSizeObject(obj: AnimatedImage) -> Int64 {
