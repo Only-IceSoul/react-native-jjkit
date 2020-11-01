@@ -9,21 +9,7 @@ import Foundation
 
 public final class LinkedList<U,T> {
 
-    public class LinkedListNode<U,T> {
-        var key: U
-        var value: T
-        var next: LinkedListNode?
-        weak var previous: LinkedListNode?
-
-        public init(key:U,value: T) {
-            self.value = value
-            self.key = key
-        }
-    }
-
-    public typealias Node = LinkedListNode<U,T>
-
-    fileprivate var head: Node?
+    fileprivate var head: Node<U,T>?
 
     public init() {}
 
@@ -32,11 +18,11 @@ public final class LinkedList<U,T> {
         return head == nil
     }
 
-    public var first: Node? {
+    public var first: Node<U,T>? {
         return head
     }
 
-    public var last: Node? {
+    public var last: Node<U,T>? {
         if var node = head {
             while let next = node.next {
                 node = next
@@ -60,7 +46,7 @@ public final class LinkedList<U,T> {
         }
     }
 
-    public func node(atIndex index: Int) -> Node? {
+    public func node(atIndex index: Int) -> Node<U,T>? {
         if index >= 0 {
             var node = head
             var i = index
@@ -84,8 +70,8 @@ public final class LinkedList<U,T> {
         self.append(newNode)
     }
 
-    public func append(_ node: Node) {
-        let newNode = LinkedListNode(key: node.key, value: node.value)
+    public func append(_ node: Node<U,T>) {
+        let newNode = Node(key: node.key, value: node.value)
         if let lastNode = last {
             newNode.previous = lastNode
             lastNode.next = newNode
@@ -102,12 +88,12 @@ public final class LinkedList<U,T> {
         }
     }
 
-    private func nodesBeforeAndAfter(index: Int) -> (Node?, Node?) {
+    private func nodesBeforeAndAfter(index: Int) -> (Node<U,T>?, Node<U,T>?) {
         assert(index >= 0)
 
         var i = index
         var next = head
-        var prev: Node?
+        var prev: Node<U,T>?
 
         while next != nil && i > 0 {
             i -= 1
@@ -123,9 +109,9 @@ public final class LinkedList<U,T> {
         self.insert(newNode, atIndex: index)
     }
 
-    public func insert(_ node: Node, atIndex index: Int) {
+    public func insert(_ node: Node<U,T>, atIndex index: Int) {
         let (prev, next) = nodesBeforeAndAfter(index: index)
-        let newNode = LinkedListNode(key: node.key, value: node.value)
+        let newNode = Node(key: node.key, value: node.value)
         newNode.previous = prev
         newNode.next = next
         prev?.next = newNode
@@ -140,7 +126,7 @@ public final class LinkedList<U,T> {
         if list.isEmpty { return }
         var (prev, next) = nodesBeforeAndAfter(index: index)
         var nodeToCopy = list.head
-        var newNode: Node?
+        var newNode: Node<U,T>?
         while let node = nodeToCopy {
             newNode = Node(key: node.key, value: node.value)
             newNode?.previous = prev
@@ -160,7 +146,7 @@ public final class LinkedList<U,T> {
         head = nil
     }
 
-    @discardableResult public func remove(node: Node) -> T {
+    @discardableResult public func remove(node: Node<U,T>) -> T {
         let prev = node.previous
         let next = node.next
 

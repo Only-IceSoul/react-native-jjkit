@@ -21,7 +21,7 @@ public class GuisoRequest: Runnable,Equatable,Request {
     private var mAnimImgDecoder : AnimatedImageDecoderProtocol!
     private var mThumb: GuisoRequestThumb?
     private var mPrimarySignature = ""
-//    private var mSimpleKey = ""
+
     public init(model:Any?,_ primarySignature:String,options:GuisoOptions,_ target: ViewTarget?, loader: LoaderProtocol,animImgDecoder : AnimatedImageDecoderProtocol) {
 
         mOptions = options
@@ -31,7 +31,7 @@ public class GuisoRequest: Runnable,Equatable,Request {
         mTarget = target
         mLoader = loader
         mKey = makeKey()
-//        mSimpleKey = mKey.toString()
+
 
 
         
@@ -78,7 +78,6 @@ public class GuisoRequest: Runnable,Equatable,Request {
                 }
                 return
             }
-            print("failed disk cache")
         }
         
         if isCancelled { return  }
@@ -93,7 +92,6 @@ public class GuisoRequest: Runnable,Equatable,Request {
                 self.handleImage(res,type:.uiimg,"",.dataDiskCache)
                 return
             }
-            print("failed disk cache source")
         }
         if isCancelled { return  }
         
@@ -397,7 +395,6 @@ public class GuisoRequest: Runnable,Equatable,Request {
             }
         }else{
             if let res = loadFromMemoryImg() {
-                print("get from mem cache")
                 onResourceReady(res, .memoryCache)
                 return
             }

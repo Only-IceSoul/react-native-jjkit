@@ -12,7 +12,7 @@ public class LRUCache<U:Hashable,T> {
   private var mMaxSize: Int64 = 0
   private var mCurrentSize : Int64 = 0
     private var mPriority: LinkedList<U,T> = LinkedList<U,T>()
-  private var mCache: [U: LinkedList<U,T>.LinkedListNode<U,T>] = [:]
+  private var mCache: [U: Node<U,T>] = [U:Node<U,T>]()
     
    
 
