@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import JJGuiso
 
 @objc(ImageView)
 class ImageView: UIImageView , ViewTarget {
@@ -68,7 +69,7 @@ class ImageView: UIImageView , ViewTarget {
     
     private func updateImage(_ url:String?,_ placeholder:String?,_ headers:[String:String]?,_ priority:Guiso.Priority,_ cache:Bool,_ diskCacheStrategy: String,_ asGif:Bool,_ resize:Bool,_ reqW:Int,_ reqH:Int,_ resizeMode:String){
         
-        Guiso.get().getExecutor().doWork {
+       
             let options = self.getOptions(asGif: asGif,headers:headers, cache: cache,diskCacheStrategy, placeholder: placeholder,priority: priority, resize: resize, reqW: reqW, reqH: reqH,resizeMode)
                 
                 var manager = Guiso.load(model: "")
@@ -89,13 +90,13 @@ class ImageView: UIImageView , ViewTarget {
                 }
                 
             
-                DispatchQueue.main.async {
+             
                     self.onLoadStart?([String:Any]())
                           manager.apply(options)
                           .into(self)
-                }
+                
             
-        }
+        
         
         
       
@@ -123,7 +124,7 @@ class ImageView: UIImageView , ViewTarget {
         if(!asGif){
             options = options.frame(1)
         }else{
-            options = options.asAnimatedImage(.gif)
+            options = options.asAnimatedImage()
         }
         
         if(resize){

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import JJGuiso
 
 class CellPhoto: UICollectionViewCell,SelectableProtocol {
   

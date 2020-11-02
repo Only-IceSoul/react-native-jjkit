@@ -1,6 +1,0 @@
-framework module WebPMux {
-    umbrella header "WebPMux.h"
-
-    export *
-    module * { export * }
-}

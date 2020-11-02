@@ -25,54 +25,8 @@
 		D03AA8DB25377FFC00B8AAB5 /* SelectableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8D125377FFC00B8AAB5 /* SelectableView.swift */; };
 		D03AA8DF2537802500B8AAB5 /* JJMargin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8DD2537802500B8AAB5 /* JJMargin.swift */; };
 		D03AA8E02537802500B8AAB5 /* JJLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AA8DE2537802500B8AAB5 /* JJLayout.swift */; };
-		D07F7220254E3FAD0098D774 /* ViewTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F71F6254E3FAB0098D774 /* ViewTarget.swift */; };
-		D07F7221254E3FAD0098D774 /* KeyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F71F7254E3FAB0098D774 /* KeyGenerator.swift */; };
-		D07F7222254E3FAD0098D774 /* LoaderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F71F8254E3FAB0098D774 /* LoaderProtocol.swift */; };
-		D07F7223254E3FAD0098D774 /* SimpleTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F71F9254E3FAB0098D774 /* SimpleTarget.swift */; };
-		D07F7224254E3FAD0098D774 /* GuisoSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F71FA254E3FAC0098D774 /* GuisoSaver.swift */; };
-		D07F7225254E3FAD0098D774 /* Executor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F71FB254E3FAC0098D774 /* Executor.swift */; };
-		D07F7226254E3FAD0098D774 /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F71FC254E3FAC0098D774 /* AnimatedImage.swift */; };
-		D07F7227254E3FAD0098D774 /* GuisoLoaderString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F71FD254E3FAC0098D774 /* GuisoLoaderString.swift */; };
-		D07F7228254E3FAD0098D774 /* GuisoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F71FE254E3FAC0098D774 /* GuisoView.swift */; };
-		D07F7229254E3FAD0098D774 /* GuisoFallbackHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F71FF254E3FAC0098D774 /* GuisoFallbackHolder.swift */; };
-		D07F722A254E3FAD0098D774 /* GuisoLoaderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7200254E3FAC0098D774 /* GuisoLoaderData.swift */; };
-		D07F722B254E3FAD0098D774 /* GuisoCacheGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7201254E3FAC0098D774 /* GuisoCacheGif.swift */; };
-		D07F722C254E3FAD0098D774 /* GuisoCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7202254E3FAC0098D774 /* GuisoCache.swift */; };
-		D07F722D254E3FAD0098D774 /* GuisoRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7203254E3FAC0098D774 /* GuisoRequestBuilder.swift */; };
-		D07F722E254E3FAD0098D774 /* TransformationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7204254E3FAC0098D774 /* TransformationUtils.swift */; };
-		D07F722F254E3FAD0098D774 /* TransformProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7205254E3FAC0098D774 /* TransformProtocol.swift */; };
-		D07F7230254E3FAD0098D774 /* Runnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7206254E3FAC0098D774 /* Runnable.swift */; };
-		D07F7231254E3FAD0098D774 /* AnimatedLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7207254E3FAC0098D774 /* AnimatedLayer.swift */; };
-		D07F7232254E3FAD0098D774 /* GuisoGifDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7208254E3FAC0098D774 /* GuisoGifDecoder.swift */; };
-		D07F7233254E3FAD0098D774 /* GuisoErrorHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7209254E3FAC0098D774 /* GuisoErrorHolder.swift */; };
-		D07F7234254E3FAD0098D774 /* GuisoPreload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F720A254E3FAC0098D774 /* GuisoPreload.swift */; };
-		D07F7235254E3FAD0098D774 /* GuisoPlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F720B254E3FAC0098D774 /* GuisoPlaceHolder.swift */; };
-		D07F7236254E3FAD0098D774 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F720C254E3FAC0098D774 /* Key.swift */; };
-		D07F7237254E3FAD0098D774 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F720D254E3FAC0098D774 /* Node.swift */; };
-		D07F7238254E3FAD0098D774 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F720E254E3FAD0098D774 /* Request.swift */; };
-		D07F7239254E3FAD0098D774 /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F720F254E3FAD0098D774 /* ColorMap.swift */; };
-		D07F723A254E3FAD0098D774 /* GuisoRequestThumb.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7210254E3FAD0098D774 /* GuisoRequestThumb.swift */; };
-		D07F723B254E3FAD0098D774 /* GuisoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7211254E3FAD0098D774 /* GuisoUtils.swift */; };
-		D07F723C254E3FAD0098D774 /* GuisoRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7212254E3FAD0098D774 /* GuisoRequestManager.swift */; };
-		D07F723D254E3FAD0098D774 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7213254E3FAD0098D774 /* LinkedList.swift */; };
-		D07F723E254E3FAD0098D774 /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7214254E3FAD0098D774 /* LRUCache.swift */; };
-		D07F723F254E3FAD0098D774 /* GuisoDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7215254E3FAD0098D774 /* GuisoDiskCache.swift */; };
-		D07F7240254E3FAD0098D774 /* AnimatedImageDecoderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7216254E3FAD0098D774 /* AnimatedImageDecoderProtocol.swift */; };
-		D07F7241254E3FAD0098D774 /* GuisoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7217254E3FAD0098D774 /* GuisoRequest.swift */; };
-		D07F7242254E3FAD0098D774 /* GuisoWebpDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7218254E3FAD0098D774 /* GuisoWebpDecoder.swift */; };
-		D07F7243254E3FAD0098D774 /* extension_URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F7219254E3FAD0098D774 /* extension_URL.swift */; };
-		D07F7244254E3FAD0098D774 /* Guiso.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F721A254E3FAD0098D774 /* Guiso.swift */; };
-		D07F7245254E3FAD0098D774 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F721B254E3FAD0098D774 /* File.swift */; };
-		D07F7246254E3FAD0098D774 /* extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F721C254E3FAD0098D774 /* extension_String.swift */; };
-		D07F7247254E3FAD0098D774 /* GuisoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F721D254E3FAD0098D774 /* GuisoHeader.swift */; };
-		D07F7248254E3FAD0098D774 /* GuisoOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F721E254E3FAD0098D774 /* GuisoOptions.swift */; };
-		D07F7249254E3FAD0098D774 /* GuisoTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F721F254E3FAD0098D774 /* GuisoTransform.swift */; };
 		D087E1FD24588AD9001C8C7E /* PhotoKit.m in Sources */ = {isa = PBXBuildFile; fileRef = D087E1FB24588AD8001C8C7E /* PhotoKit.m */; };
 		D087E1FE24588AD9001C8C7E /* PhotoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D087E1FC24588AD9001C8C7E /* PhotoKit.swift */; };
-		D0A3F99F25491E4400395F3D /* WebPMux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A3F99B25491E4400395F3D /* WebPMux.framework */; };
-		D0A3F9A025491E4400395F3D /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A3F99C25491E4400395F3D /* WebP.framework */; };
-		D0A3F9A125491E4400395F3D /* WebPDecoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A3F99D25491E4400395F3D /* WebPDecoder.framework */; };
-		D0A3F9A225491E4400395F3D /* WebPDemux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A3F99E25491E4400395F3D /* WebPDemux.framework */; };
 		D0AFDFDE244F8C0D00377C58 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AFDFDB244F8C0D00377C58 /* Image.m */; };
 		D0AFDFDF244F8C0D00377C58 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AFDFDC244F8C0D00377C58 /* Image.swift */; };
 		D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1D5243AE49100881A99 /* CircleProgress.swift */; };
@@ -87,6 +41,7 @@
 		D0BED1ED243AE4A100881A99 /* extension_UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */; };
 		D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */; };
 		D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */; };
+		D0D64421254F9A1A0032A997 /* extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D64420254F9A1A0032A997 /* extension_String.swift */; };
 		D0E116E024623ADB009FF69C /* Cropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E116DD24623ADB009FF69C /* Cropper.swift */; };
 		D0E116E124623ADB009FF69C /* CropHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E116DE24623ADB009FF69C /* CropHelper.swift */; };
 		D0E116E224623ADB009FF69C /* Cropper.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E116DF24623ADB009FF69C /* Cropper.m */; };
@@ -133,54 +88,8 @@
 		D03AA8DD2537802500B8AAB5 /* JJMargin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JJMargin.swift; sourceTree = "<group>"; };
 		D03AA8DE2537802500B8AAB5 /* JJLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JJLayout.swift; sourceTree = "<group>"; };
 		D03AA8E22537817400B8AAB5 /* JJKitAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = JJKitAssets.xcassets; sourceTree = "<group>"; };
-		D07F71F6254E3FAB0098D774 /* ViewTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewTarget.swift; sourceTree = "<group>"; };
-		D07F71F7254E3FAB0098D774 /* KeyGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyGenerator.swift; sourceTree = "<group>"; };
-		D07F71F8254E3FAB0098D774 /* LoaderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoaderProtocol.swift; sourceTree = "<group>"; };
-		D07F71F9254E3FAB0098D774 /* SimpleTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTarget.swift; sourceTree = "<group>"; };
-		D07F71FA254E3FAC0098D774 /* GuisoSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoSaver.swift; sourceTree = "<group>"; };
-		D07F71FB254E3FAC0098D774 /* Executor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Executor.swift; sourceTree = "<group>"; };
-		D07F71FC254E3FAC0098D774 /* AnimatedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedImage.swift; sourceTree = "<group>"; };
-		D07F71FD254E3FAC0098D774 /* GuisoLoaderString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoLoaderString.swift; sourceTree = "<group>"; };
-		D07F71FE254E3FAC0098D774 /* GuisoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoView.swift; sourceTree = "<group>"; };
-		D07F71FF254E3FAC0098D774 /* GuisoFallbackHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoFallbackHolder.swift; sourceTree = "<group>"; };
-		D07F7200254E3FAC0098D774 /* GuisoLoaderData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoLoaderData.swift; sourceTree = "<group>"; };
-		D07F7201254E3FAC0098D774 /* GuisoCacheGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoCacheGif.swift; sourceTree = "<group>"; };
-		D07F7202254E3FAC0098D774 /* GuisoCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoCache.swift; sourceTree = "<group>"; };
-		D07F7203254E3FAC0098D774 /* GuisoRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequestBuilder.swift; sourceTree = "<group>"; };
-		D07F7204254E3FAC0098D774 /* TransformationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformationUtils.swift; sourceTree = "<group>"; };
-		D07F7205254E3FAC0098D774 /* TransformProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformProtocol.swift; sourceTree = "<group>"; };
-		D07F7206254E3FAC0098D774 /* Runnable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Runnable.swift; sourceTree = "<group>"; };
-		D07F7207254E3FAC0098D774 /* AnimatedLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedLayer.swift; sourceTree = "<group>"; };
-		D07F7208254E3FAC0098D774 /* GuisoGifDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoGifDecoder.swift; sourceTree = "<group>"; };
-		D07F7209254E3FAC0098D774 /* GuisoErrorHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoErrorHolder.swift; sourceTree = "<group>"; };
-		D07F720A254E3FAC0098D774 /* GuisoPreload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoPreload.swift; sourceTree = "<group>"; };
-		D07F720B254E3FAC0098D774 /* GuisoPlaceHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoPlaceHolder.swift; sourceTree = "<group>"; };
-		D07F720C254E3FAC0098D774 /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
-		D07F720D254E3FAC0098D774 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
-		D07F720E254E3FAD0098D774 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
-		D07F720F254E3FAD0098D774 /* ColorMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorMap.swift; sourceTree = "<group>"; };
-		D07F7210254E3FAD0098D774 /* GuisoRequestThumb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequestThumb.swift; sourceTree = "<group>"; };
-		D07F7211254E3FAD0098D774 /* GuisoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoUtils.swift; sourceTree = "<group>"; };
-		D07F7212254E3FAD0098D774 /* GuisoRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequestManager.swift; sourceTree = "<group>"; };
-		D07F7213254E3FAD0098D774 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
-		D07F7214254E3FAD0098D774 /* LRUCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
-		D07F7215254E3FAD0098D774 /* GuisoDiskCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoDiskCache.swift; sourceTree = "<group>"; };
-		D07F7216254E3FAD0098D774 /* AnimatedImageDecoderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedImageDecoderProtocol.swift; sourceTree = "<group>"; };
-		D07F7217254E3FAD0098D774 /* GuisoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoRequest.swift; sourceTree = "<group>"; };
-		D07F7218254E3FAD0098D774 /* GuisoWebpDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoWebpDecoder.swift; sourceTree = "<group>"; };
-		D07F7219254E3FAD0098D774 /* extension_URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_URL.swift; sourceTree = "<group>"; };
-		D07F721A254E3FAD0098D774 /* Guiso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guiso.swift; sourceTree = "<group>"; };
-		D07F721B254E3FAD0098D774 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
-		D07F721C254E3FAD0098D774 /* extension_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_String.swift; sourceTree = "<group>"; };
-		D07F721D254E3FAD0098D774 /* GuisoHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoHeader.swift; sourceTree = "<group>"; };
-		D07F721E254E3FAD0098D774 /* GuisoOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoOptions.swift; sourceTree = "<group>"; };
-		D07F721F254E3FAD0098D774 /* GuisoTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuisoTransform.swift; sourceTree = "<group>"; };
 		D087E1FB24588AD8001C8C7E /* PhotoKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoKit.m; sourceTree = "<group>"; };
 		D087E1FC24588AD9001C8C7E /* PhotoKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoKit.swift; sourceTree = "<group>"; };
-		D0A3F99B25491E4400395F3D /* WebPMux.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebPMux.framework; sourceTree = "<group>"; };
-		D0A3F99C25491E4400395F3D /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebP.framework; sourceTree = "<group>"; };
-		D0A3F99D25491E4400395F3D /* WebPDecoder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebPDecoder.framework; sourceTree = "<group>"; };
-		D0A3F99E25491E4400395F3D /* WebPDemux.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebPDemux.framework; sourceTree = "<group>"; };
 		D0AFDFDB244F8C0D00377C58 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
 		D0AFDFDC244F8C0D00377C58 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		D0BED1D5243AE49100881A99 /* CircleProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleProgress.swift; sourceTree = "<group>"; };
@@ -196,6 +105,7 @@
 		D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_UIColor.swift; sourceTree = "<group>"; };
 		D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_CGRect.swift; sourceTree = "<group>"; };
 		D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_CALayer.swift; sourceTree = "<group>"; };
+		D0D64420254F9A1A0032A997 /* extension_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = extension_String.swift; path = "../../../recyclerApp/node_modules/react-native-jjkit/ios/extension/extension_String.swift"; sourceTree = "<group>"; };
 		D0E116DD24623ADB009FF69C /* Cropper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cropper.swift; sourceTree = "<group>"; };
 		D0E116DE24623ADB009FF69C /* CropHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropHelper.swift; sourceTree = "<group>"; };
 		D0E116DF24623ADB009FF69C /* Cropper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cropper.m; sourceTree = "<group>"; };
@@ -213,10 +123,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0A3F9A225491E4400395F3D /* WebPDemux.framework in Frameworks */,
-				D0A3F9A125491E4400395F3D /* WebPDecoder.framework in Frameworks */,
-				D0A3F9A025491E4400395F3D /* WebP.framework in Frameworks */,
-				D0A3F99F25491E4400395F3D /* WebPMux.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,66 +203,6 @@
 			path = Image;
 			sourceTree = "<group>";
 		};
-		D0A3F99A25491E4400395F3D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D0A3F99B25491E4400395F3D /* WebPMux.framework */,
-				D0A3F99C25491E4400395F3D /* WebP.framework */,
-				D0A3F99D25491E4400395F3D /* WebPDecoder.framework */,
-				D0A3F99E25491E4400395F3D /* WebPDemux.framework */,
-			);
-			path = Frameworks;
-			sourceTree = "<group>";
-		};
-		D0AE8AE0247AE3DE00F860AE /* Guiso */ = {
-			isa = PBXGroup;
-			children = (
-				D07F71FC254E3FAC0098D774 /* AnimatedImage.swift */,
-				D07F7216254E3FAD0098D774 /* AnimatedImageDecoderProtocol.swift */,
-				D07F7207254E3FAC0098D774 /* AnimatedLayer.swift */,
-				D07F720F254E3FAD0098D774 /* ColorMap.swift */,
-				D07F71FB254E3FAC0098D774 /* Executor.swift */,
-				D07F721C254E3FAD0098D774 /* extension_String.swift */,
-				D07F7219254E3FAD0098D774 /* extension_URL.swift */,
-				D07F721B254E3FAD0098D774 /* File.swift */,
-				D07F721A254E3FAD0098D774 /* Guiso.swift */,
-				D07F7202254E3FAC0098D774 /* GuisoCache.swift */,
-				D07F7201254E3FAC0098D774 /* GuisoCacheGif.swift */,
-				D07F7215254E3FAD0098D774 /* GuisoDiskCache.swift */,
-				D07F7209254E3FAC0098D774 /* GuisoErrorHolder.swift */,
-				D07F71FF254E3FAC0098D774 /* GuisoFallbackHolder.swift */,
-				D07F7208254E3FAC0098D774 /* GuisoGifDecoder.swift */,
-				D07F721D254E3FAD0098D774 /* GuisoHeader.swift */,
-				D07F7200254E3FAC0098D774 /* GuisoLoaderData.swift */,
-				D07F71FD254E3FAC0098D774 /* GuisoLoaderString.swift */,
-				D07F721E254E3FAD0098D774 /* GuisoOptions.swift */,
-				D07F720B254E3FAC0098D774 /* GuisoPlaceHolder.swift */,
-				D07F720A254E3FAC0098D774 /* GuisoPreload.swift */,
-				D07F7217254E3FAD0098D774 /* GuisoRequest.swift */,
-				D07F7203254E3FAC0098D774 /* GuisoRequestBuilder.swift */,
-				D07F7212254E3FAD0098D774 /* GuisoRequestManager.swift */,
-				D07F7210254E3FAD0098D774 /* GuisoRequestThumb.swift */,
-				D07F71FA254E3FAC0098D774 /* GuisoSaver.swift */,
-				D07F721F254E3FAD0098D774 /* GuisoTransform.swift */,
-				D07F7211254E3FAD0098D774 /* GuisoUtils.swift */,
-				D07F71FE254E3FAC0098D774 /* GuisoView.swift */,
-				D07F7218254E3FAD0098D774 /* GuisoWebpDecoder.swift */,
-				D07F720C254E3FAC0098D774 /* Key.swift */,
-				D07F71F7254E3FAB0098D774 /* KeyGenerator.swift */,
-				D07F7213254E3FAD0098D774 /* LinkedList.swift */,
-				D07F71F8254E3FAB0098D774 /* LoaderProtocol.swift */,
-				D07F7214254E3FAD0098D774 /* LRUCache.swift */,
-				D07F720D254E3FAC0098D774 /* Node.swift */,
-				D07F720E254E3FAD0098D774 /* Request.swift */,
-				D07F7206254E3FAC0098D774 /* Runnable.swift */,
-				D07F71F9254E3FAB0098D774 /* SimpleTarget.swift */,
-				D07F7204254E3FAC0098D774 /* TransformationUtils.swift */,
-				D07F7205254E3FAC0098D774 /* TransformProtocol.swift */,
-				D07F71F6254E3FAB0098D774 /* ViewTarget.swift */,
-			);
-			path = Guiso;
-			sourceTree = "<group>";
-		};
 		D0BED1D4243AE49100881A99 /* ClipProgressView */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +231,7 @@
 				D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */,
 				D0F98D6F2443DAD8001CF3DA /* extension_UIView.swift */,
 				D0BED1E8243AE4A100881A99 /* extension_UIBezierPath.swift */,
+				D0D64420254F9A1A0032A997 /* extension_String.swift */,
 				D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */,
 				D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */,
 				D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */,
@@ -415,8 +262,6 @@
 		D0F98D742443E385001CF3DA /* utils */ = {
 			isa = PBXGroup;
 			children = (
-				D0A3F99A25491E4400395F3D /* Frameworks */,
-				D0AE8AE0247AE3DE00F860AE /* Guiso */,
 				D0F98D662443DAC6001CF3DA /* JJLabel.swift */,
 				D0F98D682443DAC6001CF3DA /* JJLabelUI.swift */,
 				D03AA8DE2537802500B8AAB5 /* JJLayout.swift */,
@@ -483,92 +328,51 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D07F7244254E3FAD0098D774 /* Guiso.swift in Sources */,
 				D0BED1E4243AE49800881A99 /* ClipRectView.m in Sources */,
 				D03AA8DA25377FFC00B8AAB5 /* ProgressCell.swift in Sources */,
 				D0AFDFDF244F8C0D00377C58 /* Image.swift in Sources */,
 				D0BED1ED243AE4A100881A99 /* extension_UIColor.swift in Sources */,
-				D07F7231254E3FAD0098D774 /* AnimatedLayer.swift in Sources */,
 				D0F98D692443DAC6001CF3DA /* JJScreen.swift in Sources */,
 				D03AA8D925377FFC00B8AAB5 /* CellVideo.swift in Sources */,
-				D07F7249254E3FAD0098D774 /* GuisoTransform.swift in Sources */,
 				D0BED1DA243AE49100881A99 /* CircleProgress.swift in Sources */,
-				D07F7222254E3FAD0098D774 /* LoaderProtocol.swift in Sources */,
 				D0F98D6C2443DAC6001CF3DA /* JJLabelUI.swift in Sources */,
-				D07F723D254E3FAD0098D774 /* LinkedList.swift in Sources */,
 				D0F98D602443DA71001CF3DA /* Toast.swift in Sources */,
-				D07F723B254E3FAD0098D774 /* GuisoUtils.swift in Sources */,
 				D0BED1E5243AE49800881A99 /* LayerClip.swift in Sources */,
-				D07F722E254E3FAD0098D774 /* TransformationUtils.swift in Sources */,
-				D07F7228254E3FAD0098D774 /* GuisoView.swift in Sources */,
-				D07F7248254E3FAD0098D774 /* GuisoOptions.swift in Sources */,
-				D07F7226254E3FAD0098D774 /* AnimatedImage.swift in Sources */,
 				D0E116E124623ADB009FF69C /* CropHelper.swift in Sources */,
 				D03AA8D325377FFC00B8AAB5 /* ImageList.swift in Sources */,
 				D0BED1DD243AE49100881A99 /* CircleProgressView.swift in Sources */,
 				D0BED1EC243AE4A100881A99 /* extension_UIBezierPath.swift in Sources */,
 				D01D1CA5244A5A6C00E0C8D1 /* Badge.swift in Sources */,
 				D03AA8D725377FFC00B8AAB5 /* MediaCollectionView.swift in Sources */,
-				D07F7241254E3FAD0098D774 /* GuisoRequest.swift in Sources */,
 				D0F98D702443DAD8001CF3DA /* extension_UIView.swift in Sources */,
-				D07F723E254E3FAD0098D774 /* LRUCache.swift in Sources */,
-				D07F7242254E3FAD0098D774 /* GuisoWebpDecoder.swift in Sources */,
+				D0D64421254F9A1A0032A997 /* extension_String.swift in Sources */,
 				D021B2C12456754C0085F417 /* ImageView.swift in Sources */,
 				D01D1CA8244A5A7800E0C8D1 /* Badge.m in Sources */,
-				D07F7243254E3FAD0098D774 /* extension_URL.swift in Sources */,
 				D03AA8D425377FFC00B8AAB5 /* ImageListView.m in Sources */,
 				D01D1CAA244A5A8200E0C8D1 /* BadgeShadowView.swift in Sources */,
-				D07F7240254E3FAD0098D774 /* AnimatedImageDecoderProtocol.swift in Sources */,
 				D03AA8D225377FFC00B8AAB5 /* ImageListView.swift in Sources */,
-				D07F7237254E3FAD0098D774 /* Node.swift in Sources */,
 				D01D1CBC244A623F00E0C8D1 /* extension_AttrString.swift in Sources */,
 				D087E1FD24588AD9001C8C7E /* PhotoKit.m in Sources */,
 				D0BED1E3243AE49800881A99 /* ClipRectView.swift in Sources */,
-				D07F7238254E3FAD0098D774 /* Request.swift in Sources */,
-				D07F7225254E3FAD0098D774 /* Executor.swift in Sources */,
-				D07F7224254E3FAD0098D774 /* GuisoSaver.swift in Sources */,
-				D07F7234254E3FAD0098D774 /* GuisoPreload.swift in Sources */,
-				D07F7233254E3FAD0098D774 /* GuisoErrorHolder.swift in Sources */,
-				D07F7221254E3FAD0098D774 /* KeyGenerator.swift in Sources */,
 				D01D1CAC244A5A8900E0C8D1 /* BadgeView.swift in Sources */,
 				D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */,
 				D0BED1DC243AE49100881A99 /* LayerCircleProgress.swift in Sources */,
-				D07F7223254E3FAD0098D774 /* SimpleTarget.swift in Sources */,
 				D0AFDFDE244F8C0D00377C58 /* Image.m in Sources */,
 				D0F98D6B2443DAC6001CF3DA /* ToastManager.swift in Sources */,
-				D07F7245254E3FAD0098D774 /* File.swift in Sources */,
-				D07F722D254E3FAD0098D774 /* GuisoRequestBuilder.swift in Sources */,
 				D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */,
-				D07F7246254E3FAD0098D774 /* extension_String.swift in Sources */,
-				D07F7236254E3FAD0098D774 /* Key.swift in Sources */,
-				D07F7232254E3FAD0098D774 /* GuisoGifDecoder.swift in Sources */,
-				D07F7230254E3FAD0098D774 /* Runnable.swift in Sources */,
 				D03AA8D625377FFC00B8AAB5 /* CellPhoto.swift in Sources */,
 				D03AA8D525377FFC00B8AAB5 /* ProgressView.swift in Sources */,
-				D07F723F254E3FAD0098D774 /* GuisoDiskCache.swift in Sources */,
-				D07F7227254E3FAD0098D774 /* GuisoLoaderString.swift in Sources */,
-				D07F7229254E3FAD0098D774 /* GuisoFallbackHolder.swift in Sources */,
 				D03AA8DB25377FFC00B8AAB5 /* SelectableView.swift in Sources */,
 				D087E1FE24588AD9001C8C7E /* PhotoKit.swift in Sources */,
 				D0F98D6A2443DAC6001CF3DA /* JJLabel.swift in Sources */,
-				D07F722C254E3FAD0098D774 /* GuisoCache.swift in Sources */,
-				D07F722A254E3FAD0098D774 /* GuisoLoaderData.swift in Sources */,
 				D03AA8E02537802500B8AAB5 /* JJLayout.swift in Sources */,
 				D0F98D622443DA79001CF3DA /* Toast.m in Sources */,
 				D0E116E024623ADB009FF69C /* Cropper.swift in Sources */,
 				D0E116E224623ADB009FF69C /* Cropper.m in Sources */,
 				D0BED1DB243AE49100881A99 /* CircleProgressView.m in Sources */,
-				D07F723C254E3FAD0098D774 /* GuisoRequestManager.swift in Sources */,
-				D07F7239254E3FAD0098D774 /* ColorMap.swift in Sources */,
 				D0BED1E6243AE49800881A99 /* ClipRect.swift in Sources */,
-				D07F723A254E3FAD0098D774 /* GuisoRequestThumb.swift in Sources */,
 				D03AA8DF2537802500B8AAB5 /* JJMargin.swift in Sources */,
-				D07F722F254E3FAD0098D774 /* TransformProtocol.swift in Sources */,
 				D03AA8D825377FFC00B8AAB5 /* SelectableProtocol.swift in Sources */,
-				D07F7247254E3FAD0098D774 /* GuisoHeader.swift in Sources */,
-				D07F7235254E3FAD0098D774 /* GuisoPlaceHolder.swift in Sources */,
-				D07F7220254E3FAD0098D774 /* ViewTarget.swift in Sources */,
-				D07F722B254E3FAD0098D774 /* GuisoCacheGif.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

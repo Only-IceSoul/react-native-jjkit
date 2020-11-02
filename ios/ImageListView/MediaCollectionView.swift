@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import JJGuiso
 
 class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,UICollectionViewDelegate {
     
@@ -263,7 +264,7 @@ class MediaCollectionView: UICollectionView,UICollectionViewDelegateFlowLayout,U
         let item = mItems[indexPath.row]
     
         
-        var g = ((item?["mediaType"] as? String) == "gif" && mAllowGif ) ? Guiso.load(model: item?["uri"] as? String).asAnimatedImage(.gif) : Guiso.load(model: item?["uri"] as? String)
+        var g = ((item?["mediaType"] as? String) == "gif" && mAllowGif ) ? Guiso.load(model: item?["uri"] as? String).asAnimatedImage() : Guiso.load(model: item?["uri"] as? String)
         
         if(mWidth > 0 && mHeight > 0 ){
             g = mResizeMode == MediaCollectionView.RESIZE_MODE_CONTAIN ? g.fitCenter().override(mWidth, mHeight) : g.centerCrop().override(mWidth, mHeight)

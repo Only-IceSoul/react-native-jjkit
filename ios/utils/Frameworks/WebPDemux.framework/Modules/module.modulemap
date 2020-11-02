@@ -1,6 +1,0 @@
-framework module WebPDemux {
-    umbrella header "WebPDemux.h"
-
-    export *
-    module * { export * }
-}

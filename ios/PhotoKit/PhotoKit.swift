@@ -8,7 +8,7 @@
 import Foundation
 import Photos
 import MobileCoreServices
-
+import JJGuiso
 
 @objc(PhotoKit)
 class PhotoKit : NSObject, RCTBridgeModule {
@@ -21,7 +21,7 @@ class PhotoKit : NSObject, RCTBridgeModule {
     }
     
     @objc func clearMemoryCache(_ resolve: RCTPromiseResolveBlock, rejecter:RCTPromiseRejectBlock){
-        Guiso.get().cleanMemoryCache()
+        Guiso.cleanMemoryCache()
         resolve(true)
     }
     
@@ -467,11 +467,15 @@ class PhotoKit : NSObject, RCTBridgeModule {
     }
 
     func resolveAsset(_ identifier:String)->PHAsset?{
-          let result = Guiso.get().getAsset(identifier)
+          let result = getAsset(identifier)
              if result.count > 0 { return result.firstObject }
              else { return nil }
     }
-     
+    func getAsset(_ id:String) -> PHFetchResult<PHAsset> {
+            let options = PHFetchOptions()
+            options.predicate = NSPredicate(format: "localIdentifier == %@",id)
+            return PHAsset.fetchAssets(with: options)
+        }
         
    @objc func constantsToExport() ->  [AnyHashable : Any]! {
        return ["image": "image",

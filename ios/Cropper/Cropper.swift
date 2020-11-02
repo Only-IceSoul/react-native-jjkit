@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import JJGuiso
+
 
 @objc(Cropper)
 class Cropper : NSObject, RCTBridgeModule {

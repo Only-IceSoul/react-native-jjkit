@@ -24,11 +24,7 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
     'jjkitbundle' => ['ios/**/*.xcassets']
   }
-
-  s.vendored_frameworks = 'ios/utils/Frameworks/*.framework'
-
-  s.pod_target_xcconfig = { 'ARCHS'  => '$(ARCHS_STANDARD)' ,
-  'ONLY_ACTIVE_ARCH' => 'YES'}
-  s.user_target_xcconfig = { 'ARCHS'  => '$(ARCHS_STANDARD)', 'ONLY_ACTIVE_ARCH' => 'YES'}
+  s.dependency 'JJGuiso', '~> 1.8.7'
+  
 end
 

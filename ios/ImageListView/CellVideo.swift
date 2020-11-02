@@ -8,6 +8,7 @@
 
 import UIKit
 import MediaPlayer
+import JJGuiso
 
 class CellVideo: UICollectionViewCell,SelectableProtocol {
     
