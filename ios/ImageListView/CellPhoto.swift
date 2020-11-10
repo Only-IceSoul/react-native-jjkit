@@ -23,7 +23,11 @@ class CellPhoto: UICollectionViewCell,SelectableProtocol {
            setupViews()
       
     }
-  
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        Guiso.clear(target: mImageView)
+    }
   
     @discardableResult
     func setBackgroundColor(_ color:UIColor) -> CellPhoto{

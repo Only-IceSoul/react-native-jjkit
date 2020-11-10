@@ -41,7 +41,6 @@
 		D0BED1ED243AE4A100881A99 /* extension_UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */; };
 		D0BED1EE243AE4A100881A99 /* extension_CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */; };
 		D0BED1EF243AE4A100881A99 /* extension_CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */; };
-		D0D64421254F9A1A0032A997 /* extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D64420254F9A1A0032A997 /* extension_String.swift */; };
 		D0E116E024623ADB009FF69C /* Cropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E116DD24623ADB009FF69C /* Cropper.swift */; };
 		D0E116E124623ADB009FF69C /* CropHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E116DE24623ADB009FF69C /* CropHelper.swift */; };
 		D0E116E224623ADB009FF69C /* Cropper.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E116DF24623ADB009FF69C /* Cropper.m */; };
@@ -105,7 +104,6 @@
 		D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_UIColor.swift; sourceTree = "<group>"; };
 		D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_CGRect.swift; sourceTree = "<group>"; };
 		D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension_CALayer.swift; sourceTree = "<group>"; };
-		D0D64420254F9A1A0032A997 /* extension_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = extension_String.swift; path = "../../../recyclerApp/node_modules/react-native-jjkit/ios/extension/extension_String.swift"; sourceTree = "<group>"; };
 		D0E116DD24623ADB009FF69C /* Cropper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cropper.swift; sourceTree = "<group>"; };
 		D0E116DE24623ADB009FF69C /* CropHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropHelper.swift; sourceTree = "<group>"; };
 		D0E116DF24623ADB009FF69C /* Cropper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cropper.m; sourceTree = "<group>"; };
@@ -231,7 +229,6 @@
 				D01D1CBB244A623F00E0C8D1 /* extension_AttrString.swift */,
 				D0F98D6F2443DAD8001CF3DA /* extension_UIView.swift */,
 				D0BED1E8243AE4A100881A99 /* extension_UIBezierPath.swift */,
-				D0D64420254F9A1A0032A997 /* extension_String.swift */,
 				D0BED1E9243AE4A100881A99 /* extension_UIColor.swift */,
 				D0BED1EA243AE4A100881A99 /* extension_CGRect.swift */,
 				D0BED1EB243AE4A100881A99 /* extension_CALayer.swift */,
@@ -345,7 +342,6 @@
 				D01D1CA5244A5A6C00E0C8D1 /* Badge.swift in Sources */,
 				D03AA8D725377FFC00B8AAB5 /* MediaCollectionView.swift in Sources */,
 				D0F98D702443DAD8001CF3DA /* extension_UIView.swift in Sources */,
-				D0D64421254F9A1A0032A997 /* extension_String.swift in Sources */,
 				D021B2C12456754C0085F417 /* ImageView.swift in Sources */,
 				D01D1CA8244A5A7800E0C8D1 /* Badge.m in Sources */,
 				D03AA8D425377FFC00B8AAB5 /* ImageListView.m in Sources */,

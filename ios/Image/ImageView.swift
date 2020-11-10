@@ -221,7 +221,7 @@ class ImageView: UIImageView , ViewTarget {
        }
        
        public func onResourceReady(_ gif: AnimatedLayer) {
-           image = nil
+           if image != nil { image = nil }
            removeGif()
            addGif(gif)
         onLoadSuccess?(["width": gif.getWidth(),
@@ -237,20 +237,7 @@ class ImageView: UIImageView , ViewTarget {
         onLoadEnd?([String:Any]())
        }
        
-       public func onThumbReady(_ img: UIImage?) {
-           //if thumb fail and error thumb fail  img is nil.
-               removeGif()
-               image = img
-           
-       }
-       
-       public func onThumbReady(_ gif: AnimatedLayer) {
-           image = nil
-           removeGif()
-           addGif(gif)
-          
-       }
-       
+
     public func onLoadFailed(_ error:String) {
            // auto retry?
            //show clickview and let user retry?
@@ -282,6 +269,7 @@ class ImageView: UIImageView , ViewTarget {
        }
        
        private func removeGif(){
+           if mGif == nil {return }
            mGif?.removeFromSuperlayer()
            mGif = nil
        }

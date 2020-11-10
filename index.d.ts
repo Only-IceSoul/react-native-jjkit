@@ -16,6 +16,9 @@ type Priority = "low" | "normal" | "high"
 
 type DiskCacheStrategy = "automatic" | "all" | "none" | "data" | "resource"
 
+type Gravity = "left" | "top" | "right" | "bottom"
+
+type LineCap = "butt" | "round" | "square"
 
 export type ImageSource = {
     uri?:string| null,
@@ -211,7 +214,7 @@ export interface BadgeProps {
     style?: StyleProp<ViewStyle>
     text?:String | null
     textSize?:number | null
-    font?:string | null,
+    font?:string | null
     textColor?:string | null
     strokeColor?:string | null
     strokeWidth?:number | null
@@ -223,5 +226,84 @@ export interface BadgeProps {
 }
 
 export class Badge extends React.Component<BadgeProps>{
+
+}
+
+type Output = {
+    quality?: number
+    format?: number
+    width?: number
+    height?: number  
+}
+
+type CropperTransform = {
+    image?: string | null
+    rotate: number
+    flipVertically: boolean
+    flipHorizontally: boolean
+    output?: Output
+}
+
+type Rect = {
+    left:number
+    top:number
+    right:number
+    bottom:number
+}
+
+type CropperCrop = {
+    image?: string | null
+    rect: Rect
+    crop: Rect
+    rotate: number
+    flipVertically: boolean
+    flipHorizontally: boolean
+    output?: Output 
+}
+
+export class Cropper { 
+  
+
+    static jpeg:number
+    static png:number
+    
+
+    static transform(t:CropperTransform): Promise<string>
+    static makeCrop(c:CropperCrop): Promise<string>
+   
+}
+
+
+export class Toast {
+
+    static SHORT  
+    static LONG
+
+    static show(msg:string,lenght:number): Promise<string>
+}
+
+
+
+export interface ClipRectProps {
+   gravity?:Gravity
+   inset?:number
+   progress?:number
+}
+
+export class ClipRectView extends React.Component<ClipRectProps> {
+
+}
+
+export interface CircleProgressProps {
+    strokeWidth?:number
+    colors?: string[] | null
+    positions?: number[] | null
+    backColors?: string[] | null
+    backPositions?: number[] | null
+    cap?: LineCap | null
+    progress?:number
+}
+
+export class CircleProgressView extends React.Component<CircleProgressProps>{
 
 }

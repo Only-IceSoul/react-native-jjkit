@@ -22,11 +22,14 @@ class CellVideo: UICollectionViewCell,SelectableProtocol {
     override init(frame: CGRect) {
            super.init(frame: frame)
            setupViews()
-    
+        
       
     }
-  
-  
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        Guiso.clear(target: mImageView)
+    }
     
     @discardableResult
     func setBackgroundColor(_ color:UIColor) -> CellVideo{
