@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+import JJGuiso
 
 @objc(Image)
 class Image: RCTViewManager {
@@ -40,5 +40,11 @@ class Image: RCTViewManager {
       
     }
     
-    
+    @objc func clear(_ tag:NSNumber){
+         self.bridge?.uiManager?.addUIBlock { (_, views) in
+            if let v = views?[tag] as? ImageView{
+                Guiso.clear(target: v)
+            }
+        }
+    }
 }
