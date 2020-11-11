@@ -127,7 +127,7 @@ export class PhotoKit {
     static requestPermission():Promise<number>
     static clearMemoryCache():Promise<boolean>
     static fetchAlbums(query:string): Promise<Album[]>
-    static requestImageByRef(ref:Image | null,format?:CompressFormat,quality?:number): Promise<string>
+    static requestImageByRef(ref:Image | undefined | null,format?:CompressFormat,quality?:number): Promise<string>
     static clearImage(ref: Image | undefined | null): void
 }
 

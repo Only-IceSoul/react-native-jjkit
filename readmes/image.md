@@ -186,3 +186,15 @@ Called when the image finishes loading, whether it was successful or an error.
     })
 
 ```
+
+
+## **Clear Image**
+
+Cancellation
+
+```javascript
+  import { PhotoKit } from 'react-native-jjkit'
+  
+    PhotoKit.clearImage(imageRef)
+
+```

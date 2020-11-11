@@ -39,7 +39,7 @@ ios : 10.0+
 
 **2.0.2**
 
-- [Image](./readmes/image.md) request image
+- [Image](./readmes/image.md) clear (cancellation)
 
 
 
