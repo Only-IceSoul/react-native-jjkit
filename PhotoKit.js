@@ -88,5 +88,10 @@ export default PK = {
             })
            
        })
-      }
+      } ,
+      clearImage: (ref)=>{
+          if(ref){
+            Image.clear(findNodeHandle(ref))
+          }
+      } 
 }

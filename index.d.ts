@@ -128,6 +128,7 @@ export class PhotoKit {
     static clearMemoryCache():Promise<boolean>
     static fetchAlbums(query:string): Promise<Album[]>
     static requestImageByRef(ref:Image | null,format?:CompressFormat,quality?:number): Promise<string>
+    static clearImage(ref: Image | undefined | null): void
 }
 
 
@@ -276,8 +277,8 @@ export class Cropper {
 
 export class Toast {
 
-    static SHORT  
-    static LONG
+    static SHORT:number  
+    static LONG:number
 
     static show(msg:string,lenght:number): Promise<string>
 }
