@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
     'jjkitbundle' => ['ios/**/*.xcassets']
   }
-  s.dependency 'JJGuiso', '~> 1.9.2'
+  s.dependency 'JJGuiso', '~> 1.9.4'
   
 end
 

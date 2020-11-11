@@ -37,7 +37,7 @@ ios : 10.0+
 ## Change log
 
 
-**2.0.2**
+**2.1.1**
 
 - [Image](./readmes/image.md) clear (cancellation)
 
