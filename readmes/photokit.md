@@ -61,7 +61,7 @@ import { PhotoKit } from 'react-native-jjkit'
 
 ```
 
-Preview: Use [ImageListView](imageListView.md)
+Preview: Use [ImageListView](imageListView.md) or  [Image](image.md)
 
 ##  Objects
 
