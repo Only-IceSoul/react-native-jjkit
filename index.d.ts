@@ -245,13 +245,6 @@ type CropperTransform = {
     output?: Output
 }
 
-type Rect = {
-    left:number
-    top:number
-    right:number
-    bottom:number
-}
-
 type CropperCrop = {
     image?: string | null
     rect: Rect
@@ -307,4 +300,33 @@ export interface CircleProgressProps {
 
 export class CircleProgressView extends React.Component<CircleProgressProps>{
 
+}
+
+
+export type Rect = {
+    left:number
+    top:number
+    right:number
+    bottom:number
+}
+
+
+export class RectUtils {
+    static fitCenterRect: (width:number,height:number,cw:number,ch:number)=>Rect
+    static centerRect: (width:number,height:number,cw:number,ch:number)=>Rect
+    static offset: (rect:Rect,dx:number,dy:number)=>Rect
+    static scale: (rect:Rect,scale:number)=>Rect
+    static rotate: (rect:Rect,degrees:number)=>Rect
+    static inset: (rect:Rect,dx:number,dy:number)=>Rect
+    static insetBr: (rect:Rect,distance:number)=>Rect
+    static insetBl: (rect:Rect,distance:number)=>Rect
+    static insetTl: (rect:Rect,distance:number)=>Rect
+    static insetTr: (rect:Rect,distance:number)=>Rect
+    static insetBlr: (rect:Rect,distance:number)=>Rect
+    static insetTlr: (rect:Rect,distance:number)=>Rect
+    static insetLtb: (rect:Rect,distance:number)=>Rect
+    static insetRtb: (rect:Rect,distance:number)=>Rect
+    static width: (rect:Rect)=>number
+    static height: (rect:Rect)=>number
+    static contains: (rect:Rect,contains:Rect) => boolean
 }

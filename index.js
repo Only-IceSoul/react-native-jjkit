@@ -1,6 +1,6 @@
 import { requireNativeComponent } from 'react-native';
 import { NativeModules } from 'react-native';
-import Rect from './utils/Rect.js'
+import RectUtils from './utils/RectUtils.js'
 import ImageListView from './ImageListView'
 import PhotoKit from './PhotoKit'
 
@@ -21,7 +21,7 @@ export {
     PhotoKit,
     Image,
     Cropper,
-    Rect,
+    RectUtils,
     ImageListView
 }
 
