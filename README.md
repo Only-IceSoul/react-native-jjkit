@@ -45,7 +45,7 @@ ios : 10.0+
 
 See [full change log.](./readmes/changelog.md)
 
-# Fixing Issues (Optional)
+# Issues 
 
 
 [LINK](./readmes/issues.md)
