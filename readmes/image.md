@@ -1,6 +1,5 @@
 # Image
 
-An ImageView for url.
 
 Image is a wrapper around [Guiso](https://github.com/Only-IceSoul/Guiso) (iOS) and [Glide](https://github.com/bumptech/glide) (Android).
 
