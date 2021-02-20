@@ -12,7 +12,7 @@ Image is a wrapper around [Guiso](https://github.com/Only-IceSoul/Guiso) (iOS) a
 - [x] Base64 String 
 - [x] static Image 
 - [x] Gif
-
+- [x] Webp image
 ## **Usage**
 
 ```javascript
