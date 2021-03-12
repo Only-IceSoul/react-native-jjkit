@@ -19,7 +19,7 @@ ios : 10.0+
  react-native link  react-native-jjkit
 	
 ```
-## Configuration
+## Setup
 
 [LINK](./readmes/config.md)
 
